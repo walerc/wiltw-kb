@@ -52,7 +52,7 @@ async function unlock() {
     document.getElementById('iframeContainer').style.display = 'block';
     // Load dashboard - reports/ links will work since they're served from same origin
     const frame = document.getElementById('appFrame');
-    frame.src = '_app.html';
+    frame.src = 'app.html';
     // Store in session so refresh within same tab doesn't re-prompt
     sessionStorage.setItem('wiltw_auth', '1');
   } else {
@@ -66,7 +66,7 @@ async function unlock() {
 if (sessionStorage.getItem('wiltw_auth') === '1') {
   document.getElementById('gate').style.display = 'none';
   document.getElementById('iframeContainer').style.display = 'block';
-  document.getElementById('appFrame').src = '_app.html';
+  document.getElementById('appFrame').src = 'app.html';
 }
 </script>
 </body>
