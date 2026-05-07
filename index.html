@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>WILTW 知识库 — 13D Research</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; background: #0d1117; height: 100vh; display: flex; align-items: center; justify-content: center; }
+.gate { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 3rem; text-align: center; max-width: 420px; width: 90%; }
+.gate h1 { color: #e0c068; font-size: 1.5rem; margin-bottom: 0.5rem; }
+.gate p { color: #8b949e; margin-bottom: 2rem; font-size: 0.9rem; }
+.gate input { width: 100%; padding: 0.8rem 1rem; border: 1px solid #30363d; border-radius: 8px; background: #0d1117; color: #c9d1d9; font-size: 1rem; text-align: center; outline: none; }
+.gate input:focus { border-color: #e0c068; }
+.gate button { width: 100%; margin-top: 1rem; padding: 0.8rem; background: #e0c068; color: #0d1117; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+.gate button:hover { background: #c9a840; }
+.gate .error { color: #f85149; margin-top: 1rem; font-size: 0.85rem; display: none; }
+#iframeContainer { display: none; width: 100%; height: 100vh; }
+iframe { width: 100%; height: 100%; border: none; }
+</style>
+</head>
+<body>
+
+<div class="gate" id="gate">
+  <h1>🔐 WILTW 知识库</h1>
+  <p>13D Research & Strategy · 18期完整翻译</p>
+  <input type="password" id="pwd" placeholder="请输入访问密码" autofocus onkeydown="if(event.key==='Enter')unlock()">
+  <button onclick="unlock()">进入知识库</button>
+  <div class="error" id="error">密码错误，请重试</div>
+</div>
+
+<div id="iframeContainer">
+  <iframe id="appFrame"></iframe>
+</div>
+
+<script>
+async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+const EXPECTED = '76253093f04e73b4e07cf77bd31f1e2fa2115a733af00d81c00bdaf3df3664b9';
+
+async function unlock() {
+  const pwd = document.getElementById('pwd').value;
+  if (!pwd) return;
+  const h = await sha256(pwd);
+  if (h === EXPECTED) {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('iframeContainer').style.display = 'block';
+    // Load dashboard - reports/ links will work since they're served from same origin
+    const frame = document.getElementById('appFrame');
+    frame.src = '_app.html';
+    // Store in session so refresh within same tab doesn't re-prompt
+    sessionStorage.setItem('wiltw_auth', '1');
+  } else {
+    document.getElementById('error').style.display = 'block';
+    document.getElementById('pwd').value = '';
+    document.getElementById('pwd').focus();
+  }
+}
+
+// Auto-login if already authenticated in this session
+if (sessionStorage.getItem('wiltw_auth') === '1') {
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('iframeContainer').style.display = 'block';
+  document.getElementById('appFrame').src = '_app.html';
+}
+</script>
+</body>
+</html>
