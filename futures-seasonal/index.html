@@ -87,6 +87,8 @@ h4 { color:#8b949e; margin:20px 0 10px; font-size:.85rem; }
   <a class="sector" data-sector="贵金属">🟡 贵金属 <span class="count"></span></a>
   <a class="sector" data-sector="能源化工">🔵 能源化工 <span class="count"></span></a>
   <a class="sector" data-sector="农产品">🟢 农产品 <span class="count"></span></a>
+  <a class="sector" data-sector="广期所">🟣 广期所 <span class="count"></span></a>
+  <a class="sector" data-sector="股指国债">🔴 股指国债 <span class="count"></span></a>
   <div class="updated" id="sidebar-updated"></div>
 </nav>
 
@@ -131,8 +133,16 @@ const SECTORS = {
     name: '🔵 能源化工', desc: '原油·燃油·沥青·PTA·甲醇·塑料·PP·PVC·乙二醇·苯乙烯·纯碱·尿素·烧碱·短纤·橡胶·纸浆'
   },
   '农产品': {
-    codes: ['M','Y','P','A','B','C','CS','SR','CF','RM','OI','AP','CJ','PK','JD','LH'],
-    name: '🟢 农产品', desc: '豆粕·豆油·棕榈油·玉米·白糖·棉花·菜粕·菜油·苹果·红枣·花生·鸡蛋·生猪'
+    codes: ['M','Y','P','A','B','C','CS','SR','CF','RM','OI','AP','CJ','PK','JD','LH','FB','BB','RR','RS'],
+    name: '🟢 农产品', desc: '豆粕·豆油·棕榈油·玉米·白糖·棉花·菜粕·菜油·苹果·红枣·花生·鸡蛋·生猪·纤维板·胶合板·粳米·油菜籽'
+  },
+  '广期所': {
+    codes: ['LC','SI','PS'],
+    name: '🟣 广期所', desc: '碳酸锂·工业硅·多晶硅'
+  },
+  '股指国债': {
+    codes: ['IC','IH','IM','TS','TF','T','TL'],
+    name: '🔴 股指国债', desc: '中证500·上证50·中证1000·2年国债·5年国债·10年国债·30年国债'
   }
 };
 
