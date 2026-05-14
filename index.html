@@ -40,7 +40,7 @@ async function sha256(str) {
   const hash = await crypto.subtle.digest('SHA-256', buf);
   return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
 }
-const EXPECTED = '9a4fa666eb9bd6a0a93d14c3e66738b645333a05371f7de9f16db45120498eb5';
+const EXPECTED = 'b4a12c9d9ec5fbf678a23126f50cc32bfeb14c934296d183eca976487a4174be';
 
 async function unlock() {
   const pwd = document.getElementById('pwd').value;
