@@ -69,6 +69,8 @@ tr.selected td:first-child { background:#f0c06008; border-left:3px solid #f0c060
 h4 { color:#8b949e; margin:20px 0 10px; font-size:.85rem; }
 .chart-wrap { background:#0d1117; border:1px solid #21262d; border-radius:8px; padding:16px; margin:16px 0; }
 .chart-wrap canvas { max-height:350px; }
+.seasonal-summary { background:#0d1117; border:1px solid #30363d; border-left:3px solid #f0c060; border-radius:8px; padding:16px 20px; margin:16px 0; font-size:.85rem; line-height:1.7; color:#c9d1d9; }
+.seasonal-summary p { margin:6px 0; }
 /* Search highlight */
 .hidden-section { display:none; }
 @media (max-width:900px) { .sidebar { display:none; } .main { margin-left:0; padding:16px; } .month-grid { grid-template-columns:repeat(2,1fr); } .summary-stats { grid-template-columns:repeat(2,1fr); } }
@@ -259,6 +261,7 @@ async function showDetail(code) {
       <div class="stat-card"><div class="label">最差月</div><div class="value negative">${monthNames[d.worst_month-1]} ${d.worst_month_mean}%</div></div>
       <div class="stat-card"><div class="label">数据年份</div><div class="value" style="font-size:.95rem;color:#c9d1d9;">${d.data_range}</div></div>
     </div>
+    ${d.summary ? `<div class="seasonal-summary">${d.summary.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</div>` : ''}
     <div class="chart-wrap"><canvas id="detail-chart"></canvas></div>`;
     
     html += '<h4>📅 月度涨跌幅</h4><div class="month-grid">';
