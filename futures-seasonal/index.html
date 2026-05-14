@@ -137,7 +137,7 @@ const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9�
 
 async function init() {
   try {
-    const resp = await fetch('data/_index.json');
+    const resp = await fetch('data/index.json');
     const idx = await resp.json();
     allProducts = idx.products;
     document.getElementById('sidebar-updated').textContent = `数据更新: ${idx.updated}`;
