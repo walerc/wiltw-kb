@@ -69,6 +69,17 @@ tr.selected td:first-child { background:#f0c06008; border-left:3px solid #f0c060
 h4 { color:#8b949e; margin:20px 0 10px; font-size:.85rem; }
 .chart-wrap { background:#0d1117; border:1px solid #21262d; border-radius:8px; padding:16px; margin:16px 0; }
 .chart-wrap canvas { max-height:420px; }
+.zoom-btn { position:absolute; top:8px; right:8px; background:#1c2128; border:1px solid #30363d; color:#8b949e; padding:4px 10px; border-radius:6px; cursor:pointer; font-size:.75rem; z-index:5; }
+.zoom-btn:hover { color:#f0c060; border-color:#f0c060; }
+.chart-wrap { position:relative; }
+.chart-zoom-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:30; }
+.chart-zoom-overlay.active { display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.chart-zoom-box { background:#0d1117; border:1px solid #30363d; border-radius:12px; width:95vw; max-width:1400px; height:90vh; padding:20px; display:flex; flex-direction:column; }
+.chart-zoom-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.chart-zoom-header span { color:#f0c060; font-size:1rem; }
+.chart-zoom-close { background:none; border:none; color:#8b949e; font-size:1.5rem; cursor:pointer; }
+.chart-zoom-close:hover { color:#f85149; }
+.chart-zoom-box canvas { flex:1; max-height:calc(90vh - 80px); }
 .seasonal-summary { background:#0d1117; border:1px solid #30363d; border-left:3px solid #f0c060; border-radius:8px; padding:16px 20px; margin:16px 0; font-size:.85rem; line-height:1.7; color:#c9d1d9; }
 .seasonal-summary p { margin:6px 0; }
 /* Search highlight */
@@ -110,6 +121,16 @@ h4 { color:#8b949e; margin:20px 0 10px; font-size:.85rem; }
       <button class="detail-close" onclick="closeDetail()">✕</button>
     </div>
     <div class="detail-body" id="detail-body"></div>
+  </div>
+</div>
+
+<div class="chart-zoom-overlay" id="zoom-overlay" onclick="if(event.target===this)closeZoom()">
+  <div class="chart-zoom-box">
+    <div class="chart-zoom-header">
+      <span id="zoom-title"></span>
+      <button class="chart-zoom-close" onclick="closeZoom()">✕</button>
+    </div>
+    <canvas id="zoom-chart"></canvas>
   </div>
 </div>
 
@@ -273,7 +294,7 @@ async function showDetail(code) {
     </div>
     ${d.summary ? `<div class="seasonal-summary">${d.summary.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</div>` : ''}
     <div class="chart-wrap"><canvas id="detail-chart"></canvas></div>
-    ${d.yearly && Object.keys(d.yearly).length > 0 ? '<div class="chart-wrap"><canvas id="detail-chart2"></canvas></div>' : ''}`;
+    ${d.yearly && Object.keys(d.yearly).length > 0 ? '<div class="chart-wrap"><button class="zoom-btn" onclick="event.stopPropagation();openZoom()">🔍 放大</button><canvas id="detail-chart2"></canvas></div>' : ''}`;
     
     html += '<h4>📅 月度涨跌幅</h4><div class="month-grid">';
     for (let m=0; m<12; m++) {
@@ -415,17 +436,72 @@ async function showDetail(code) {
             },
           },
         });
+        // 存储配置供放大使用
+        window._zoomConfig = {
+          title: `${d.code} ${d.name} · ${d.data_range}`,
+          labels: monthNames,
+          datasets: datasets.map(ds => ({...ds})), // 深拷贝
+        };
       }
     }, 80);
   } catch(e) { console.error(e); }
 }
+
+function openZoom() {
+  if (!window._zoomConfig) return;
+  const cfg = window._zoomConfig;
+  document.getElementById('zoom-title').textContent = cfg.title;
+  document.getElementById('zoom-overlay').classList.add('active');
+  
+  setTimeout(() => {
+    const ctx = document.getElementById('zoom-chart');
+    if (!ctx) return;
+    if (ctx._chart) ctx._chart.destroy();
+    
+    ctx._chart = new Chart(ctx, {
+      type: 'line',
+      data: { labels: cfg.labels, datasets: cfg.datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              color: '#8b949e', font: { size: 12 },
+              boxWidth: 18, boxHeight: 3, padding: 8,
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ctx.raw !== null
+                ? `${ctx.dataset.label}: ${ctx.raw>=0?'+':''}${ctx.raw.toFixed(2)}%`
+                : `${ctx.dataset.label}: —`,
+            },
+          },
+        },
+        scales: {
+          y: { grid: { color: '#21262d' }, ticks: { color:'#8b949e', font:{size:12}, callback:v=>(v>=0?'+':'')+v+'%' } },
+          x: { grid: { display: false }, ticks: { color:'#8b949e', font:{size:12} } },
+        },
+      },
+    });
+  }, 80);
+}
+
+function closeZoom() {
+  document.getElementById('zoom-overlay').classList.remove('active');
+  const ctx = document.getElementById('zoom-chart');
+  if (ctx && ctx._chart) { ctx._chart.destroy(); ctx._chart = null; }
+}
+
+document.addEventListener('keydown', e => { if (e.key==='Escape') { closeDetail(); closeZoom(); } });
 
 function closeDetail() {
   document.getElementById('overlay').classList.remove('active');
   document.querySelectorAll('tr.selected').forEach(r => r.classList.remove('selected'));
 }
 
-document.addEventListener('keydown', e => { if (e.key==='Escape') closeDetail(); });
 init();
 </script>
 </body>
