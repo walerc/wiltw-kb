@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技术分析 · 商品期货</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#c9d1d9;display:flex;min-height:100vh;}
+/* Sidebar */
+.sidebar{width:240px;background:#161b22;border-right:1px solid #21262d;padding:20px 0;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:10;}
+.sidebar h2{font-size:.85rem;color:#8b949e;padding:0 20px;margin-bottom:16px;text-transform:uppercase;letter-spacing:.05em;}
+.sidebar .sector{display:block;padding:8px 20px;color:#c9d1d9;text-decoration:none;font-size:.85rem;border-left:2px solid transparent;cursor:pointer;transition:all .15s;}
+.sidebar .sector:hover{background:#1c2128;color:#58a6ff;}
+.sidebar .sector.active{background:#1c2735;border-left-color:#58a6ff;color:#58a6ff;}
+.sidebar .divider{border:none;border-top:1px solid #21262d;margin:12px 20px;}
+/* Main */
+.main{margin-left:240px;padding:24px 32px;flex:1;min-height:100vh;}
+.main h1{font-size:1.4rem;color:#58a6ff;margin-bottom:4px;}
+.main .sub{color:#8b949e;font-size:.8rem;margin-bottom:24px;}
+/* Section */
+.section{margin-bottom:32px;display:none;}
+.section.active{display:block;}
+.section-title{font-size:1.1rem;color:#58a6ff;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #21262d;display:flex;align-items:center;gap:8px;}
+.logic-block{background:#161b22;border:1px solid #21262d;border-radius:8px;padding:20px;margin-bottom:20px;}
+.logic-block h3{color:#f0c060;font-size:.95rem;margin-bottom:12px;}
+.logic-block .formula{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px 16px;margin:8px 0;font-family:'SF Mono',monospace;font-size:.8rem;color:#7ee787;white-space:pre-wrap;line-height:1.6;}
+.logic-block p{font-size:.83rem;line-height:1.7;margin:8px 0;color:#b0b8c0;}
+.logic-block ul{margin:8px 0 8px 20px;font-size:.83rem;line-height:1.8;color:#b0b8c0;}
+.logic-block li{margin:3px 0;}
+/* Table */
+.table-wrap{overflow-x:auto;background:#161b22;border:1px solid #21262d;border-radius:8px;margin:12px 0;}
+table{width:100%;border-collapse:collapse;font-size:.82rem;}
+th,td{padding:9px 12px;text-align:right;border-bottom:1px solid #21262d;white-space:nowrap;}
+th{background:#1c2128;color:#8b949e;font-weight:600;}
+th:first-child,td:first-child{text-align:left;}
+tr:hover td{background:#1c2735;}
+.positive{color:#3fb950;}
+.negative{color:#f85149;}
+.code{font-family:'SF Mono',monospace;color:#58a6ff;font-weight:600;}
+.signal-tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:600;}
+.signal-bullish{background:#3fb95020;color:#3fb950;}
+.signal-bearish{background:#f8514920;color:#f85149;}
+.signal-neutral{background:#8b949e20;color:#8b949e;}
+.sr-card{background:#0d1117;border:1px solid #21262d;border-radius:8px;padding:14px;margin:8px 0;}
+.sr-card .sr-type{font-size:.8rem;color:#8b949e;margin-bottom:4px;}
+.sr-card .sr-price{font-size:1.1rem;font-weight:700;color:#58a6ff;}
+.sr-card .sr-meta{font-size:.75rem;color:#8b949e;margin-top:4px;}
+/* Search */
+.controls{margin-bottom:20px;}
+.controls input{padding:8px 12px;background:#0d1117;border:1px solid #30363d;border-radius:6px;color:#c9d1d9;font-size:.85rem;width:300px;}
+.controls input:focus{outline:none;border-color:#58a6ff;}
+.sr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+@media(max-width:900px){.sidebar{display:none;}.main{margin-left:0;padding:16px;}}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <h2>📈 技术分析</h2>
+  <a class="sector active" data-page="kline">🕯️ K线形态</a>
+  <a class="sector" data-page="chart">📐 图表形态</a>
+  <a class="sector" data-page="sr">📏 支撑阻力</a>
+  <hr class="divider">
+  <a class="sector" data-page="screener">🔍 品种扫描</a>
+  <div style="padding:0 20px;font-size:.7rem;color:#484f58;margin-top:20px;" id="sidebar-updated"></div>
+</nav>
+
+<div class="main">
+  <h1>📈 技术分析</h1>
+  <div class="sub">算法化形态识别 · 参数透明 · 可复现</div>
+
+  <!-- ═══ K线形态 ═══ -->
+  <div class="section active" id="page-kline">
+    <div class="section-title">🕯️ K线形态检测</div>
+    
+    <div class="logic-block">
+      <h3>算法原理</h3>
+      <p>K线形态的检测是完全基于规则的布尔条件判断。每根K线有四价（开/高/低/收），形态就是这四价的几何关系。</p>
+      
+      <h3>核心计算：实体与影线</h3>
+      <div class="formula">实体长度 = |收盘 - 开盘|
+上影线长度 = 最高价 - max(开盘, 收盘)
+下影线长度 = min(开盘, 收盘) - 最低价
+当日振幅 = 最高价 - 最低价</div>
+      
+      <h3>已实现形态（11种）</h3>
+      <table>
+        <thead><tr><th>形态</th><th>类型</th><th>K线数</th><th>核心条件</th><th>强度因子</th></tr></thead>
+        <tbody>
+          <tr><td>锤子线</td><td><span class="signal-bullish signal-tag">看涨</span></td><td>1</td><td>下影>实体×2 AND 上影<实体×0.3 AND 实体在上1/3</td><td>下影/实体比例</td></tr>
+          <tr><td>上吊线</td><td><span class="signal-bearish signal-tag">看跌</span></td><td>1</td><td>同锤子线（需出现在上涨趋势中）</td><td>下影/实体比例</td></tr>
+          <tr><td>射击之星</td><td><span class="signal-bearish signal-tag">看跌</span></td><td>1</td><td>上影>实体×2 AND 下影<实体×0.3 AND 实体在下1/3</td><td>上影/实体比例</td></tr>
+          <tr><td>倒锤子线</td><td><span class="signal-bullish signal-tag">看涨</span></td><td>1</td><td>同射击之星（需出现在下跌趋势中）</td><td>上影/实体比例</td></tr>
+          <tr><td>十字星</td><td><span class="signal-neutral signal-tag">中性</span></td><td>1</td><td>实体 < 振幅×5%</td><td>1 - 实体占比</td></tr>
+          <tr><td>吞没形态</td><td><span class="signal-bullish signal-tag">看涨</span>/<span class="signal-bearish signal-tag">看跌</span></td><td>2</td><td>D2实体完全吞没D1实体</td><td>D2/D1实体比</td></tr>
+          <tr><td>孕线</td><td><span class="signal-bullish signal-tag">看涨</span>/<span class="signal-bearish signal-tag">看跌</span></td><td>2</td><td>D2实体完全在D1实体内 AND D2<D1×60%</td><td>D1/D2实体比</td></tr>
+          <tr><td>红三兵</td><td><span class="signal-bullish signal-tag">看涨</span></td><td>3</td><td>连续3阳+收盘递升+开盘在前日实体内</td><td>实体递增幅度</td></tr>
+          <tr><td>三只乌鸦</td><td><span class="signal-bearish signal-tag">看跌</span></td><td>3</td><td>连续3阴+收盘递降+开盘在前日实体内</td><td>实体递增幅度</td></tr>
+          <tr><td>早晨之星</td><td><span class="signal-bullish signal-tag">看涨</span></td><td>3</td><td>阴线→小星→阳线+D3收盘过半</td><td>D3/D1实体比</td></tr>
+          <tr><td>黄昏之星</td><td><span class="signal-bearish signal-tag">看跌</span></td><td>3</td><td>阳线→小星→阴线+D3收盘低于半</td><td>D3/D1实体比</td></tr>
+        </tbody>
+      </table>
+      
+      <h3>强度定义</h3>
+      <p>每个信号附带0-100的强度评分，基于形态偏离理想形态的程度：</p>
+      <ul>
+        <li>影线类：影线/实体比越大 → 强度越高（下影4x实体 = 80分）</li>
+        <li>吞没类：D2实体远超D1 → 强度越高</li>
+        <li>多K线类：实体递增幅度越大 → 强度越高</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══ 图表形态 ═══ -->
+  <div class="section" id="page-chart">
+    <div class="section-title">📐 图表形态检测</div>
+    
+    <div class="logic-block">
+      <h3>核心思路：拐点检测 + 几何约束</h3>
+      <p>图表形态的检测分为两个独立步骤，每个步骤参数透明可调。</p>
+      
+      <h3>第1步：拐点检测</h3>
+      <div class="formula">局部峰值 = 前后各N天最高价的最大值 = 该点
+局部谷值 = 前后各N天最低价的最小值 = 该点
+N = 5 (日线，过滤日间噪声)</div>
+      <p>为防过近拐点干扰，间距<8天的同类拐点只保留更极端的那个，并强制峰值-谷值交替排列。</p>
+      
+      <h3>第2步：序列匹配</h3>
+      <p>提取到的拐点序列与已知形态的几何约束逐一匹配：</p>
+      
+      <table>
+        <thead><tr><th>形态</th><th>方向</th><th>拐点序列</th><th>几何约束</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>双顶</td><td><span class="signal-bearish signal-tag">看跌</span></td>
+            <td>峰→谷→峰</td>
+            <td>两峰<3%偏差 | 谷在峰下3-30% | 跌破谷</td>
+          </tr>
+          <tr>
+            <td>双底</td><td><span class="signal-bullish signal-tag">看涨</span></td>
+            <td>谷→峰→谷</td>
+            <td>两谷<3%偏差 | 峰在谷上3-30% | 突破峰</td>
+          </tr>
+          <tr>
+            <td>头肩顶</td><td><span class="signal-bearish signal-tag">看跌</span></td>
+            <td>峰→谷→峰(头)→谷→峰(肩)</td>
+            <td>中间峰最高 | 两肩<5%偏差 | 颈线合理 | 跌破右谷</td>
+          </tr>
+          <tr>
+            <td>倒头肩底</td><td><span class="signal-bullish signal-tag">看涨</span></td>
+            <td>谷→峰→谷(头)→峰→谷(肩)</td>
+            <td>中间谷最深 | 两肩<5%偏差 | 颈线合理 | 突破右峰</td>
+          </tr>
+          <tr>
+            <td>对称三角形</td><td><span class="signal-neutral signal-tag">中性</span></td>
+            <td>峰↘谷↗</td>
+            <td>≥3递降峰 + ≥3递升谷 → 收敛</td>
+          </tr>
+          <tr>
+            <td>上升三角形</td><td><span class="signal-bullish signal-tag">看涨</span></td>
+            <td>峰≡谷↗</td>
+            <td>≥3递升谷 + 峰值水平(偏差<5%)</td>
+          </tr>
+          <tr>
+            <td>下降三角形</td><td><span class="signal-bearish signal-tag">看跌</span></td>
+            <td>峰↘谷≡</td>
+            <td>≥3递降峰 + 谷值水平(偏差<5%)</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <h3>强度定义</h3>
+      <p>基于形态幅度：双顶回撤越大→强度越高；头肩顶头部深度越大→强度越高。三角形基于收敛质量和拐点数量。</p>
+    </div>
+  </div>
+
+  <!-- ═══ 支撑阻力 ═══ -->
+  <div class="section" id="page-sr">
+    <div class="section-title">📏 支撑/阻力检测</div>
+    
+    <div class="logic-block">
+      <h3>三线并查，交叉验证</h3>
+      <p>系统同时运行三种独立算法，避免单方法片面性。</p>
+      
+      <h3>方法1：水平支撑/阻力</h3>
+      <div class="formula">1. 扫描最近200天的所有局部极值（高点→阻力候选，低点→支撑候选）
+2. 相近价格聚类（<1%偏差视为同一价位）
+3. 触及≥3次的价位 → 有效水平位
+4. 当前位置下方→支撑，上方→阻力</div>
+      
+      <h3>方法2：趋势线支撑/阻力</h3>
+      <div class="formula">1. 找连续的3个递升谷值 → 连线 → 上升趋势线(支撑)
+2. 找连续的3个递降峰值 → 连线 → 下降趋势线(阻力)
+3. 用线性回归拟合趋势线斜率
+4. 当前价格在线上方=支撑，下方=阻力</div>
+      
+      <h3>方法3：均线支撑/阻力</h3>
+      <div class="formula">使用MA20/MA60/MA120/MA250：
+- 价格在MA上方 → MA是支撑
+- 价格在MA下方 → MA是阻力
+- 统计60天内价格穿越该MA的次数 → 触及越多=越有效
+- 长周期MA(≥120)默认加分（心理锚定效应）</div>
+      
+      <h3>综合判断</h3>
+      <p>三种方法的支撑/阻力线汇总后，按当前价格距离排序。最近的支撑和最近的阻力构成"价格通道"。三条以上重叠的价位视为强支撑/强阻力。</p>
+    </div>
+  </div>
+
+  <!-- ═══ 品种扫描 ═══ -->
+  <div class="section" id="page-screener">
+    <div class="section-title">🔍 品种扫描</div>
+    <div class="controls">
+      <input type="text" id="search" placeholder="搜索品种代码或名称..." oninput="renderScreener()">
+    </div>
+    <div class="table-wrap">
+      <table id="screener-table">
+        <thead><tr>
+          <th>品种</th><th>数据年</th>
+          <th>K线信号(90d)</th><th>看涨</th><th>看跌</th>
+          <th>图表形态</th><th>最近支撑</th><th>最近阻力</th>
+        </tr></thead>
+        <tbody id="screener-body"><tr><td colspan="8" style="color:#8b949e;text-align:center;padding:20px;">加载中…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+let taData = {};
+let currentPage = 'kline';
+
+// Navigation
+document.querySelectorAll('.sector[data-page]').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.sector').forEach(e => e.classList.remove('active'));
+    el.classList.add('active');
+    currentPage = el.dataset.page;
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    const page = document.getElementById('page-' + currentPage);
+    if (page) page.classList.add('active');
+    if (currentPage === 'screener') renderScreener();
+  });
+});
+
+// Load data
+async function init() {
+  try {
+    const resp = await fetch('data/index.json');
+    const idx = await resp.json();
+    taData = idx.products;
+    document.getElementById('sidebar-updated').textContent = `更新: ${idx.updated}`;
+    renderScreener();
+  } catch(e) {
+    document.getElementById('screener-body').innerHTML = 
+      '<tr><td colspan="8" style="color:#f85149;text-align:center;padding:20px;">数据加载失败，请等待扫描完成后刷新</td></tr>';
+  }
+}
+
+function renderScreener() {
+  const search = document.getElementById('search')?.value?.toLowerCase() || '';
+  const products = Object.values(taData);
+  if (products.length === 0) {
+    document.getElementById('screener-body').innerHTML = 
+      '<tr><td colspan="8" style="color:#8b949e;text-align:center;padding:20px;">暂无数据</td></tr>';
+    return;
+  }
+  
+  let filtered = products.filter(p => !p.error && (p.code.toLowerCase().includes(search) || p.name.includes(search)));
+  filtered.sort((a,b) => (b.kline_signals_90d||0) - (a.kline_signals_90d||0));
+  
+  const rows = filtered.map(p => {
+    const sup = p.sr?.nearest_support ? `${p.sr.nearest_support.type}: ${p.sr.nearest_support.price}` : '—';
+    const res = p.sr?.nearest_resistance ? `${p.sr.nearest_resistance.type}: ${p.sr.nearest_resistance.price}` : '—';
+    return `<tr>
+      <td><span class="code">${p.code}</span> ${p.name}</td>
+      <td>${p.n_years||'—'}年</td>
+      <td>${p.kline_signals_90d||0}</td>
+      <td class="positive">${p.kline_bullish||0}</td>
+      <td class="negative">${p.kline_bearish||0}</td>
+      <td>${p.chart_signals_total||0}</td>
+      <td style="font-size:.78rem;">${sup}</td>
+      <td style="font-size:.78rem;">${res}</td>
+    </tr>`;
+  }).join('');
+  
+  document.getElementById('screener-body').innerHTML = rows;
+}
+
+init();
+</script>
+</body>
+</html>
