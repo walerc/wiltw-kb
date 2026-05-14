@@ -68,7 +68,7 @@ tr.selected td:first-child { background:#f0c06008; border-left:3px solid #f0c060
 .month-card .meta { font-size:.72rem; color:#8b949e; margin-top:4px; }
 h4 { color:#8b949e; margin:20px 0 10px; font-size:.85rem; }
 .chart-wrap { background:#0d1117; border:1px solid #21262d; border-radius:8px; padding:16px; margin:16px 0; }
-.chart-wrap canvas { max-height:350px; }
+.chart-wrap canvas { max-height:420px; }
 .seasonal-summary { background:#0d1117; border:1px solid #30363d; border-left:3px solid #f0c060; border-radius:8px; padding:16px 20px; margin:16px 0; font-size:.85rem; line-height:1.7; color:#c9d1d9; }
 .seasonal-summary p { margin:6px 0; }
 /* Search highlight */
@@ -304,53 +304,103 @@ async function showDetail(code) {
     setTimeout(() => {
       const ctx = document.getElementById('detail-chart');
       if (!ctx) return;
-      // 清除旧图表
       if (ctx._chart) ctx._chart.destroy();
-      const means = d.monthly.map(s => s ? s.mean : null);
-      const winRates = d.monthly.map(s => s ? s.win_rate : null);
-      const colors = means.map(v => v === null ? '#30363d' : v >= 0 ? '#3fb950' : '#f85149');
       
-      ctx._chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: monthNames,
-          datasets: [{
-            label: '月均涨跌幅',
-            data: means,
-            backgroundColor: colors.map(c => c + '60'),
-            borderColor: colors,
-            borderWidth: 1.5,
-            borderRadius: 4,
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              callbacks: {
-                label: ctx => `均值 ${ctx.raw >= 0 ? '+' : ''}${ctx.raw?.toFixed(2) ?? '—'}%`,
-                afterLabel: ctx => {
-                  const wr = winRates[ctx.dataIndex];
-                  return wr !== null ? `胜率 ${wr}%` : '';
-                }
-              }
-            }
-          },
-          scales: {
-            y: {
-              grid: { color: '#21262d' },
-              ticks: { color: '#8b949e', callback: v => (v >= 0 ? '+' : '') + v + '%' }
+      if (d.yearly && Object.keys(d.yearly).length > 0) {
+        // 多年叠加折线图
+        const yrKeys = Object.keys(d.yearly).sort((a,b) => parseInt(a)-parseInt(b));
+        const n = yrKeys.length;
+        const datasets = yrKeys.map((yr, i) => {
+          const t = n > 1 ? i/(n-1) : 0.5;
+          const recent = parseInt(yr) >= 2020;
+          const hue = (i * 360 / n) % 360;
+          return {
+            label: yr, data: d.yearly[yr],
+            borderColor: `hsla(${hue},60%,${40+t*30}%,${0.2+t*0.5})`,
+            backgroundColor: 'transparent',
+            borderWidth: recent ? 2.2 : 1.0,
+            pointRadius: recent ? 2.5 : 0,
+            pointHoverRadius: 5, tension: 0.25,
+            spanGaps: false, order: recent ? 0 : 1,
+          };
+        });
+        // 均值线
+        const avg = d.monthly.map(s => s ? s.mean : null);
+        datasets.push({
+          label: '📊 均值', data: avg,
+          borderColor: '#f0c060', borderWidth: 3,
+          borderDash: [8,4], pointRadius: 4,
+          pointBackgroundColor: '#f0c060',
+          pointBorderColor: '#0d1117', pointBorderWidth: 1,
+          tension: 0.3, spanGaps: false, order: -1,
+        });
+        ctx._chart = new Chart(ctx, {
+          type: 'line',
+          data: { labels: monthNames, datasets },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+              legend: {
+                position: 'right',
+                labels: {
+                  color: '#8b949e', font: { size: 9 },
+                  boxWidth: 14, boxHeight: 2, padding: 6,
+                  filter: (item) => {
+                    if (item.text === '📊 均值') return true;
+                    const yr = parseInt(item.text);
+                    return yr >= 2018;
+                  },
+                },
+              },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => ctx.raw !== null
+                    ? `${ctx.dataset.label}: ${ctx.raw>=0?'+':''}${ctx.raw.toFixed(2)}%`
+                    : `${ctx.dataset.label}: —`,
+                },
+              },
             },
-            x: {
-              grid: { display: false },
-              ticks: { color: '#8b949e' }
-            }
-          }
-        }
-      });
-    }, 50);
+            scales: {
+              y: { grid: { color: '#21262d' }, ticks: { color:'#8b949e', callback:v=>(v>=0?'+':'')+v+'%' } },
+              x: { grid: { display: false }, ticks: { color:'#8b949e' } },
+            },
+          },
+        });
+      } else {
+        // fallback: 柱状图
+        const means = d.monthly.map(s => s ? s.mean : null);
+        const winRates = d.monthly.map(s => s ? s.win_rate : null);
+        const colors = means.map(v => v === null ? '#30363d' : v >= 0 ? '#3fb950' : '#f85149');
+        ctx._chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: monthNames,
+            datasets: [{
+              label:'月均涨跌幅', data: means,
+              backgroundColor: colors.map(c => c+'60'),
+              borderColor: colors, borderWidth: 1.5, borderRadius: 4,
+            }],
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: ctx => `均值 ${ctx.raw>=0?'+':''}${ctx.raw?.toFixed(2)??'—'}%`,
+                  afterLabel: ctx => winRates[ctx.dataIndex] !== null ? `胜率 ${winRates[ctx.dataIndex]}%` : '',
+                },
+              },
+            },
+            scales: {
+              y: { grid: { color:'#21262d' }, ticks: { color:'#8b949e', callback:v=>(v>=0?'+':'')+v+'%' } },
+              x: { grid: { display:false }, ticks: { color:'#8b949e' } },
+            },
+          },
+        });
+      }
+    }, 80);
   } catch(e) { console.error(e); }
 }
 
