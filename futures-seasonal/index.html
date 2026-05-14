@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>商品期货季节性分析</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d1117; color: #c9d1d9; }
@@ -66,6 +67,8 @@ tr.selected td:first-child { background:#f0c06008; border-left:3px solid #f0c060
 .month-card .val { font-size:1.05rem; font-weight:700; }
 .month-card .meta { font-size:.72rem; color:#8b949e; margin-top:4px; }
 h4 { color:#8b949e; margin:20px 0 10px; font-size:.85rem; }
+.chart-wrap { background:#0d1117; border:1px solid #21262d; border-radius:8px; padding:16px; margin:16px 0; }
+.chart-wrap canvas { max-height:350px; }
 /* Search highlight */
 .hidden-section { display:none; }
 @media (max-width:900px) { .sidebar { display:none; } .main { margin-left:0; padding:16px; } .month-grid { grid-template-columns:repeat(2,1fr); } .summary-stats { grid-template-columns:repeat(2,1fr); } }
@@ -255,7 +258,8 @@ async function showDetail(code) {
       <div class="stat-card"><div class="label">最佳月</div><div class="value positive">${monthNames[d.best_month-1]} +${d.best_month_mean}%</div></div>
       <div class="stat-card"><div class="label">最差月</div><div class="value negative">${monthNames[d.worst_month-1]} ${d.worst_month_mean}%</div></div>
       <div class="stat-card"><div class="label">数据年份</div><div class="value" style="font-size:.95rem;color:#c9d1d9;">${d.data_range}</div></div>
-    </div>`;
+    </div>
+    <div class="chart-wrap"><canvas id="detail-chart"></canvas></div>`;
     
     html += '<h4>📅 月度涨跌幅</h4><div class="month-grid">';
     for (let m=0; m<12; m++) {
@@ -292,6 +296,58 @@ async function showDetail(code) {
     html += '</div>';
     
     document.getElementById('detail-body').innerHTML = html;
+    
+    // 绘制图表
+    setTimeout(() => {
+      const ctx = document.getElementById('detail-chart');
+      if (!ctx) return;
+      // 清除旧图表
+      if (ctx._chart) ctx._chart.destroy();
+      const means = d.monthly.map(s => s ? s.mean : null);
+      const winRates = d.monthly.map(s => s ? s.win_rate : null);
+      const colors = means.map(v => v === null ? '#30363d' : v >= 0 ? '#3fb950' : '#f85149');
+      
+      ctx._chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: monthNames,
+          datasets: [{
+            label: '月均涨跌幅',
+            data: means,
+            backgroundColor: colors.map(c => c + '60'),
+            borderColor: colors,
+            borderWidth: 1.5,
+            borderRadius: 4,
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => `均值 ${ctx.raw >= 0 ? '+' : ''}${ctx.raw?.toFixed(2) ?? '—'}%`,
+                afterLabel: ctx => {
+                  const wr = winRates[ctx.dataIndex];
+                  return wr !== null ? `胜率 ${wr}%` : '';
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              grid: { color: '#21262d' },
+              ticks: { color: '#8b949e', callback: v => (v >= 0 ? '+' : '') + v + '%' }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: '#8b949e' }
+            }
+          }
+        }
+      });
+    }, 50);
   } catch(e) { console.error(e); }
 }
 
