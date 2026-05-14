@@ -262,7 +262,8 @@ async function showDetail(code) {
       <div class="stat-card"><div class="label">数据年份</div><div class="value" style="font-size:.95rem;color:#c9d1d9;">${d.data_range}</div></div>
     </div>
     ${d.summary ? `<div class="seasonal-summary">${d.summary.replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>')}</div>` : ''}
-    <div class="chart-wrap"><canvas id="detail-chart"></canvas></div>`;
+    <div class="chart-wrap"><canvas id="detail-chart"></canvas></div>
+    ${d.yearly && Object.keys(d.yearly).length > 0 ? '<div class="chart-wrap"><canvas id="detail-chart2"></canvas></div>' : ''}`;
     
     html += '<h4>📅 月度涨跌幅</h4><div class="month-grid">';
     for (let m=0; m<12; m++) {
@@ -302,12 +303,49 @@ async function showDetail(code) {
     
     // 绘制图表
     setTimeout(() => {
-      const ctx = document.getElementById('detail-chart');
-      if (!ctx) return;
-      if (ctx._chart) ctx._chart.destroy();
+      const ctx1 = document.getElementById('detail-chart');
       
+      // ═══ 柱状图（始终保留）：多年均值 + 胜率 ═══
+      if (ctx1) {
+        if (ctx1._chart) ctx1._chart.destroy();
+        const means = d.monthly.map(s => s ? s.mean : null);
+        const winRates = d.monthly.map(s => s ? s.win_rate : null);
+        const colors = means.map(v => v === null ? '#30363d' : v >= 0 ? '#3fb950' : '#f85149');
+        ctx1._chart = new Chart(ctx1, {
+          type: 'bar',
+          data: {
+            labels: monthNames,
+            datasets: [{
+              label:'月均涨跌幅', data: means,
+              backgroundColor: colors.map(c => c+'60'),
+              borderColor: colors, borderWidth: 1.5, borderRadius: 4,
+            }],
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: ctx => `均值 ${ctx.raw>=0?'+':''}${ctx.raw?.toFixed(2)??'—'}%`,
+                  afterLabel: ctx => winRates[ctx.dataIndex] !== null ? `胜率 ${winRates[ctx.dataIndex]}%` : '',
+                },
+              },
+            },
+            scales: {
+              y: { grid: { color:'#21262d' }, ticks: { color:'#8b949e', callback:v=>(v>=0?'+':'')+v+'%' } },
+              x: { grid: { display:false }, ticks: { color:'#8b949e' } },
+            },
+          },
+        });
+      }
+      
+      // ═══ 折线图（有yearly数据时追加）：每年一根线 ═══
       if (d.yearly && Object.keys(d.yearly).length > 0) {
-        // 多年叠加折线图
+        const ctx2 = document.getElementById('detail-chart2');
+        if (!ctx2) return;
+        if (ctx2._chart) ctx2._chart.destroy();
+        
         const yrKeys = Object.keys(d.yearly).sort((a,b) => parseInt(a)-parseInt(b));
         const n = yrKeys.length;
         const datasets = yrKeys.map((yr, i) => {
@@ -334,7 +372,7 @@ async function showDetail(code) {
           pointBorderColor: '#0d1117', pointBorderWidth: 1,
           tension: 0.3, spanGaps: false, order: -1,
         });
-        ctx._chart = new Chart(ctx, {
+        ctx2._chart = new Chart(ctx2, {
           type: 'line',
           data: { labels: monthNames, datasets },
           options: {
@@ -364,38 +402,6 @@ async function showDetail(code) {
             scales: {
               y: { grid: { color: '#21262d' }, ticks: { color:'#8b949e', callback:v=>(v>=0?'+':'')+v+'%' } },
               x: { grid: { display: false }, ticks: { color:'#8b949e' } },
-            },
-          },
-        });
-      } else {
-        // fallback: 柱状图
-        const means = d.monthly.map(s => s ? s.mean : null);
-        const winRates = d.monthly.map(s => s ? s.win_rate : null);
-        const colors = means.map(v => v === null ? '#30363d' : v >= 0 ? '#3fb950' : '#f85149');
-        ctx._chart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: monthNames,
-            datasets: [{
-              label:'月均涨跌幅', data: means,
-              backgroundColor: colors.map(c => c+'60'),
-              borderColor: colors, borderWidth: 1.5, borderRadius: 4,
-            }],
-          },
-          options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-              tooltip: {
-                callbacks: {
-                  label: ctx => `均值 ${ctx.raw>=0?'+':''}${ctx.raw?.toFixed(2)??'—'}%`,
-                  afterLabel: ctx => winRates[ctx.dataIndex] !== null ? `胜率 ${winRates[ctx.dataIndex]}%` : '',
-                },
-              },
-            },
-            scales: {
-              y: { grid: { color:'#21262d' }, ticks: { color:'#8b949e', callback:v=>(v>=0?'+':'')+v+'%' } },
-              x: { grid: { display:false }, ticks: { color:'#8b949e' } },
             },
           },
         });
