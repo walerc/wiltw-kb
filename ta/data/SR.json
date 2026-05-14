@@ -1,0 +1,109 @@
+{
+  "code": "SR",
+  "name": "白糖",
+  "n_years": 21,
+  "kline_signals_90d": 23,
+  "kline_bullish": 13,
+  "kline_bearish": 10,
+  "chart_signals_total": 267,
+  "chart_bullish": 141,
+  "chart_bearish": 126,
+  "sr": {
+    "horizontal": [
+      {
+        "price": 5389.18,
+        "touches": 45,
+        "type": "both",
+        "direction": "neutral",
+        "strength": 100,
+        "distance_pct": -2.0
+      },
+      {
+        "price": 5850.67,
+        "touches": 3,
+        "type": "resistance",
+        "direction": "bearish",
+        "strength": 80,
+        "distance_pct": 6.4
+      }
+    ],
+    "trendlines": [
+      {
+        "type": "上升趋势线(支撑)",
+        "direction": "bullish",
+        "price": 5483.96,
+        "strength": 75,
+        "points": 3,
+        "slope": 5.1875,
+        "description": "连接3个递升谷值"
+      },
+      {
+        "type": "上升趋势线(支撑)",
+        "direction": "bullish",
+        "price": 5418.29,
+        "strength": 75,
+        "points": 3,
+        "slope": 7.0502,
+        "description": "连接3个递升谷值"
+      }
+    ],
+    "ma_levels": [
+      {
+        "type": "MA20(support)",
+        "direction": "bullish",
+        "price": 5406.1,
+        "touches": 4,
+        "strength": 75,
+        "description": "MA20，60天内触及4次",
+        "distance_pct": 1.7
+      },
+      {
+        "type": "MA60(support)",
+        "direction": "bullish",
+        "price": 5373.23,
+        "touches": 7,
+        "strength": 100,
+        "description": "MA60，60天内触及7次",
+        "distance_pct": 2.3
+      },
+      {
+        "type": "MA120(support)",
+        "direction": "bullish",
+        "price": 5323.55,
+        "touches": 7,
+        "strength": 100,
+        "description": "MA120，60天内触及7次",
+        "distance_pct": 3.3
+      },
+      {
+        "type": "MA250(resistance)",
+        "direction": "bearish",
+        "price": 5498.6,
+        "touches": 2,
+        "strength": 85,
+        "description": "MA250，60天内触及2次",
+        "distance_pct": -0.0
+      }
+    ],
+    "current_price": 5497.0,
+    "nearest_support": {
+      "type": "MA20(support)",
+      "direction": "bullish",
+      "price": 5406.1,
+      "touches": 4,
+      "strength": 75,
+      "description": "MA20，60天内触及4次",
+      "distance_pct": 1.7
+    },
+    "nearest_resistance": {
+      "type": "MA250(resistance)",
+      "direction": "bearish",
+      "price": 5498.6,
+      "touches": 2,
+      "strength": 85,
+      "description": "MA250，60天内触及2次",
+      "distance_pct": -0.0
+    }
+  },
+  "updated": "2026-05-14 22:03"
+}
