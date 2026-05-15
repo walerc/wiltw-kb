@@ -41,6 +41,10 @@ header p { opacity: 0.7; font-size: 0.8rem; margin-top: 0.2rem; }
 .qa-card .qa-answer ul { margin: 0.3rem 0; padding-left: 1.2rem; }
 .qa-card .qa-answer li { margin-bottom: 0.15rem; }
 .qa-card .qa-answer p { margin: 0.3rem 0; }
+.qa-card .qa-answer table { width: 100%; border-collapse: collapse; margin: 0.6rem 0; font-size: 0.85rem; }
+.qa-card .qa-answer th { background: #f5f5f5; color: #1a1a2e; padding: 0.35rem 0.6rem; text-align: left; border-bottom: 2px solid #ddd; font-weight: 600; }
+.qa-card .qa-answer td { padding: 0.3rem 0.6rem; border-bottom: 1px solid #eee; }
+.qa-card .qa-answer tr:hover td { background: #fafafa; }
 .qa-card.expanded .qa-answer { display: block; }
 .qa-card .qa-findings { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem; }
 .qa-card .finding-tag { font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 10px; background: #fff3e0; color: #e65100; }
@@ -198,34 +202,96 @@ function toggleCard(id) {
 // --- Markdown renderer ---
 function renderMarkdown(text) {
   if (!text) return '';
-  let html = text
-    // Escape HTML
+  
+  // Split into blocks separated by double newlines
+  let blocks = text.split(/\n\n+/);
+  let result = [];
+  let i = 0;
+  
+  while (i < blocks.length) {
+    let block = blocks[i];
+    // Detect table: block where every line starts with |
+    let lines = block.trim().split('\n');
+    let isTable = lines.length >= 2 && lines.every(l => /^\|.+/.test(l.trim()));
+    
+    if (isTable) {
+      result.push(renderTable(lines));
+    } else {
+      result.push(block);
+    }
+    i++;
+  }
+  
+  let html = result.join('\n\n');
+  
+  // Escape HTML (skip already-rendered table tags)
+  html = html
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    // Headers: ### Title
+    // Restore table HTML
+    .replace(/&lt;table&gt;/g, '<table>')
+    .replace(/&lt;\/table&gt;/g, '</table>')
+    .replace(/&lt;thead&gt;/g, '<thead>')
+    .replace(/&lt;\/thead&gt;/g, '</thead>')
+    .replace(/&lt;tbody&gt;/g, '<tbody>')
+    .replace(/&lt;\/tbody&gt;/g, '</tbody>')
+    .replace(/&lt;tr&gt;/g, '<tr>')
+    .replace(/&lt;\/tr&gt;/g, '</tr>')
+    .replace(/&lt;th&gt;/g, '<th>')
+    .replace(/&lt;\/th&gt;/g, '</th>')
+    .replace(/&lt;td&gt;/g, '<td>')
+    .replace(/&lt;\/td&gt;/g, '</td>')
+    // Headers
     .replace(/^### (.+)$/gm, '<h3>$1</h3>')
     .replace(/^## (.+)$/gm, '<h2>$1</h2>')
-    // Bold: **text**
+    // Bold
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    // Chinese section headers: 【text】
+    // Chinese section headers
     .replace(/【(.+?)】/g, '<strong class="section">【$1】</strong>')
-    // Unordered list: consecutive lines starting with - or •
+    // Unordered list
     .replace(/^- (.+)$/gm, '<li>$1</li>')
     .replace(/^• (.+)$/gm, '<li>$1</li>')
-    // Wrap adjacent <li>s in <ul>
+    // Wrap adjacent <li>s
     .replace(/((?:<li>.*?<\/li>\n?)+)/g, '<ul>$1</ul>')
     // Double newline → paragraph break
     .replace(/\n\n+/g, '</p><p>')
-    // Single newline → <br> inside paragraphs
+    // Single newline → <br>
     .replace(/\n/g, '<br>');
+  
   // Wrap in paragraph if not already
-  if (!html.startsWith('<h') && !html.startsWith('<ul') && !html.startsWith('<p>')) {
+  if (!html.startsWith('<h') && !html.startsWith('<ul') && !html.startsWith('<table') && !html.startsWith('<p>')) {
     html = '<p>' + html;
   }
-  if (!html.endsWith('</p>') && !html.endsWith('</ul>') && !html.endsWith('</h3>') && !html.endsWith('</h2>')) {
+  if (!html.endsWith('</p>') && !html.endsWith('</ul>') && !html.endsWith('</table>') && !html.endsWith('</h3>') && !html.endsWith('</h2>')) {
     html = html + '</p>';
   }
-  // Clean empty <p></p>
   html = html.replace(/<p><\/p>/g, '');
+  return html;
+}
+
+function renderTable(lines) {
+  // lines: array of | col | col | ...
+  let html = '<table>';
+  let isHeader = true;
+  for (let line of lines) {
+    let cells = line.trim().replace(/^\||\|$/g, '').split('|');
+    // Skip separator row (|---|)
+    if (cells.every(c => /^[-:\s]+$/.test(c))) {
+      if (isHeader) { html += '</thead><tbody>'; isHeader = false; }
+      continue;
+    }
+    let tag = isHeader ? 'th' : 'td';
+    let row = '<tr>' + cells.map(c => '<' + tag + '>' + c.trim() + '</' + tag + '>').join('') + '</tr>';
+    if (isHeader) {
+      html += '<thead>' + row;
+      isHeader = false;
+    } else {
+      html += row;
+    }
+  }
+  if (html.includes('<thead>') && !html.includes('</thead>')) {
+    html += '</thead>';
+  }
+  html += '</tbody></table>';
   return html;
 }
 
