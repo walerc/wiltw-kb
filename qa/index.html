@@ -40,6 +40,21 @@ header p { opacity: 0.7; font-size: 0.8rem; margin-top: 0.2rem; }
 .qa-card .qa-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.3rem; }
 .qa-card .qa-tag { font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 10px; background: #f0f0f0; color: #666; }
 
+/* Delete */
+.qa-card { position: relative; }
+.qa-card .del-btn { position: absolute; top: 0.6rem; right: 0.8rem; width: 24px; height: 24px; border: none; background: transparent; color: #ccc; font-size: 1.1rem; cursor: pointer; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.15s; line-height: 1; }
+.qa-card .del-btn:hover { color: #e74c3c; background: #fdf0ef; }
+.qa-card.marked { border-left-color: #e74c3c; background: #fffafa; opacity: 0.85; }
+.qa-card.marked .del-btn { color: #e74c3c; background: #fdf0ef; }
+.del-toolbar { display: none; align-items: center; gap: 0.8rem; margin-bottom: 1rem; padding: 0.6rem 1rem; background: #fdf0ef; border: 1px solid #f5c6cb; border-radius: 6px; font-size: 0.85rem; }
+.del-toolbar.visible { display: flex; }
+.del-toolbar .del-count { color: #c0392b; font-weight: 600; }
+.del-toolbar button { padding: 0.35rem 0.8rem; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem; }
+.del-toolbar .btn-copy { background: #e74c3c; color: #fff; }
+.del-toolbar .btn-copy:hover { background: #c0392b; }
+.del-toolbar .btn-clear { background: #fff; color: #666; border: 1px solid #ddd; }
+.del-toolbar .btn-clear:hover { background: #f5f5f5; }
+
 /* Search */
 .search-bar { margin-bottom: 1.5rem; display: flex; gap: 0.5rem; }
 .search-bar input { flex: 1; padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; }
@@ -66,12 +81,18 @@ header p { opacity: 0.7; font-size: 0.8rem; margin-top: 0.2rem; }
         <option value="all">全部分类</option>
       </select>
     </div>
+    <div class="del-toolbar" id="delToolbar">
+      <span>🗑️ 已标记 <span class="del-count" id="delCount">0</span> 个待删除</span>
+      <button class="btn-copy" onclick="copyDeleteList()">📋 复制列表</button>
+      <button class="btn-clear" onclick="clearDeleteMarks()">✕ 清除标记</button>
+    </div>
     <div id="qaList"><div class="loading">⏳ 加载中...</div></div>
   </div>
 </div>
 <script>
 let data = {entries:[], products:{}};
 let activeProduct = 'all';
+let marked = new Set();
 
 fetch('data/index.json')
   .then(r => r.json())
@@ -142,25 +163,58 @@ function render() {
   }
   
   list.innerHTML = entries.map(e => {
+    let isMarked = marked.has(e.id);
+    let fid = e.id.replace(/'/g, "\\'");
     let findings = (e.key_findings || []).map(f => '<span class="finding-tag">💡 ' + f + '</span>').join('');
     let tags = (e.tags || []).map(t => '<span class="qa-tag">#' + t + '</span>').join('');
-    return '<div class="qa-card" id="card-' + e.id + '" onclick="toggleCard(\'' + e.id + '\')">' +
-      '<div class="qa-meta">' +
+    return '<div class="qa-card' + (isMarked ? ' marked' : '') + '" id="card-' + fid + '">' +
+      '<button class="del-btn" onclick="event.stopPropagation();markDelete(\'' + fid + '\')" title="标记删除">×</button>' +
+      '<div class="qa-meta" onclick="toggleCard(\'' + fid + '\')">' +
         '<span class="qa-date">' + e.date + '</span>' +
         '<span class="qa-product">' + e.product + '</span>' +
         '<span class="qa-category">' + e.category + '</span>' +
       '</div>' +
-      '<div class="qa-question">' + e.question + '</div>' +
-      (findings ? '<div class="qa-findings">' + findings + '</div>' : '') +
-      (tags ? '<div class="qa-tags">' + tags + '</div>' : '') +
+      '<div class="qa-question" onclick="toggleCard(\'' + fid + '\')">' + e.question + '</div>' +
+      (findings ? '<div class="qa-findings" onclick="toggleCard(\'' + fid + '\')">' + findings + '</div>' : '') +
+      (tags ? '<div class="qa-tags" onclick="toggleCard(\'' + fid + '\')">' + tags + '</div>' : '') +
       '<div class="qa-answer">' + (e.answer || '') + '</div>' +
     '</div>';
   }).join('');
+  updateDelToolbar();
 }
 
 function toggleCard(id) {
   let card = document.getElementById('card-' + id);
   if (card) card.classList.toggle('expanded');
+}
+
+// --- Delete functions ---
+function markDelete(id) {
+  if (marked.has(id)) marked.delete(id); else marked.add(id);
+  render();
+}
+
+function updateDelToolbar() {
+  let tb = document.getElementById('delToolbar');
+  let cnt = document.getElementById('delCount');
+  tb.classList.toggle('visible', marked.size > 0);
+  cnt.textContent = marked.size;
+}
+
+function copyDeleteList() {
+  let ids = Array.from(marked).sort().join('\n');
+  let text = '请删除以下 Q&A 条目：\n' + ids;
+  navigator.clipboard.writeText(text).then(() => {
+    let btn = document.querySelector('.btn-copy');
+    let orig = btn.textContent;
+    btn.textContent = '✅ 已复制！发给 Hermes 处理';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+}
+
+function clearDeleteMarks() {
+  marked.clear();
+  render();
 }
 </script>
 </body>
