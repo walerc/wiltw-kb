@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Rebuild WILTW KB index.html from JSON metadata + available PDFs."""
+"""Rebuild WILTW KB app.html (tab dashboard) from JSON metadata + available PDFs."""
 
 import json, os, glob
-from collections import OrderedDict
 
 KB_DIR = os.path.dirname(os.path.abspath(__file__))
 REPORTS_DIR = os.path.join(KB_DIR, "reports")
+APP_PATH = os.path.join(KB_DIR, "app.html")
 INDEX_PATH = os.path.join(KB_DIR, "index.html")
 
 # ── Load all report JSONs ──
@@ -14,7 +14,6 @@ for json_path in sorted(glob.glob(os.path.join(REPORTS_DIR, "*.json"))):
     with open(json_path) as f:
         r = json.load(f)
     rid = r["report_id"]
-    # Check if PDF exists
     pdf_path = os.path.join(REPORTS_DIR, f"{rid}-mono.pdf")
     r["has_full"] = os.path.exists(pdf_path)
     r["file_ext"] = "pdf"
@@ -44,7 +43,7 @@ embedded = json.dumps({
     "total_completed": total_completed,
 }, ensure_ascii=False, separators=(",", ":"))
 
-# ── Build HTML ──
+# ── Build app.html with tab structure ──
 html = f'''<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -55,13 +54,27 @@ html = f'''<!DOCTYPE html>
 <style>
 * {{ margin: 0; padding: 0; box-sizing: border-box; }}
 body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f2f5; color: #333; }}
-header {{ background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; padding: 1.5rem 2rem; }}
-header h1 {{ font-size: 1.6rem; font-weight: 700; }}
-header p {{ opacity: 0.7; font-size: 0.85rem; margin-top: 0.3rem; }}
-.toolbar {{ background: #fff; border-bottom: 1px solid #e0e0e0; padding: 1rem 2rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; position: sticky; top: 0; z-index: 10; }}
-.toolbar input {{ flex: 1; min-width: 200px; padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; }}
-.toolbar select {{ padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; background: #fff; }}
+header {{ background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; padding: 1.2rem 2rem; }}
+header h1 {{ font-size: 1.4rem; font-weight: 700; }}
+header p {{ opacity: 0.7; font-size: 0.8rem; margin-top: 0.2rem; }}
+/* Tab nav */
+.nav-tabs {{ background: #fff; padding: 0 2rem; display: flex; gap: 0; border-bottom: 2px solid #e0e0e0; }}
+.nav-tab {{ padding: 0.7rem 1.5rem; font-size: 0.9rem; cursor: pointer; border: none; background: none; color: #888; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; font-weight: 500; }}
+.nav-tab:hover {{ color: #333; }}
+.nav-tab.active {{ color: #1a1a2e; border-bottom-color: #e0c068; font-weight: 700; }}
+#wiltw-panel, #futures-panel, #ta-panel {{ display: none; }}
+#wiltw-panel.active, #futures-panel.active, #ta-panel.active {{ display: block; }}
+#futures-panel iframe, #ta-panel iframe {{ width: 100%; height: calc(100vh - 130px); border: none; border-radius: 8px; background: #f0f2f5; }}
+/* WILTW panel styles */
+.toolbar {{ background: #fff; border-bottom: 1px solid #e0e0e0; padding: 0.8rem 2rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; position: sticky; top: 0; z-index: 10; }}
+.toolbar input {{ flex: 1; min-width: 180px; padding: 0.5rem 0.8rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; }}
+.toolbar input[type="date"] {{ flex: 0; min-width: 130px; }}
+.toolbar select {{ padding: 0.5rem 0.8rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; background: #fff; }}
 .toolbar .stats {{ font-size: 0.8rem; color: #888; white-space: nowrap; }}
+.toolbar .date-sep {{ color: #999; font-size: 0.85rem; }}
+.toolbar .quick-dates {{ display: flex; gap: 0.3rem; }}
+.toolbar .quick-dates button {{ padding: 0.2rem 0.5rem; border: 1px solid #ddd; border-radius: 4px; background: #fff; font-size: 0.72rem; cursor: pointer; white-space: nowrap; }}
+.toolbar .quick-dates button:hover {{ border-color: #e0c068; background: #fdfaf0; }}
 .main {{ max-width: 1200px; margin: 0 auto; padding: 1.5rem; }}
 .tags-bar {{ display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }}
 .tag {{ padding: 0.25rem 0.7rem; border-radius: 20px; font-size: 0.78rem; cursor: pointer; border: 1px solid #ddd; background: #fff; transition: all 0.2s; user-select: none; }}
@@ -84,6 +97,10 @@ header p {{ opacity: 0.7; font-size: 0.85rem; margin-top: 0.3rem; }}
 .cat-产业投资 {{ background: #e0f7fa; color: #006064; }}
 .cat-思想与人文 {{ background: #fff8e1; color: #f57f17; }}
 .cat-环境与健康 {{ background: #e8eaf6; color: #283593; }}
+.cat-农业 {{ background: #fffde7; color: #f9a825; }}
+.cat-电动车 {{ background: #e1f5fe; color: #0277bd; }}
+.cat-教育与社会 {{ background: #fce4ec; color: #ad1457; }}
+.cat-宏观与政策 {{ background: #e8f5e9; color: #1b5e20; }}
 .report-card h3 {{ font-size: 1rem; margin-bottom: 0.3rem; }}
 .report-card .summary {{ font-size: 0.85rem; color: #555; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }}
 .report-card .tags {{ display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem; }}
@@ -108,19 +125,42 @@ header p {{ opacity: 0.7; font-size: 0.85rem; margin-top: 0.3rem; }}
 .modal-footer .btn-primary:hover {{ background: #2d2d4e; }}
 .modal-footer .btn-primary:disabled {{ background: #ccc; border-color: #ccc; cursor: not-allowed; }}
 .empty {{ text-align: center; padding: 3rem; color: #888; }}
-@media (max-width: 768px) {{ .toolbar {{ padding: 0.8rem 1rem; }} .main {{ padding: 1rem; }} .report-card {{ padding: 1rem; }} .modal-content {{ margin: 0; border-radius: 0; min-height: 100vh; }} }}
+@media (max-width: 768px) {{ .toolbar {{ padding: 0.8rem 1rem; }} .main {{ padding: 1rem; }} .report-card {{ padding: 1rem; }} .modal-content {{ margin: 0; border-radius: 0; min-height: 100vh; }} .nav-tabs {{ padding: 0 0.5rem; overflow-x: auto; }} }}
 </style>
 </head>
 <body>
 <header><h1>📚 WILTW 知识库</h1><p>13D Research & Strategy · "What I Learned This Week" 中文知识库 · <span id="headerStats"></span></p></header>
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="switchTab('wiltw')">📚 WILTW 报告</button>
+  <button class="nav-tab" onclick="switchTab('futures')">📊 期货季节性</button>
+  <button class="nav-tab" onclick="switchTab('ta')">📈 技术分析</button>
+</div>
+<div id="wiltw-panel" class="active">
 <div class="toolbar">
   <input type="text" id="searchInput" placeholder="🔍 搜索报告内容、标签、关键词..." oninput="filterReports()">
   <select id="catFilter" onchange="filterReports()"><option value="all">全部分类</option></select>
+  <span class="date-sep">📅</span>
+  <input type="date" id="dateFrom" onchange="filterReports()" title="起始日期">
+  <span class="date-sep">→</span>
+  <input type="date" id="dateTo" onchange="filterReports()" title="结束日期">
+  <span class="quick-dates">
+    <button onclick="setDateQuick(3)">近3月</button>
+    <button onclick="setDateQuick(6)">近6月</button>
+    <button onclick="setDateQuick(12)">近1年</button>
+    <button onclick="clearDateFilter()">全部</button>
+  </span>
   <span class="stats" id="stats">加载中...</span>
 </div>
 <div class="main">
   <div class="tags-bar" id="tagCloud"></div>
   <div id="reportList"></div>
+</div>
+</div>
+<div id="futures-panel">
+  <iframe id="futuresFrame" src="futures-seasonal/index.html" style="width:100%;height:calc(100vh - 130px);border:none;"></iframe>
+</div>
+<div id="ta-panel">
+  <iframe id="taFrame" src="ta/index.html" style="width:100%;height:calc(100vh - 130px);border:none;"></iframe>
 </div>
 <div class="modal" id="modal">
   <div class="modal-content">
@@ -135,10 +175,13 @@ header p {{ opacity: 0.7; font-size: 0.85rem; margin-top: 0.3rem; }}
 <script>
 const EMBEDDED_DATA = {embedded};
 let data=null,activeTag=null,currentReportId=null;
+function switchTab(tab){{document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));document.querySelectorAll('#wiltw-panel,#futures-panel,#ta-panel').forEach(p=>p.classList.remove('active'));document.querySelector('.nav-tab:nth-child('+((tab==='wiltw'?1:tab==='futures'?2:3))+')').classList.add('active');document.getElementById(tab+'-panel').classList.add('active');if(tab==='futures'&&!document.getElementById('futuresFrame').src)document.getElementById('futuresFrame').src='futures-seasonal/index.html';if(tab==='ta'&&!document.getElementById('taFrame').src)document.getElementById('taFrame').src='ta/index.html'}}
 function init(){{data=EMBEDDED_DATA;document.getElementById('headerStats').textContent=data.total_completed+'/'+data.reports.length+' 完整翻译';const c=document.getElementById('catFilter');data.categories.forEach(x=>{{let n=0;data.reports.forEach(r=>r.sections.forEach(s=>{{if(s.category===x)n++}}));const o=document.createElement('option');o.value=x;o.textContent=x+' ('+n+')';c.appendChild(o)}});renderTagCloud();filterReports()}}
-function renderTagCloud(){{const t=activeTag?[activeTag,...data.all_tags.filter(x=>x!==activeTag)]:data.all_tags;document.getElementById('tagCloud').innerHTML=t.map(x=>'<span class="tag '+(x===activeTag?'active':'')+'" onclick="toggleTag(\\''+x.replace(/'/g,"\\\\'")+'\\')">'+x+'</span>').join('')}}
+function renderTagCloud(){{const t=activeTag?[activeTag,...data.all_tags.filter(x=>x!==activeTag)]:data.all_tags;document.getElementById('tagCloud').innerHTML=t.map(x=>'<span class="tag '+(x===activeTag?'active':'')+'" onclick="toggleTag(&#39;'+x.replace(/&/g,'&amp;').replace(/'/g,'&#39;')+'&#39;)">'+x+'</span>').join('')}}
 function toggleTag(t){{activeTag=activeTag===t?null:t;renderTagCloud();filterReports()}}
-function filterReports(){{const q=document.getElementById('searchInput').value.toLowerCase(),cf=document.getElementById('catFilter').value;let vs=[];data.reports.forEach(r=>r.sections.forEach(s=>{{if(cf!=='all'&&s.category!==cf)return;if(activeTag&&!s.tags.includes(activeTag))return;if(q){{const st=(s.title+' '+s.summary+' '+s.tags.join(' ')).toLowerCase();if(!st.includes(q))return}}vs.push({{report:r,section:s}})}}));document.getElementById('stats').textContent='共 '+data.reports.length+' 期报告 · '+vs.length+' 个匹配条目';const g={{}};vs.forEach(({{report:r,section:s}})=>{{if(!g[s.category])g[s.category]=[];g[s.category].push({{report:r,section:s}})}});const l=document.getElementById('reportList');if(vs.length===0){{l.innerHTML='<div class="empty">📭 没有匹配的内容</div>';return}}l.innerHTML=Object.entries(g).map(([cat,items])=>'<div class="cat-section"><div class="cat-header">'+cat+' <span class="count">'+items.length+'</span></div>'+items.map(({{report:r,section:s}})=>'<div class="report-card cat-'+cat+(r.has_full?' has-full':' meta-only')+'" onclick="openDetail(\\''+r.report_id+'\\',\\''+s.id+'\\')"><div class="meta"><span class="date">📅 '+r.date+'</span>'+(r.has_full?'<span class="report-badge full">✓ PDF</span>':'<span class="report-badge meta">⏳</span>')+'<span class="cat-badge cat-'+cat+'">'+cat+'</span></div><h3>'+s.id+'. '+s.title+'</h3><div class="summary">'+s.summary+'</div><div class="tags">'+s.tags.map(t=>'<span class="mini-tag">#'+t+'</span>').join(' ')+'</div></div>').join('')+'</div>').join('')}}
+function filterReports(){{const q=document.getElementById('searchInput').value.toLowerCase(),cf=document.getElementById('catFilter').value;const df=document.getElementById('dateFrom').value,dt=document.getElementById('dateTo').value;let vs=[];data.reports.forEach(r=>{{if(df&&r.date<df)return;if(dt&&r.date>dt)return;r.sections.forEach(s=>{{if(cf!=='all'&&s.category!==cf)return;if(activeTag&&!s.tags.includes(activeTag))return;if(q){{const st=(s.title+' '+s.summary+' '+s.tags.join(' ')).toLowerCase();if(!st.includes(q))return}}vs.push({{report:r,section:s}})}})}});const filteredReports=new Set(vs.map(v=>v.report.report_id)).size;document.getElementById('stats').textContent='共 '+data.reports.length+' 期报告 · '+filteredReports+' 期匹配 · '+vs.length+' 个条目';const g={{}};vs.forEach(({{report:r,section:s}})=>{{if(!g[s.category])g[s.category]=[];g[s.category].push({{report:r,section:s}})}});const l=document.getElementById('reportList');if(vs.length===0){{l.innerHTML='<div class="empty">📭 没有匹配的内容</div>';return}}l.innerHTML=Object.entries(g).map(([cat,items])=>'<div class="cat-section"><div class="cat-header">'+cat+' <span class="count">'+items.length+'</span></div>'+items.map(({{report:r,section:s}})=>'<div class="report-card cat-'+cat+(r.has_full?' has-full':' meta-only')+'" onclick="openDetail(&#39;'+r.report_id+'&#39;,&#39;'+s.id+'&#39;)"><div class="meta"><span class="date">📅 '+r.date+'</span>'+(r.has_full?'<span class="report-badge full">✓ PDF</span>':'<span class="report-badge meta">⏳</span>')+'<span class="cat-badge cat-'+cat+'">'+cat+'</span></div><h3>'+s.id+'. '+s.title+'</h3><div class="summary">'+s.summary+'</div><div class="tags">'+s.tags.map(t=>'<span class="mini-tag">#'+t+'</span>').join(' ')+'</div></div>').join('')+'</div>').join('')}}
+function setDateQuick(months){{const d=new Date();d.setMonth(d.getMonth()-months);document.getElementById('dateFrom').value=d.toISOString().slice(0,10);document.getElementById('dateTo').value='';filterReports()}}
+function clearDateFilter(){{document.getElementById('dateFrom').value='';document.getElementById('dateTo').value='';filterReports()}}
 function openDetail(rid,sid){{const r=data.reports.find(x=>x.report_id===rid);if(!r)return;const s=r.sections.find(x=>x.id===sid)||r.sections[0];currentReportId=rid;document.getElementById('modalTitle').textContent=r.date+' · '+s.title;document.getElementById('modalBody').innerHTML='<p style="color:#888;margin-bottom:1rem">📰 '+r.publisher+' · 共'+r.total_pages+'页 · '+r.sections.length+' 个主题</p>'+r.sections.map(x=>'<h3 style="color:'+(x.id===sid?'#e0c068':'#888')+'">'+x.id+'. '+x.title+' <span style="font-size:0.75rem;font-weight:normal">['+x.pages+'页]</span></h3><div class="section-summary">'+x.summary+'</div><div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-bottom:1rem">'+x.tags.map(t=>'<span class="mini-tag">#'+t+'</span>').join(' ')+'</div>').join('');const b=document.getElementById('btnOpenReport');if(r.has_full){{b.disabled=false;b.textContent='📄 查看完整中文报告 (PDF)';b.style.background='#1a1a2e';b.style.color='#fff';b.onclick=function(){{window.open('reports/'+rid+'-mono.pdf','_blank')}}}}else{{b.disabled=true;b.textContent='⏳ 翻译生成中...';b.style.background='#ccc';b.style.color='#666';b.onclick=null}}document.getElementById('modal').classList.add('active');document.body.style.overflow='hidden'}}
 function closeModal(){{document.getElementById('modal').classList.remove('active');document.body.style.overflow=''}}
 document.getElementById('modal').addEventListener('click',function(e){{if(e.target===this)closeModal()}});
@@ -148,10 +191,85 @@ init();
 </body>
 </html>'''
 
-with open(INDEX_PATH, "w", encoding="utf-8") as f:
+# ── Write app.html ──
+with open(APP_PATH, "w", encoding="utf-8") as f:
     f.write(html)
 
-print(f"✅ index.html rebuilt: {total_completed}/{len(reports)} reports have PDFs")
+# ── Ensure password gate index.html exists ──
+if not os.path.exists(INDEX_PATH):
+    print("⚠️  index.html (password gate) missing — restoring from template")
+    # Write password gate
+    gate_html = '''<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>WILTW 知识库</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; background: #1a1a2e; }
+#gate { display:flex; align-items:center; justify-content:center; height:100vh; }
+#gate .box { background:#16213e; border:1px solid #2a3a5e; border-radius:12px; padding:40px; text-align:center; max-width:380px; width:90%; }
+#gate h1 { color:#e0c068; font-size:1.4rem; margin-bottom:8px; }
+#gate p { color:#8892a4; font-size:.85rem; margin-bottom:24px; }
+#gate input { width:100%; padding:12px 16px; background:#0d1117; border:1px solid #30363d; border-radius:8px; color:#e1e4e8; font-size:1rem; text-align:center; margin-bottom:12px; }
+#gate input:focus { outline:none; border-color:#e0c068; }
+#gate button { width:100%; padding:12px; background:#e0c068; color:#1a1a2e; border:none; border-radius:8px; font-size:1rem; font-weight:700; cursor:pointer; }
+#gate button:hover { background:#f0d070; }
+#gate .error { color:#f85149; font-size:.8rem; margin-top:8px; display:none; }
+#iframeContainer { display:none; width:100%; height:100vh; }
+#iframeContainer iframe { width:100%; height:100%; border:none; }
+</style>
+</head>
+<body>
+<div id="gate">
+  <div class="box">
+    <h1>📚 WILTW 知识库</h1>
+    <p>请输入访问密码</p>
+    <input type="password" id="pwd" placeholder="密码" onkeydown="if(event.key==='Enter')unlock()">
+    <button onclick="unlock()">进入</button>
+    <div class="error" id="error">密码错误，请重试</div>
+  </div>
+</div>
+<div id="iframeContainer">
+  <iframe id="appFrame" src=""></iframe>
+</div>
+<script>
+async function sha256(str) {
+  const buf = new TextEncoder().encode(str);
+  const hash = await crypto.subtle.digest('SHA-256', buf);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+const EXPECTED = 'b4a12c9d9ec5fbf678a23126f50cc32bfeb14c934296d183eca976487a4174be';
+
+async function unlock() {
+  const pwd = document.getElementById('pwd').value;
+  const h = await sha256(pwd);
+  if (h === EXPECTED) {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('iframeContainer').style.display = 'block';
+    document.getElementById('appFrame').src = 'app.html';
+    sessionStorage.setItem('wiltw_auth', '1');
+  } else {
+    document.getElementById('error').style.display = 'block';
+  }
+}
+
+// Auto-login if already authenticated
+if (sessionStorage.getItem('wiltw_auth') === '1') {
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('iframeContainer').style.display = 'block';
+  document.getElementById('appFrame').src = 'app.html';
+}
+</script>
+</body>
+</html>'''
+    with open(INDEX_PATH, "w", encoding="utf-8") as f:
+        f.write(gate_html)
+    print("✅ Password gate index.html restored")
+
+print(f"✅ app.html rebuilt: {total_completed}/{len(reports)} reports have PDFs")
 print(f"   Categories: {len(categories)}")
 print(f"   Tags: {len(all_tags)}")
 for r in reports:
