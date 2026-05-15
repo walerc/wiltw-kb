@@ -33,7 +33,14 @@ header p { opacity: 0.7; font-size: 0.8rem; margin-top: 0.2rem; }
 .qa-card .qa-category { background: #e8f5e9; color: #2e7d32; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; }
 .qa-card .qa-question { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; color: #1a1a2e; cursor: pointer; }
 .qa-card .qa-question:hover { color: #c9a840; }
-.qa-card .qa-answer { font-size: 0.9rem; color: #555; line-height: 1.7; white-space: pre-wrap; display: none; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #f0f0f0; }
+.qa-card .qa-answer { font-size: 0.9rem; color: #555; line-height: 1.7; display: none; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #f0f0f0; }
+.qa-card .qa-answer h3 { font-size: 1rem; color: #1a1a2e; margin: 0.6rem 0 0.3rem; }
+.qa-card .qa-answer h2 { font-size: 1.05rem; color: #1a1a2e; margin: 0.8rem 0 0.4rem; }
+.qa-card .qa-answer strong { color: #333; }
+.qa-card .qa-answer strong.section { color: #1a1a2e; display: block; margin-top: 0.8rem; font-size: 0.95rem; }
+.qa-card .qa-answer ul { margin: 0.3rem 0; padding-left: 1.2rem; }
+.qa-card .qa-answer li { margin-bottom: 0.15rem; }
+.qa-card .qa-answer p { margin: 0.3rem 0; }
 .qa-card.expanded .qa-answer { display: block; }
 .qa-card .qa-findings { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem; }
 .qa-card .finding-tag { font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 10px; background: #fff3e0; color: #e65100; }
@@ -177,7 +184,7 @@ function render() {
       '<div class="qa-question" onclick="toggleCard(\'' + fid + '\')">' + e.question + '</div>' +
       (findings ? '<div class="qa-findings" onclick="toggleCard(\'' + fid + '\')">' + findings + '</div>' : '') +
       (tags ? '<div class="qa-tags" onclick="toggleCard(\'' + fid + '\')">' + tags + '</div>' : '') +
-      '<div class="qa-answer">' + (e.answer || '') + '</div>' +
+      '<div class="qa-answer">' + renderMarkdown(e.answer || '') + '</div>' +
     '</div>';
   }).join('');
   updateDelToolbar();
@@ -186,6 +193,40 @@ function render() {
 function toggleCard(id) {
   let card = document.getElementById('card-' + id);
   if (card) card.classList.toggle('expanded');
+}
+
+// --- Markdown renderer ---
+function renderMarkdown(text) {
+  if (!text) return '';
+  let html = text
+    // Escape HTML
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    // Headers: ### Title
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    // Bold: **text**
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    // Chinese section headers: 【text】
+    .replace(/【(.+?)】/g, '<strong class="section">【$1】</strong>')
+    // Unordered list: consecutive lines starting with - or •
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/^• (.+)$/gm, '<li>$1</li>')
+    // Wrap adjacent <li>s in <ul>
+    .replace(/((?:<li>.*?<\/li>\n?)+)/g, '<ul>$1</ul>')
+    // Double newline → paragraph break
+    .replace(/\n\n+/g, '</p><p>')
+    // Single newline → <br> inside paragraphs
+    .replace(/\n/g, '<br>');
+  // Wrap in paragraph if not already
+  if (!html.startsWith('<h') && !html.startsWith('<ul') && !html.startsWith('<p>')) {
+    html = '<p>' + html;
+  }
+  if (!html.endsWith('</p>') && !html.endsWith('</ul>') && !html.endsWith('</h3>') && !html.endsWith('</h2>')) {
+    html = html + '</p>';
+  }
+  // Clean empty <p></p>
+  html = html.replace(/<p><\/p>/g, '');
+  return html;
 }
 
 // --- Delete functions ---
