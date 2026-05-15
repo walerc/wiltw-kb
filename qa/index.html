@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>思考与Q&A — WILTW 知识库</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f2f5; color: #333; }
+header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #fff; padding: 1rem 2rem; }
+header h1 { font-size: 1.3rem; }
+header p { opacity: 0.7; font-size: 0.8rem; margin-top: 0.2rem; }
+
+/* Layout */
+.layout { display: flex; height: calc(100vh - 90px); }
+.sidebar { width: 240px; background: #fff; border-right: 1px solid #e0e0e0; overflow-y: auto; padding: 1rem 0; flex-shrink: 0; }
+.content { flex: 1; overflow-y: auto; padding: 1.5rem 2rem; }
+
+/* Sidebar */
+.product-item { padding: 0.6rem 1.5rem; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem; transition: background 0.15s; border-left: 3px solid transparent; }
+.product-item:hover { background: #f5f5f5; }
+.product-item.active { background: #fdfaf0; border-left-color: #e0c068; font-weight: 600; color: #1a1a2e; }
+.product-item .count { font-size: 0.7rem; background: #e0e0e0; color: #666; padding: 0.1rem 0.4rem; border-radius: 8px; margin-left: auto; }
+.product-item.active .count { background: #e0c068; color: #1a1a2e; }
+.product-item.all { border-bottom: 1px solid #eee; margin-bottom: 0.5rem; padding-bottom: 0.8rem; font-weight: 600; }
+
+/* QA Cards */
+.qa-card { background: #fff; border-radius: 8px; padding: 1.2rem 1.5rem; margin-bottom: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.06); border-left: 4px solid #e0c068; }
+.qa-card .qa-meta { display: flex; gap: 0.8rem; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; font-size: 0.8rem; }
+.qa-card .qa-date { color: #888; background: #f5f5f5; padding: 0.1rem 0.5rem; border-radius: 4px; }
+.qa-card .qa-product { font-weight: 600; color: #1a1a2e; }
+.qa-card .qa-category { background: #e8f5e9; color: #2e7d32; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; }
+.qa-card .qa-question { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; color: #1a1a2e; cursor: pointer; }
+.qa-card .qa-question:hover { color: #c9a840; }
+.qa-card .qa-answer { font-size: 0.9rem; color: #555; line-height: 1.7; white-space: pre-wrap; display: none; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid #f0f0f0; }
+.qa-card.expanded .qa-answer { display: block; }
+.qa-card .qa-findings { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem; }
+.qa-card .finding-tag { font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 10px; background: #fff3e0; color: #e65100; }
+.qa-card .qa-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.3rem; }
+.qa-card .qa-tag { font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 10px; background: #f0f0f0; color: #666; }
+
+/* Search */
+.search-bar { margin-bottom: 1.5rem; display: flex; gap: 0.5rem; }
+.search-bar input { flex: 1; padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; }
+.search-bar select { padding: 0.5rem 1rem; border: 1px solid #ddd; border-radius: 6px; font-size: 0.9rem; background: #fff; }
+
+.empty { text-align: center; padding: 3rem; color: #888; }
+.loading { text-align: center; padding: 3rem; color: #888; }
+
+@media (max-width: 768px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; max-height: 200px; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .content { padding: 1rem; }
+}
+</style>
+</head>
+<body>
+<header><h1>💡 思考与Q&A</h1><p>零散回测与统计分析问答库 · <span id="headerStats"></span></p></header>
+<div class="layout">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="content">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="🔍 搜索问答内容..." oninput="render()">
+      <select id="catFilter" onchange="render()">
+        <option value="all">全部分类</option>
+      </select>
+    </div>
+    <div id="qaList"><div class="loading">⏳ 加载中...</div></div>
+  </div>
+</div>
+<script>
+let data = {entries:[], products:{}};
+let activeProduct = 'all';
+
+fetch('data/index.json')
+  .then(r => r.json())
+  .then(d => {
+    data = d;
+    init();
+  })
+  .catch(e => {
+    document.getElementById('qaList').innerHTML = '<div class="empty">❌ 加载失败: ' + e.message + '</div>';
+  });
+
+function init() {
+  document.getElementById('headerStats').textContent = data.entries.length + ' 条问答 · ' + Object.keys(data.products).length + ' 个品种';
+  
+  // Sidebar
+  let html = '<div class="product-item all active" onclick="selectProduct(\'all\')">📋 全部问答 <span class="count">' + data.entries.length + '</span></div>';
+  for (let code of Object.keys(data.products).sort()) {
+    let count = data.entries.filter(e => e.product_code === code).length;
+    html += '<div class="product-item" onclick="selectProduct(\'' + code + '\')">' + data.products[code] + ' <span class="count">' + count + '</span></div>';
+  }
+  document.getElementById('sidebar').innerHTML = html;
+  
+  // Category filter
+  let cats = new Set(data.entries.map(e => e.category));
+  let cf = document.getElementById('catFilter');
+  cats.forEach(c => {
+    let o = document.createElement('option');
+    o.value = c; o.textContent = c; cf.appendChild(o);
+  });
+  
+  render();
+}
+
+function selectProduct(code) {
+  activeProduct = code;
+  document.querySelectorAll('.product-item').forEach(el => el.classList.remove('active'));
+  let items = document.querySelectorAll('.product-item');
+  for (let el of items) {
+    if ((code === 'all' && el.classList.contains('all')) || el.textContent.includes(data.products[code])) {
+      el.classList.add('active');
+    }
+  }
+  render();
+}
+
+function render() {
+  let q = document.getElementById('searchInput').value.toLowerCase();
+  let cf = document.getElementById('catFilter').value;
+  
+  let entries = data.entries;
+  if (activeProduct !== 'all') {
+    entries = entries.filter(e => e.product_code === activeProduct);
+  }
+  if (cf !== 'all') {
+    entries = entries.filter(e => e.category === cf);
+  }
+  if (q) {
+    entries = entries.filter(e => (e.question + ' ' + (e.answer||'') + ' ' + (e.tags||[]).join(' ')).toLowerCase().includes(q));
+  }
+  
+  // Sort by date descending
+  entries.sort((a,b) => b.date.localeCompare(a.date));
+  
+  let list = document.getElementById('qaList');
+  if (entries.length === 0) {
+    list.innerHTML = '<div class="empty">📭 没有匹配的问答</div>';
+    return;
+  }
+  
+  list.innerHTML = entries.map(e => {
+    let findings = (e.key_findings || []).map(f => '<span class="finding-tag">💡 ' + f + '</span>').join('');
+    let tags = (e.tags || []).map(t => '<span class="qa-tag">#' + t + '</span>').join('');
+    return '<div class="qa-card" id="card-' + e.id + '" onclick="toggleCard(\'' + e.id + '\')">' +
+      '<div class="qa-meta">' +
+        '<span class="qa-date">' + e.date + '</span>' +
+        '<span class="qa-product">' + e.product + '</span>' +
+        '<span class="qa-category">' + e.category + '</span>' +
+      '</div>' +
+      '<div class="qa-question">' + e.question + '</div>' +
+      (findings ? '<div class="qa-findings">' + findings + '</div>' : '') +
+      (tags ? '<div class="qa-tags">' + tags + '</div>' : '') +
+      '<div class="qa-answer">' + (e.answer || '') + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function toggleCard(id) {
+  let card = document.getElementById('card-' + id);
+  if (card) card.classList.toggle('expanded');
+}
+</script>
+</body>
+</html>
