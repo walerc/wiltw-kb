@@ -41,7 +41,7 @@ tr:hover td { background:#1a1a3e; }
   <div class="sub">趋势分类（ADX+MA+高低点，复权判断） + 均线支撑/压制测试（原始行情）</div>
   <div class="summary-stats">
     <div class="stat-card"><div class="val">31</div><div class="lbl">已分析品种</div></div>
-    <div class="stat-card"><div class="val">100,198</div><div class="lbl">总交易日</div></div>
+    <div class="stat-card"><div class="val">100,202</div><div class="lbl">总交易日</div></div>
     <div class="stat-card"><div class="val">2184</div><div class="lbl">总趋势段</div></div>
     <div class="stat-card"><div class="val">43.5天</div><div class="lbl">平均段长</div></div>
   </div>
@@ -151,7 +151,7 @@ tr:hover td { background:#1a1a3e; }
         </tr>
         <tr>
             <td><a href="C0_trend_report.html" class="sym-link" target="_blank"><b>玉米</b><br><span class="sym-code">C0</span></a></td>
-            <td>5191</td>
+            <td>5192</td>
             <td>121</td>
             <td><div class="trend-bar"><div class="bar-up" style="width:39.9%">39.9%</div><div class="bar-down" style="width:25.0%">25.0%</div><div class="bar-range" style="width:35.1%">35.1%</div></div></td>
             <td>37.0天</td>
@@ -161,7 +161,7 @@ tr:hover td { background:#1a1a3e; }
         </tr>
         <tr>
             <td><a href="CU0_trend_report.html" class="sym-link" target="_blank"><b>沪铜</b><br><span class="sym-code">CU0</span></a></td>
-            <td>5194</td>
+            <td>5195</td>
             <td>115</td>
             <td><div class="trend-bar"><div class="bar-up" style="width:43.4%">43.4%</div><div class="bar-down" style="width:26.1%">26.1%</div><div class="bar-range" style="width:30.5%">30.5%</div></div></td>
             <td>37.5天</td>
@@ -191,7 +191,7 @@ tr:hover td { background:#1a1a3e; }
         </tr>
         <tr>
             <td><a href="NI0_trend_report.html" class="sym-link" target="_blank"><b>沪镍</b><br><span class="sym-code">NI0</span></a></td>
-            <td>2706</td>
+            <td>2707</td>
             <td>59</td>
             <td><div class="trend-bar"><div class="bar-up" style="width:40.9%">40.9%</div><div class="bar-down" style="width:33.2%">33.2%</div><div class="bar-range" style="width:25.9%">25.9%</div></div></td>
             <td>37.3天</td>
@@ -251,7 +251,7 @@ tr:hover td { background:#1a1a3e; }
         </tr>
         <tr>
             <td><a href="SA0_trend_report.html" class="sym-link" target="_blank"><b>纯碱</b><br><span class="sym-code">SA0</span></a></td>
-            <td>1558</td>
+            <td>1559</td>
             <td>32</td>
             <td><div class="trend-bar"><div class="bar-up" style="width:37.5%">37.5%</div><div class="bar-down" style="width:45.0%">45.0%</div><div class="bar-range" style="width:17.4%">17.4%</div></div></td>
             <td>36.6天</td>
@@ -373,8 +373,343 @@ tr:hover td { background:#1a1a3e; }
 
 
 
+<h2 style="color:#e94560; margin:30px 0 15px; font-size:20px;">📐 均线级联分析 — 破MA5后止跌/止涨分布</h2>
+<div class="sub" style="margin-bottom:15px; font-size:12px;">
+  规则: 趋势中收盘跌破/突破MA5 → 逐级检查MA10/MA20/... → 找到反转点(反弹>2%) → 反转点最近均线=止跌位<br>
+  明确反转: 反弹后创新高/新低(权重×2) | 普通反转: 反弹未创新高/新低(权重×1)
+</div>
+
+<table>
+<tr>
+  <th>品种</th>
+  <th colspan="2">📉 上涨趋势跌破MA5止跌</th>
+  <th colspan="2">📈 下跌趋势突破MA5止涨</th>
+  <th>明确反转</th>
+  <th>均天</th>
+</tr>
+<tr>
+  <th></th>
+  <th>加权分布</th>
+  <th>未加权分布</th>
+  <th>加权分布</th>
+  <th>未加权分布</th>
+  <th></th>
+  <th></th>
+</tr>
+
+        <tr>
+            <td><span class="sym-link"><b>螺纹钢</b></span></td>
+            <td style="font-size:11px;">MA34(29.1%) → MA10(25.1%) → MA20(16.7%)</td>
+            <td style="font-size:11px;">MA34(26.3%) → MA10(23.7%) → MA20(15.3%)</td>
+            <td style="font-size:11px;">MA10(40.8%) → MA20(18.4%) → MA60(12.6%)</td>
+            <td style="font-size:11px;">MA10(37.9%) → MA20(15.5%) → MA60(16.5%)</td>
+            <td>📉72.0% 📈68.9%</td>
+            <td>6.9d/5.9d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>热卷</b></span></td>
+            <td style="font-size:11px;">MA10(29.4%) → MA20(20.3%) → MA60(18.9%)</td>
+            <td style="font-size:11px;">MA10(28.1%) → MA20(16.9%) → MA60(20.2%)</td>
+            <td style="font-size:11px;">MA10(30.8%) → MA34(25.6%) → MA20(21.1%)</td>
+            <td style="font-size:11px;">MA10(27.2%) → MA34(23.5%) → MA20(17.3%)</td>
+            <td>📉60.7% 📈64.2%</td>
+            <td>7.8d/6.2d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>铁矿石</b></span></td>
+            <td style="font-size:11px;">MA10(27.1%) → MA20(26.6%) → MA60(23.2%)</td>
+            <td style="font-size:11px;">MA10(25.8%) → MA20(24.2%) → MA60(24.2%)</td>
+            <td style="font-size:11px;">MA10(31.7%) → MA20(23.6%) → MA34(15.4%)</td>
+            <td style="font-size:11px;">MA10(27.6%) → MA20(21.1%) → MA34(15.8%)</td>
+            <td>📉69.2% 📈61.8%</td>
+            <td>7.6d/6.8d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>焦炭</b></span></td>
+            <td style="font-size:11px;">MA10(31.3%) → MA34(20.5%) → MA55(20.5%)</td>
+            <td style="font-size:11px;">MA10(28.0%) → MA34(20.0%) → MA55(23.0%)</td>
+            <td style="font-size:11px;">MA10(32.4%) → MA34(28.0%) → MA20(24.7%)</td>
+            <td style="font-size:11px;">MA10(29.9%) → MA34(29.9%) → MA20(21.5%)</td>
+            <td>📉66.0% 📈70.1%</td>
+            <td>7.2d/6.4d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>焦煤</b></span></td>
+            <td style="font-size:11px;">MA10(35.0%) → MA34(22.2%) → MA20(15.6%)</td>
+            <td style="font-size:11px;">MA10(33.0%) → MA34(22.3%) → MA20(13.6%)</td>
+            <td style="font-size:11px;">MA20(27.6%) → MA34(27.6%) → MA10(23.5%)</td>
+            <td style="font-size:11px;">MA20(24.1%) → MA34(26.7%) → MA10(24.1%)</td>
+            <td>📉74.8% 📈69.0%</td>
+            <td>7.2d/6.9d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>豆粕</b></span></td>
+            <td style="font-size:11px;">MA10(33.0%) → MA34(20.3%) → MA20(15.9%)</td>
+            <td style="font-size:11px;">MA10(31.9%) → MA34(19.0%) → MA20(12.9%)</td>
+            <td style="font-size:11px;">MA10(29.6%) → MA34(20.2%) → MA20(17.8%)</td>
+            <td style="font-size:11px;">MA10(28.5%) → MA34(19.2%) → MA20(14.6%)</td>
+            <td>📉56.9% 📈63.8%</td>
+            <td>7.9d/7.2d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>豆油</b></span></td>
+            <td style="font-size:11px;">MA10(22.7%) → MA34(22.7%) → MA20(20.7%)</td>
+            <td style="font-size:11px;">MA10(20.6%) → MA34(22.6%) → MA20(19.4%)</td>
+            <td style="font-size:11px;">MA10(34.6%) → MA34(23.0%) → MA20(19.0%)</td>
+            <td style="font-size:11px;">MA10(33.5%) → MA34(21.3%) → MA20(17.4%)</td>
+            <td>📉56.1% 📈73.5%</td>
+            <td>7.8d/5.9d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>棕榈油</b></span></td>
+            <td style="font-size:11px;">MA10(25.4%) → MA34(24.2%) → MA20(18.3%)</td>
+            <td style="font-size:11px;">MA10(25.3%) → MA34(24.7%) → MA20(15.3%)</td>
+            <td style="font-size:11px;">MA10(43.4%) → MA20(18.0%) → MA60(11.1%)</td>
+            <td style="font-size:11px;">MA10(39.7%) → MA20(16.4%) → MA60(13.0%)</td>
+            <td>📉68.0% 📈67.1%</td>
+            <td>6.8d/7.7d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>豆一</b></span></td>
+            <td style="font-size:11px;">MA10(26.2%) → MA20(20.1%) → MA34(19.7%)</td>
+            <td style="font-size:11px;">MA10(24.6%) → MA20(16.7%) → MA34(21.0%)</td>
+            <td style="font-size:11px;">MA10(34.0%) → MA20(25.9%) → MA34(13.2%)</td>
+            <td style="font-size:11px;">MA10(32.3%) → MA20(23.6%) → MA34(11.8%)</td>
+            <td>📉65.9% 📈66.9%</td>
+            <td>6.9d/6.2d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>玉米</b></span></td>
+            <td style="font-size:11px;">MA10(32.8%) → MA34(22.4%) → MA20(17.4%)</td>
+            <td style="font-size:11px;">MA10(31.6%) → MA34(21.4%) → MA20(17.1%)</td>
+            <td style="font-size:11px;">MA10(44.4%) → MA20(16.9%) → MA60(13.8%)</td>
+            <td style="font-size:11px;">MA10(43.5%) → MA20(15.2%) → MA60(15.2%)</td>
+            <td>📉71.8% 📈73.9%</td>
+            <td>6.3d/6.0d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>沪铜</b></span></td>
+            <td style="font-size:11px;">MA10(21.7%) → MA34(21.7%) → MA60(20.6%)</td>
+            <td style="font-size:11px;">MA10(19.3%) → MA34(22.8%) → MA60(20.5%)</td>
+            <td style="font-size:11px;">MA10(46.9%) → MA20(23.4%) → MA55(9.4%)</td>
+            <td style="font-size:11px;">MA10(45.2%) → MA20(21.7%) → MA55(10.4%)</td>
+            <td>📉59.1% 📈67.0%</td>
+            <td>6.8d/6.0d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>沪铝</b></span></td>
+            <td style="font-size:11px;">MA10(32.7%) → MA34(23.7%) → MA20(18.4%)</td>
+            <td style="font-size:11px;">MA10(28.3%) → MA34(24.8%) → MA20(16.6%)</td>
+            <td style="font-size:11px;">MA10(32.9%) → MA20(22.1%) → MA34(19.2%)</td>
+            <td style="font-size:11px;">MA10(28.3%) → MA20(20.5%) → MA34(18.9%)</td>
+            <td>📉69.0% 📈67.7%</td>
+            <td>5.7d/6.0d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>沪锌</b></span></td>
+            <td style="font-size:11px;">MA10(27.0%) → MA34(24.0%) → MA20(18.1%)</td>
+            <td style="font-size:11px;">MA10(25.8%) → MA34(24.2%) → MA20(14.8%)</td>
+            <td style="font-size:11px;">MA10(32.9%) → MA20(23.9%) → MA34(16.9%)</td>
+            <td style="font-size:11px;">MA10(29.1%) → MA20(22.5%) → MA34(17.9%)</td>
+            <td>📉59.4% 📈68.9%</td>
+            <td>6.8d/6.3d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>沪镍</b></span></td>
+            <td style="font-size:11px;">MA10(35.0%) → MA34(21.5%) → MA60(14.7%)</td>
+            <td style="font-size:11px;">MA10(30.3%) → MA34(22.2%) → MA60(18.2%)</td>
+            <td style="font-size:11px;">MA10(27.2%) → MA34(20.6%) → MA20(19.1%)</td>
+            <td style="font-size:11px;">MA10(22.1%) → MA34(20.9%) → MA20(18.6%)</td>
+            <td>📉64.6% 📈58.1%</td>
+            <td>6.2d/7.6d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>沪金</b></span></td>
+            <td style="font-size:11px;">MA10(35.7%) → MA20(25.9%) → MA60(17.8%)</td>
+            <td style="font-size:11px;">MA10(33.1%) → MA20(22.9%) → MA60(20.3%)</td>
+            <td style="font-size:11px;">MA10(33.8%) → MA20(29.7%) → MA34(21.6%)</td>
+            <td style="font-size:11px;">MA10(30.6%) → MA20(27.1%) → MA34(21.2%)</td>
+            <td>📉56.8% 📈74.1%</td>
+            <td>7.0d/5.7d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>沪银</b></span></td>
+            <td style="font-size:11px;">MA10(42.5%) → MA20(17.0%) → MA89(14.4%)</td>
+            <td style="font-size:11px;">MA10(38.7%) → MA20(15.1%) → MA89(18.3%)</td>
+            <td style="font-size:11px;">MA10(34.2%) → MA34(25.7%) → MA20(13.8%)</td>
+            <td style="font-size:11px;">MA10(32.3%) → MA34(24.7%) → MA20(11.8%)</td>
+            <td>📉64.5% 📈63.4%</td>
+            <td>6.6d/6.9d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>原油</b></span></td>
+            <td style="font-size:11px;">MA10(31.0%) → MA20(19.0%) → MA34(19.0%)</td>
+            <td style="font-size:11px;">MA10(28.6%) → MA20(15.9%) → MA34(19.0%)</td>
+            <td style="font-size:11px;">MA10(29.3%) → MA20(22.4%) → MA34(19.0%)</td>
+            <td style="font-size:11px;">MA10(26.5%) → MA20(20.6%) → MA34(22.1%)</td>
+            <td>📉58.7% 📈70.6%</td>
+            <td>6.5d/6.5d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>PTA</b></span></td>
+            <td style="font-size:11px;">MA10(35.7%) → MA20(17.2%) → MA34(16.3%)</td>
+            <td style="font-size:11px;">MA10(35.5%) → MA20(15.6%) → MA34(16.3%)</td>
+            <td style="font-size:11px;">MA10(32.3%) → MA34(27.2%) → MA20(17.7%)</td>
+            <td style="font-size:11px;">MA10(29.9%) → MA34(27.0%) → MA20(16.8%)</td>
+            <td>📉61.0% 📈69.3%</td>
+            <td>7.2d/6.6d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>甲醇</b></span></td>
+            <td style="font-size:11px;">MA10(27.5%) → MA20(26.1%) → MA89(14.1%)</td>
+            <td style="font-size:11px;">MA10(25.6%) → MA20(21.1%) → MA89(14.4%)</td>
+            <td style="font-size:11px;">MA10(26.6%) → MA20(22.9%) → MA89(16.5%)</td>
+            <td style="font-size:11px;">MA10(26.9%) → MA20(19.4%) → MA89(17.9%)</td>
+            <td>📉57.8% 📈62.7%</td>
+            <td>7.7d/7.5d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>纯碱</b></span></td>
+            <td style="font-size:11px;">MA10(30.8%) → MA20(29.5%) → MA34(12.8%)</td>
+            <td style="font-size:11px;">MA10(31.9%) → MA20(27.7%) → MA34(10.6%)</td>
+            <td style="font-size:11px;">MA10(36.2%) → MA20(17.4%) → MA34(14.5%)</td>
+            <td style="font-size:11px;">MA10(34.1%) → MA20(13.6%) → MA34(15.9%)</td>
+            <td>📉66.0% 📈56.8%</td>
+            <td>6.6d/7.9d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>橡胶</b></span></td>
+            <td style="font-size:11px;">MA10(25.1%) → MA20(23.2%) → MA34(19.4%)</td>
+            <td style="font-size:11px;">MA10(25.5%) → MA20(19.4%) → MA34(17.6%)</td>
+            <td style="font-size:11px;">MA10(33.3%) → MA20(22.1%) → MA34(13.6%)</td>
+            <td style="font-size:11px;">MA10(29.5%) → MA20(18.9%) → MA34(14.4%)</td>
+            <td>📉59.4% 📈61.4%</td>
+            <td>7.7d/7.5d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>碳酸锂</b></span></td>
+            <td style="font-size:11px;">MA10(63.2%) → MA20(15.8%) → MA89(13.2%)</td>
+            <td style="font-size:11px;">MA10(57.1%) → MA20(14.3%) → MA89(19.0%)</td>
+            <td style="font-size:11px;">MA10(42.9%) → MA20(28.6%) → MA55(17.9%)</td>
+            <td style="font-size:11px;">MA10(43.8%) → MA20(25.0%) → MA55(18.8%)</td>
+            <td>📉81.0% 📈75.0%</td>
+            <td>3.7d/7.6d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>工业硅</b></span></td>
+            <td style="font-size:11px;">MA10(53.8%) → MA20(25.6%) → MA34(20.5%)</td>
+            <td style="font-size:11px;">MA10(52.2%) → MA20(26.1%) → MA34(21.7%)</td>
+            <td style="font-size:11px;">MA10(41.2%) → MA20(20.6%) → MA34(10.3%)</td>
+            <td style="font-size:11px;">MA10(35.7%) → MA20(19.0%) → MA34(11.9%)</td>
+            <td>📉69.6% 📈61.9%</td>
+            <td>4.0d/7.3d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>沪深300</b></span></td>
+            <td style="font-size:11px;">MA10(40.8%) → MA20(14.4%) → MA89(13.6%)</td>
+            <td style="font-size:11px;">MA10(36.0%) → MA20(13.3%) → MA89(16.0%)</td>
+            <td style="font-size:11px;">MA10(29.2%) → MA20(26.0%) → MA34(21.9%)</td>
+            <td style="font-size:11px;">MA10(28.1%) → MA20(24.6%) → MA34(21.1%)</td>
+            <td>📉66.7% 📈68.4%</td>
+            <td>6.9d/6.2d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>中证500</b></span></td>
+            <td style="font-size:11px;">MA20(25.6%) → MA10(21.8%) → MA34(21.8%)</td>
+            <td style="font-size:11px;">MA20(22.8%) → MA10(19.0%) → MA34(21.5%)</td>
+            <td style="font-size:11px;">MA10(28.4%) → MA34(25.0%) → MA20(14.8%)</td>
+            <td style="font-size:11px;">MA10(28.3%) → MA34(20.8%) → MA20(15.1%)</td>
+            <td>📉68.4% 📈66.0%</td>
+            <td>6.8d/6.9d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>上证50</b></span></td>
+            <td style="font-size:11px;">MA10(37.1%) → MA20(20.2%) → MA34(13.7%)</td>
+            <td style="font-size:11px;">MA10(35.6%) → MA20(17.8%) → MA34(12.3%)</td>
+            <td style="font-size:11px;">MA34(27.0%) → MA20(25.2%) → MA10(22.6%)</td>
+            <td style="font-size:11px;">MA34(26.2%) → MA20(23.1%) → MA10(23.1%)</td>
+            <td>📉69.9% 📈76.9%</td>
+            <td>6.6d/6.0d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>中证1000</b></span></td>
+            <td style="font-size:11px;">MA20(38.5%) → MA10(23.1%) → MA34(17.9%)</td>
+            <td style="font-size:11px;">MA20(33.3%) → MA10(20.8%) → MA34(16.7%)</td>
+            <td style="font-size:11px;">MA10(31.2%) → MA34(21.9%) → MA20(18.8%)</td>
+            <td style="font-size:11px;">MA10(35.0%) → MA34(20.0%) → MA20(15.0%)</td>
+            <td>📉62.5% 📈60.0%</td>
+            <td>6.5d/8.8d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>10年国债</b></span></td>
+            <td style="font-size:11px;">MA34(60.0%) → MA20(40.0%)</td>
+            <td style="font-size:11px;">MA34(60.0%) → MA20(40.0%)</td>
+            <td style="font-size:11px;">MA20(100.0%)</td>
+            <td style="font-size:11px;">MA20(100.0%)</td>
+            <td>📉100.0% 📈100.0%</td>
+            <td>3.6d/3.0d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>5年国债</b></span></td>
+            <td style="font-size:11px;">MA20(100.0%)</td>
+            <td style="font-size:11px;">MA20(100.0%)</td>
+            <td style="font-size:11px;">-</td>
+            <td style="font-size:11px;">-</td>
+            <td>📉100.0% 📈0%</td>
+            <td>4.0d/0d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>2年国债</b></span></td>
+            <td style="font-size:11px;">-</td>
+            <td style="font-size:11px;">-</td>
+            <td style="font-size:11px;">-</td>
+            <td style="font-size:11px;">-</td>
+            <td>📉0% 📈0%</td>
+            <td>0d/0d</td>
+        </tr>
+        <tr>
+            <td><span class="sym-link"><b>30年国债</b></span></td>
+            <td style="font-size:11px;">MA10(30.8%) → MA89(30.8%) → MA20(15.4%)</td>
+            <td style="font-size:11px;">MA10(28.6%) → MA89(28.6%) → MA20(14.3%)</td>
+            <td style="font-size:11px;">MA20(50.0%) → MA10(25.0%) → MA34(25.0%)</td>
+            <td style="font-size:11px;">MA20(50.0%) → MA10(25.0%) → MA34(25.0%)</td>
+            <td>📉85.7% 📈100.0%</td>
+            <td>3.1d/2.7d</td>
+        </tr>
+</table>
+
+<h2 style="color:#e94560; margin:30px 0 15px; font-size:20px;">📋 均线支撑/压制 + 级联分析 — 方法说明</h2>
+<div style="background:#16213e; border-radius:10px; padding:20px; border:1px solid #0f3460; font-size:13px; line-height:1.8;">
+  <h3 style="color:#e94560; margin:0 0 10px;">一、均线支撑/压制测试</h3>
+  <p>在每个趋势段内，测试各均线(M20-MA233)的支撑或压制效果:</p>
+  <ul style="padding-left:20px; color:#aaa;">
+    <li><b>触碰检测</b>: 收盘价与MA偏离≤1.5%</li>
+    <li><b>方向过滤</b>: 上升趋势只看从上方触碰(测支撑)，下降趋势只看从下方触碰(测压制)</li>
+    <li><b>成效确认</b>: 触碰后5日内反弹/回落≥2% = 有效</li>
+    <li><b>评分</b>: 成功率 × log₁₀(触碰次数+1)，兼顾效果和统计意义</li>
+  </ul>
+  
+  <h3 style="color:#e94560; margin:20px 0 10px;">二、均线级联分析(逐级递推)</h3>
+  <p>测试MA5失守后价格沿均线逐级寻找支撑/压制的行为:</p>
+  <ul style="padding-left:20px; color:#aaa;">
+    <li><b>触发</b>: 趋势中收盘价跌破/突破MA5</li>
+    <li><b>反转识别</b>: 向后逐日寻找最低/最高收盘价，之后反弹/回落≥2% = 反转</li>
+    <li><b>承接均线</b>: 反转点价格偏离≤5%的最近均线 = 止跌/止涨位</li>
+    <li><b>权重分级</b>: 反转后<b style="color:#ff5050;">创新高/新低</b> = 明确反转(×2)；未创新高/新低 = 普通反转(×1)</li>
+    <li><b>逐级递推</b>: 若MA10未承接 → 检查MA20 → MA34 → ... → MA233</li>
+  </ul>
+  
+  <h3 style="color:#e94560; margin:20px 0 10px;">三、参数</h3>
+  <table style="width:auto; margin:0;">
+    <tr><td style="color:#888; padding:2px 10px;">趋势分类</td><td>ADX≥20 | MA排列(3,5,10,20,34,55,60,89,233) | 高低点结构</td></tr>
+    <tr><td style="color:#888; padding:2px 10px;">跳价处理</td><td>趋势判断用前复权(避免换月干扰) | K线和均线回测用原始实际行情</td></tr>
+    <tr><td style="color:#888; padding:2px 10px;">触碰容差</td><td>1.5% | 确认窗口5日 | 最小有效波动2%</td></tr>
+    <tr><td style="color:#888; padding:2px 10px;">级联反转</td><td>最小反弹2% | 承接容差5% | 明确反转=反转后创新高/新低</td></tr>
+  </table>
+</div>
+
 <div class="footer">
-  <p>生成时间: 2026-05-18 16:00 | 
+  <p>生成时间: 2026-05-18 16:10 | 
   参数: ADX阈值=20 | MA均线=[3,5,10,20,34,55,60,89,233] | 
   触碰容差=1.5% | 确认窗口=5日 | 最小有效波动=2.0% | 均线评级=成功率×log(触碰+1)</p>
   <p>💡 趋势分类用前复权避免跳价干扰 | K线和均线回测用原始实际行情</p>
