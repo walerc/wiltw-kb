@@ -66,8 +66,8 @@ header p { opacity: 0.7; font-size: 0.8rem; margin-top: 0.2rem; }
 .nav-tab { padding: 0.7rem 1.5rem; font-size: 0.9rem; cursor: pointer; border: none; background: none; color: #888; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; font-weight: 500; }
 .nav-tab:hover { color: #333; }
 .nav-tab.active { color: #1a1a2e; border-bottom-color: #e0c068; font-weight: 700; }
-#wiltw-panel, #futures-panel, #ta-panel { display: none; }
-#wiltw-panel.active, #futures-panel.active, #ta-panel.active { display: block; }
+#wiltw-panel, #futures-panel, #ta-panel, #qa-panel, #trend-panel { display: none; }
+#wiltw-panel.active, #futures-panel.active, #ta-panel.active, #qa-panel.active, #trend-panel.active { display: block; }
 #futures-panel iframe, #ta-panel iframe { width: 100%; height: calc(100vh - 130px); border: none; border-radius: 8px; background: #f0f2f5; }
 /* WILTW panel styles */
 .toolbar { background: #fff; border-bottom: 1px solid #e0e0e0; padding: 0.8rem 2rem; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; position: sticky; top: 0; z-index: 10; }
@@ -140,6 +140,7 @@ header p { opacity: 0.7; font-size: 0.8rem; margin-top: 0.2rem; }
   <button class="nav-tab" onclick="switchTab('futures')">📊 期货季节性</button>
   <button class="nav-tab" onclick="switchTab('ta')">📈 技术分析</button>
   <button class="nav-tab" onclick="switchTab('qa')">💡 思考与Q&A</button>
+  <button class="nav-tab" onclick="switchTab('trend')">📉 趋势分析</button>
 </div>
 <div id="wiltw-panel" class="active">
 <div class="toolbar">
@@ -171,6 +172,9 @@ header p { opacity: 0.7; font-size: 0.8rem; margin-top: 0.2rem; }
 <div id="qa-panel">
   <iframe id="qaFrame" src="qa/index.html" style="width:100%;height:calc(100vh - 130px);border:none;"></iframe>
 </div>
+<div id="trend-panel">
+  <iframe id="trendFrame" src="trend-analysis/index.html" style="width:100%;height:calc(100vh - 130px);border:none;"></iframe>
+</div>
 <div class="modal" id="modal">
   <div class="modal-content">
     <div class="modal-header"><h2 id="modalTitle"></h2><button class="modal-close" onclick="closeModal()">✕</button></div>
@@ -192,8 +196,8 @@ fetch('wiltw_data.json')
 
 function switchTab(tab){
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('#wiltw-panel,#futures-panel,#ta-panel,#qa-panel').forEach(p=>p.classList.remove('active'));
-  var idx=tab==='wiltw'?0:tab==='futures'?1:tab==='ta'?2:3;
+  document.querySelectorAll('#wiltw-panel,#futures-panel,#ta-panel,#qa-panel,#trend-panel').forEach(p=>p.classList.remove('active'));
+  var idx=tab==='wiltw'?0:tab==='futures'?1:tab==='ta'?2:tab==='qa'?3:4;
   document.querySelectorAll('.nav-tab')[idx].classList.add('active');
   document.getElementById(tab+'-panel').classList.add('active');
   if(tab==='futures'&&!document.getElementById('futuresFrame').src)
@@ -202,6 +206,8 @@ function switchTab(tab){
     document.getElementById('taFrame').src='ta/index.html';
   if(tab==='qa'&&!document.getElementById('qaFrame').src)
     document.getElementById('qaFrame').src='qa/index.html';
+  if(tab==='trend'&&!document.getElementById('trendFrame').src)
+    document.getElementById('trendFrame').src='trend-analysis/index.html';
 }
 function init(){
   document.getElementById('headerStats').textContent=data.total_completed+'/'+data.reports.length+' 完整翻译';
