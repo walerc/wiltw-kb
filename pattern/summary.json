@@ -2,134 +2,114 @@
   {
     "symbol": "RB0",
     "name": "螺纹钢",
-    "close": 3206.0,
-    "date": "2026-05-18",
-    "n_days": 4159,
+    "close": 3204.0,
+    "date": "2026-05-19",
+    "n_days": 4160,
     "channels": {
       "short": {
-        "r2": 0.64,
-        "slope": 6.2211,
-        "upper": 3313.5,
-        "lower": 3228.5,
-        "center": 3271.0,
-        "width_pct": 2.6,
-        "position_pct": -26.0,
+        "r2": 0.466,
+        "slope": 4.8624,
+        "upper": 3309.15,
+        "lower": 3214.14,
+        "center": 3261.64,
+        "width_pct": 2.9,
+        "position_pct": -11.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 3344.61,
-        "proj_d10_upper": 3375.72
+        "proj_d5_upper": 3333.46,
+        "proj_d10_upper": 3357.77
       },
       "medium": {
-        "r2": 0.746,
-        "slope": 3.1512,
-        "upper": 3280.82,
-        "lower": 3183.67,
-        "center": 3232.24,
+        "r2": 0.738,
+        "slope": 3.1093,
+        "upper": 3282.48,
+        "lower": 3184.61,
+        "center": 3233.54,
         "width_pct": 3.0,
-        "position_pct": 23.0,
+        "position_pct": 20.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 3296.58,
-        "proj_d10_upper": 3312.33
+        "proj_d5_upper": 3298.02,
+        "proj_d10_upper": 3313.57
       },
       "long": {
-        "r2": 0.346,
-        "slope": 0.7358,
-        "upper": 3237.67,
-        "lower": 3105.38,
-        "center": 3171.52,
-        "width_pct": 4.2,
-        "position_pct": 76.0,
+        "r2": 0.377,
+        "slope": 0.7724,
+        "upper": 3239.43,
+        "lower": 3109.56,
+        "center": 3174.5,
+        "width_pct": 4.1,
+        "position_pct": 73.0,
         "zone": "上1/3 (接近上轨，减仓观察区)",
-        "proj_d5_upper": 3241.35,
-        "proj_d10_upper": 3245.03
+        "proj_d5_upper": 3243.29,
+        "proj_d10_upper": 3247.15
       }
     },
     "patterns": {
       "short": {
-        "count": 1,
-        "items": [
-          {
-            "type": "旗形",
-            "pattern": "看涨旗形(Bull Flag)",
-            "stage": "approaching",
-            "dir": "看涨"
-          }
-        ]
+        "count": 0,
+        "items": []
       },
       "medium": {
-        "count": 1,
-        "items": [
-          {
-            "type": "旗形",
-            "pattern": "看涨旗形(Bull Flag)",
-            "stage": "approaching",
-            "dir": "看涨"
-          }
-        ]
+        "count": 0,
+        "items": []
       },
       "long": {
-        "count": 2,
+        "count": 1,
         "items": [
           {
             "type": "头肩",
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
-          },
-          {
-            "type": "旗形",
-            "pattern": "看涨旗形(Bull Flag)",
-            "stage": "approaching",
-            "dir": "看涨"
           }
         ]
       }
     },
-    "total_patterns": 4,
+    "total_patterns": 1,
     "report_file": "RB0_pattern_report.html",
-    "report_size": 74
+    "report_size": 73
   },
   {
     "symbol": "HC0",
     "name": "热卷",
-    "close": 3429.0,
-    "date": "2026-05-18",
-    "n_days": 2957,
+    "close": 3428.0,
+    "date": "2026-05-19",
+    "n_days": 2958,
     "channels": {
       "short": {
-        "r2": 0.709,
-        "slope": 7.9752,
-        "upper": 3542.74,
-        "lower": 3449.49,
-        "center": 3496.11,
-        "width_pct": 2.7,
-        "position_pct": -22.0,
+        "r2": 0.575,
+        "slope": 6.5947,
+        "upper": 3539.83,
+        "lower": 3436.37,
+        "center": 3488.1,
+        "width_pct": 3.0,
+        "position_pct": -8.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 3582.62,
-        "proj_d10_upper": 3622.5
+        "proj_d5_upper": 3572.8,
+        "proj_d10_upper": 3605.77
       },
       "medium": {
-        "r2": 0.809,
-        "slope": 4.3736,
-        "upper": 3504.23,
-        "lower": 3391.88,
-        "center": 3448.05,
-        "width_pct": 3.3,
-        "position_pct": 33.0,
-        "zone": "中1/3 (通道中枢，观望区)",
-        "proj_d5_upper": 3526.1,
-        "proj_d10_upper": 3547.97
+        "r2": 0.81,
+        "slope": 4.3844,
+        "upper": 3507.89,
+        "lower": 3395.79,
+        "center": 3451.84,
+        "width_pct": 3.2,
+        "position_pct": 29.0,
+        "zone": "下1/3 (接近下轨，加仓观察区)",
+        "proj_d5_upper": 3529.81,
+        "proj_d10_upper": 3551.74
       },
       "long": {
-        "r2": 0.25,
-        "slope": 0.713,
-        "upper": 3428.63,
-        "lower": 3267.03,
-        "center": 3347.83,
+        "r2": 0.281,
+        "slope": 0.7653,
+        "upper": 3432.24,
+        "lower": 3272.15,
+        "center": 3352.2,
         "width_pct": 4.8,
-        "position_pct": 100.0,
+        "position_pct": 97.0,
         "zone": "上1/3 (接近上轨，减仓观察区)",
-        "proj_d5_upper": 3432.2,
-        "proj_d10_upper": 3435.76
+        "proj_d5_upper": 3436.07,
+        "proj_d10_upper": 3439.89
       }
     },
     "patterns": {
@@ -156,13 +136,19 @@
         ]
       },
       "long": {
-        "count": 2,
+        "count": 3,
         "items": [
           {
             "type": "头肩",
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "头肩",
+            "pattern": "倒头肩底",
+            "stage": "confirmed",
+            "dir": "看涨"
           },
           {
             "type": "旗形",
@@ -173,9 +159,9 @@
         ]
       }
     },
-    "total_patterns": 4,
+    "total_patterns": 5,
     "report_file": "HC0_pattern_report.html",
-    "report_size": 74
+    "report_size": 78
   },
   {
     "symbol": "I0",
@@ -276,50 +262,50 @@
     },
     "total_patterns": 7,
     "report_file": "I0_pattern_report.html",
-    "report_size": 73
+    "report_size": 78
   },
   {
     "symbol": "J0",
     "name": "焦炭",
-    "close": 1771.5,
-    "date": "2026-05-18",
-    "n_days": 3660,
+    "close": 1782.0,
+    "date": "2026-05-19",
+    "n_days": 3661,
     "channels": {
       "short": {
-        "r2": 0.075,
-        "slope": 2.1568,
-        "upper": 1908.41,
-        "lower": 1770.72,
-        "center": 1839.56,
-        "width_pct": 7.5,
-        "position_pct": 1.0,
+        "r2": 0.0,
+        "slope": -0.103,
+        "upper": 1883.07,
+        "lower": 1760.38,
+        "center": 1821.72,
+        "width_pct": 6.7,
+        "position_pct": 18.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 1919.19,
-        "proj_d10_upper": 1929.97
+        "proj_d5_upper": 1882.55,
+        "proj_d10_upper": 1882.04
       },
       "medium": {
-        "r2": 0.48,
-        "slope": 2.9286,
-        "upper": 1906.39,
-        "lower": 1745.17,
-        "center": 1825.78,
-        "width_pct": 8.8,
-        "position_pct": 16.0,
+        "r2": 0.467,
+        "slope": 2.8724,
+        "upper": 1907.14,
+        "lower": 1745.0,
+        "center": 1826.07,
+        "width_pct": 8.9,
+        "position_pct": 23.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 1921.03,
-        "proj_d10_upper": 1935.67
+        "proj_d5_upper": 1921.5,
+        "proj_d10_upper": 1935.86
       },
       "long": {
-        "r2": 0.133,
-        "slope": -0.7138,
-        "upper": 1828.54,
-        "lower": 1590.06,
-        "center": 1709.3,
-        "width_pct": 14.0,
-        "position_pct": 76.0,
+        "r2": 0.118,
+        "slope": -0.6643,
+        "upper": 1830.75,
+        "lower": 1593.27,
+        "center": 1712.01,
+        "width_pct": 13.9,
+        "position_pct": 79.0,
         "zone": "上1/3 (接近上轨，减仓观察区)",
-        "proj_d5_upper": 1824.97,
-        "proj_d10_upper": 1821.4
+        "proj_d5_upper": 1827.43,
+        "proj_d10_upper": 1824.11
       }
     },
     "patterns": {
@@ -376,7 +362,7 @@
     },
     "total_patterns": 7,
     "report_file": "J0_pattern_report.html",
-    "report_size": 75
+    "report_size": 81
   },
   {
     "symbol": "JM0",
@@ -452,7 +438,7 @@
     },
     "total_patterns": 2,
     "report_file": "JM0_pattern_report.html",
-    "report_size": 74
+    "report_size": 75
   },
   {
     "symbol": "FG0",
@@ -534,7 +520,7 @@
     },
     "total_patterns": 3,
     "report_file": "FG0_pattern_report.html",
-    "report_size": 74
+    "report_size": 75
   },
   {
     "symbol": "UR0",
@@ -697,50 +683,50 @@
     },
     "total_patterns": 6,
     "report_file": "SA0_pattern_report.html",
-    "report_size": 74
+    "report_size": 79
   },
   {
     "symbol": "V0",
     "name": "PVC",
-    "close": 5109.0,
-    "date": "2026-05-18",
-    "n_days": 4116,
+    "close": 5050.0,
+    "date": "2026-05-19",
+    "n_days": 4117,
     "channels": {
       "short": {
-        "r2": 0.034,
-        "slope": -2.7459,
-        "upper": 5282.84,
-        "lower": 5014.39,
-        "center": 5148.61,
+        "r2": 0.129,
+        "slope": -5.5647,
+        "upper": 5250.99,
+        "lower": 4986.79,
+        "center": 5118.89,
         "width_pct": 5.2,
-        "position_pct": 35.0,
-        "zone": "中1/3 (通道中枢，观望区)",
-        "proj_d5_upper": 5269.11,
-        "proj_d10_upper": 5255.38
-      },
-      "medium": {
-        "r2": 0.118,
-        "slope": 6.4707,
-        "upper": 5817.32,
-        "lower": 4884.67,
-        "center": 5351.0,
-        "width_pct": 17.4,
         "position_pct": 24.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 5849.67,
-        "proj_d10_upper": 5882.03
+        "proj_d5_upper": 5223.16,
+        "proj_d10_upper": 5195.34
+      },
+      "medium": {
+        "r2": 0.088,
+        "slope": 5.4966,
+        "upper": 5794.57,
+        "lower": 4861.88,
+        "center": 5328.23,
+        "width_pct": 17.5,
+        "position_pct": 20.0,
+        "zone": "下1/3 (接近下轨，加仓观察区)",
+        "proj_d5_upper": 5822.06,
+        "proj_d10_upper": 5849.54
       },
       "long": {
-        "r2": 0.425,
-        "slope": 5.399,
-        "upper": 5639.4,
-        "lower": 4818.67,
-        "center": 5229.04,
-        "width_pct": 15.7,
-        "position_pct": 35.0,
-        "zone": "中1/3 (通道中枢，观望区)",
-        "proj_d5_upper": 5666.39,
-        "proj_d10_upper": 5693.39
+        "r2": 0.439,
+        "slope": 5.4895,
+        "upper": 5642.36,
+        "lower": 4830.62,
+        "center": 5236.49,
+        "width_pct": 15.5,
+        "position_pct": 27.0,
+        "zone": "下1/3 (接近下轨，加仓观察区)",
+        "proj_d5_upper": 5669.81,
+        "proj_d10_upper": 5697.25
       }
     },
     "patterns": {
@@ -779,7 +765,7 @@
     },
     "total_patterns": 3,
     "report_file": "V0_pattern_report.html",
-    "report_size": 73
+    "report_size": 75
   },
   {
     "symbol": "M0",
@@ -880,7 +866,7 @@
     },
     "total_patterns": 7,
     "report_file": "M0_pattern_report.html",
-    "report_size": 75
+    "report_size": 80
   },
   {
     "symbol": "Y0",
@@ -962,7 +948,7 @@
     },
     "total_patterns": 3,
     "report_file": "Y0_pattern_report.html",
-    "report_size": 73
+    "report_size": 74
   },
   {
     "symbol": "P0",
@@ -1056,7 +1042,7 @@
     },
     "total_patterns": 5,
     "report_file": "P0_pattern_report.html",
-    "report_size": 73
+    "report_size": 77
   },
   {
     "symbol": "A0",
@@ -1145,7 +1131,7 @@
     },
     "total_patterns": 4,
     "report_file": "A0_pattern_report.html",
-    "report_size": 74
+    "report_size": 76
   },
   {
     "symbol": "C0",
@@ -1239,7 +1225,7 @@
     },
     "total_patterns": 5,
     "report_file": "C0_pattern_report.html",
-    "report_size": 74
+    "report_size": 78
   },
   {
     "symbol": "JD0",
@@ -1333,7 +1319,7 @@
     },
     "total_patterns": 5,
     "report_file": "JD0_pattern_report.html",
-    "report_size": 74
+    "report_size": 78
   },
   {
     "symbol": "LH0",
@@ -1414,50 +1400,50 @@
     },
     "total_patterns": 3,
     "report_file": "LH0_pattern_report.html",
-    "report_size": 74
+    "report_size": 76
   },
   {
     "symbol": "AP0",
     "name": "苹果",
-    "close": 7428.0,
-    "date": "2026-05-18",
-    "n_days": 2029,
+    "close": 7390.0,
+    "date": "2026-05-19",
+    "n_days": 2030,
     "channels": {
       "short": {
-        "r2": 0.581,
-        "slope": -24.4872,
-        "upper": 7659.49,
-        "lower": 7280.66,
-        "center": 7470.07,
-        "width_pct": 5.1,
-        "position_pct": 39.0,
-        "zone": "中1/3 (通道中枢，观望区)",
-        "proj_d5_upper": 7537.05,
-        "proj_d10_upper": 7414.61
+        "r2": 0.598,
+        "slope": -20.7391,
+        "upper": 7619.0,
+        "lower": 7309.06,
+        "center": 7464.03,
+        "width_pct": 4.2,
+        "position_pct": 26.0,
+        "zone": "下1/3 (接近下轨，加仓观察区)",
+        "proj_d5_upper": 7515.3,
+        "proj_d10_upper": 7411.61
       },
       "medium": {
-        "r2": 0.544,
-        "slope": -16.6515,
-        "upper": 8055.3,
-        "lower": 7249.62,
-        "center": 7652.46,
-        "width_pct": 10.5,
-        "position_pct": 22.0,
+        "r2": 0.613,
+        "slope": -18.1868,
+        "upper": 7979.06,
+        "lower": 7216.05,
+        "center": 7597.56,
+        "width_pct": 10.0,
+        "position_pct": 23.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 7972.04,
-        "proj_d10_upper": 7888.79
+        "proj_d5_upper": 7888.13,
+        "proj_d10_upper": 7797.2
       },
       "long": {
-        "r2": 0.238,
-        "slope": 4.3136,
-        "upper": 8747.61,
-        "lower": 7738.17,
-        "center": 8242.89,
-        "width_pct": 12.2,
+        "r2": 0.203,
+        "slope": 3.9477,
+        "upper": 8728.82,
+        "lower": 7706.54,
+        "center": 8217.68,
+        "width_pct": 12.4,
         "position_pct": -31.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 8769.18,
-        "proj_d10_upper": 8790.75
+        "proj_d5_upper": 8748.55,
+        "proj_d10_upper": 8768.29
       }
     },
     "patterns": {
@@ -1471,7 +1457,7 @@
           {
             "type": "楔形",
             "pattern": "下降楔形(Falling Wedge)",
-            "stage": "forming",
+            "stage": "approaching",
             "dir": "看涨"
           },
           {
@@ -1500,7 +1486,7 @@
           {
             "type": "楔形",
             "pattern": "下降楔形(Falling Wedge)",
-            "stage": "forming",
+            "stage": "approaching",
             "dir": "看涨"
           }
         ]
@@ -1508,7 +1494,7 @@
     },
     "total_patterns": 6,
     "report_file": "AP0_pattern_report.html",
-    "report_size": 74
+    "report_size": 78
   },
   {
     "symbol": "CF0",
@@ -1596,7 +1582,7 @@
     },
     "total_patterns": 4,
     "report_file": "CF0_pattern_report.html",
-    "report_size": 75
+    "report_size": 78
   },
   {
     "symbol": "RM0",
@@ -1696,50 +1682,50 @@
     },
     "total_patterns": 10,
     "report_file": "RM0_pattern_report.html",
-    "report_size": 74
+    "report_size": 81
   },
   {
     "symbol": "SR0",
     "name": "白糖",
-    "close": 5429.0,
-    "date": "2026-05-18",
-    "n_days": 4939,
+    "close": 5430.0,
+    "date": "2026-05-19",
+    "n_days": 4940,
     "channels": {
       "short": {
-        "r2": 0.703,
-        "slope": 6.6812,
-        "upper": 5522.6,
-        "lower": 5443.35,
-        "center": 5482.97,
-        "width_pct": 1.4,
-        "position_pct": -18.0,
+        "r2": 0.624,
+        "slope": 6.1602,
+        "upper": 5524.22,
+        "lower": 5437.12,
+        "center": 5480.67,
+        "width_pct": 1.6,
+        "position_pct": -8.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 5556.0,
-        "proj_d10_upper": 5589.41
+        "proj_d5_upper": 5555.02,
+        "proj_d10_upper": 5585.82
       },
       "medium": {
-        "r2": 0.29,
-        "slope": 2.1986,
-        "upper": 5535.31,
-        "lower": 5353.44,
-        "center": 5444.37,
+        "r2": 0.274,
+        "slope": 2.1093,
+        "upper": 5534.95,
+        "lower": 5353.59,
+        "center": 5444.27,
         "width_pct": 3.3,
         "position_pct": 42.0,
         "zone": "中1/3 (通道中枢，观望区)",
-        "proj_d5_upper": 5546.31,
-        "proj_d10_upper": 5557.3
+        "proj_d5_upper": 5545.5,
+        "proj_d10_upper": 5556.05
       },
       "long": {
-        "r2": 0.009,
-        "slope": -0.2353,
-        "upper": 5491.98,
-        "lower": 5174.22,
-        "center": 5333.1,
-        "width_pct": 6.0,
-        "position_pct": 80.0,
+        "r2": 0.005,
+        "slope": -0.1782,
+        "upper": 5495.62,
+        "lower": 5178.35,
+        "center": 5336.99,
+        "width_pct": 5.9,
+        "position_pct": 79.0,
         "zone": "上1/3 (接近上轨，减仓观察区)",
-        "proj_d5_upper": 5490.8,
-        "proj_d10_upper": 5489.63
+        "proj_d5_upper": 5494.73,
+        "proj_d10_upper": 5493.84
       }
     },
     "patterns": {
@@ -1748,113 +1734,19 @@
         "items": []
       },
       "medium": {
-        "count": 4,
+        "count": 5,
         "items": [
           {
             "type": "三角形",
-            "pattern": "上升三角形",
+            "pattern": "收敛形态",
             "stage": "early",
-            "dir": "偏向上突破"
+            "dir": "方向未定"
           },
-          {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
-          },
-          {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
-          }
-        ]
-      },
-      "long": {
-        "count": 4,
-        "items": [
-          {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
-          },
-          {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
-          },
-          {
-            "type": "头肩",
-            "pattern": "倒头肩底",
-            "stage": "confirmed",
-            "dir": "看涨"
-          }
-        ]
-      }
-    },
-    "total_patterns": 8,
-    "report_file": "SR0_pattern_report.html",
-    "report_size": 74
-  },
-  {
-    "symbol": "CU0",
-    "name": "沪铜",
-    "close": 104330.0,
-    "date": "2026-05-18",
-    "n_days": 5195,
-    "channels": {
-      "short": {
-        "r2": 0.464,
-        "slope": 218.9248,
-        "upper": 107777.84,
-        "lower": 103486.73,
-        "center": 105632.29,
-        "width_pct": 4.1,
-        "position_pct": 20.0,
-        "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 108872.46,
-        "proj_d10_upper": 109967.09
-      },
-      "medium": {
-        "r2": 0.091,
-        "slope": 59.4335,
-        "upper": 107335.0,
-        "lower": 97403.91,
-        "center": 102369.45,
-        "width_pct": 9.7,
-        "position_pct": 70.0,
-        "zone": "上1/3 (接近上轨，减仓观察区)",
-        "proj_d5_upper": 107632.17,
-        "proj_d10_upper": 107929.33
-      },
-      "long": {
-        "r2": 0.677,
-        "slope": 136.0601,
-        "upper": 112138.25,
-        "lower": 99848.17,
-        "center": 105993.21,
-        "width_pct": 11.6,
-        "position_pct": 36.0,
-        "zone": "中1/3 (通道中枢，观望区)",
-        "proj_d5_upper": 112818.55,
-        "proj_d10_upper": 113498.85
-      }
-    },
-    "patterns": {
-      "short": {
-        "count": 0,
-        "items": []
-      },
-      "medium": {
-        "count": 2,
-        "items": [
           {
             "type": "三角形",
-            "pattern": "上升三角形",
-            "stage": "early",
-            "dir": "偏向上突破"
+            "pattern": "对称三角形",
+            "stage": "forming",
+            "dir": "突破方向未定"
           },
           {
             "type": "头肩",
@@ -1868,6 +1760,113 @@
         "count": 3,
         "items": [
           {
+            "type": "三角形",
+            "pattern": "对称三角形",
+            "stage": "forming",
+            "dir": "突破方向未定"
+          },
+          {
+            "type": "头肩",
+            "pattern": "头肩顶",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "头肩",
+            "pattern": "头肩顶",
+            "stage": "forming",
+            "dir": "看跌"
+          }
+        ]
+      }
+    },
+    "total_patterns": 8,
+    "report_file": "SR0_pattern_report.html",
+    "report_size": 80
+  },
+  {
+    "symbol": "CU0",
+    "name": "沪铜",
+    "close": 104530.0,
+    "date": "2026-05-19",
+    "n_days": 5196,
+    "channels": {
+      "short": {
+        "r2": 0.467,
+        "slope": 219.7444,
+        "upper": 107872.03,
+        "lower": 103589.11,
+        "center": 105730.57,
+        "width_pct": 4.1,
+        "position_pct": 22.0,
+        "zone": "下1/3 (接近下轨，加仓观察区)",
+        "proj_d5_upper": 108970.75,
+        "proj_d10_upper": 110069.47
+      },
+      "medium": {
+        "r2": 0.115,
+        "slope": 67.4493,
+        "upper": 107605.23,
+        "lower": 97705.61,
+        "center": 102655.42,
+        "width_pct": 9.6,
+        "position_pct": 69.0,
+        "zone": "上1/3 (接近上轨，减仓观察区)",
+        "proj_d5_upper": 107942.48,
+        "proj_d10_upper": 108279.72
+      },
+      "long": {
+        "r2": 0.674,
+        "slope": 134.8283,
+        "upper": 112183.35,
+        "lower": 99910.47,
+        "center": 106046.91,
+        "width_pct": 11.6,
+        "position_pct": 38.0,
+        "zone": "中1/3 (通道中枢，观望区)",
+        "proj_d5_upper": 112857.49,
+        "proj_d10_upper": 113531.63
+      }
+    },
+    "patterns": {
+      "short": {
+        "count": 1,
+        "items": [
+          {
+            "type": "旗形",
+            "pattern": "看涨旗形(Bull Flag)",
+            "stage": "approaching",
+            "dir": "看涨"
+          }
+        ]
+      },
+      "medium": {
+        "count": 3,
+        "items": [
+          {
+            "type": "三角形",
+            "pattern": "上升三角形",
+            "stage": "early",
+            "dir": "偏向上突破"
+          },
+          {
+            "type": "头肩",
+            "pattern": "头肩顶",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "旗形",
+            "pattern": "看涨旗形(Bull Flag)",
+            "stage": "approaching",
+            "dir": "看涨"
+          }
+        ]
+      },
+      "long": {
+        "count": 4,
+        "items": [
+          {
             "type": "头肩",
             "pattern": "头肩顶",
             "stage": "forming",
@@ -1888,52 +1887,52 @@
         ]
       }
     },
-    "total_patterns": 5,
+    "total_patterns": 8,
     "report_file": "CU0_pattern_report.html",
-    "report_size": 75
+    "report_size": 83
   },
   {
     "symbol": "AL0",
     "name": "沪铝",
-    "close": 24295.0,
-    "date": "2026-05-18",
-    "n_days": 5195,
+    "close": 24480.0,
+    "date": "2026-05-19",
+    "n_days": 5196,
     "channels": {
       "short": {
-        "r2": 0.661,
-        "slope": -50.2594,
-        "upper": 24622.11,
-        "lower": 23966.46,
-        "center": 24294.29,
-        "width_pct": 2.7,
-        "position_pct": 50.0,
-        "zone": "中1/3 (通道中枢，观望区)",
-        "proj_d5_upper": 24370.82,
-        "proj_d10_upper": 24119.52
+        "r2": 0.611,
+        "slope": -40.797,
+        "upper": 24623.49,
+        "lower": 24029.37,
+        "center": 24326.43,
+        "width_pct": 2.4,
+        "position_pct": 76.0,
+        "zone": "上1/3 (接近上轨，减仓观察区)",
+        "proj_d5_upper": 24419.5,
+        "proj_d10_upper": 24215.52
       },
       "medium": {
-        "r2": 0.156,
-        "slope": 12.2802,
-        "upper": 25651.38,
-        "lower": 24144.65,
-        "center": 24898.02,
-        "width_pct": 6.1,
-        "position_pct": 10.0,
+        "r2": 0.123,
+        "slope": 10.6028,
+        "upper": 25611.53,
+        "lower": 24114.87,
+        "center": 24863.2,
+        "width_pct": 6.0,
+        "position_pct": 24.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 25712.78,
-        "proj_d10_upper": 25774.18
+        "proj_d5_upper": 25664.55,
+        "proj_d10_upper": 25717.56
       },
       "long": {
-        "r2": 0.818,
-        "slope": 31.3118,
-        "upper": 26523.35,
-        "lower": 24589.71,
-        "center": 25556.53,
+        "r2": 0.812,
+        "slope": 30.9845,
+        "upper": 26532.92,
+        "lower": 24580.9,
+        "center": 25556.91,
         "width_pct": 7.6,
-        "position_pct": -15.0,
+        "position_pct": -5.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 26679.9,
-        "proj_d10_upper": 26836.46
+        "proj_d5_upper": 26687.84,
+        "proj_d10_upper": 26842.77
       }
     },
     "patterns": {
@@ -1953,14 +1952,14 @@
           {
             "type": "三角形",
             "pattern": "对称三角形",
-            "stage": "confirmed",
+            "stage": "forming",
             "dir": "突破方向未定"
           },
           {
             "type": "三角形",
-            "pattern": "上升三角形",
-            "stage": "early",
-            "dir": "偏向上突破"
+            "pattern": "对称三角形",
+            "stage": "forming",
+            "dir": "突破方向未定"
           }
         ]
       },
@@ -1976,21 +1975,21 @@
           {
             "type": "三角形",
             "pattern": "对称三角形",
-            "stage": "confirmed",
+            "stage": "forming",
             "dir": "突破方向未定"
           },
           {
             "type": "三角形",
-            "pattern": "上升三角形",
-            "stage": "early",
-            "dir": "偏向上突破"
+            "pattern": "对称三角形",
+            "stage": "forming",
+            "dir": "突破方向未定"
           }
         ]
       }
     },
     "total_patterns": 11,
     "report_file": "AL0_pattern_report.html",
-    "report_size": 77
+    "report_size": 86
   },
   {
     "symbol": "ZN0",
@@ -2090,50 +2089,50 @@
     },
     "total_patterns": 7,
     "report_file": "ZN0_pattern_report.html",
-    "report_size": 76
+    "report_size": 82
   },
   {
     "symbol": "NI0",
     "name": "沪镍",
-    "close": 142970.0,
-    "date": "2026-05-18",
-    "n_days": 2707,
+    "close": 144990.0,
+    "date": "2026-05-19",
+    "n_days": 2708,
     "channels": {
       "short": {
-        "r2": 0.085,
-        "slope": 183.5639,
-        "upper": 153086.53,
-        "lower": 142119.19,
-        "center": 147602.86,
+        "r2": 0.032,
+        "slope": 108.6391,
+        "upper": 152519.69,
+        "lower": 141571.45,
+        "center": 147045.57,
         "width_pct": 7.4,
-        "position_pct": 8.0,
+        "position_pct": 31.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 154004.35,
-        "proj_d10_upper": 154922.17
+        "proj_d5_upper": 153062.89,
+        "proj_d10_upper": 153606.09
       },
       "medium": {
-        "r2": 0.356,
-        "slope": 184.5757,
-        "upper": 151632.39,
-        "lower": 138508.25,
-        "center": 145070.32,
+        "r2": 0.354,
+        "slope": 183.6663,
+        "upper": 151790.32,
+        "lower": 138666.32,
+        "center": 145228.32,
         "width_pct": 9.0,
-        "position_pct": 34.0,
+        "position_pct": 48.0,
         "zone": "中1/3 (通道中枢，观望区)",
-        "proj_d5_upper": 152555.26,
-        "proj_d10_upper": 153478.14
+        "proj_d5_upper": 152708.65,
+        "proj_d10_upper": 153626.98
       },
       "long": {
-        "r2": 0.642,
-        "slope": 204.1554,
-        "upper": 156536.49,
-        "lower": 136590.13,
-        "center": 146563.31,
-        "width_pct": 13.6,
-        "position_pct": 32.0,
-        "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 157557.27,
-        "proj_d10_upper": 158578.04
+        "r2": 0.646,
+        "slope": 205.5224,
+        "upper": 156750.85,
+        "lower": 136872.79,
+        "center": 146811.82,
+        "width_pct": 13.5,
+        "position_pct": 41.0,
+        "zone": "中1/3 (通道中枢，观望区)",
+        "proj_d5_upper": 157778.46,
+        "proj_d10_upper": 158806.07
       }
     },
     "patterns": {
@@ -2247,7 +2246,7 @@
     },
     "total_patterns": 4,
     "report_file": "AO0_pattern_report.html",
-    "report_size": 73
+    "report_size": 76
   },
   {
     "symbol": "AU0",
@@ -2329,7 +2328,7 @@
     },
     "total_patterns": 3,
     "report_file": "AU0_pattern_report.html",
-    "report_size": 75
+    "report_size": 77
   },
   {
     "symbol": "AG0",
@@ -2411,7 +2410,7 @@
     },
     "total_patterns": 3,
     "report_file": "AG0_pattern_report.html",
-    "report_size": 74
+    "report_size": 76
   },
   {
     "symbol": "SC0",
@@ -2499,7 +2498,7 @@
     },
     "total_patterns": 4,
     "report_file": "SC0_pattern_report.html",
-    "report_size": 74
+    "report_size": 77
   },
   {
     "symbol": "TA0",
@@ -2581,7 +2580,7 @@
     },
     "total_patterns": 3,
     "report_file": "TA0_pattern_report.html",
-    "report_size": 73
+    "report_size": 74
   },
   {
     "symbol": "MA0",
@@ -2682,107 +2681,108 @@
     },
     "total_patterns": 6,
     "report_file": "MA0_pattern_report.html",
-    "report_size": 75
+    "report_size": 79
   },
   {
     "symbol": "RU0",
     "name": "橡胶",
-    "close": 17690.0,
-    "date": "2026-05-18",
-    "n_days": 5193,
+    "close": 17740.0,
+    "date": "2026-05-19",
+    "n_days": 5194,
     "channels": {
       "short": {
-        "r2": 0.731,
-        "slope": 61.8872,
-        "upper": 18397.58,
-        "lower": 17713.27,
-        "center": 18055.43,
-        "width_pct": 3.8,
-        "position_pct": -3.0,
+        "r2": 0.662,
+        "slope": 55.3195,
+        "upper": 18400.36,
+        "lower": 17679.21,
+        "center": 18039.79,
+        "width_pct": 4.0,
+        "position_pct": 8.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 18707.02,
-        "proj_d10_upper": 19016.46
+        "proj_d5_upper": 18676.96,
+        "proj_d10_upper": 18953.55
       },
       "medium": {
-        "r2": 0.392,
-        "slope": 18.2491,
-        "upper": 18111.68,
-        "lower": 16909.51,
-        "center": 17510.6,
+        "r2": 0.395,
+        "slope": 18.4276,
+        "upper": 18141.42,
+        "lower": 16937.15,
+        "center": 17539.28,
         "width_pct": 6.9,
-        "position_pct": 65.0,
+        "position_pct": 67.0,
         "zone": "中1/3 (通道中枢，观望区)",
-        "proj_d5_upper": 18202.93,
-        "proj_d10_upper": 18294.17
+        "proj_d5_upper": 18233.56,
+        "proj_d10_upper": 18325.69
       },
       "long": {
-        "r2": 0.841,
-        "slope": 18.4185,
-        "upper": 17974.94,
-        "lower": 16929.22,
-        "center": 17452.08,
-        "width_pct": 6.0,
-        "position_pct": 73.0,
+        "r2": 0.851,
+        "slope": 18.7214,
+        "upper": 18001.71,
+        "lower": 16976.52,
+        "center": 17489.11,
+        "width_pct": 5.9,
+        "position_pct": 74.0,
         "zone": "上1/3 (接近上轨，减仓观察区)",
-        "proj_d5_upper": 18067.03,
-        "proj_d10_upper": 18159.13
+        "proj_d5_upper": 18095.32,
+        "proj_d10_upper": 18188.92
       }
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
-      },
-      "medium": {
-        "count": 4,
+        "count": 1,
         "items": [
           {
-            "type": "三角形",
-            "pattern": "对称三角形",
-            "stage": "confirmed",
-            "dir": "突破方向未定"
-          },
-          {
-            "type": "三角形",
-            "pattern": "对称三角形",
-            "stage": "confirmed",
-            "dir": "突破方向未定"
-          },
+            "type": "旗形",
+            "pattern": "看涨旗形(Bull Flag)",
+            "stage": "approaching",
+            "dir": "看涨"
+          }
+        ]
+      },
+      "medium": {
+        "count": 3,
+        "items": [
           {
             "type": "头肩",
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "头肩",
+            "pattern": "倒头肩底",
+            "stage": "confirmed",
+            "dir": "看涨"
+          },
+          {
+            "type": "旗形",
+            "pattern": "看涨旗形(Bull Flag)",
+            "stage": "approaching",
+            "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 4,
+        "count": 2,
         "items": [
-          {
-            "type": "三角形",
-            "pattern": "对称三角形",
-            "stage": "confirmed",
-            "dir": "突破方向未定"
-          },
-          {
-            "type": "三角形",
-            "pattern": "对称三角形",
-            "stage": "confirmed",
-            "dir": "突破方向未定"
-          },
           {
             "type": "头肩",
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "旗形",
+            "pattern": "看涨旗形(Bull Flag)",
+            "stage": "approaching",
+            "dir": "看涨"
           }
         ]
       }
     },
-    "total_patterns": 8,
+    "total_patterns": 6,
     "report_file": "RU0_pattern_report.html",
-    "report_size": 76
+    "report_size": 81
   },
   {
     "symbol": "BU0",
@@ -2871,7 +2871,7 @@
     },
     "total_patterns": 4,
     "report_file": "BU0_pattern_report.html",
-    "report_size": 74
+    "report_size": 77
   },
   {
     "symbol": "PG0",
@@ -2978,7 +2978,7 @@
     },
     "total_patterns": 7,
     "report_file": "PG0_pattern_report.html",
-    "report_size": 75
+    "report_size": 80
   },
   {
     "symbol": "PP0",
@@ -3091,7 +3091,7 @@
     },
     "total_patterns": 10,
     "report_file": "PP0_pattern_report.html",
-    "report_size": 75
+    "report_size": 84
   },
   {
     "symbol": "SH0",
@@ -3191,50 +3191,50 @@
     },
     "total_patterns": 7,
     "report_file": "SH0_pattern_report.html",
-    "report_size": 75
+    "report_size": 80
   },
   {
     "symbol": "LC0",
     "name": "碳酸锂",
-    "close": 192180.0,
-    "date": "2026-05-18",
-    "n_days": 681,
+    "close": 184400.0,
+    "date": "2026-05-19",
+    "n_days": 682,
     "channels": {
       "short": {
-        "r2": 0.624,
-        "slope": 1425.8797,
-        "upper": 211196.93,
-        "lower": 191020.79,
-        "center": 201108.86,
-        "width_pct": 10.0,
-        "position_pct": 6.0,
+        "r2": 0.468,
+        "slope": 1198.1203,
+        "upper": 211007.51,
+        "lower": 187722.77,
+        "center": 199365.14,
+        "width_pct": 11.7,
+        "position_pct": -14.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 218326.33,
-        "proj_d10_upper": 225455.72
+        "proj_d5_upper": 216998.11,
+        "proj_d10_upper": 222988.71
       },
       "medium": {
-        "r2": 0.39,
-        "slope": 577.9253,
-        "upper": 205912.89,
-        "lower": 167755.02,
-        "center": 186833.95,
+        "r2": 0.388,
+        "slope": 575.5842,
+        "upper": 206352.41,
+        "lower": 168181.76,
+        "center": 187267.09,
         "width_pct": 20.4,
-        "position_pct": 64.0,
+        "position_pct": 42.0,
         "zone": "中1/3 (通道中枢，观望区)",
-        "proj_d5_upper": 208802.52,
-        "proj_d10_upper": 211692.14
+        "proj_d5_upper": 209230.33,
+        "proj_d10_upper": 212108.25
       },
       "long": {
-        "r2": 0.749,
-        "slope": 710.1522,
-        "upper": 224477.44,
-        "lower": 170689.9,
-        "center": 197583.67,
+        "r2": 0.745,
+        "slope": 704.9119,
+        "upper": 224785.98,
+        "lower": 170913.08,
+        "center": 197849.53,
         "width_pct": 27.2,
-        "position_pct": 40.0,
-        "zone": "中1/3 (通道中枢，观望区)",
-        "proj_d5_upper": 228028.2,
-        "proj_d10_upper": 231578.96
+        "position_pct": 25.0,
+        "zone": "下1/3 (接近下轨，加仓观察区)",
+        "proj_d5_upper": 228310.54,
+        "proj_d10_upper": 231835.1
       }
     },
     "patterns": {
@@ -3267,50 +3267,50 @@
     },
     "total_patterns": 2,
     "report_file": "LC0_pattern_report.html",
-    "report_size": 75
+    "report_size": 76
   },
   {
     "symbol": "SI0",
     "name": "工业硅",
-    "close": 8445.0,
-    "date": "2026-05-18",
-    "n_days": 820,
+    "close": 8450.0,
+    "date": "2026-05-19",
+    "n_days": 821,
     "channels": {
       "short": {
-        "r2": 0.025,
-        "slope": 4.8609,
-        "upper": 9052.11,
-        "lower": 8500.75,
-        "center": 8776.43,
-        "width_pct": 6.3,
-        "position_pct": -10.0,
+        "r2": 0.002,
+        "slope": -1.594,
+        "upper": 8999.48,
+        "lower": 8418.23,
+        "center": 8708.86,
+        "width_pct": 6.7,
+        "position_pct": 5.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 9076.42,
-        "proj_d10_upper": 9100.72
+        "proj_d5_upper": 8991.51,
+        "proj_d10_upper": 8983.54
       },
       "medium": {
-        "r2": 0.241,
-        "slope": 5.8501,
-        "upper": 8997.52,
-        "lower": 8448.47,
-        "center": 8722.99,
-        "width_pct": 6.3,
-        "position_pct": -1.0,
+        "r2": 0.206,
+        "slope": 5.3882,
+        "upper": 8990.23,
+        "lower": 8431.0,
+        "center": 8710.62,
+        "width_pct": 6.4,
+        "position_pct": 3.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 9026.77,
-        "proj_d10_upper": 9056.02
+        "proj_d5_upper": 9017.17,
+        "proj_d10_upper": 9044.11
       },
       "long": {
-        "r2": 0.369,
-        "slope": -4.0106,
-        "upper": 8792.85,
-        "lower": 8107.34,
-        "center": 8450.09,
-        "width_pct": 8.1,
-        "position_pct": 49.0,
+        "r2": 0.361,
+        "slope": -3.8836,
+        "upper": 8790.15,
+        "lower": 8114.74,
+        "center": 8452.44,
+        "width_pct": 8.0,
+        "position_pct": 50.0,
         "zone": "中1/3 (通道中枢，观望区)",
-        "proj_d5_upper": 8772.8,
-        "proj_d10_upper": 8752.74
+        "proj_d5_upper": 8770.73,
+        "proj_d10_upper": 8751.31
       }
     },
     "patterns": {
@@ -3436,50 +3436,50 @@
     },
     "total_patterns": 8,
     "report_file": "T0_pattern_report.html",
-    "report_size": 78
+    "report_size": 85
   },
   {
     "symbol": "TF0",
     "name": "5年国债",
-    "close": 106.465,
-    "date": "2026-05-18",
-    "n_days": 2261,
+    "close": 106.525,
+    "date": "2026-05-19",
+    "n_days": 2262,
     "channels": {
       "short": {
-        "r2": 0.397,
-        "slope": 0.0088,
-        "upper": 106.43,
-        "lower": 106.23,
-        "center": 106.33,
+        "r2": 0.454,
+        "slope": 0.0116,
+        "upper": 106.49,
+        "lower": 106.26,
+        "center": 106.37,
         "width_pct": 0.2,
-        "position_pct": 119.0,
+        "position_pct": 116.0,
         "zone": "上1/3 (接近上轨，减仓观察区)",
-        "proj_d5_upper": 106.47,
-        "proj_d10_upper": 106.52
+        "proj_d5_upper": 106.55,
+        "proj_d10_upper": 106.6
       },
       "medium": {
-        "r2": 0.394,
-        "slope": 0.0048,
-        "upper": 106.39,
-        "lower": 106.08,
-        "center": 106.23,
+        "r2": 0.423,
+        "slope": 0.0054,
+        "upper": 106.42,
+        "lower": 106.09,
+        "center": 106.26,
         "width_pct": 0.3,
-        "position_pct": 124.0,
+        "position_pct": 131.0,
         "zone": "上1/3 (接近上轨，减仓观察区)",
-        "proj_d5_upper": 106.41,
-        "proj_d10_upper": 106.44
+        "proj_d5_upper": 106.45,
+        "proj_d10_upper": 106.48
       },
       "long": {
-        "r2": 0.494,
-        "slope": 0.0031,
-        "upper": 106.37,
-        "lower": 105.95,
-        "center": 106.16,
+        "r2": 0.493,
+        "slope": 0.0032,
+        "upper": 106.38,
+        "lower": 105.96,
+        "center": 106.17,
         "width_pct": 0.4,
-        "position_pct": 124.0,
+        "position_pct": 134.0,
         "zone": "上1/3 (接近上轨，减仓观察区)",
-        "proj_d5_upper": 106.38,
-        "proj_d10_upper": 106.4
+        "proj_d5_upper": 106.4,
+        "proj_d10_upper": 106.41
       }
     },
     "patterns": {
@@ -3536,7 +3536,7 @@
     },
     "total_patterns": 9,
     "report_file": "TF0_pattern_report.html",
-    "report_size": 78
+    "report_size": 86
   },
   {
     "symbol": "TS0",
@@ -3636,7 +3636,7 @@
     },
     "total_patterns": 8,
     "report_file": "TS0_pattern_report.html",
-    "report_size": 78
+    "report_size": 85
   },
   {
     "symbol": "TL0",
@@ -3711,6 +3711,6 @@
     },
     "total_patterns": 2,
     "report_file": "TL0_pattern_report.html",
-    "report_size": 75
+    "report_size": 76
   }
 ]
