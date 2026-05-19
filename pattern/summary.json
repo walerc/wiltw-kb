@@ -49,24 +49,49 @@
         "items": []
       },
       "medium": {
-        "count": 0,
-        "items": []
+        "count": 2,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
+          }
+        ]
       },
       "long": {
-        "count": 1,
+        "count": 3,
         "items": [
           {
             "type": "头肩",
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
           }
         ]
       }
     },
-    "total_patterns": 1,
+    "total_patterns": 5,
     "report_file": "RB0_pattern_report.html",
-    "report_size": 75
+    "report_size": 81
   },
   {
     "symbol": "HC0",
@@ -136,7 +161,7 @@
         ]
       },
       "long": {
-        "count": 3,
+        "count": 5,
         "items": [
           {
             "type": "头肩",
@@ -159,9 +184,9 @@
         ]
       }
     },
-    "total_patterns": 5,
+    "total_patterns": 7,
     "report_file": "HC0_pattern_report.html",
-    "report_size": 81
+    "report_size": 83
   },
   {
     "symbol": "I0",
@@ -209,18 +234,24 @@
     },
     "patterns": {
       "short": {
-        "count": 1,
+        "count": 2,
         "items": [
           {
             "type": "旗形",
             "pattern": "看涨旗形(Bull Flag)",
             "stage": "approaching",
             "dir": "看涨"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       },
       "medium": {
-        "count": 2,
+        "count": 4,
         "items": [
           {
             "type": "三角形",
@@ -233,11 +264,17 @@
             "pattern": "看涨旗形(Bull Flag)",
             "stage": "approaching",
             "dir": "看涨"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       },
       "long": {
-        "count": 4,
+        "count": 6,
         "items": [
           {
             "type": "三角形",
@@ -260,9 +297,9 @@
         ]
       }
     },
-    "total_patterns": 7,
+    "total_patterns": 12,
     "report_file": "I0_pattern_report.html",
-    "report_size": 81
+    "report_size": 88
   },
   {
     "symbol": "J0",
@@ -310,8 +347,15 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          }
+        ]
       },
       "medium": {
         "count": 3,
@@ -323,16 +367,16 @@
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
-            "stage": "confirmed",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
-            "stage": "confirmed",
-            "dir": "看跌"
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "approaching",
+            "dir": "看涨"
           }
         ]
       },
@@ -352,17 +396,17 @@
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
-            "stage": "confirmed",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
             "dir": "看跌"
           }
         ]
       }
     },
-    "total_patterns": 7,
+    "total_patterns": 8,
     "report_file": "J0_pattern_report.html",
-    "report_size": 82
+    "report_size": 84
   },
   {
     "symbol": "JM0",
@@ -410,35 +454,54 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
-      },
-      "medium": {
         "count": 1,
         "items": [
           {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
-            "stage": "confirmed",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
             "dir": "看跌"
+          }
+        ]
+      },
+      "medium": {
+        "count": 2,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 1,
+        "count": 2,
         "items": [
           {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
-            "stage": "confirmed",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
           }
         ]
       }
     },
-    "total_patterns": 2,
+    "total_patterns": 5,
     "report_file": "JM0_pattern_report.html",
-    "report_size": 77
+    "report_size": 82
   },
   {
     "symbol": "FG0",
@@ -486,22 +549,41 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
-      },
-      "medium": {
-        "count": 1,
+        "count": 2,
         "items": [
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "approaching",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          }
+        ]
+      },
+      "medium": {
+        "count": 2,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
             "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 2,
+        "count": 3,
         "items": [
           {
             "type": "头肩",
@@ -510,17 +592,23 @@
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "approaching",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
             "dir": "看涨"
           }
         ]
       }
     },
-    "total_patterns": 3,
+    "total_patterns": 7,
     "report_file": "FG0_pattern_report.html",
-    "report_size": 78
+    "report_size": 84
   },
   {
     "symbol": "UR0",
@@ -568,28 +656,60 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          }
+        ]
       },
       "medium": {
-        "count": 0,
-        "items": []
+        "count": 2,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          }
+        ]
       },
       "long": {
-        "count": 1,
+        "count": 3,
         "items": [
           {
             "type": "头肩",
             "pattern": "头肩顶",
             "stage": "confirmed",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "approaching",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
           }
         ]
       }
     },
-    "total_patterns": 1,
+    "total_patterns": 6,
     "report_file": "UR0_pattern_report.html",
-    "report_size": 75
+    "report_size": 82
   },
   {
     "symbol": "SA0",
@@ -637,11 +757,24 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 2,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          }
+        ]
       },
       "medium": {
-        "count": 2,
+        "count": 3,
         "items": [
           {
             "type": "头肩",
@@ -650,15 +783,21 @@
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "approaching",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
             "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 4,
+        "count": 5,
         "items": [
           {
             "type": "头肩",
@@ -681,9 +820,9 @@
         ]
       }
     },
-    "total_patterns": 6,
+    "total_patterns": 10,
     "report_file": "SA0_pattern_report.html",
-    "report_size": 82
+    "report_size": 87
   },
   {
     "symbol": "V0",
@@ -731,22 +870,41 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "approaching",
+            "dir": "看跌"
+          }
+        ]
       },
       "medium": {
-        "count": 1,
+        "count": 3,
         "items": [
           {
             "type": "三角形",
             "pattern": "对称三角形",
             "stage": "confirmed",
             "dir": "突破方向未定"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 2,
+        "count": 4,
         "items": [
           {
             "type": "三角形",
@@ -759,13 +917,19 @@
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       }
     },
-    "total_patterns": 3,
+    "total_patterns": 8,
     "report_file": "V0_pattern_report.html",
-    "report_size": 76
+    "report_size": 83
   },
   {
     "symbol": "M0",
@@ -813,18 +977,11 @@
     },
     "patterns": {
       "short": {
-        "count": 1,
-        "items": [
-          {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
-            "stage": "forming",
-            "dir": "看跌"
-          }
-        ]
+        "count": 0,
+        "items": []
       },
       "medium": {
-        "count": 2,
+        "count": 3,
         "items": [
           {
             "type": "三角形",
@@ -833,15 +990,21 @@
             "dir": "突破方向未定"
           },
           {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 4,
+        "count": 5,
         "items": [
           {
             "type": "三角形",
@@ -864,9 +1027,9 @@
         ]
       }
     },
-    "total_patterns": 7,
+    "total_patterns": 8,
     "report_file": "M0_pattern_report.html",
-    "report_size": 82
+    "report_size": 84
   },
   {
     "symbol": "Y0",
@@ -914,22 +1077,47 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 2,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "approaching",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "approaching",
+            "dir": "看涨"
+          }
+        ]
       },
       "medium": {
-        "count": 1,
+        "count": 3,
         "items": [
           {
             "type": "头肩",
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "approaching",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 2,
+        "count": 4,
         "items": [
           {
             "type": "头肩",
@@ -942,13 +1130,19 @@
             "pattern": "倒头肩底",
             "stage": "confirmed",
             "dir": "看涨"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       }
     },
-    "total_patterns": 3,
+    "total_patterns": 9,
     "report_file": "Y0_pattern_report.html",
-    "report_size": 76
+    "report_size": 84
   },
   {
     "symbol": "P0",
@@ -996,11 +1190,24 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 2,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          }
+        ]
       },
       "medium": {
-        "count": 2,
+        "count": 4,
         "items": [
           {
             "type": "三角形",
@@ -1013,11 +1220,17 @@
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       },
       "long": {
-        "count": 3,
+        "count": 5,
         "items": [
           {
             "type": "三角形",
@@ -1040,9 +1253,9 @@
         ]
       }
     },
-    "total_patterns": 5,
+    "total_patterns": 11,
     "report_file": "P0_pattern_report.html",
-    "report_size": 79
+    "report_size": 87
   },
   {
     "symbol": "A0",
@@ -1090,29 +1303,41 @@
     },
     "patterns": {
       "short": {
-        "count": 1,
+        "count": 2,
         "items": [
           {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
-            "stage": "confirmed",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "approaching",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "approaching",
+            "dir": "看涨"
           }
         ]
       },
       "medium": {
-        "count": 1,
+        "count": 2,
         "items": [
           {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
-            "stage": "confirmed",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 2,
+        "count": 3,
         "items": [
           {
             "type": "头肩",
@@ -1121,17 +1346,23 @@
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
-            "stage": "confirmed",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       }
     },
-    "total_patterns": 4,
+    "total_patterns": 7,
     "report_file": "A0_pattern_report.html",
-    "report_size": 79
+    "report_size": 83
   },
   {
     "symbol": "C0",
@@ -1179,11 +1410,18 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          }
+        ]
       },
       "medium": {
-        "count": 3,
+        "count": 5,
         "items": [
           {
             "type": "三角形",
@@ -1206,7 +1444,7 @@
         ]
       },
       "long": {
-        "count": 2,
+        "count": 4,
         "items": [
           {
             "type": "三角形",
@@ -1219,13 +1457,19 @@
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       }
     },
-    "total_patterns": 5,
+    "total_patterns": 10,
     "report_file": "C0_pattern_report.html",
-    "report_size": 80
+    "report_size": 87
   },
   {
     "symbol": "JD0",
@@ -1273,23 +1517,30 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          }
+        ]
       },
       "medium": {
         "count": 2,
         "items": [
           {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
             "stage": "forming",
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
-            "stage": "approaching",
-            "dir": "看跌"
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       },
@@ -1303,23 +1554,23 @@
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
-            "stage": "forming",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
-            "stage": "approaching",
-            "dir": "看跌"
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
           }
         ]
       }
     },
-    "total_patterns": 5,
+    "total_patterns": 6,
     "report_file": "JD0_pattern_report.html",
-    "report_size": 80
+    "report_size": 82
   },
   {
     "symbol": "LH0",
@@ -1367,15 +1618,41 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          }
+        ]
       },
       "medium": {
-        "count": 0,
-        "items": []
+        "count": 3,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          },
+          {
+            "type": "岛型反转",
+            "pattern": "岛型反转顶(Island Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          }
+        ]
       },
       "long": {
-        "count": 3,
+        "count": 6,
         "items": [
           {
             "type": "头肩",
@@ -1398,9 +1675,9 @@
         ]
       }
     },
-    "total_patterns": 3,
+    "total_patterns": 10,
     "report_file": "LH0_pattern_report.html",
-    "report_size": 78
+    "report_size": 87
   },
   {
     "symbol": "AP0",
@@ -1448,22 +1725,29 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          }
+        ]
       },
       "medium": {
         "count": 2,
         "items": [
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "approaching",
-            "dir": "看涨"
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "approaching",
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
             "dir": "看涨"
           }
         ]
@@ -1484,17 +1768,17 @@
             "dir": "看涨"
           },
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "approaching",
-            "dir": "看涨"
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       }
     },
-    "total_patterns": 6,
+    "total_patterns": 7,
     "report_file": "AP0_pattern_report.html",
-    "report_size": 81
+    "report_size": 83
   },
   {
     "symbol": "CF0",
@@ -1546,18 +1830,30 @@
         "items": []
       },
       "medium": {
-        "count": 1,
+        "count": 3,
         "items": [
           {
             "type": "头肩",
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 3,
+        "count": 5,
         "items": [
           {
             "type": "头肩",
@@ -1580,9 +1876,9 @@
         ]
       }
     },
-    "total_patterns": 4,
+    "total_patterns": 8,
     "report_file": "CF0_pattern_report.html",
-    "report_size": 80
+    "report_size": 85
   },
   {
     "symbol": "RM0",
@@ -1630,11 +1926,18 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "approaching",
+            "dir": "看涨"
+          }
+        ]
       },
       "medium": {
-        "count": 3,
+        "count": 5,
         "items": [
           {
             "type": "三角形",
@@ -1657,7 +1960,7 @@
         ]
       },
       "long": {
-        "count": 7,
+        "count": 9,
         "items": [
           {
             "type": "三角形",
@@ -1680,9 +1983,9 @@
         ]
       }
     },
-    "total_patterns": 10,
+    "total_patterns": 15,
     "report_file": "RM0_pattern_report.html",
-    "report_size": 83
+    "report_size": 90
   },
   {
     "symbol": "SR0",
@@ -1730,11 +2033,18 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          }
+        ]
       },
       "medium": {
-        "count": 5,
+        "count": 7,
         "items": [
           {
             "type": "三角形",
@@ -1757,7 +2067,7 @@
         ]
       },
       "long": {
-        "count": 3,
+        "count": 5,
         "items": [
           {
             "type": "三角形",
@@ -1780,9 +2090,9 @@
         ]
       }
     },
-    "total_patterns": 8,
+    "total_patterns": 13,
     "report_file": "SR0_pattern_report.html",
-    "report_size": 83
+    "report_size": 90
   },
   {
     "symbol": "CU0",
@@ -1830,18 +2140,24 @@
     },
     "patterns": {
       "short": {
-        "count": 1,
+        "count": 2,
         "items": [
           {
             "type": "旗形",
             "pattern": "看涨旗形(Bull Flag)",
             "stage": "approaching",
             "dir": "看涨"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       },
       "medium": {
-        "count": 3,
+        "count": 5,
         "items": [
           {
             "type": "三角形",
@@ -1864,7 +2180,7 @@
         ]
       },
       "long": {
-        "count": 4,
+        "count": 6,
         "items": [
           {
             "type": "头肩",
@@ -1887,9 +2203,9 @@
         ]
       }
     },
-    "total_patterns": 8,
+    "total_patterns": 13,
     "report_file": "CU0_pattern_report.html",
-    "report_size": 83
+    "report_size": 90
   },
   {
     "symbol": "AL0",
@@ -1937,11 +2253,24 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 2,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "approaching",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          }
+        ]
       },
       "medium": {
-        "count": 5,
+        "count": 7,
         "items": [
           {
             "type": "三角形",
@@ -1964,7 +2293,7 @@
         ]
       },
       "long": {
-        "count": 6,
+        "count": 8,
         "items": [
           {
             "type": "三角形",
@@ -1987,9 +2316,9 @@
         ]
       }
     },
-    "total_patterns": 11,
+    "total_patterns": 17,
     "report_file": "AL0_pattern_report.html",
-    "report_size": 88
+    "report_size": 97
   },
   {
     "symbol": "ZN0",
@@ -2037,11 +2366,18 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
+          }
+        ]
       },
       "medium": {
-        "count": 3,
+        "count": 4,
         "items": [
           {
             "type": "三角形",
@@ -2056,15 +2392,15 @@
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "confirmed",
-            "dir": "看涨"
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       },
       "long": {
-        "count": 4,
+        "count": 5,
         "items": [
           {
             "type": "三角形",
@@ -2087,9 +2423,9 @@
         ]
       }
     },
-    "total_patterns": 7,
+    "total_patterns": 10,
     "report_file": "ZN0_pattern_report.html",
-    "report_size": 83
+    "report_size": 88
   },
   {
     "symbol": "NI0",
@@ -2137,28 +2473,60 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          }
+        ]
       },
       "medium": {
-        "count": 0,
-        "items": []
+        "count": 2,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
+          }
+        ]
       },
       "long": {
-        "count": 1,
+        "count": 3,
         "items": [
           {
             "type": "头肩",
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       }
     },
-    "total_patterns": 1,
+    "total_patterns": 6,
     "report_file": "NI0_pattern_report.html",
-    "report_size": 77
+    "report_size": 84
   },
   {
     "symbol": "AO0",
@@ -2210,18 +2578,30 @@
         "items": []
       },
       "medium": {
-        "count": 1,
+        "count": 3,
         "items": [
           {
             "type": "三角形",
             "pattern": "对称三角形",
             "stage": "confirmed",
             "dir": "突破方向未定"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 3,
+        "count": 5,
         "items": [
           {
             "type": "三角形",
@@ -2244,9 +2624,9 @@
         ]
       }
     },
-    "total_patterns": 4,
+    "total_patterns": 8,
     "report_file": "AO0_pattern_report.html",
-    "report_size": 78
+    "report_size": 84
   },
   {
     "symbol": "AU0",
@@ -2294,22 +2674,47 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
-      },
-      "medium": {
-        "count": 1,
+        "count": 2,
         "items": [
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "confirmed",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "approaching",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
             "dir": "看涨"
           }
         ]
       },
+      "medium": {
+        "count": 3,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          },
+          {
+            "type": "岛型反转",
+            "pattern": "岛型反转顶(Island Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          }
+        ]
+      },
       "long": {
-        "count": 2,
+        "count": 5,
         "items": [
           {
             "type": "头肩",
@@ -2318,17 +2723,23 @@
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
             "stage": "confirmed",
             "dir": "看涨"
           }
         ]
       }
     },
-    "total_patterns": 3,
+    "total_patterns": 10,
     "report_file": "AU0_pattern_report.html",
-    "report_size": 79
+    "report_size": 88
   },
   {
     "symbol": "AG0",
@@ -2376,22 +2787,41 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          }
+        ]
       },
       "medium": {
-        "count": 1,
+        "count": 3,
         "items": [
           {
             "type": "三角形",
             "pattern": "对称三角形",
             "stage": "early",
             "dir": "突破方向未定"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          },
+          {
+            "type": "岛型反转",
+            "pattern": "岛型反转底(Island Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 2,
+        "count": 5,
         "items": [
           {
             "type": "三角形",
@@ -2404,13 +2834,19 @@
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       }
     },
-    "total_patterns": 3,
+    "total_patterns": 9,
     "report_file": "AG0_pattern_report.html",
-    "report_size": 78
+    "report_size": 86
   },
   {
     "symbol": "SC0",
@@ -2458,22 +2894,41 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "approaching",
+            "dir": "看涨"
+          }
+        ]
       },
       "medium": {
-        "count": 1,
+        "count": 3,
         "items": [
           {
             "type": "三角形",
             "pattern": "对称三角形",
             "stage": "early",
             "dir": "突破方向未定"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 3,
+        "count": 5,
         "items": [
           {
             "type": "三角形",
@@ -2496,9 +2951,9 @@
         ]
       }
     },
-    "total_patterns": 4,
+    "total_patterns": 9,
     "report_file": "SC0_pattern_report.html",
-    "report_size": 79
+    "report_size": 87
   },
   {
     "symbol": "TA0",
@@ -2546,22 +3001,47 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 2,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          }
+        ]
       },
       "medium": {
-        "count": 1,
+        "count": 3,
         "items": [
           {
             "type": "三角形",
             "pattern": "上升三角形",
             "stage": "early",
             "dir": "偏向上突破"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 2,
+        "count": 4,
         "items": [
           {
             "type": "三角形",
@@ -2574,13 +3054,19 @@
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       }
     },
-    "total_patterns": 3,
+    "total_patterns": 9,
     "report_file": "TA0_pattern_report.html",
-    "report_size": 76
+    "report_size": 84
   },
   {
     "symbol": "MA0",
@@ -2628,12 +3114,18 @@
     },
     "patterns": {
       "short": {
-        "count": 1,
+        "count": 2,
         "items": [
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
             "stage": "confirmed",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
             "dir": "看涨"
           }
         ]
@@ -2642,15 +3134,15 @@
         "count": 2,
         "items": [
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "confirmed",
-            "dir": "看涨"
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "forming",
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
             "dir": "看涨"
           }
         ]
@@ -2665,23 +3157,23 @@
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "confirmed",
-            "dir": "看涨"
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "forming",
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
             "dir": "看涨"
           }
         ]
       }
     },
-    "total_patterns": 6,
+    "total_patterns": 7,
     "report_file": "MA0_pattern_report.html",
-    "report_size": 81
+    "report_size": 83
   },
   {
     "symbol": "RU0",
@@ -2729,18 +3221,30 @@
     },
     "patterns": {
       "short": {
-        "count": 1,
+        "count": 3,
         "items": [
           {
             "type": "旗形",
             "pattern": "看涨旗形(Bull Flag)",
             "stage": "approaching",
             "dir": "看涨"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       },
       "medium": {
-        "count": 3,
+        "count": 5,
         "items": [
           {
             "type": "头肩",
@@ -2763,7 +3267,7 @@
         ]
       },
       "long": {
-        "count": 2,
+        "count": 4,
         "items": [
           {
             "type": "头肩",
@@ -2776,13 +3280,19 @@
             "pattern": "看涨旗形(Bull Flag)",
             "stage": "approaching",
             "dir": "看涨"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       }
     },
-    "total_patterns": 6,
+    "total_patterns": 12,
     "report_file": "RU0_pattern_report.html",
-    "report_size": 83
+    "report_size": 92
   },
   {
     "symbol": "BU0",
@@ -2830,29 +3340,47 @@
     },
     "patterns": {
       "short": {
-        "count": 1,
+        "count": 2,
         "items": [
           {
             "type": "三角形",
             "pattern": "对称三角形",
             "stage": "confirmed",
             "dir": "突破方向未定"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       },
       "medium": {
-        "count": 1,
+        "count": 3,
         "items": [
           {
             "type": "三角形",
             "pattern": "对称三角形",
             "stage": "confirmed",
             "dir": "突破方向未定"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 2,
+        "count": 4,
         "items": [
           {
             "type": "三角形",
@@ -2865,13 +3393,19 @@
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       }
     },
-    "total_patterns": 4,
+    "total_patterns": 9,
     "report_file": "BU0_pattern_report.html",
-    "report_size": 78
+    "report_size": 85
   },
   {
     "symbol": "PG0",
@@ -2928,10 +3462,10 @@
             "dir": "偏向上突破"
           },
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "confirmed",
-            "dir": "看涨"
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       },
@@ -2939,16 +3473,16 @@
         "count": 2,
         "items": [
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "confirmed",
-            "dir": "看涨"
-          },
-          {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       },
@@ -2962,16 +3496,16 @@
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "confirmed",
-            "dir": "看涨"
-          },
-          {
-            "type": "楔形",
-            "pattern": "上升楔形(Rising Wedge)",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       }
@@ -3026,7 +3560,7 @@
     },
     "patterns": {
       "short": {
-        "count": 2,
+        "count": 4,
         "items": [
           {
             "type": "三角形",
@@ -3039,11 +3573,17 @@
             "pattern": "对称三角形",
             "stage": "confirmed",
             "dir": "突破方向未定"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
           }
         ]
       },
       "medium": {
-        "count": 3,
+        "count": 5,
         "items": [
           {
             "type": "三角形",
@@ -3066,7 +3606,7 @@
         ]
       },
       "long": {
-        "count": 5,
+        "count": 7,
         "items": [
           {
             "type": "三角形",
@@ -3089,9 +3629,9 @@
         ]
       }
     },
-    "total_patterns": 10,
+    "total_patterns": 16,
     "report_file": "PP0_pattern_report.html",
-    "report_size": 84
+    "report_size": 93
   },
   {
     "symbol": "SH0",
@@ -3139,8 +3679,21 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 2,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "approaching",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          }
+        ]
       },
       "medium": {
         "count": 3,
@@ -3152,15 +3705,15 @@
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
             "stage": "confirmed",
-            "dir": "看涨"
+            "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
-            "stage": "confirmed",
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
             "dir": "看涨"
           }
         ]
@@ -3181,17 +3734,17 @@
             "dir": "看跌"
           },
           {
-            "type": "楔形",
-            "pattern": "下降楔形(Falling Wedge)",
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
             "stage": "confirmed",
-            "dir": "看涨"
+            "dir": "看跌"
           }
         ]
       }
     },
-    "total_patterns": 7,
+    "total_patterns": 9,
     "report_file": "SH0_pattern_report.html",
-    "report_size": 83
+    "report_size": 86
   },
   {
     "symbol": "LC0",
@@ -3239,35 +3792,72 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 2,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
+          }
+        ]
       },
       "medium": {
-        "count": 1,
+        "count": 3,
         "items": [
           {
             "type": "头肩",
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       },
       "long": {
-        "count": 1,
+        "count": 6,
         "items": [
           {
             "type": "头肩",
             "pattern": "头肩顶",
             "stage": "forming",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       }
     },
-    "total_patterns": 2,
+    "total_patterns": 11,
     "report_file": "LC0_pattern_report.html",
-    "report_size": 78
+    "report_size": 89
   },
   {
     "symbol": "SI0",
@@ -3315,28 +3905,60 @@
     },
     "patterns": {
       "short": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "forming",
+            "dir": "看跌"
+          }
+        ]
       },
       "medium": {
-        "count": 0,
-        "items": []
+        "count": 2,
+        "items": [
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "forming",
+            "dir": "看涨"
+          }
+        ]
       },
       "long": {
-        "count": 1,
+        "count": 3,
         "items": [
           {
             "type": "头肩",
             "pattern": "头肩顶",
             "stage": "confirmed",
             "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重顶(Double Top)",
+            "stage": "confirmed",
+            "dir": "看跌"
+          },
+          {
+            "type": "双重顶底",
+            "pattern": "双重底(Double Bottom)",
+            "stage": "confirmed",
+            "dir": "看涨"
           }
         ]
       }
     },
-    "total_patterns": 1,
+    "total_patterns": 6,
     "report_file": "SI0_pattern_report.html",
-    "report_size": 74
+    "report_size": 81
   },
   {
     "symbol": "T0",
@@ -3388,7 +4010,7 @@
         "items": []
       },
       "medium": {
-        "count": 4,
+        "count": 3,
         "items": [
           {
             "type": "三角形",
@@ -3411,7 +4033,7 @@
         ]
       },
       "long": {
-        "count": 4,
+        "count": 3,
         "items": [
           {
             "type": "三角形",
@@ -3434,9 +4056,9 @@
         ]
       }
     },
-    "total_patterns": 8,
+    "total_patterns": 6,
     "report_file": "T0_pattern_report.html",
-    "report_size": 87
+    "report_size": 85
   },
   {
     "symbol": "TF0",
@@ -3488,7 +4110,7 @@
         "items": []
       },
       "medium": {
-        "count": 5,
+        "count": 4,
         "items": [
           {
             "type": "三角形",
@@ -3511,7 +4133,7 @@
         ]
       },
       "long": {
-        "count": 4,
+        "count": 3,
         "items": [
           {
             "type": "三角形",
@@ -3534,9 +4156,9 @@
         ]
       }
     },
-    "total_patterns": 9,
+    "total_patterns": 7,
     "report_file": "TF0_pattern_report.html",
-    "report_size": 88
+    "report_size": 86
   },
   {
     "symbol": "TS0",
