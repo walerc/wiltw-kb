@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>量化形态识别方法综述 | Quantitative Pattern Recognition</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #0d1117; color: #c9d1d9; line-height:1.8; }
+.container { max-width:1100px; margin:0 auto; padding:40px 24px; }
+h1 { color:#f0c060; font-size:1.8rem; margin-bottom:8px; border-bottom:2px solid #30363d; padding-bottom:12px; }
+h2 { color:#58a6ff; font-size:1.3rem; margin:36px 0 16px; padding-left:8px; border-left:3px solid #58a6ff; }
+h3 { color:#e0c068; font-size:1.05rem; margin:20px 0 10px; }
+.meta { color:#8b949e; font-size:.85rem; margin-bottom:24px; }
+.card { background:#161b22; border:1px solid #21262d; border-radius:8px; padding:20px 24px; margin:16px 0; }
+.card:hover { border-color:#30363d; }
+.card .title { font-size:1.1rem; color:#58a6ff; font-weight:600; margin-bottom:6px; }
+.card .category { display:inline-block; padding:2px 10px; border-radius:4px; font-size:.72rem; font-weight:600; margin-right:8px; }
+.cat-rule { background:#1b3a1b; color:#3fb950; }
+.cat-stat { background:#3a2f0e; color:#f0c060; }
+.cat-ml { background:#3a1b3a; color:#bc8cff; }
+.cat-dl { background:#1b2a3a; color:#58a6ff; }
+.cat-image { background:#3a1b1b; color:#f85149; }
+.cat-paper { background:#2a2a2a; color:#8b949e; }
+.card .link { color:#58a6ff; font-size:.78rem; word-break:break-all; }
+.card .logic { color:#c9d1d9; font-size:.88rem; margin-top:8px; padding:8px 12px; background:#0d1117; border-radius:6px; border-left:2px solid #30363d; }
+.card .pros { color:#3fb950; font-size:.8rem; }
+.card .cons { color:#f85149; font-size:.8rem; }
+table { width:100%; border-collapse:collapse; margin:16px 0; font-size:.85rem; }
+th { background:#161b22; color:#f0c060; padding:10px 12px; text-align:left; border:1px solid #21262d; }
+td { padding:8px 12px; border:1px solid #21262d; }
+tr:hover td { background:#1a2332; }
+.section-intro { background:#161b22; border:1px solid #21262d; border-radius:8px; padding:20px 24px; margin:20px 0; }
+.toc { columns:2; column-gap:24px; margin:16px 0; }
+.toc a { color:#58a6ff; text-decoration:none; display:block; padding:3px 0; font-size:.9rem; }
+.toc a:hover { color:#f0c060; }
+footer { text-align:center; color:#484f58; font-size:.75rem; margin-top:60px; padding-top:20px; border-top:1px solid #21262d; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>📊 量化形态识别方法综述</h1>
+<div class="meta">Quantitative Pattern Recognition in Financial Markets — 方法分类 · 核心逻辑 · 来源链接<br>生成日期：2026-05-19 | 覆盖 7 大类 20+ 方法</div>
+
+<div class="section-intro">
+<h3>📌 阅读导航</h3>
+<div class="toc">
+  <a href="#sec1">一、经典学术方法（3篇基石论文）</a>
+  <a href="#sec2">二、规则系统（Rule-Based）</a>
+  <a href="#sec3">三、模板匹配（Template Matching）</a>
+  <a href="#sec4">四、机器学习方法</a>
+  <a href="#sec5">五、深度学习方法</a>
+  <a href="#sec6">六、图表图像识别</a>
+  <a href="#sec7">七、实战平台与库</a>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2 id="sec1">一、经典学术方法</h2>
+
+<div class="card">
+  <div class="title">1.1 Lo-Mamaysky-Wang 核回归平滑 + 模式匹配（2000）</div>
+  <span class="category cat-paper">学术基石</span>
+  <span class="category cat-stat">统计</span>
+  <div class="link">📄 Lo, Mamaysky & Wang (2000). "Foundations of Technical Analysis: Computational Algorithms, Statistical Inference, and Empirical Implementation." <i>Journal of Finance</i>, 55(4), 1705-1765.<br>🔗 <a href="https://doi.org/10.1111/0022-1082.00265" target="_blank">DOI: 10.1111/0022-1082.00265</a></div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. <b>核回归平滑</b>：用 Nadaraya-Watson 核估计器对价格序列去噪，得到平滑曲线 p̂(t)<br>
+    2. <b>几何特征提取</b>：在平滑曲线上找局部极值点（一阶导数过零+二阶导符号确定峰/谷）<br>
+    3. <b>模式定义</b>：用峰/谷序列的几何关系定义10种经典形态（头肩顶/底、双顶/底、三角、矩形等）<br>
+    4. <b>统计检验</b>：bootstrap 方法检验形态后的收益分布是否显著异于随机<br>
+    <b>影响：</b>这是第一篇将技术分析纳入严谨学术框架的论文，奠定了计算化形态识别的基础。
+  </div>
+  <div class="pros">✅ 学术严谨，统计显著性检验</div>
+  <div class="cons">❌ 核回归带宽选择敏感，实时性差</div>
+</div>
+
+<div class="card">
+  <div class="title">1.2 感知重要点 (PIP — Perceptually Important Points)</div>
+  <span class="category cat-paper">学术方法</span>
+  <span class="category cat-rule">降维</span>
+  <div class="link">📄 Chung, Fu, Luk & Ng (2001). "Flexible Time Series Pattern Matching Based on Perceptually Important Points."<br>🔗 <a href="https://citeseerx.ist.psu.edu/" target="_blank">CiteSeerX</a></div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. 从序列两端开始，连接首尾点成直线<br>
+    2. 计算每个中间点到直线的<b>垂直距离</b><br>
+    3. 选距离最大的点加入 PIP 集合<br>
+    4. 递归重复直到选出 K 个 PIP<br>
+    5. 这 K 个点构成了价格走势的<b>形态骨架</b>，忽略了噪声波动<br>
+    <b>优势：</b>自适应降维，保留视觉上最重要的拐点
+  </div>
+  <div class="pros">✅ 直觉清晰，降维效果好</div>
+  <div class="cons">❌ K 值需要预设，对噪声敏感</div>
+</div>
+
+<div class="card">
+  <div class="title">1.3 SAX — 符号化聚合近似（Symbolic Aggregate approXimation）</div>
+  <span class="category cat-paper">学术方法</span>
+  <span class="category cat-stat">符号化</span>
+  <div class="link">📄 Lin, Keogh, Wei & Lonardi (2007). "Experiencing SAX: a Novel Symbolic Representation of Time Series." <i>Data Mining and Knowledge Discovery</i>, 15(2), 107-144.<br>🔗 <a href="https://doi.org/10.1007/s10618-007-0064-z" target="_blank">DOI: 10.1007/s10618-007-0064-z</a></div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. <b>PAA</b>（分段聚合近似）：将时间序列分成 w 段，每段取均值 → 降维<br>
+    2. <b>离散化</b>：将均值映射到等概率区间（基于正态分布）→ 映射为字母 a,b,c,...<br>
+    3. 结果：一条价格序列变成 "abccba" 这样的字符串<br>
+    4. <b>形态匹配</b>：用字符串匹配（如编辑距离、正则表达式）替代数值匹配<br>
+    <b>优势：</b>极快、可索引、支持大规模检索
+  </div>
+  <div class="pros">✅ 速度快，可做大规模形态搜索</div>
+  <div class="cons">❌ 离散化丢失精度</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2 id="sec2">二、规则系统 (Rule-Based)</h2>
+
+<div class="card">
+  <div class="title">2.1 拐点 + 几何约束法（本项目当前使用）</div>
+  <span class="category cat-rule">规则引擎</span>
+  <div class="link">📂 本地实现：<code>~/projects/trading-system/ta/pattern_analysis/pattern_state_machine.py</code></div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. <b>拐点检测</b>：滑动窗口找局部峰/谷（window=3~5），去重+峰谷交替<br>
+    2. <b>几何拟合</b>：线性回归拟合上下轨（三角形/楔形）<br>
+    3. <b>约束匹配</b>：用斜率方向、高度比、间距、收敛率等多条件布尔判断<br>
+    4. <b>状态机</b>：forming → approaching → confirmed → failed 四阶段生命周期<br>
+    5. <b>成交量辅助</b>：形态内量缩=确认、突破放量=强信号<br>
+    <b>覆盖形态：</b>三角形（3类）、头肩顶/底、旗形、双重顶/底、岛型反转
+  </div>
+  <div class="pros">✅ 透明可控，参数可调</div>
+  <div class="cons">❌ 阈值敏感，形态覆盖有限</div>
+</div>
+
+<div class="card">
+  <div class="title">2.2 TA-Lib 蜡烛图形态识别（61种）</div>
+  <span class="category cat-rule">规则引擎</span>
+  <div class="link">🔗 <a href="https://ta-lib.org/function.html" target="_blank">ta-lib.org/function.html</a> | GitHub: <a href="https://github.com/TA-Lib/ta-lib-python" target="_blank">ta-lib-python</a></div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. 输入 OHLC 四价序列<br>
+    2. 每个形态对应一个硬编码的<b>布尔函数</b>（如 CDLDOJI: abs(open-close) ≤ (high-low)×0.1）<br>
+    3. 输出 0/100/-100（无信号/看涨/看跌）<br>
+    4. 覆盖 61 种蜡烛图形态（锤子线、吞没、十字星、三兵、孕线等）<br>
+    <b>注意：</b>TA-Lib 的蜡烛图识别不考虑趋势上下文，只做单点形态判断。
+  </div>
+  <div class="pros">✅ 工业级稳定，61种覆盖广</div>
+  <div class="cons">❌ 无趋势上下文，信号噪声多</div>
+</div>
+
+<div class="card">
+  <div class="title">2.3 Bulkowski 形态百科全书</div>
+  <span class="category cat-rule">规则+统计</span>
+  <div class="link">🔗 <a href="https://thepatternsite.com/" target="_blank">ThePatternSite.com</a> — Thomas Bulkowski 30年研究</div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. 手工标注数万张图表中的形态<br>
+    2. 对每种形态统计：<b>突破成功率、平均涨跌幅、失败率、成交量特征</b><br>
+    3. 形成评分系统（形态质量打分）<br>
+    4. 覆盖 80+ 形态，每种有详细的统计数据和盈亏比<br>
+    <b>独特价值：</b>不是检测算法，而是<b>形态发生后表现统计</b>——告诉你"这个形态历史上成功率多高"
+  </div>
+  <div class="pros">✅ 统计基础扎实，实战参考价值高</div>
+  <div class="cons">❌ 没有自动化检测代码</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2 id="sec3">三、模板匹配 (Template Matching)</h2>
+
+<div class="card">
+  <div class="title">3.1 动态时间规整 (DTW — Dynamic Time Warping)</div>
+  <span class="category cat-stat">距离度量</span>
+  <div class="link">📄 Berndt & Clifford (1994). "Using Dynamic Time Warping to Find Patterns in Time Series." <i>KDD Workshop</i>.<br>🔗 <a href="https://en.wikipedia.org/wiki/Dynamic_time_warping" target="_blank">Wikipedia: DTW</a></div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. 给定一个<b>模板形态</b>（如经典头肩顶的价格曲线）和待检测序列<br>
+    2. 用动态规划计算两序列的最优对齐路径（允许时间轴的弹性伸缩）<br>
+    3. DTW 距离越小 → 越像模板形态<br>
+    4. <b>关键优势</b>：可以匹配<b>时间尺度不同但形状相似</b>的形态（一个5天的头肩也能匹配15天的模板）<br>
+    5. 可配合滑动窗口做全序列扫描
+  </div>
+  <div class="pros">✅ 时间弹性匹配，无需精确对齐</div>
+  <div class="cons">❌ 计算量 O(N²)，模板需预定义</div>
+</div>
+
+<div class="card">
+  <div class="title">3.2 相关系数滑动匹配</div>
+  <span class="category cat-stat">距离度量</span>
+  <div class="link">经典方法，参见 QuantConnect <a href="https://www.quantconnect.com/docs/v2/writing-algorithms/indicators/supported-indicators/pattern-recognition" target="_blank">Pattern Recognition</a></div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. 定义形态模板（如头肩顶 = [1.0, 0.7, 1.3, 0.7, 1.0] 标准化到 [0,1]）<br>
+    2. 在价格序列上滑动窗口，每个窗口归一化后计算与模板的<b>Pearson 相关系数</b><br>
+    3. 相关系数 > 阈值（如 0.85）→ 匹配成功<br>
+    <b>变体：</b>余弦相似度、欧氏距离、曼哈顿距离均可替代
+  </div>
+  <div class="pros">✅ 简单直观，易于实现</div>
+  <div class="cons">❌ 对振幅变化敏感，需要归一化</div>
+</div>
+
+<div class="card">
+  <div class="title">3.3 网格模式匹配 (Grid Pattern Matching)</div>
+  <span class="category cat-stat">几何</span>
+  <div class="link">📄 源自图像处理领域的模板匹配技术，应用于金融时间序列</div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. 将价格走势投影到 n×n 的网格上<br>
+    2. 每格记录<b>方向向量</b>（上/下/平）<br>
+    3. 形态定义为网格上的路径约束（如"先上3格→横2格→下3格"=头肩顶）<br>
+    4. 用有限状态机在网格路径上匹配<br>
+    <b>与 SAX 类似但保留空间信息</b>
+  </div>
+  <div class="pros">✅ 方向信息保留完整</div>
+  <div class="cons">❌ 网格分辨率选择敏感</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2 id="sec4">四、机器学习方法</h2>
+
+<div class="card">
+  <div class="title">4.1 随机森林 + 特征工程</div>
+  <span class="category cat-ml">机器学习</span>
+  <div class="link">经典方法，参见 <a href="https://scikit-learn.org/" target="_blank">scikit-learn</a> 相关案例</div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. 从价格序列中提取<b>数百个特征</b>（拐点位置、斜率、振幅比、收敛率、成交量特征等）<br>
+    2. 用标注数据（形态/非形态）训练分类器<br>
+    3. 随机森林/XGBoost 自动学习哪些特征组合最有效<br>
+    <b>优势：</b>不需要手工定义阈值，算法自己学
+  </div>
+  <div class="pros">✅ 自动特征选择，鲁棒</div>
+  <div class="cons">❌ 需大量标注数据，可解释性差</div>
+</div>
+
+<div class="card">
+  <div class="title">4.2 隐马尔可夫模型 (HMM)</div>
+  <span class="category cat-ml">统计学习</span>
+  <div class="link">📄 Hassan & Nath (2005). "Stock Market Forecasting Using Hidden Markov Model."<br>🔗 <a href="https://hmmlearn.readthedocs.io/" target="_blank">hmmlearn</a> (Python库)</div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. 将市场状态建模为<b>隐藏状态</b>（如"上升趋势"、"横盘整理"、"下降趋势"）<br>
+    2. 观察序列（价格涨跌）由隐藏状态的概率分布生成<br>
+    3. 用 Baum-Welch 算法从历史数据学习转移概率和发射概率<br>
+    4. 用 Viterbi 算法推断当前最可能状态 → <b>形态=状态转移序列的特定模式</b><br>
+    <b>应用：</b>趋势/震荡切换检测，头肩形态=上升→横盘→下降的状态序列
+  </div>
+  <div class="pros">✅ 概率框架优雅，含不确定性</div>
+  <div class="cons">❌ 状态数需预设，训练收敛难</div>
+</div>
+
+<div class="card">
+  <div class="title">4.3 K-Means 聚类形态发现</div>
+  <span class="category cat-ml">无监督</span>
+  <div class="link">📄 通用方法，参见 <a href="https://tslearn.readthedocs.io/" target="_blank">tslearn</a> 时间序列聚类库</div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. 将历史价格序列切成等长片段<br>
+    2. 用 DTW 距离 + K-Means 将片段聚成 K 类<br>
+    3. 每类的<b>质心曲线</b>就是一个"市场形态"<br>
+    4. <b>无监督发现</b>：不需要预定义形态类型，让数据自己说话<br>
+    <b>价值：</b>可能发现传统技术分析中没有的新形态
+  </div>
+  <div class="pros">✅ 无监督，可能发现新形态</div>
+  <div class="cons">❌ 聚类结果难解释，K 值难选</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2 id="sec5">五、深度学习方法</h2>
+
+<div class="card">
+  <div class="title">5.1 1D-CNN 时间序列分类</div>
+  <span class="category cat-dl">深度学习</span>
+  <div class="link">📄 Sezer & Ozbayoglu (2018). "Algorithmic Financial Trading with Deep Convolutional Neural Networks: Time Series to Image Conversion Approach." <i>Applied Soft Computing</i>.<br>🔗 <a href="https://github.com/huseinzol05/Stock-Prediction-Models" target="_blank">GitHub: Stock Prediction Models</a></div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. 将 OHLC 序列按固定窗口（如64根K线）切片<br>
+    2. 一维卷积核在时间轴上滑动，自动学习<b>局部形态特征</b>（如"连续3根阳线"）<br>
+    3. 多层卷积+池化逐步提取更高层特征（局部→全局形态）<br>
+    4. 全连接层做形态分类（头肩/三角/双顶等）<br>
+    <b>优势：</b>不需要人工设计特征，端到端学习
+  </div>
+  <div class="pros">✅ 自动特征学习，精度高</div>
+  <div class="cons">❌ 黑箱，需大量标注数据</div>
+</div>
+
+<div class="card">
+  <div class="title">5.2 LSTM / GRU 序列模式检测</div>
+  <span class="category cat-dl">深度学习</span>
+  <div class="link">📄 Fischer & Krauss (2018). "Deep Learning with Long Short-Term Memory Networks for Financial Market Predictions." <i>European Journal of Operational Research</i>.</div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. LSTM 网络逐根K线读入 OHLCV 数据<br>
+    2. 内部的<b>遗忘门/输入门/输出门</b>自动决定记住或忘记哪些历史信息<br>
+    3. 最后时间步的隐藏状态包含了整段序列的"形态记忆"<br>
+    4. 接 softmax 分类器 → 判断是否形成某种形态<br>
+    <b>与 CNN 的区别：</b>LSTM 天然适合变长序列，对形态的时间跨度更灵活
+  </div>
+  <div class="pros">✅ 处理变长序列，时序建模强</div>
+  <div class="cons">❌ 训练慢，梯度消失/爆炸</div>
+</div>
+
+<div class="card">
+  <div class="title">5.3 Autoencoder 异常形态检测</div>
+  <span class="category cat-dl">深度学习</span>
+  <div class="link">📄 通用方法，参见 <a href="https://keras.io/examples/timeseries/timeseries_anomaly_detection/" target="_blank">Keras: Timeseries Anomaly Detection</a></div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. 用正常行情片段训练 Autoencoder（编码器→压缩→解码器→重建）<br>
+    2. 正常片段：重建误差小（学会了"正常走势"的分布）<br>
+    3. <b>含形态的片段</b>：与正常分布偏离 → 重建误差大 → 标记为"异常"<br>
+    4. 不是直接分类形态，而是发现<b>"不寻常的走势结构"</b><br>
+    <b>价值：</b>可以发现传统方法无法预定义的罕见形态
+  </div>
+  <div class="pros">✅ 无监督，可发现未知形态</div>
+  <div class="cons">❌ 只能标记异常，无法命名形态</div>
+</div>
+
+<div class="card">
+  <div class="title">5.4 Transformer / Attention 形态识别</div>
+  <span class="category cat-dl">深度学习</span>
+  <div class="link">📄 近年活跃方向，参见 <a href="https://huggingface.co/blog/time-series-transformers" target="_blank">HuggingFace: Time Series Transformers</a></div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. 将 K 线序列输入 Transformer 编码器<br>
+    2. <b>Self-Attention 机制</b>自动学习任意两根K线之间的依赖关系<br>
+    3. 不需要滑动窗口——网络自己决定"头肩形态的头部和左肩应该相隔多远"<br>
+    4. 多头注意力可同时捕捉不同时间尺度的形态特征<br>
+    <b>前沿优势：</b>全局依赖建模，多头=多尺度并行
+  </div>
+  <div class="pros">✅ 全局注意力，多尺度并行</div>
+  <div class="cons">❌ 计算量大，小样本易过拟合</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2 id="sec6">六、图表图像识别</h2>
+
+<div class="card">
+  <div class="title">6.1 2D-CNN 直接识别K线图图片</div>
+  <span class="category cat-image">图像识别</span>
+  <span class="category cat-dl">深度学习</span>
+  <div class="link">📄 Hu, Qi et al. (2019). "Deep Learning for Chart Pattern Recognition in Financial Time Series." <i>IEEE Access</i>.</div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. 将价格序列<b>渲染成K线图图片</b>（RGB图像）<br>
+    2. 用预训练的 2D-CNN（如 ResNet/VGG）做迁移学习<br>
+    3. 直接对"图表画面"做分类——模拟人类看图识别形态的过程<br>
+    <b>有趣之处：</b>绕过了序列建模，直接走视觉路线，和人类看图方式一致
+  </div>
+  <div class="pros">✅ 模拟人类视觉，迁移学习可用</div>
+  <div class="cons">❌ 图片生成有信息损失，计算大</div>
+</div>
+
+<div class="card">
+  <div class="title">6.2 YOLO 目标检测形态</div>
+  <span class="category cat-image">图像识别</span>
+  <div class="link">社区项目，参见 <a href="https://github.com/robswc/chart-pattern-detector" target="_blank">GitHub: chart-pattern-detector</a></div>
+  <div class="logic">
+    <b>核心逻辑：</b><br>
+    1. 在K线图上用 YOLO/ Faster R-CNN 做<b>目标检测</b><br>
+    2. 输出：边界框坐标 + 形态类别 + 置信度<br>
+    3. 训练数据：人工标注图表中的形态位置<br>
+    <b>独特性：</b>不仅分类形态，还输出形态在图表上的精确位置（开始/结束日期+价格区间）
+  </div>
+  <div class="pros">✅ 精确位置输出，可视化好</div>
+  <div class="cons">❌ 标注成本极高，泛化难</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2 id="sec7">七、实战平台与开源库</h2>
+
+<table>
+  <tr><th>平台/库</th><th>形态能力</th><th>方法类型</th><th>链接</th></tr>
+  <tr>
+    <td><b>TA-Lib</b></td>
+    <td>61种蜡烛图形态 + 价格形态</td>
+    <td>规则引擎</td>
+    <td><a href="https://github.com/TA-Lib/ta-lib-python" target="_blank">github.com/TA-Lib</a></td>
+  </tr>
+  <tr>
+    <td><b>mplfinance</b></td>
+    <td>K线图可视化 + 内置形态标记(make_addplot)</td>
+    <td>可视化</td>
+    <td><a href="https://github.com/matplotlib/mplfinance" target="_blank">github.com/mplfinance</a></td>
+  </tr>
+  <tr>
+    <td><b>TradingView Pine Script</b></td>
+    <td>内置形态检测函数(如 ta.hammer, ta.engulfing 等)</td>
+    <td>规则引擎</td>
+    <td><a href="https://www.tradingview.com/pine-script-reference/" target="_blank">tradingview.com/pine</a></td>
+  </tr>
+  <tr>
+    <td><b>QuantConnect</b></td>
+    <td>Pattern Recognition API（双顶底/头肩/三角/旗形）</td>
+    <td>规则引擎</td>
+    <td><a href="https://www.quantconnect.com/docs/" target="_blank">quantconnect.com</a></td>
+  </tr>
+  <tr>
+    <td><b>Backtrader</b></td>
+    <td>TA-Lib 集成 + 自定义形态指标</td>
+    <td>规则引擎</td>
+    <td><a href="https://www.backtrader.com/" target="_blank">backtrader.com</a></td>
+  </tr>
+  <tr>
+    <td><b>tslearn</b></td>
+    <td>DTW + K-Means 时间序列聚类</td>
+    <td>ML/统计</td>
+    <td><a href="https://tslearn.readthedocs.io/" target="_blank">tslearn.readthedocs.io</a></td>
+  </tr>
+  <tr>
+    <td><b>tsfresh</b></td>
+    <td>自动提取 1200+ 时序特征（用于 ML 形态分类）</td>
+    <td>特征工程</td>
+    <td><a href="https://github.com/blue-yonder/tsfresh" target="_blank">github.com/tsfresh</a></td>
+  </tr>
+  <tr>
+    <td><b>chart-patterns</b></td>
+    <td>Python 库：拐点+约束匹配（与本项目同思路）</td>
+    <td>规则引擎</td>
+    <td><a href="https://github.com/arabacibahadir/chart-patterns" target="_blank">github.com/arabacibahadir</a></td>
+  </tr>
+  <tr>
+    <td><b>stocks-pattern</b></td>
+    <td>CNN+LSTM 混合模型检测形态</td>
+    <td>深度学习</td>
+    <td><a href="https://github.com/huseinzol05/Stock-Prediction-Models" target="_blank">github.com/huseinzol05</a></td>
+  </tr>
+</table>
+
+<!-- ═══════════════════════════════════════════ -->
+<h2>📊 方法对比总结</h2>
+
+<table>
+  <tr><th>方法类别</th><th>优点</th><th>缺点</th><th>适用场景</th></tr>
+  <tr>
+    <td><b>规则引擎</b>（TA-Lib、本系统）</td>
+    <td>透明、可控、无训练成本</td>
+    <td>阈值敏感、覆盖有限</td>
+    <td>✅ 生产环境、实时检测</td>
+  </tr>
+  <tr>
+    <td><b>统计匹配</b>（DTW、相关系数）</td>
+    <td>时间弹性、直觉清晰</td>
+    <td>计算量大、需模板</td>
+    <td>✅ 回测研究、相似形态搜索</td>
+  </tr>
+  <tr>
+    <td><b>符号化</b>（SAX、PIP）</td>
+    <td>极快、可索引</td>
+    <td>精度损失</td>
+    <td>✅ 大规模形态检索</td>
+  </tr>
+  <tr>
+    <td><b>机器学习</b>（RF、HMM、K-Means）</td>
+    <td>自动学习、概率输出</td>
+    <td>需标注数据</td>
+    <td>✅ 辅助规则系统、特征发现</td>
+  </tr>
+  <tr>
+    <td><b>深度学习</b>（CNN、LSTM、Transformer）</td>
+    <td>端到端、精度最高</td>
+    <td>黑箱、数据需求大</td>
+    <td>⚠️ 研究前沿，实盘谨慎</td>
+  </tr>
+  <tr>
+    <td><b>图像识别</b>（2D-CNN、YOLO）</td>
+    <td>模拟人类视觉</td>
+    <td>信息损失、标注贵</td>
+    <td>🔬 学术研究为主</td>
+  </tr>
+</table>
+
+<footer>
+📄 本文档基于公开学术文献和开源项目整理 | 生成于 2026-05-19<br>
+学术引用请查阅原始论文 DOI；实战参考请访问对应项目主页
+</footer>
+
+</div>
+</body>
+</html>
