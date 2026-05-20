@@ -57,9 +57,11 @@
         "items": [
           {
             "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 3336.0,
+            "days": 50,
+            "break": "2026-04-20"
           }
         ]
       }
@@ -122,13 +124,22 @@
         "items": []
       },
       "long": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "头肩",
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 3484.0,
+            "days": 50,
+            "break": "2026-04-20"
+          }
+        ]
       }
     },
-    "total_patterns": 0,
+    "total_patterns": 1,
     "report_file": "HC0_pattern_report.html",
-    "report_size": 75
+    "report_size": 77
   },
   {
     "symbol": "I0",
@@ -184,69 +195,56 @@
         "items": []
       },
       "long": {
-        "count": 2,
-        "items": [
-          {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
-          },
-          {
-            "type": "头肩",
-            "pattern": "倒头肩底",
-            "stage": "forming",
-            "dir": "看涨"
-          }
-        ]
+        "count": 0,
+        "items": []
       }
     },
-    "total_patterns": 2,
+    "total_patterns": 0,
     "report_file": "I0_pattern_report.html",
-    "report_size": 76
+    "report_size": 73
   },
   {
     "symbol": "J0",
     "name": "焦炭",
     "close": 1782.0,
-    "date": "2026-05-19",
-    "n_days": 3661,
+    "date": "2026-05-20",
+    "n_days": 3662,
     "channels": {
       "short": {
-        "r2": 0.0,
-        "slope": -0.103,
-        "upper": 1883.07,
-        "lower": 1760.38,
-        "center": 1821.72,
-        "width_pct": 6.7,
-        "position_pct": 18.0,
+        "r2": 0.322,
+        "slope": -2.7008,
+        "upper": 1837.16,
+        "lower": 1765.63,
+        "center": 1801.39,
+        "width_pct": 4.0,
+        "position_pct": 23.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 1882.55,
-        "proj_d10_upper": 1882.04
+        "proj_d5_upper": 1823.65,
+        "proj_d10_upper": 1810.15
       },
       "medium": {
-        "r2": 0.467,
-        "slope": 2.8724,
-        "upper": 1907.14,
-        "lower": 1745.0,
-        "center": 1826.07,
+        "r2": 0.454,
+        "slope": 2.8131,
+        "upper": 1907.78,
+        "lower": 1744.69,
+        "center": 1826.24,
         "width_pct": 8.9,
         "position_pct": 23.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 1921.5,
-        "proj_d10_upper": 1935.86
+        "proj_d5_upper": 1921.84,
+        "proj_d10_upper": 1935.91
       },
       "long": {
-        "r2": 0.118,
-        "slope": -0.6643,
-        "upper": 1830.75,
-        "lower": 1593.27,
-        "center": 1712.01,
+        "r2": 0.108,
+        "slope": -0.6342,
+        "upper": 1832.71,
+        "lower": 1594.85,
+        "center": 1713.78,
         "width_pct": 13.9,
         "position_pct": 79.0,
         "zone": "上1/3 (接近上轨，减仓观察区)",
-        "proj_d5_upper": 1827.43,
-        "proj_d10_upper": 1824.11
+        "proj_d5_upper": 1829.54,
+        "proj_d10_upper": 1826.37
       }
     },
     "patterns": {
@@ -259,20 +257,13 @@
         "items": []
       },
       "long": {
-        "count": 1,
-        "items": [
-          {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
-          }
-        ]
+        "count": 0,
+        "items": []
       }
     },
-    "total_patterns": 1,
+    "total_patterns": 0,
     "report_file": "J0_pattern_report.html",
-    "report_size": 77
+    "report_size": 75
   },
   {
     "symbol": "JM0",
@@ -395,8 +386,10 @@
           {
             "type": "头肩",
             "pattern": "头肩顶",
-            "stage": "confirmed",
-            "dir": "看跌"
+            "dir": "看跌",
+            "target": 972.64,
+            "days": 46,
+            "break": "2026-03-31"
           }
         ]
       }
@@ -521,26 +514,38 @@
         "items": []
       },
       "long": {
-        "count": 2,
+        "count": 4,
         "items": [
           {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "confirmed",
-            "dir": "看跌"
+            "type": "三角形",
+            "pattern": "下降三角形",
+            "dir": "看跌",
+            "target": 983.21,
+            "days": 28,
+            "break": "2026-05-14"
+          },
+          {
+            "type": "三角形",
+            "pattern": "下降三角形",
+            "dir": "看跌",
+            "target": 1097.55,
+            "days": 38,
+            "break": "2026-05-14"
           },
           {
             "type": "头肩",
             "pattern": "头肩顶",
-            "stage": "confirmed",
-            "dir": "看跌"
+            "dir": "看跌",
+            "target": 1112.61,
+            "days": 30,
+            "break": "2026-05-08"
           }
         ]
       }
     },
-    "total_patterns": 2,
+    "total_patterns": 4,
     "report_file": "SA0_pattern_report.html",
-    "report_size": 78
+    "report_size": 82
   },
   {
     "symbol": "V0",
@@ -596,13 +601,22 @@
         "items": []
       },
       "long": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "头肩",
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 5112.61,
+            "days": 35,
+            "break": "2026-03-04"
+          }
+        ]
       }
     },
-    "total_patterns": 0,
+    "total_patterns": 1,
     "report_file": "V0_pattern_report.html",
-    "report_size": 74
+    "report_size": 76
   },
   {
     "symbol": "M0",
@@ -658,13 +672,30 @@
         "items": []
       },
       "long": {
-        "count": 0,
-        "items": []
+        "count": 2,
+        "items": [
+          {
+            "type": "三角形",
+            "pattern": "对称三角形",
+            "dir": "看涨",
+            "target": 3514.0,
+            "days": 35,
+            "break": "2026-05-19"
+          },
+          {
+            "type": "头肩",
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 2926.0,
+            "days": 28,
+            "break": "2026-02-25"
+          }
+        ]
       }
     },
-    "total_patterns": 0,
+    "total_patterns": 2,
     "report_file": "M0_pattern_report.html",
-    "report_size": 75
+    "report_size": 78
   },
   {
     "symbol": "Y0",
@@ -724,9 +755,11 @@
         "items": [
           {
             "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 9140.0,
+            "days": 75,
+            "break": "2026-03-06"
           }
         ]
       }
@@ -785,31 +818,26 @@
         "items": []
       },
       "medium": {
-        "count": 1,
-        "items": [
-          {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
-          }
-        ]
+        "count": 0,
+        "items": []
       },
       "long": {
         "count": 1,
         "items": [
           {
             "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 9432.0,
+            "days": 35,
+            "break": "2026-03-02"
           }
         ]
       }
     },
-    "total_patterns": 2,
+    "total_patterns": 1,
     "report_file": "P0_pattern_report.html",
-    "report_size": 77
+    "report_size": 76
   },
   {
     "symbol": "A0",
@@ -865,13 +893,22 @@
         "items": []
       },
       "long": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "头肩",
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 4572.0,
+            "days": 29,
+            "break": "2026-01-22"
+          }
+        ]
       }
     },
-    "total_patterns": 0,
+    "total_patterns": 1,
     "report_file": "A0_pattern_report.html",
-    "report_size": 75
+    "report_size": 76
   },
   {
     "symbol": "C0",
@@ -930,17 +967,19 @@
         "count": 1,
         "items": [
           {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
+            "type": "三角形",
+            "pattern": "对称三角形",
+            "dir": "看跌",
+            "target": 2166.0,
+            "days": 37,
+            "break": "2026-05-15"
           }
         ]
       }
     },
     "total_patterns": 1,
     "report_file": "C0_pattern_report.html",
-    "report_size": 76
+    "report_size": 77
   },
   {
     "symbol": "JD0",
@@ -996,13 +1035,30 @@
         "items": []
       },
       "long": {
-        "count": 0,
-        "items": []
+        "count": 2,
+        "items": [
+          {
+            "type": "三角形",
+            "pattern": "上升三角形",
+            "dir": "看涨",
+            "target": 4689.49,
+            "days": 20,
+            "break": "2026-05-20"
+          },
+          {
+            "type": "三角形",
+            "pattern": "上升三角形",
+            "dir": "看涨",
+            "target": 4945.87,
+            "days": 32,
+            "break": "2026-05-20"
+          }
+        ]
       }
     },
-    "total_patterns": 0,
+    "total_patterns": 2,
     "report_file": "JD0_pattern_report.html",
-    "report_size": 75
+    "report_size": 78
   },
   {
     "symbol": "LH0",
@@ -1063,14 +1119,18 @@
           {
             "type": "头肩",
             "pattern": "头肩顶",
-            "stage": "confirmed",
-            "dir": "看跌"
+            "dir": "看跌",
+            "target": 11429.67,
+            "days": 60,
+            "break": "2026-03-16"
           },
           {
             "type": "岛型反转",
-            "pattern": "岛型反转顶(Island Top)",
-            "stage": "confirmed",
-            "dir": "看跌"
+            "pattern": "岛型顶",
+            "dir": "看跌",
+            "target": 12116.02,
+            "days": 16,
+            "break": "2026-02-24"
           }
         ]
       }
@@ -1082,45 +1142,45 @@
   {
     "symbol": "AP0",
     "name": "苹果",
-    "close": 7390.0,
-    "date": "2026-05-19",
-    "n_days": 2030,
+    "close": 7393.0,
+    "date": "2026-05-20",
+    "n_days": 2031,
     "channels": {
       "short": {
-        "r2": 0.598,
-        "slope": -20.7391,
-        "upper": 7619.0,
-        "lower": 7309.06,
-        "center": 7464.03,
-        "width_pct": 4.2,
-        "position_pct": 26.0,
+        "r2": 0.625,
+        "slope": -17.5902,
+        "upper": 7582.8,
+        "lower": 7334.09,
+        "center": 7458.44,
+        "width_pct": 3.3,
+        "position_pct": 24.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 7515.3,
-        "proj_d10_upper": 7411.61
+        "proj_d5_upper": 7494.85,
+        "proj_d10_upper": 7406.89
       },
       "medium": {
-        "r2": 0.613,
-        "slope": -18.1868,
-        "upper": 7979.06,
-        "lower": 7216.05,
-        "center": 7597.56,
-        "width_pct": 10.0,
-        "position_pct": 23.0,
+        "r2": 0.671,
+        "slope": -19.5416,
+        "upper": 7908.04,
+        "lower": 7185.19,
+        "center": 7546.61,
+        "width_pct": 9.6,
+        "position_pct": 29.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 7888.13,
-        "proj_d10_upper": 7797.2
+        "proj_d5_upper": 7810.33,
+        "proj_d10_upper": 7712.62
       },
       "long": {
-        "r2": 0.203,
-        "slope": 3.9477,
-        "upper": 8728.82,
-        "lower": 7706.54,
-        "center": 8217.68,
-        "width_pct": 12.4,
-        "position_pct": -31.0,
+        "r2": 0.17,
+        "slope": 3.5713,
+        "upper": 8707.61,
+        "lower": 7676.3,
+        "center": 8191.96,
+        "width_pct": 12.6,
+        "position_pct": -27.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 8748.55,
-        "proj_d10_upper": 8768.29
+        "proj_d5_upper": 8725.47,
+        "proj_d10_upper": 8743.32
       }
     },
     "patterns": {
@@ -1136,23 +1196,27 @@
         "count": 2,
         "items": [
           {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "confirmed",
-            "dir": "看跌"
+            "type": "三角形",
+            "pattern": "下降三角形",
+            "dir": "看跌",
+            "target": 7078.52,
+            "days": 37,
+            "break": "2026-05-18"
           },
           {
             "type": "头肩",
-            "pattern": "倒头肩底",
-            "stage": "forming",
-            "dir": "看涨"
+            "pattern": "头肩顶",
+            "dir": "看跌",
+            "target": 6862.36,
+            "days": 39,
+            "break": "2026-05-18"
           }
         ]
       }
     },
     "total_patterns": 2,
     "report_file": "AP0_pattern_report.html",
-    "report_size": 77
+    "report_size": 78
   },
   {
     "symbol": "CF0",
@@ -1266,73 +1330,69 @@
         "items": []
       },
       "medium": {
-        "count": 0,
-        "items": []
-      },
-      "long": {
-        "count": 2,
+        "count": 1,
         "items": [
           {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
-          },
-          {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
+            "type": "三角形",
+            "pattern": "对称三角形",
+            "dir": "看涨",
+            "target": 2797.0,
+            "days": 21,
+            "break": "2026-05-11"
           }
         ]
+      },
+      "long": {
+        "count": 0,
+        "items": []
       }
     },
-    "total_patterns": 2,
+    "total_patterns": 1,
     "report_file": "RM0_pattern_report.html",
-    "report_size": 78
+    "report_size": 77
   },
   {
     "symbol": "SR0",
     "name": "白糖",
-    "close": 5430.0,
-    "date": "2026-05-19",
-    "n_days": 4940,
+    "close": 5392.0,
+    "date": "2026-05-20",
+    "n_days": 4941,
     "channels": {
       "short": {
-        "r2": 0.624,
-        "slope": 6.1602,
-        "upper": 5524.22,
-        "lower": 5437.12,
-        "center": 5480.67,
-        "width_pct": 1.6,
-        "position_pct": -8.0,
+        "r2": 0.391,
+        "slope": 4.6218,
+        "upper": 5520.63,
+        "lower": 5415.48,
+        "center": 5468.06,
+        "width_pct": 1.9,
+        "position_pct": -22.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 5555.02,
-        "proj_d10_upper": 5585.82
+        "proj_d5_upper": 5543.74,
+        "proj_d10_upper": 5566.85
       },
       "medium": {
-        "r2": 0.274,
-        "slope": 2.1093,
-        "upper": 5534.95,
-        "lower": 5353.59,
-        "center": 5444.27,
+        "r2": 0.241,
+        "slope": 1.9289,
+        "upper": 5531.62,
+        "lower": 5350.49,
+        "center": 5441.05,
         "width_pct": 3.3,
-        "position_pct": 42.0,
-        "zone": "中1/3 (通道中枢，观望区)",
-        "proj_d5_upper": 5545.5,
-        "proj_d10_upper": 5556.05
+        "position_pct": 23.0,
+        "zone": "下1/3 (接近下轨，加仓观察区)",
+        "proj_d5_upper": 5541.26,
+        "proj_d10_upper": 5550.91
       },
       "long": {
-        "r2": 0.005,
-        "slope": -0.1782,
-        "upper": 5495.62,
-        "lower": 5178.35,
-        "center": 5336.99,
+        "r2": 0.003,
+        "slope": -0.1328,
+        "upper": 5497.91,
+        "lower": 5181.67,
+        "center": 5339.79,
         "width_pct": 5.9,
-        "position_pct": 79.0,
-        "zone": "上1/3 (接近上轨，减仓观察区)",
-        "proj_d5_upper": 5494.73,
-        "proj_d10_upper": 5493.84
+        "position_pct": 67.0,
+        "zone": "中1/3 (通道中枢，观望区)",
+        "proj_d5_upper": 5497.25,
+        "proj_d10_upper": 5496.59
       }
     },
     "patterns": {
@@ -1349,9 +1409,11 @@
         "items": [
           {
             "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 5642.0,
+            "days": 28,
+            "break": "2026-04-21"
           }
         ]
       }
@@ -1406,42 +1468,21 @@
     },
     "patterns": {
       "short": {
-        "count": 1,
-        "items": [
-          {
-            "type": "旗形",
-            "pattern": "看涨旗形(Bull Flag)",
-            "stage": "approaching",
-            "dir": "看涨"
-          }
-        ]
+        "count": 0,
+        "items": []
       },
       "medium": {
-        "count": 1,
-        "items": [
-          {
-            "type": "旗形",
-            "pattern": "看涨旗形(Bull Flag)",
-            "stage": "approaching",
-            "dir": "看涨"
-          }
-        ]
+        "count": 0,
+        "items": []
       },
       "long": {
-        "count": 1,
-        "items": [
-          {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
-          }
-        ]
+        "count": 0,
+        "items": []
       }
     },
-    "total_patterns": 3,
+    "total_patterns": 0,
     "report_file": "CU0_pattern_report.html",
-    "report_size": 80
+    "report_size": 76
   },
   {
     "symbol": "AL0",
@@ -1493,30 +1534,26 @@
         "items": []
       },
       "medium": {
-        "count": 0,
-        "items": []
-      },
-      "long": {
-        "count": 2,
+        "count": 1,
         "items": [
           {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
-          },
-          {
-            "type": "头肩",
-            "pattern": "倒头肩底",
-            "stage": "forming",
-            "dir": "看涨"
+            "type": "三角形",
+            "pattern": "对称三角形",
+            "dir": "看跌",
+            "target": 22445.0,
+            "days": 21,
+            "break": "2026-05-15"
           }
         ]
+      },
+      "long": {
+        "count": 0,
+        "items": []
       }
     },
-    "total_patterns": 2,
+    "total_patterns": 1,
     "report_file": "AL0_pattern_report.html",
-    "report_size": 79
+    "report_size": 78
   },
   {
     "symbol": "ZN0",
@@ -1564,42 +1601,30 @@
     },
     "patterns": {
       "short": {
-        "count": 1,
-        "items": [
-          {
-            "type": "旗形",
-            "pattern": "看涨旗形(Bull Flag)",
-            "stage": "approaching",
-            "dir": "看涨"
-          }
-        ]
+        "count": 0,
+        "items": []
       },
       "medium": {
-        "count": 1,
-        "items": [
-          {
-            "type": "旗形",
-            "pattern": "看涨旗形(Bull Flag)",
-            "stage": "approaching",
-            "dir": "看涨"
-          }
-        ]
+        "count": 0,
+        "items": []
       },
       "long": {
         "count": 1,
         "items": [
           {
             "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 26575.0,
+            "days": 34,
+            "break": "2026-05-13"
           }
         ]
       }
     },
-    "total_patterns": 3,
+    "total_patterns": 1,
     "report_file": "ZN0_pattern_report.html",
-    "report_size": 81
+    "report_size": 78
   },
   {
     "symbol": "NI0",
@@ -1651,17 +1676,26 @@
         "items": []
       },
       "medium": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "头肩",
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 150400.0,
+            "days": 21,
+            "break": "2026-04-15"
+          }
+        ]
       },
       "long": {
         "count": 0,
         "items": []
       }
     },
-    "total_patterns": 0,
+    "total_patterns": 1,
     "report_file": "NI0_pattern_report.html",
-    "report_size": 78
+    "report_size": 79
   },
   {
     "symbol": "AO0",
@@ -1717,26 +1751,22 @@
         "items": []
       },
       "long": {
-        "count": 2,
+        "count": 1,
         "items": [
           {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
-          },
-          {
-            "type": "头肩",
-            "pattern": "倒头肩底",
-            "stage": "forming",
-            "dir": "看涨"
+            "type": "三角形",
+            "pattern": "对称三角形",
+            "dir": "看跌",
+            "target": 2196.78,
+            "days": 48,
+            "break": "2026-05-08"
           }
         ]
       }
     },
-    "total_patterns": 2,
+    "total_patterns": 1,
     "report_file": "AO0_pattern_report.html",
-    "report_size": 78
+    "report_size": 77
   },
   {
     "symbol": "AU0",
@@ -1788,37 +1818,17 @@
         "items": []
       },
       "medium": {
-        "count": 1,
-        "items": [
-          {
-            "type": "岛型反转",
-            "pattern": "岛型反转顶(Island Top)",
-            "stage": "confirmed",
-            "dir": "看跌"
-          }
-        ]
+        "count": 0,
+        "items": []
       },
       "long": {
-        "count": 2,
-        "items": [
-          {
-            "type": "岛型反转",
-            "pattern": "岛型反转顶(Island Top)",
-            "stage": "confirmed",
-            "dir": "看跌"
-          },
-          {
-            "type": "岛型反转",
-            "pattern": "岛型反转顶(Island Top)",
-            "stage": "confirmed",
-            "dir": "看跌"
-          }
-        ]
+        "count": 0,
+        "items": []
       }
     },
-    "total_patterns": 3,
+    "total_patterns": 0,
     "report_file": "AU0_pattern_report.html",
-    "report_size": 80
+    "report_size": 77
   },
   {
     "symbol": "AG0",
@@ -1874,20 +1884,13 @@
         "items": []
       },
       "long": {
-        "count": 1,
-        "items": [
-          {
-            "type": "岛型反转",
-            "pattern": "岛型反转底(Island Bottom)",
-            "stage": "forming",
-            "dir": "看涨"
-          }
-        ]
+        "count": 0,
+        "items": []
       }
     },
-    "total_patterns": 1,
+    "total_patterns": 0,
     "report_file": "AG0_pattern_report.html",
-    "report_size": 77
+    "report_size": 76
   },
   {
     "symbol": "SC0",
@@ -2078,79 +2081,62 @@
   {
     "symbol": "RU0",
     "name": "橡胶",
-    "close": 17740.0,
-    "date": "2026-05-19",
-    "n_days": 5194,
+    "close": 17540.0,
+    "date": "2026-05-20",
+    "n_days": 5195,
     "channels": {
       "short": {
-        "r2": 0.662,
-        "slope": 55.3195,
-        "upper": 18400.36,
-        "lower": 17679.21,
-        "center": 18039.79,
-        "width_pct": 4.0,
-        "position_pct": 8.0,
+        "r2": 0.514,
+        "slope": 41.7256,
+        "upper": 18326.07,
+        "lower": 17586.22,
+        "center": 17956.14,
+        "width_pct": 4.1,
+        "position_pct": -6.0,
         "zone": "下1/3 (接近下轨，加仓观察区)",
-        "proj_d5_upper": 18676.96,
-        "proj_d10_upper": 18953.55
+        "proj_d5_upper": 18534.69,
+        "proj_d10_upper": 18743.32
       },
       "medium": {
-        "r2": 0.395,
-        "slope": 18.4276,
-        "upper": 18141.42,
-        "lower": 16937.15,
-        "center": 17539.28,
+        "r2": 0.4,
+        "slope": 18.607,
+        "upper": 18162.29,
+        "lower": 16959.03,
+        "center": 17560.66,
         "width_pct": 6.9,
-        "position_pct": 67.0,
+        "position_pct": 48.0,
         "zone": "中1/3 (通道中枢，观望区)",
-        "proj_d5_upper": 18233.56,
-        "proj_d10_upper": 18325.69
+        "proj_d5_upper": 18255.32,
+        "proj_d10_upper": 18348.35
       },
       "long": {
-        "r2": 0.851,
-        "slope": 18.7214,
-        "upper": 18001.71,
-        "lower": 16976.52,
-        "center": 17489.11,
-        "width_pct": 5.9,
-        "position_pct": 74.0,
-        "zone": "上1/3 (接近上轨，减仓观察区)",
-        "proj_d5_upper": 18095.32,
-        "proj_d10_upper": 18188.92
+        "r2": 0.858,
+        "slope": 18.9367,
+        "upper": 18022.44,
+        "lower": 17015.47,
+        "center": 17518.95,
+        "width_pct": 5.7,
+        "position_pct": 52.0,
+        "zone": "中1/3 (通道中枢，观望区)",
+        "proj_d5_upper": 18117.12,
+        "proj_d10_upper": 18211.8
       }
     },
     "patterns": {
       "short": {
+        "count": 0,
+        "items": []
+      },
+      "medium": {
         "count": 1,
         "items": [
           {
-            "type": "旗形",
-            "pattern": "看涨旗形(Bull Flag)",
-            "stage": "approaching",
-            "dir": "看涨"
-          }
-        ]
-      },
-      "medium": {
-        "count": 3,
-        "items": [
-          {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
-          },
-          {
             "type": "头肩",
             "pattern": "倒头肩底",
-            "stage": "confirmed",
-            "dir": "看涨"
-          },
-          {
-            "type": "旗形",
-            "pattern": "看涨旗形(Bull Flag)",
-            "stage": "approaching",
-            "dir": "看涨"
+            "dir": "看涨",
+            "target": 19040.0,
+            "days": 31,
+            "break": "2026-04-29"
           }
         ]
       },
@@ -2159,16 +2145,18 @@
         "items": [
           {
             "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 19040.0,
+            "days": 31,
+            "break": "2026-04-29"
           }
         ]
       }
     },
-    "total_patterns": 5,
+    "total_patterns": 2,
     "report_file": "RU0_pattern_report.html",
-    "report_size": 84
+    "report_size": 80
   },
   {
     "symbol": "BU0",
@@ -2410,20 +2398,13 @@
         "items": []
       },
       "long": {
-        "count": 1,
-        "items": [
-          {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "confirmed",
-            "dir": "看跌"
-          }
-        ]
+        "count": 0,
+        "items": []
       }
     },
-    "total_patterns": 1,
+    "total_patterns": 0,
     "report_file": "SH0_pattern_report.html",
-    "report_size": 76
+    "report_size": 75
   },
   {
     "symbol": "LC0",
@@ -2479,20 +2460,13 @@
         "items": []
       },
       "long": {
-        "count": 1,
-        "items": [
-          {
-            "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
-          }
-        ]
+        "count": 0,
+        "items": []
       }
     },
-    "total_patterns": 1,
+    "total_patterns": 0,
     "report_file": "LC0_pattern_report.html",
-    "report_size": 78
+    "report_size": 77
   },
   {
     "symbol": "SI0",
@@ -2548,13 +2522,22 @@
         "items": []
       },
       "long": {
-        "count": 0,
-        "items": []
+        "count": 1,
+        "items": [
+          {
+            "type": "头肩",
+            "pattern": "头肩顶",
+            "dir": "看跌",
+            "target": 8125.0,
+            "days": 22,
+            "break": "2026-05-12"
+          }
+        ]
       }
     },
-    "total_patterns": 0,
+    "total_patterns": 1,
     "report_file": "SI0_pattern_report.html",
-    "report_size": 74
+    "report_size": 76
   },
   {
     "symbol": "T0",
@@ -2614,16 +2597,18 @@
         "items": [
           {
             "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 109.48,
+            "days": 64,
+            "break": "2026-04-28"
           }
         ]
       }
     },
     "total_patterns": 1,
     "report_file": "T0_pattern_report.html",
-    "report_size": 79
+    "report_size": 80
   },
   {
     "symbol": "TF0",
@@ -2683,9 +2668,11 @@
         "items": [
           {
             "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 106.96,
+            "days": 64,
+            "break": "2026-05-11"
           }
         ]
       }
@@ -2697,45 +2684,45 @@
   {
     "symbol": "TS0",
     "name": "2年国债",
-    "close": 102.666,
-    "date": "2026-05-19",
-    "n_days": 1876,
+    "close": 102.688,
+    "date": "2026-05-20",
+    "n_days": 1877,
     "channels": {
       "short": {
-        "r2": 0.144,
-        "slope": 0.0022,
+        "r2": 0.269,
+        "slope": 0.0036,
+        "upper": 102.67,
+        "lower": 102.56,
+        "center": 102.62,
+        "width_pct": 0.1,
+        "position_pct": 112.0,
+        "zone": "上1/3 (接近上轨，减仓观察区)",
+        "proj_d5_upper": 102.69,
+        "proj_d10_upper": 102.71
+      },
+      "medium": {
+        "r2": 0.675,
+        "slope": 0.0026,
         "upper": 102.65,
         "lower": 102.55,
         "center": 102.6,
         "width_pct": 0.1,
-        "position_pct": 119.0,
+        "position_pct": 138.0,
         "zone": "上1/3 (接近上轨，减仓观察区)",
         "proj_d5_upper": 102.66,
-        "proj_d10_upper": 102.67
-      },
-      "medium": {
-        "r2": 0.67,
-        "slope": 0.0025,
-        "upper": 102.64,
-        "lower": 102.55,
-        "center": 102.59,
-        "width_pct": 0.1,
-        "position_pct": 130.0,
-        "zone": "上1/3 (接近上轨，减仓观察区)",
-        "proj_d5_upper": 102.65,
-        "proj_d10_upper": 102.66
+        "proj_d10_upper": 102.68
       },
       "long": {
-        "r2": 0.422,
+        "r2": 0.425,
         "slope": 0.0011,
-        "upper": 102.63,
+        "upper": 102.64,
         "lower": 102.46,
-        "center": 102.54,
+        "center": 102.55,
         "width_pct": 0.2,
-        "position_pct": 122.0,
+        "position_pct": 131.0,
         "zone": "上1/3 (接近上轨，减仓观察区)",
-        "proj_d5_upper": 102.63,
-        "proj_d10_upper": 102.64
+        "proj_d5_upper": 102.64,
+        "proj_d10_upper": 102.65
       }
     },
     "patterns": {
@@ -2752,9 +2739,11 @@
         "items": [
           {
             "type": "头肩",
-            "pattern": "头肩顶",
-            "stage": "forming",
-            "dir": "看跌"
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 102.72,
+            "days": 41,
+            "break": "2026-04-14"
           }
         ]
       }
@@ -2817,12 +2806,29 @@
         "items": []
       },
       "long": {
-        "count": 0,
-        "items": []
+        "count": 2,
+        "items": [
+          {
+            "type": "头肩",
+            "pattern": "头肩顶",
+            "dir": "看跌",
+            "target": 113.49,
+            "days": 21,
+            "break": "2025-11-25"
+          },
+          {
+            "type": "头肩",
+            "pattern": "倒头肩底",
+            "dir": "看涨",
+            "target": 115.33,
+            "days": 35,
+            "break": "2026-05-19"
+          }
+        ]
       }
     },
-    "total_patterns": 0,
+    "total_patterns": 2,
     "report_file": "TL0_pattern_report.html",
-    "report_size": 77
+    "report_size": 81
   }
 ]
