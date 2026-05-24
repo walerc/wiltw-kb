@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>通道投影分析总览</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0d1117;color:#c9d1d9;padding:24px}
+h1{color:#f0c060;font-size:1.3rem;margin-bottom:4px}
+.sub{color:#8b949e;font-size:.8rem;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;background:#161b22;border-radius:8px;overflow:hidden;font-size:.78rem}
+th{background:#1c2128;padding:8px 10px;text-align:left;font-size:.7rem;color:#8b949e;white-space:nowrap}
+td{padding:6px 10px;border-bottom:1px solid #21262d;font-size:.78rem;white-space:nowrap}
+tr:hover td{background:#1c2735}
+.footer{text-align:center;color:#555;font-size:.7rem;margin-top:24px}
+.stat{display:inline-block;background:#161b22;border:1px solid #21262d;border-radius:8px;padding:12px 20px;margin:0 8px 16px 0}
+.stat .val{font-size:1.2rem;font-weight:bold;color:#f0c060}
+.stat .lbl{font-size:.7rem;color:#8b949e}
+.sym-link{color:#58a6ff;text-decoration:none;font-size:.82rem}
+.sym-link:hover{color:#79c0ff;text-decoration:underline}
+.sym-code{font-size:10px;color:#555}
+.btn-view{display:inline-block;padding:4px 10px;background:#1a3a5c;color:#58a6ff;border-radius:4px;text-decoration:none;font-size:.75rem}
+.btn-view:hover{background:#1f4a7a}
+</style>
+</head>
+<body>
+<h1>📐 期货通道投影分析 — 总览</h1>
+<div class="sub">中周期(60日) Raff回归通道 · 上/中/下轨 + D+5/10/20 未来投影</div>
+<div>
+  <div class="stat"><div class="val">41</div><div class="lbl">已分析品种</div></div>
+</div>
+<table>
+<tr>
+  <th>品种</th><th>收盘</th><th>日期</th><th>通道位置</th>
+  <th>上轨</th><th>中轨</th><th>下轨</th><th>宽度</th><th>R²</th>
+  <th>D+5上轨</th><th>D+10上轨</th><th>D+20上轨</th><th>K线</th>
+</tr>
+<tr>
+            <td><a href="A0_channel.html" class="sym-link" target="_blank"><b>豆一</b><br><span class="sym-code">A0</span></a></td>
+            <td>4784</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="A0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="AG0_channel.html" class="sym-link" target="_blank"><b>白银</b><br><span class="sym-code">AG0</span></a></td>
+            <td>18681</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="AG0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="AL0_channel.html" class="sym-link" target="_blank"><b>沪铝</b><br><span class="sym-code">AL0</span></a></td>
+            <td>24505</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="AL0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="AO0_channel.html" class="sym-link" target="_blank"><b>氧化铝</b><br><span class="sym-code">AO0</span></a></td>
+            <td>2717</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="AO0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="AP0_channel.html" class="sym-link" target="_blank"><b>苹果</b><br><span class="sym-code">AP0</span></a></td>
+            <td>7560</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="AP0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="AU0_channel.html" class="sym-link" target="_blank"><b>沪金</b><br><span class="sym-code">AU0</span></a></td>
+            <td>996</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="AU0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="BU0_channel.html" class="sym-link" target="_blank"><b>沥青</b><br><span class="sym-code">BU0</span></a></td>
+            <td>4333</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="BU0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="C0_channel.html" class="sym-link" target="_blank"><b>玉米</b><br><span class="sym-code">C0</span></a></td>
+            <td>2331</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="C0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="CF0_channel.html" class="sym-link" target="_blank"><b>棉花</b><br><span class="sym-code">CF0</span></a></td>
+            <td>15895</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="CF0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="CU0_channel.html" class="sym-link" target="_blank"><b>沪铜</b><br><span class="sym-code">CU0</span></a></td>
+            <td>104870</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="CU0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="FG0_channel.html" class="sym-link" target="_blank"><b>玻璃</b><br><span class="sym-code">FG0</span></a></td>
+            <td>1020</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="FG0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="HC0_channel.html" class="sym-link" target="_blank"><b>热卷</b><br><span class="sym-code">HC0</span></a></td>
+            <td>3385</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="HC0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="I0_channel.html" class="sym-link" target="_blank"><b>铁矿石</b><br><span class="sym-code">I0</span></a></td>
+            <td>792</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="I0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="J0_channel.html" class="sym-link" target="_blank"><b>焦炭</b><br><span class="sym-code">J0</span></a></td>
+            <td>1731</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="J0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="JD0_channel.html" class="sym-link" target="_blank"><b>鸡蛋</b><br><span class="sym-code">JD0</span></a></td>
+            <td>4505</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="JD0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="JM0_channel.html" class="sym-link" target="_blank"><b>焦煤</b><br><span class="sym-code">JM0</span></a></td>
+            <td>1162</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="JM0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="LC0_channel.html" class="sym-link" target="_blank"><b>碳酸锂</b><br><span class="sym-code">LC0</span></a></td>
+            <td>184460</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="LC0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="LH0_channel.html" class="sym-link" target="_blank"><b>生猪</b><br><span class="sym-code">LH0</span></a></td>
+            <td>11190</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="LH0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="M0_channel.html" class="sym-link" target="_blank"><b>豆粕</b><br><span class="sym-code">M0</span></a></td>
+            <td>2990</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="M0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="MA0_channel.html" class="sym-link" target="_blank"><b>甲醇</b><br><span class="sym-code">MA0</span></a></td>
+            <td>2927</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="MA0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="NI0_channel.html" class="sym-link" target="_blank"><b>沪镍</b><br><span class="sym-code">NI0</span></a></td>
+            <td>143330</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="NI0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="P0_channel.html" class="sym-link" target="_blank"><b>棕榈油</b><br><span class="sym-code">P0</span></a></td>
+            <td>9471</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="P0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="PG0_channel.html" class="sym-link" target="_blank"><b>液化气</b><br><span class="sym-code">PG0</span></a></td>
+            <td>5948</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="PG0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="PP0_channel.html" class="sym-link" target="_blank"><b>聚丙烯</b><br><span class="sym-code">PP0</span></a></td>
+            <td>8792</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="PP0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="RB0_channel.html" class="sym-link" target="_blank"><b>螺纹钢</b><br><span class="sym-code">RB0</span></a></td>
+            <td>3168</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="RB0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="RM0_channel.html" class="sym-link" target="_blank"><b>菜粕</b><br><span class="sym-code">RM0</span></a></td>
+            <td>2337</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="RM0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="RU0_channel.html" class="sym-link" target="_blank"><b>橡胶</b><br><span class="sym-code">RU0</span></a></td>
+            <td>17420</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="RU0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SA0_channel.html" class="sym-link" target="_blank"><b>纯碱</b><br><span class="sym-code">SA0</span></a></td>
+            <td>1181</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="SA0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SC0_channel.html" class="sym-link" target="_blank"><b>原油</b><br><span class="sym-code">SC0</span></a></td>
+            <td>641</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="SC0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SH0_channel.html" class="sym-link" target="_blank"><b>烧碱</b><br><span class="sym-code">SH0</span></a></td>
+            <td>2001</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="SH0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SI0_channel.html" class="sym-link" target="_blank"><b>工业硅</b><br><span class="sym-code">SI0</span></a></td>
+            <td>8440</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="SI0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SR0_channel.html" class="sym-link" target="_blank"><b>白糖</b><br><span class="sym-code">SR0</span></a></td>
+            <td>5368</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="SR0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="T0_channel.html" class="sym-link" target="_blank"><b>10年国债</b><br><span class="sym-code">T0</span></a></td>
+            <td>109</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="T0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="TA0_channel.html" class="sym-link" target="_blank"><b>PTA</b><br><span class="sym-code">TA0</span></a></td>
+            <td>6136</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="TA0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="TF0_channel.html" class="sym-link" target="_blank"><b>5年国债</b><br><span class="sym-code">TF0</span></a></td>
+            <td>106</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="TF0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="TL0_channel.html" class="sym-link" target="_blank"><b>30年国债</b><br><span class="sym-code">TL0</span></a></td>
+            <td>113</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="TL0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="TS0_channel.html" class="sym-link" target="_blank"><b>2年国债</b><br><span class="sym-code">TS0</span></a></td>
+            <td>103</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="TS0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="UR0_channel.html" class="sym-link" target="_blank"><b>尿素</b><br><span class="sym-code">UR0</span></a></td>
+            <td>1826</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="UR0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="V0_channel.html" class="sym-link" target="_blank"><b>PVC</b><br><span class="sym-code">V0</span></a></td>
+            <td>4846</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="V0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="Y0_channel.html" class="sym-link" target="_blank"><b>豆油</b><br><span class="sym-code">Y0</span></a></td>
+            <td>8505</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="Y0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="ZN0_channel.html" class="sym-link" target="_blank"><b>沪锌</b><br><span class="sym-code">ZN0</span></a></td>
+            <td>24865</td>
+            <td>2026-05-22</td>
+            <td style="color:#f0c060">—</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0.0%</td>
+            <td>0.00</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td><a href="ZN0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+</table>
+<div class="footer">生成时间: 2026-05-24 21:43 · 通道方法: Raff回归(收盘价) · 通道宽度: ±1.5 SE</div>
+</body>
+</html>
