@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PVC(V0) 形态检测分析</title>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0d1117;color:#c9d1d9;display:flex;height:100vh;overflow:hidden}
+#sidebar{width:340px;min-width:340px;background:#161b22;border-right:1px solid #21262d;overflow-y:auto;padding:16px}
+#main{flex:1;display:flex;flex-direction:column}
+#chart{flex:1;min-height:0}
+#titlebar{padding:12px 20px;border-bottom:1px solid #21262d;background:#161b22}
+#titlebar h1{font-size:1.1rem;color:#f0c060;font-weight:600}
+#titlebar .sub{font-size:.75rem;color:#8b949e;margin-top:2px}
+.section{margin-bottom:20px}
+.section h3{color:#f0c060;font-size:.85rem;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid #21262d}
+.channel-card{background:#0d1117;border:1px solid #21262d;border-radius:6px;padding:10px;margin-bottom:8px;font-size:.75rem}
+.channel-card h4{color:#58a6ff;font-size:.78rem;margin-bottom:6px}
+.channel-card .row{display:flex;justify-content:space-between;margin:2px 0}
+.channel-card .row .lbl{color:#8b949e}
+.channel-card .row .val{color:#c9d1d9;font-weight:500}
+.channel-card .proj{margin-top:6px;padding-top:6px;border-top:1px dashed #30363d}
+.channel-card .proj .title{color:#f0c060;font-size:.7rem;margin-bottom:4px}
+.pattern-item{background:#0d1117;border:1px solid #21262d;border-radius:6px;padding:8px 10px;margin-bottom:6px;font-size:.73rem}
+.pattern-item .type{color:#58a6ff;font-weight:600}
+.pattern-item .name{color:#f0c060}
+.pattern-item .detail{color:#8b949e;margin-top:3px;font-size:.7rem}
+.pattern-item.bullish{border-left:2px solid #ff5050}
+.pattern-item.bearish{border-left:2px solid #00c864}
+.no-data{color:#555;font-size:.75rem;font-style:italic;text-align:center;padding:12px}
+.zone-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600}
+.zone-lower{background:#1b3a1b;color:#3fb950}
+.zone-mid{background:#3a2f0e;color:#f0c060}
+.zone-upper{background:#3a1b1b;color:#f85149}
+.close-price{font-size:1.3rem;font-weight:bold;color:#c9d1d9}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:.73rem}
+.summary-item{background:#0d1117;border:1px solid #21262d;border-radius:4px;padding:6px 8px}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#0d1117}
+::-webkit-scrollbar-thumb{background:#30363d;border-radius:3px}
+#tbtn-bar{display:flex;gap:4px;padding:4px 0}
+.tbtn{background:#21262d;border:1px solid #30363d;color:#8b949e;font-size:.75rem;padding:3px 10px;border-radius:4px;cursor:pointer;transition:all .15s}
+.tbtn:hover{background:#30363d;color:#c9d1d9;border-color:#58a6ff}
+.tbtn.active{background:#1f3a5f;color:#58a6ff;border-color:#58a6ff}
+</style>
+</head>
+<body>
+<div id="sidebar"><div class="section"><div class="close-price">¥4907</div><div style="color:#8b949e;font-size:.7rem">最新收盘</div></div><div class="section"><h3>📊 形态检测</h3><div style="color:#8b949e;font-size:.72rem;margin:4px 0">长周期(150日) · 2个形态</div><div class="pattern-item bearish">
+  <span class="type">三角形</span> <span class="name">对称三角形</span>
+  <span style="background:#1b3a1b;color:#3fb950;font-size:.6rem;padding:1px 5px;border-radius:3px">已完成</span> <span style="color:#3fb950">🎯目标: ¥4571</span> <span style="color:#58a6ff;font-size:.65rem">⏱+82天</span> <span style="color:#f85149">止损: ¥5149</span><br><span style="color:#8b949e;font-size:.6rem">突破日: 2026-05-19</span> <span style="color:#8b949e;font-size:.6rem">形成: 137天</span><br><span style="color:#f0c060;font-size:.65rem">📊 📊 突破放量✓</span></div><div class="pattern-item bearish">
+  <span class="type">三角形</span> <span class="name">对称三角形</span>
+  <span style="background:#1b3a1b;color:#3fb950;font-size:.6rem;padding:1px 5px;border-radius:3px">已完成</span> <span style="color:#3fb950">🎯目标: ¥4203</span> <span style="color:#58a6ff;font-size:.65rem">⏱+95天</span> <span style="color:#f85149">止损: ¥5160</span><br><span style="color:#8b949e;font-size:.6rem">突破日: 2026-05-19</span> <span style="color:#8b949e;font-size:.6rem">形成: 159天</span><br><span style="color:#f0c060;font-size:.65rem">📊 📊 突破放量✓</span></div></div><div class="section">
+<h3>📖 图例 · 点击切换显示</h3>
+<div style="font-size:.7rem;color:#8b949e;line-height:1.8">
+<div style="margin-top:4px;padding-top:4px;border-top:1px solid #21262d">\n<div>📈 MA线 → 点击图例任意均线切换全部</div>\n<div>📊 形态线 → <strong>点击图例逐个切换</strong>（每个形态独立）</div>\n<div style="color:#555;font-size:.65rem">或使用图表上方按钮一键切换大类</div>\n</div>
+</div>
+</div><div class="section">
+<h3>🔍 形态如何看</h3>
+<div style="font-size:.7rem;color:#c9d1d9;line-height:1.8">
+<p>图上<strong>直接画形态线</strong>于K线之上：</p>
+<div style="margin:4px 0 4px 12px">
+<div>▲ <span style="color:#ff5050">三角形</span> → 上下收敛趋势虚线 + 标记点</div>
+<div>● <span style="color:#ff5050">头肩顶/底</span> → 水平颈线 + 左肩/头/右肩圆圈标记</div>
+<div>🚩 <span style="color:#ff5050">旗形</span> → 实心旗杆 + 旗面通道虚线</div>
+<div>🏝 <span style="color:#ff5050">岛型顶</span> / 🏖 <span style="color:#00c864">岛型底</span> → 半透明填充区域</div>
+</div>
+<div style="margin-top:8px;padding-top:8px;border-top:1px solid #21262d">
+<p><strong>阶段标记含义：</strong></p>
+<div style="margin:4px 0 4px 12px">
+<div>🔄 <strong>形成中</strong> — 形态正在构建，尚未确认</div>
+<div>⚡ <strong>逼近突破</strong> — 价格接近关键突破位</div>
+<div>⚠️ <strong>已突破</strong> — 价格已突破形态边界</div>
+</div>
+</div>
+<div style="margin-top:8px;padding-top:8px;border-top:1px solid #21262d">
+<p>📌 <strong>切换操作：</strong></p>
+<p style="color:#8b949e">• 点击图例中单个形态 → 仅切换该形态显示/隐藏</p>
+<p style="color:#8b949e">• 图表上方「📊 形态」按钮 → 一键切换全部形态</p>
+<p style="color:#8b949e">• 同周期多形态用不同线型（实线/虚线/点线）区分</p>
+</div>
+</div>
+</div></div>
+<div id="main">
+  <div id="titlebar">
+    <h1>PVC <span style="font-size:.75rem;color:#8b949e;font-weight:400">V0</span> <span style="font-size:.65rem;color:#555">[形态]</span></h1>
+    <div class="sub">形态状态机检测 · 2026-03-20 ~ 2026-05-25</div>
+    <div id="tbtn-bar">      <button class="tbtn active" onclick="toggleAll()">👁 全部</button>
+      <button class="tbtn" onclick="toggleMA()">📈 均线</button>
+      <button class="tbtn active" id="btn-pt" onclick="togglePT()">📊 形态</button></div>
+  </div>
+  <div id="chart"></div>
+</div>
+<script>
+var plotData = [{"type": "candlestick", "x": ["2026-03-20", "2026-03-20", "2026-03-20", "2026-03-20", "2026-03-20", "2026-03-23", "2026-03-23", "2026-03-23", "2026-03-23", "2026-03-23", "2026-03-23", "2026-03-24", "2026-03-24", "2026-03-24", "2026-03-24", "2026-03-24", "2026-03-24", "2026-03-25", "2026-03-25", "2026-03-25", "2026-03-25", "2026-03-25", "2026-03-25", "2026-03-26", "2026-03-26", "2026-03-26", "2026-03-26", "2026-03-26", "2026-03-26", "2026-03-27", "2026-03-27", "2026-03-27", "2026-03-27", "2026-03-27", "2026-03-27", "2026-03-30", "2026-03-30", "2026-03-30", "2026-03-30", "2026-03-30", "2026-03-30", "2026-03-31", "2026-03-31", "2026-03-31", "2026-03-31", "2026-03-31", "2026-03-31", "2026-04-01", "2026-04-01", "2026-04-01", "2026-04-01", "2026-04-01", "2026-04-01", "2026-04-02", "2026-04-02", "2026-04-02", "2026-04-02", "2026-04-02", "2026-04-02", "2026-04-03", "2026-04-03", "2026-04-03", "2026-04-03", "2026-04-07", "2026-04-07", "2026-04-07", "2026-04-07", "2026-04-07", "2026-04-07", "2026-04-08", "2026-04-08", "2026-04-08", "2026-04-08", "2026-04-08", "2026-04-08", "2026-04-09", "2026-04-09", "2026-04-09", "2026-04-09", "2026-04-09", "2026-04-09", "2026-04-10", "2026-04-10", "2026-04-10", "2026-04-10", "2026-04-10", "2026-04-10", "2026-04-13", "2026-04-13", "2026-04-13", "2026-04-13", "2026-04-13", "2026-04-13", "2026-04-14", "2026-04-14", "2026-04-14", "2026-04-14", "2026-04-14", "2026-04-14", "2026-04-15", "2026-04-15", "2026-04-15", "2026-04-15", "2026-04-15", "2026-04-15", "2026-04-16", "2026-04-16", "2026-04-16", "2026-04-16", "2026-04-16", "2026-04-16", "2026-04-17", "2026-04-17", "2026-04-17", "2026-04-17", "2026-04-17", "2026-04-17", "2026-04-20", "2026-04-20", "2026-04-20", "2026-04-20", "2026-04-20", "2026-04-20", "2026-04-21", "2026-04-21", "2026-04-21", "2026-04-21", "2026-04-21", "2026-04-21", "2026-04-22", "2026-04-22", "2026-04-22", "2026-04-22", "2026-04-22", "2026-04-22", "2026-04-23", "2026-04-23", "2026-04-23", "2026-04-23", "2026-04-23", "2026-04-23", "2026-04-24", "2026-04-24", "2026-04-24", "2026-04-24", "2026-04-24", "2026-04-24", "2026-04-27", "2026-04-27", "2026-04-27", "2026-04-27", "2026-04-27", "2026-04-27", "2026-04-28", "2026-04-28", "2026-04-28", "2026-04-28", "2026-04-28", "2026-04-28", "2026-04-29", "2026-04-29", "2026-04-29", "2026-04-29", "2026-04-29", "2026-04-29", "2026-04-30", "2026-04-30", "2026-04-30", "2026-04-30", "2026-05-06", "2026-05-06", "2026-05-06", "2026-05-06", "2026-05-06", "2026-05-06", "2026-05-07", "2026-05-07", "2026-05-07", "2026-05-07", "2026-05-07", "2026-05-07", "2026-05-08", "2026-05-08", "2026-05-08", "2026-05-08", "2026-05-08", "2026-05-08", "2026-05-11", "2026-05-11", "2026-05-11", "2026-05-11", "2026-05-11", "2026-05-11", "2026-05-12", "2026-05-12", "2026-05-12", "2026-05-12", "2026-05-12", "2026-05-12", "2026-05-13", "2026-05-13", "2026-05-13", "2026-05-13", "2026-05-13", "2026-05-13", "2026-05-14", "2026-05-14", "2026-05-14", "2026-05-14", "2026-05-14", "2026-05-14", "2026-05-15", "2026-05-15", "2026-05-15", "2026-05-15", "2026-05-15", "2026-05-15", "2026-05-18", "2026-05-18", "2026-05-18", "2026-05-18", "2026-05-18", "2026-05-18", "2026-05-19", "2026-05-19", "2026-05-19", "2026-05-19", "2026-05-19", "2026-05-19", "2026-05-20", "2026-05-20", "2026-05-20", "2026-05-20", "2026-05-20", "2026-05-20", "2026-05-21", "2026-05-21", "2026-05-21", "2026-05-21", "2026-05-21", "2026-05-21", "2026-05-22", "2026-05-22", "2026-05-22", "2026-05-22", "2026-05-22", "2026-05-22", "2026-05-25", "2026-05-25", "2026-05-25"], "open": [5849.0, 5859.0, 5837.0, 5907.0, 5993.0, 6104.0, 6189.0, 6247.0, 6346.0, 5988.0, 5951.0, 5997.0, 6038.0, 6004.0, 5914.0, 5926.0, 5864.0, 5640.0, 5601.0, 5681.0, 5702.0, 5694.0, 5644.0, 5697.0, 5613.0, 5627.0, 5682.0, 5735.0, 5647.0, 5610.0, 5571.0, 5573.0, 5592.0, 5680.0, 5695.0, 5741.0, 5727.0, 5672.0, 5581.0, 5529.0, 5443.0, 5478.0, 5436.0, 5346.0, 5412.0, 5352.0, 5372.0, 5409.0, 5385.0, 5401.0, 5314.0, 5305.0, 5310.0, 5301.0, 5446.0, 5509.0, 5517.0, 5633.0, 5425.0, 5403.0, 5421.0, 5418.0, 5442.0, 5464.0, 5432.0, 5410.0, 5407.0, 5413.0, 5340.0, 5144.0, 5230.0, 5189.0, 5168.0, 5127.0, 5188.0, 5232.0, 5142.0, 5109.0, 5096.0, 5091.0, 4997.0, 5000.0, 4984.0, 4950.0, 4962.0, 5072.0, 5049.0, 5074.0, 5080.0, 5090.0, 5111.0, 5085.0, 5050.0, 5030.0, 5008.0, 5012.0, 5021.0, 5027.0, 5083.0, 5071.0, 5113.0, 5124.0, 5114.0, 5108.0, 5080.0, 5078.0, 5077.0, 5067.0, 5062.0, 5109.0, 5102.0, 5109.0, 5100.0, 5139.0, 5098.0, 5033.0, 5087.0, 5158.0, 5113.0, 5159.0, 5133.0, 5142.0, 5140.0, 5127.0, 5116.0, 5115.0, 5105.0, 5128.0, 5138.0, 5176.0, 5169.0, 5243.0, 5215.0, 5264.0, 5219.0, 5211.0, 5179.0, 5189.0, 5176.0, 5175.0, 5210.0, 5211.0, 5177.0, 5176.0, 5176.0, 5144.0, 5170.0, 5187.0, 5232.0, 5237.0, 5232.0, 5229.0, 5228.0, 5206.0, 5191.0, 5210.0, 5299.0, 5348.0, 5278.0, 5279.0, 5285.0, 5282.0, 5298.0, 5320.0, 5283.0, 5286.0, 5286.0, 5315.0, 5288.0, 5264.0, 5304.0, 5288.0, 5313.0, 5280.0, 5222.0, 5226.0, 5133.0, 5147.0, 5161.0, 5130.0, 5148.0, 5190.0, 5189.0, 5179.0, 5159.0, 5146.0, 5110.0, 5145.0, 5139.0, 5156.0, 5150.0, 5129.0, 5130.0, 5143.0, 5124.0, 5111.0, 5096.0, 5099.0, 5087.0, 5104.0, 5108.0, 5105.0, 5114.0, 5228.0, 5174.0, 5151.0, 5117.0, 5096.0, 5086.0, 5056.0, 5077.0, 5089.0, 5088.0, 5086.0, 5050.0, 5033.0, 5024.0, 5036.0, 5060.0, 5080.0, 5125.0, 5079.0, 5033.0, 5062.0, 5024.0, 5040.0, 5050.0, 5049.0, 5026.0, 4992.0, 4992.0, 4985.0, 4956.0, 4940.0, 4931.0, 4926.0, 4946.0, 4949.0, 4883.0, 4869.0, 4861.0, 4854.0, 4815.0, 4839.0, 4834.0, 4837.0, 4850.0, 4905.0, 4923.0, 4879.0], "high": [5883.0, 5876.0, 5884.0, 5996.0, 6098.0, 6197.0, 6268.0, 6360.0, 6364.0, 6043.0, 5985.0, 6063.0, 6055.0, 6056.0, 5954.0, 5955.0, 5870.0, 5754.0, 5685.0, 5728.0, 5715.0, 5711.0, 5678.0, 5714.0, 5644.0, 5699.0, 5688.0, 5754.0, 5655.0, 5651.0, 5593.0, 5622.0, 5615.0, 5706.0, 5703.0, 5762.0, 5765.0, 5679.0, 5587.0, 5529.0, 5496.0, 5499.0, 5440.0, 5415.0, 5412.0, 5394.0, 5411.0, 5417.0, 5445.0, 5422.0, 5328.0, 5338.0, 5326.0, 5458.0, 5534.0, 5543.0, 5518.0, 5633.0, 5436.0, 5460.0, 5434.0, 5448.0, 5444.0, 5464.0, 5439.0, 5518.0, 5454.0, 5420.0, 5373.0, 5253.0, 5253.0, 5208.0, 5171.0, 5194.0, 5217.0, 5249.0, 5142.0, 5123.0, 5105.0, 5100.0, 5017.0, 5014.0, 4997.0, 4985.0, 4977.0, 5072.0, 5075.0, 5118.0, 5096.0, 5127.0, 5113.0, 5098.0, 5060.0, 5056.0, 5022.0, 5027.0, 5045.0, 5126.0, 5092.0, 5113.0, 5142.0, 5138.0, 5117.0, 5133.0, 5098.0, 5088.0, 5103.0, 5073.0, 5117.0, 5119.0, 5115.0, 5125.0, 5151.0, 5141.0, 5104.0, 5107.0, 5141.0, 5164.0, 5160.0, 5176.0, 5154.0, 5160.0, 5164.0, 5136.0, 5132.0, 5136.0, 5141.0, 5146.0, 5177.0, 5177.0, 5250.0, 5253.0, 5235.0, 5265.0, 5227.0, 5221.0, 5209.0, 5206.0, 5190.0, 5227.0, 5214.0, 5224.0, 5188.0, 5187.0, 5185.0, 5196.0, 5183.0, 5247.0, 5242.0, 5248.0, 5240.0, 5250.0, 5230.0, 5217.0, 5219.0, 5304.0, 5360.0, 5370.0, 5296.0, 5295.0, 5315.0, 5309.0, 5305.0, 5321.0, 5285.0, 5320.0, 5315.0, 5318.0, 5305.0, 5333.0, 5338.0, 5340.0, 5332.0, 5289.0, 5233.0, 5243.0, 5152.0, 5169.0, 5166.0, 5158.0, 5179.0, 5194.0, 5195.0, 5182.0, 5162.0, 5152.0, 5135.0, 5159.0, 5164.0, 5164.0, 5153.0, 5135.0, 5144.0, 5154.0, 5149.0, 5112.0, 5108.0, 5099.0, 5104.0, 5115.0, 5131.0, 5115.0, 5229.0, 5256.0, 5183.0, 5162.0, 5126.0, 5116.0, 5095.0, 5082.0, 5105.0, 5104.0, 5108.0, 5089.0, 5052.0, 5040.0, 5031.0, 5071.0, 5101.0, 5144.0, 5130.0, 5079.0, 5064.0, 5064.0, 5055.0, 5062.0, 5059.0, 5068.0, 5031.0, 5002.0, 5001.0, 4987.0, 4963.0, 4956.0, 4945.0, 4964.0, 4963.0, 4953.0, 4885.0, 4890.0, 4869.0, 4862.0, 4843.0, 4853.0, 4852.0, 4859.0, 4854.0, 4949.0, 4932.0, 4910.0], "low": [5824.0, 5794.0, 5832.0, 5872.0, 5960.0, 6061.0, 6108.0, 6225.0, 6228.0, 5900.0, 5902.0, 5930.0, 5974.0, 5932.0, 5853.0, 5857.0, 5713.0, 5562.0, 5586.0, 5666.0, 5659.0, 5555.0, 5611.0, 5604.0, 5577.0, 5623.0, 5622.0, 5632.0, 5573.0, 5582.0, 5537.0, 5550.0, 5576.0, 5614.0, 5653.0, 5677.0, 5635.0, 5572.0, 5533.0, 5436.0, 5438.0, 5403.0, 5314.0, 5326.0, 5346.0, 5321.0, 5341.0, 5337.0, 5381.0, 5286.0, 5256.0, 5270.0, 5296.0, 5285.0, 5413.0, 5499.0, 5476.0, 5418.0, 5346.0, 5390.0, 5376.0, 5353.0, 5397.0, 5365.0, 5355.0, 5385.0, 5395.0, 5313.0, 5325.0, 5099.0, 5179.0, 5162.0, 5115.0, 5126.0, 5174.0, 5139.0, 5073.0, 5086.0, 5084.0, 4982.0, 4965.0, 4971.0, 4929.0, 4949.0, 4945.0, 5020.0, 5043.0, 5070.0, 5064.0, 5090.0, 5087.0, 5044.0, 5037.0, 4985.0, 4995.0, 4999.0, 5017.0, 5024.0, 5066.0, 5048.0, 5109.0, 5101.0, 5087.0, 5077.0, 5072.0, 5067.0, 5044.0, 5045.0, 5056.0, 5080.0, 5096.0, 5086.0, 5099.0, 5093.0, 5081.0, 5008.0, 5086.0, 5106.0, 5107.0, 5124.0, 5128.0, 5126.0, 5124.0, 5104.0, 5104.0, 5092.0, 5101.0, 5124.0, 5135.0, 5151.0, 5164.0, 5214.0, 5208.0, 5215.0, 5208.0, 5170.0, 5175.0, 5175.0, 5174.0, 5175.0, 5195.0, 5160.0, 5165.0, 5162.0, 5144.0, 5133.0, 5168.0, 5187.0, 5211.0, 5218.0, 5226.0, 5216.0, 5198.0, 5186.0, 5183.0, 5206.0, 5294.0, 5273.0, 5274.0, 5266.0, 5253.0, 5279.0, 5291.0, 5273.0, 5269.0, 5280.0, 5276.0, 5286.0, 5272.0, 5254.0, 5278.0, 5287.0, 5307.0, 5207.0, 5205.0, 5131.0, 5126.0, 5147.0, 5151.0, 5121.0, 5146.0, 5169.0, 5165.0, 5157.0, 5137.0, 5108.0, 5105.0, 5128.0, 5136.0, 5145.0, 5123.0, 5105.0, 5130.0, 5120.0, 5112.0, 5071.0, 5088.0, 5065.0, 5083.0, 5078.0, 5105.0, 5092.0, 5102.0, 5162.0, 5152.0, 5113.0, 5087.0, 5072.0, 5055.0, 5052.0, 5075.0, 5084.0, 5086.0, 5047.0, 5024.0, 5008.0, 5006.0, 5026.0, 5060.0, 5072.0, 5107.0, 5029.0, 5033.0, 5022.0, 5019.0, 5039.0, 5042.0, 5020.0, 4971.0, 4956.0, 4976.0, 4946.0, 4946.0, 4925.0, 4921.0, 4925.0, 4941.0, 4875.0, 4863.0, 4853.0, 4853.0, 4808.0, 4805.0, 4832.0, 4829.0, 4827.0, 4843.0, 4892.0, 4879.0, 4868.0], "close": [5859.0, 5837.0, 5875.0, 5993.0, 6098.0, 6191.0, 6245.0, 6346.0, 6251.0, 5960.0, 5930.0, 6012.0, 6004.0, 5941.0, 5853.0, 5863.0, 5752.0, 5592.0, 5681.0, 5702.0, 5703.0, 5644.0, 5669.0, 5611.0, 5628.0, 5683.0, 5650.0, 5647.0, 5613.0, 5593.0, 5572.0, 5591.0, 5615.0, 5696.0, 5677.0, 5728.0, 5665.0, 5579.0, 5551.0, 5443.0, 5481.0, 5439.0, 5347.0, 5413.0, 5353.0, 5373.0, 5409.0, 5390.0, 5401.0, 5314.0, 5256.0, 5309.0, 5323.0, 5445.0, 5509.0, 5517.0, 5494.0, 5424.0, 5389.0, 5422.0, 5418.0, 5443.0, 5428.0, 5431.0, 5410.0, 5407.0, 5398.0, 5339.0, 5355.0, 5232.0, 5189.0, 5168.0, 5160.0, 5187.0, 5215.0, 5142.0, 5109.0, 5095.0, 5093.0, 4997.0, 5015.0, 4985.0, 4950.0, 4964.0, 4952.0, 5050.0, 5075.0, 5076.0, 5092.0, 5111.0, 5092.0, 5050.0, 5053.0, 5007.0, 5012.0, 5021.0, 5040.0, 5084.0, 5082.0, 5110.0, 5125.0, 5113.0, 5100.0, 5079.0, 5088.0, 5076.0, 5067.0, 5061.0, 5109.0, 5102.0, 5110.0, 5100.0, 5138.0, 5099.0, 5093.0, 5087.0, 5134.0, 5114.0, 5159.0, 5133.0, 5147.0, 5139.0, 5128.0, 5117.0, 5115.0, 5105.0, 5134.0, 5137.0, 5176.0, 5169.0, 5243.0, 5215.0, 5230.0, 5220.0, 5209.0, 5180.0, 5193.0, 5177.0, 5189.0, 5209.0, 5195.0, 5175.0, 5176.0, 5177.0, 5153.0, 5170.0, 5174.0, 5231.0, 5237.0, 5231.0, 5228.0, 5227.0, 5202.0, 5191.0, 5210.0, 5299.0, 5358.0, 5278.0, 5281.0, 5284.0, 5281.0, 5299.0, 5295.0, 5283.0, 5280.0, 5285.0, 5314.0, 5288.0, 5272.0, 5308.0, 5290.0, 5314.0, 5319.0, 5221.0, 5219.0, 5134.0, 5148.0, 5160.0, 5163.0, 5148.0, 5174.0, 5188.0, 5178.0, 5160.0, 5145.0, 5110.0, 5124.0, 5139.0, 5156.0, 5150.0, 5133.0, 5130.0, 5141.0, 5124.0, 5112.0, 5095.0, 5105.0, 5086.0, 5103.0, 5107.0, 5106.0, 5114.0, 5229.0, 5174.0, 5156.0, 5118.0, 5096.0, 5085.0, 5056.0, 5077.0, 5083.0, 5088.0, 5092.0, 5051.0, 5027.0, 5024.0, 5026.0, 5060.0, 5080.0, 5125.0, 5109.0, 5034.0, 5062.0, 5024.0, 5041.0, 5050.0, 5050.0, 5027.0, 4989.0, 4993.0, 4984.0, 4962.0, 4947.0, 4931.0, 4928.0, 4946.0, 4950.0, 4884.0, 4865.0, 4861.0, 4862.0, 4812.0, 4840.0, 4835.0, 4846.0, 4849.0, 4852.0, 4921.0, 4879.0, 4907.0], "name": "K线", "increasing": {"line": {"color": "#ef5350"}, "fillcolor": "#ef5350"}, "decreasing": {"line": {"color": "#26a69a"}, "fillcolor": "#26a69a"}, "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2026-04-22", "2026-06-02"], "y": [5227.0, 4969.961538461037], "mode": "lines", "name": "长周期(150日)▲对称三角形 上轨", "line": {"color": "#ff5050", "width": 2.5, "dash": "dash"}, "opacity": 0.9, "showlegend": true, "legendgroup": "pt_L_tri_0", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2026-04-10", "2026-06-02"], "y": [5043.0, 4986.971428571502], "mode": "lines", "name": "长周期(150日)▲对称三角形 下轨", "line": {"color": "#00c864", "width": 2.5, "dash": "dash"}, "opacity": 0.9, "showlegend": true, "legendgroup": "pt_L_tri_0", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2026-05-19"], "y": [5024.0], "mode": "markers", "name": "长周期(150日)▲对称三角形 突破", "marker": {"size": 14, "symbol": "diamond", "color": "#f0c060", "line": {"color": "#fff", "width": 2}}, "showlegend": false, "legendgroup": "pt_L_tri_0", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2026-04-22", "2026-05-18"], "y": [4571.0, 4571.0], "mode": "lines", "name": "长周期(150日)▲对称三角形 目标", "line": {"color": "#f0c060", "width": 1.5, "dash": "dot"}, "opacity": 0.7, "showlegend": false, "legendgroup": "pt_L_tri_0", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2026-06-02"], "y": [4969.96], "mode": "markers", "name": "长周期(150日)▲对称三角形 apex", "marker": {"size": 8, "symbol": "x-thin", "color": "#8b949e", "line": {"width": 2}}, "showlegend": false, "legendgroup": "pt_L_tri_0", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2026-04-02", "2026-05-28"], "y": [5436.0, 5090.439024390653], "mode": "lines", "name": "长周期(150日)▲对称三角形 上轨", "line": {"color": "#ff5050", "width": 2.5, "dash": "dash"}, "opacity": 0.9, "showlegend": true, "legendgroup": "pt_L_tri_1", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2026-04-10", "2026-05-28"], "y": [5043.0, 4992.257142857183], "mode": "lines", "name": "长周期(150日)▲对称三角形 下轨", "line": {"color": "#00c864", "width": 2.5, "dash": "dash"}, "opacity": 0.9, "showlegend": true, "legendgroup": "pt_L_tri_1", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2026-05-19"], "y": [5024.0], "mode": "markers", "name": "长周期(150日)▲对称三角形 突破", "marker": {"size": 14, "symbol": "diamond", "color": "#f0c060", "line": {"color": "#fff", "width": 2}}, "showlegend": false, "legendgroup": "pt_L_tri_1", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2026-04-02", "2026-05-13"], "y": [4203.0, 4203.0], "mode": "lines", "name": "长周期(150日)▲对称三角形 目标", "line": {"color": "#f0c060", "width": 1.5, "dash": "dot"}, "opacity": 0.7, "showlegend": false, "legendgroup": "pt_L_tri_1", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2026-05-28"], "y": [5090.44], "mode": "markers", "name": "长周期(150日)▲对称三角形 apex", "marker": {"size": 8, "symbol": "x-thin", "color": "#8b949e", "line": {"width": 2}}, "showlegend": false, "legendgroup": "pt_L_tri_1", "xaxis": "x", "yaxis": "y"}];
+var layout = {"title": null, "xaxis": {"rangeslider": {"visible": false}, "type": "category", "showgrid": true, "gridcolor": "#21262d", "tickfont": {"color": "#8b949e", "size": 10}}, "yaxis": {"title": "价格", "showgrid": true, "gridcolor": "#21262d", "tickfont": {"color": "#8b949e", "size": 10}, "side": "right"}, "plot_bgcolor": "#0d1117", "paper_bgcolor": "#0d1117", "font": {"color": "#c9d1d9"}, "margin": {"l": 10, "r": 80, "t": 30, "b": 40}, "legend": {"orientation": "h", "yanchor": "top", "y": 1.12, "xanchor": "left", "x": 0, "font": {"color": "#8b949e", "size": 10}, "bgcolor": "rgba(0,0,0,0)"}, "hovermode": "x unified", "shapes": [], "annotations": [{"x": "2026-04-22", "y": 5227.0, "xref": "x", "yref": "y", "text": "<b>P1</b> 04-22 ¥5,227", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2026-04-28", "y": 5296.0, "xref": "x", "yref": "y", "text": "<b>P2</b> 04-28 ¥5,296", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2026-05-13", "y": 5183.0, "xref": "x", "yref": "y", "text": "<b>P3</b> 05-13 ¥5,183", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2026-05-18", "y": 5064.0, "xref": "x", "yref": "y", "text": "<b>P4</b> 05-18 ¥5,064", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2026-04-10", "y": 5043.0, "xref": "x", "yref": "y", "text": "<b>T1</b> 04-10 ¥5,043", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2026-04-24", "y": 5168.0, "xref": "x", "yref": "y", "text": "<b>T2</b> 04-24 ¥5,168", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2026-05-12", "y": 5083.0, "xref": "x", "yref": "y", "text": "<b>T3</b> 05-12 ¥5,083", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2026-05-15", "y": 5006.0, "xref": "x", "yref": "y", "text": "<b>T4</b> 05-15 ¥5,006", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2026-05-19", "y": 5024.0, "xref": "x", "yref": "y", "text": "⚡突破 05-19 ¥5,024", "showarrow": true, "arrowhead": 3, "arrowwidth": 2, "arrowcolor": "#f0c060", "ax": 15, "ay": -25, "font": {"size": 10, "color": "#1a1a2e"}, "bgcolor": "#f0c060", "borderpad": 4}, {"x": "2026-05-18", "y": 4571.0, "xref": "x", "yref": "y", "text": "🎯 目标 ¥4,571", "showarrow": false, "font": {"size": 10, "color": "#f0c060"}, "bgcolor": "rgba(0,0,0,0)", "borderpad": 2, "xanchor": "left"}, {"x": "2026-04-02", "y": 5436.0, "xref": "x", "yref": "y", "text": "<b>P1</b> 04-02 ¥5,436", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2026-04-13", "y": 5060.0, "xref": "x", "yref": "y", "text": "<b>P2</b> 04-13 ¥5,060", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2026-04-22", "y": 5227.0, "xref": "x", "yref": "y", "text": "<b>P3</b> 04-22 ¥5,227", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2026-04-28", "y": 5296.0, "xref": "x", "yref": "y", "text": "<b>P4</b> 04-28 ¥5,296", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2026-05-13", "y": 5183.0, "xref": "x", "yref": "y", "text": "<b>P5</b> 05-13 ¥5,183", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2026-04-10", "y": 5043.0, "xref": "x", "yref": "y", "text": "<b>T1</b> 04-10 ¥5,043", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2026-04-14", "y": 5066.0, "xref": "x", "yref": "y", "text": "<b>T2</b> 04-14 ¥5,066", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2026-04-24", "y": 5168.0, "xref": "x", "yref": "y", "text": "<b>T3</b> 04-24 ¥5,168", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2026-05-12", "y": 5083.0, "xref": "x", "yref": "y", "text": "<b>T4</b> 05-12 ¥5,083", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2026-05-15", "y": 5006.0, "xref": "x", "yref": "y", "text": "<b>T5</b> 05-15 ¥5,006", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2026-05-19", "y": 5024.0, "xref": "x", "yref": "y", "text": "⚡突破 05-19 ¥5,024", "showarrow": true, "arrowhead": 3, "arrowwidth": 2, "arrowcolor": "#f0c060", "ax": 15, "ay": -25, "font": {"size": 10, "color": "#1a1a2e"}, "bgcolor": "#f0c060", "borderpad": 4}, {"x": "2026-05-13", "y": 4203.0, "xref": "x", "yref": "y", "text": "🎯 目标 ¥4,203", "showarrow": false, "font": {"size": 10, "color": "#f0c060"}, "bgcolor": "rgba(0,0,0,0)", "borderpad": 2, "xanchor": "left"}], "dragmode": "pan"};
+var config = {"displayModeBar": true, "modeBarButtonsToRemove": ["lasso2d", "select2d", "autoScale2d"], "displaylogo": false, "responsive": true, "edits": {"annotationPosition": false, "annotationText": false, "annotationTail": false}};
+var gd = null;
+var allVis = [], visNoMA = [], visNoCH = [], visNoPT = [];
+var fullAnnos = [], emptyAnnos = [];
+var ptShowing = true, maShowing = true, chShowing = true;
+
+function initToggles() {
+    var n = gd.data.length;
+    fullAnnos = (gd.layout.annotations || []).slice();
+    for (var i = 0; i < n; i++) {
+        allVis.push(true);
+        var lg = gd.data[i].legendgroup || '';
+        visNoMA.push(lg !== 'ma');
+        visNoCH.push(!lg.startsWith('ch_'));
+        visNoPT.push(!lg.startsWith('pt_'));
+    }
+}
+
+function setBtnState(id, active) {
+    var b = document.getElementById(id);
+    if (b) b.className = 'tbtn' + (active ? ' active' : '');
+}
+
+function toggleAll() {
+    Plotly.restyle(gd, 'visible', allVis);
+    Plotly.relayout(gd, {'annotations': fullAnnos});
+    ptShowing = maShowing = chShowing = true;
+    setBtnState('btn-ma', false); setBtnState('btn-ch', false); setBtnState('btn-pt', true);
+}
+
+function toggleMA() {
+    maShowing = !maShowing;
+    var vis = maShowing ? allVis : visNoMA;
+    Plotly.restyle(gd, 'visible', vis);
+    setBtnState('btn-ma', maShowing);
+}
+
+function toggleCH() {
+    chShowing = !chShowing;
+    var vis = chShowing ? allVis : visNoCH;
+    Plotly.restyle(gd, 'visible', vis);
+    setBtnState('btn-ch', chShowing);
+}
+
+function togglePT() {
+    ptShowing = !ptShowing;
+    var vis = ptShowing ? allVis : visNoPT;
+    Plotly.restyle(gd, 'visible', vis);
+    Plotly.relayout(gd, {'annotations': ptShowing ? fullAnnos : emptyAnnos});
+    setBtnState('btn-pt', ptShowing);
+}
+
+Plotly.newPlot('chart', plotData, layout, config).then(function(g) {
+    gd = g;
+    document.getElementById('sidebar').scrollTop = 0;
+    initToggles();
+});
+window.addEventListener('resize', function() { if (gd) Plotly.Plots.resize('chart'); });
+</script>
+</body>
+</html>
