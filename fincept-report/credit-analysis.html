@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fincept API 免费额度能撑多久</title>
+<style>
+  :root{--bg:#0f1419;--card:#1a1f2e;--border:#2a3040;--text:#d0d6e0;--text2:#8892a4;--accent:#4da6ff;--green:#3fb950;--red:#f85149;--yellow:#e2b84c}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+  header{background:linear-gradient(135deg,#1a1f2e,#0d2137);border-bottom:1px solid var(--border);padding:45px 20px 35px;text-align:center}
+  header h1{font-size:1.8em;color:#fff;margin-bottom:6px}
+  .container{max-width:900px;margin:0 auto;padding:30px 24px}
+  h2{font-size:1.15em;color:#fff;margin:30px 0 12px;padding-bottom:6px;border-bottom:2px solid var(--accent)}
+  h3{font-size:1em;color:var(--accent);margin:20px 0 8px}
+  p,li{font-size:.9em;margin-bottom:5px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin:12px 0}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.82em}
+  th{background:var(--card);color:var(--accent);text-align:left;padding:7px 10px;border-bottom:2px solid var(--border)}
+  td{padding:7px 10px;border-bottom:1px solid var(--border)}
+  tr:nth-child(even) td{background:#161c26}
+  .big-num{font-size:3em;font-weight:700;text-align:center;margin:12px 0}
+  .scenario-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:16px 0}
+  .scenario{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center}
+  .scenario h4{color:var(--accent);margin-bottom:8px}
+  .scenario .dur{font-size:1.5em;font-weight:700;color:var(--green)}
+  .scenario .detail{font-size:.75em;color:var(--text2);margin-top:4px}
+  .highlight{background:linear-gradient(135deg,#1a2a1a,#0d1a0d);border-left:4px solid var(--green);padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;font-size:.9em}
+  .key-insight{font-size:1.05em;color:#f0c060;font-weight:700}
+  footer{text-align:center;padding:30px 20px;color:#556;font-size:.78em;border-top:1px solid var(--border);margin-top:40px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>💰 Fincept API 免费额度使用分析</h1>
+  <p>350 credits · 永不过期 · 不同场景下的使用时长估算</p>
+</header>
+
+<div class="container">
+
+<h2>一、计费规则</h2>
+
+<table>
+  <tr><th>端点层级</th><th>每次消耗</th><th>典型端点</th><th>免费用户可调？</th></tr>
+  <tr><td><strong>Free</strong></td><td style="color:var(--green)">0 credits</td><td>日期/日历/现金流调度（65个）</td><td>✅ 无限制</td></tr>
+  <tr><td><strong>Basic</strong></td><td>1 credit</td><td>统计分布/数值方法/求解器/经济学（65个）</td><td>✅</td></tr>
+  <tr><td><strong>Standard</strong></td><td>2 credits</td><td>BS定价/收益率曲线/波动率曲面/分析（48个）</td><td>✅</td></tr>
+  <tr><td><strong>Pro</strong></td><td>5 credits</td><td>VaR/高级模型(Heston/MC)/ML/监管（124个）</td><td>✅</td></tr>
+</table>
+
+<h2>二、不同使用强度下的时长</h2>
+
+<div class="scenario-grid">
+  <div class="scenario">
+    <h4>🟢 轻度使用</h4>
+    <p style="color:var(--text2)">每周5次BS定价 + 2次VaR</p>
+    <p style="font-size:.78em">5×2 + 2×5 = 20 credits/周</p>
+    <div class="dur">~17周<br>(4个月)</div>
+    <div class="detail">开发验证足够了</div>
+  </div>
+  <div class="scenario">
+    <h4>🟡 中度使用</h4>
+    <p style="color:var(--text2)">每周10次BS + 5次VaR + 5次曲线</p>
+    <p style="font-size:.78em">10×2 + 5×5 + 5×2 = 55 credits/周</p>
+    <div class="dur">~6周<br>(1.5个月)</div>
+    <div class="detail">够深度开发一轮</div>
+  </div>
+  <div class="scenario">
+    <h4>🔴 重度使用</h4>
+    <p style="color:var(--text2)">每日5次Pro + 10次Standard</p>
+    <p style="font-size:.78em">(5×5+10×2)×5 = 175 credits/周</p>
+    <div class="dur">~2周</div>
+    <div class="detail">需升级Basic包</div>
+  </div>
+</div>
+
+<h2>三、关键发现：BS定价根本不需要消耗 credits</h2>
+
+<div class="highlight">
+  <p class="key-insight">💡 我们本地已经装了 QuantLib-Python，Black-Scholes 定价在自己电脑上跑，零 credits。</p>
+  <p>Fincept API 的真正价值是那些本地没有封装的 <strong>Pro 层端点</strong>：
+  Heston模型、蒙特卡洛模拟、奇异期权定价、压力测试、CVA/DVA、FRTB合规计算。</p>
+</div>
+
+<h2>四、实际使用估算（本地BS + API仅Pro层）</h2>
+
+<table>
+  <tr><th>场景</th><th>本地处理（0 credits）</th><th>API调用（5 credits/次）</th><th>周消耗</th><th>350 credits 撑多久</th></tr>
+  <tr>
+    <td><strong>期权联动研究</strong></td>
+    <td>BS定价/Greeks/IV（每周20+次）</td>
+    <td>Heston校准 2次<br>奇异期权 2次<br>VaR 1次</td>
+    <td>25 cr</td>
+    <td style="color:var(--green)"><strong>14周（3.5个月）</strong></td>
+  </tr>
+  <tr>
+    <td><strong>组合风险管理</strong></td>
+    <td>PyPortfolioOpt优化<br>历史VaR</td>
+    <td>蒙特卡洛VaR 2次<br>压力测试 1次</td>
+    <td>15 cr</td>
+    <td style="color:var(--green)"><strong>23周（5.5个月）</strong></td>
+  </tr>
+  <tr>
+    <td><strong>混合使用</strong></td>
+    <td>BS + Greeks + 组合优化</td>
+    <td>Heston 2次 + MC VaR 1次<br>+ 曲线拟合 2次(标准=2cr)</td>
+    <td>~20 cr</td>
+    <td style="color:var(--green)"><strong>17周（4个月）</strong></td>
+  </tr>
+</table>
+
+<h2>五、超出免费额度后</h2>
+
+<table>
+  <tr><th>套餐</th><th>价格</th><th>credits</th><th>按混合使用(20cr/周)可撑</th></tr>
+  <tr><td>免费</td><td>$0</td><td>350</td><td>~4个月</td></tr>
+  <tr><td>Basic</td><td>$19</td><td>5,000</td><td>~5年</td></tr>
+  <tr><td>Standard</td><td>$49</td><td>15,000</td><td>~14年</td></tr>
+</table>
+
+<div class="highlight" style="border-left-color:var(--accent);background:linear-gradient(135deg,#1a2a3a,#0d2137)">
+  <p style="font-size:1em;margin:0"><strong>结论：</strong>混合架构下（本地BS+组合优化，API仅高级模型），350免费credits足够使用<strong>3-5个月</strong>。即使需要升级，$19的Basic包买一次就能用<strong>5年</strong>（以当前使用量估算）。本质上是零成本。</p>
+</div>
+
+</div>
+
+<footer>Hermes 分析 · 2026年5月</footer>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fincept → Hermes 工具集成方案</title>
+<style>
+  :root{--bg:#0f1419;--card:#1a1f2e;--border:#2a3040;--text:#d0d6e0;--text2:#8892a4;--accent:#4da6ff;--green:#3fb950;--red:#f85149;--yellow:#e2b84c}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+  header{background:linear-gradient(135deg,#1a1f2e,#0d2137);border-bottom:1px solid var(--border);padding:50px 20px 40px;text-align:center}
+  header h1{font-size:2em;color:#fff;margin-bottom:8px}
+  header p{color:var(--text2);font-size:.95em;max-width:700px;margin:0 auto}
+  .container{max-width:920px;margin:0 auto;padding:36px 24px}
+  h2{font-size:1.3em;color:#fff;margin:40px 0 16px;padding-bottom:8px;border-bottom:2px solid var(--accent)}
+  h3{font-size:1.05em;color:var(--accent);margin:26px 0 10px}
+  p,li{font-size:.94em;margin-bottom:8px}
+  a{color:var(--accent)}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px;margin:16px 0}
+  .highlight{border-left:4px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0}
+  .highlight.good{border-left-color:var(--green);background:linear-gradient(135deg,#1a2a1a,#0d1a0d)}
+  ul,ol{margin:8px 0 12px 22px}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.85em}
+  th{background:var(--card);color:var(--accent);text-align:left;padding:8px 12px;border-bottom:2px solid var(--border)}
+  td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+  tr:nth-child(even) td{background:#161c26}
+  .tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.76em;font-weight:600}
+  .tag-pro{background:#1a3a2a;color:var(--green)}
+  .tag-warn{background:#3a2f0e;color:var(--yellow)}
+  pre{background:#141820;border:1px solid #2a3040;border-radius:6px;padding:14px;overflow-x:auto;font-size:.82em;line-height:1.6;margin:10px 0}
+  code{color:#e6db74;font-family:"SF Mono","Fira Code",monospace}
+  .arch{display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;margin:24px 0;font-size:.85em}
+  .arch-box{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:18px 24px;text-align:center;min-width:120px}
+  .arch-box.user{border-color:var(--yellow)}
+  .arch-box.hermes{border-color:var(--accent)}
+  .arch-box.fincept{border-color:var(--green)}
+  .arch-arrow{font-size:1.8em;color:var(--text2)}
+  footer{text-align:center;padding:36px 20px;color:#556;font-size:.82em;border-top:1px solid var(--border);margin-top:50px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🔗 Fincept → Hermes 工具集成方案</h1>
+  <p>将 Fincept 定位为 Hermes 的远程量化引擎，通过 REST API 受控调用</p>
+</header>
+
+<div class="container">
+
+<div class="arch">
+  <div class="arch-box user"><strong>🧑 你</strong><br>下达研究任务</div>
+  <div class="arch-arrow">→</div>
+  <div class="arch-box hermes"><strong>🤖 Hermes</strong><br>编排、调度、整合<br>自有工具 + Fincept</div>
+  <div class="arch-arrow">⇄</div>
+  <div class="arch-box fincept"><strong>📡 Fincept API</strong><br>QuantLib 497端点<br>期权定价/风控/ML</div>
+</div>
+
+<h2>一、关键发现：Fincept 提供 REST API</h2>
+
+<div class="highlight good">
+  <strong>好消息：</strong>Fincept 不仅是一个桌面应用，还提供了一个完整的 <strong>REST API 服务</strong>（<code>api.fincept.in</code>），无需安装桌面端，通过 HTTP 请求即可调用。这完美契合你设想的架构——Hermes 作为控制器，Fincept 作为可编程工具。
+</div>
+
+<table>
+  <tr><th style="width:120px">特性</th><th>详情</th></tr>
+  <tr><td><strong>API 端点</strong></td><td><code>https://api.fincept.in</code></td></tr>
+  <tr><td><strong>模块</strong></td><td>18 个 QuantLib 模块，497+ 端点</td></tr>
+  <tr><td><strong>认证</strong></td><td><code>X-API-Key</code> Header，免费注册获取</td></tr>
+  <tr><td><strong>免费额度</strong></td><td>350 credits + 51 个核心端点（无需信用卡）</td></tr>
+  <tr><td><strong>付费</strong></td><td>一次性信用包，非订阅制——买多少用多少</td></tr>
+  <tr><td><strong>响应格式</strong></td><td>JSON，标准 RESTful</td></tr>
+  <tr><td><strong>API 文档</strong></td><td><a href="https://fincept.mintlify.app/" target="_blank">fincept.mintlify.app</a></td></tr>
+</table>
+
+<h2>二、Fincept 能补充 Hermes 什么？</h2>
+
+<table>
+  <tr><th>能力</th><th>Hermes 现状</th><th>Fincept API 补充</th><th>优先级</th></tr>
+  <tr>
+    <td><strong>期权定价 & Greeks</strong></td>
+    <td>无</td>
+    <td>Black-Scholes / Heston / Monte Carlo<br>Delta/Gamma/Vega/Theta/Rho 一键计算</td>
+    <td><span class="tag tag-pro">P0</span></td>
+  </tr>
+  <tr>
+    <td><strong>投资组合优化</strong></td>
+    <td>无</td>
+    <td>均值-方差 / Black-Litterman / 风险平价<br>有效前沿 / 最优配置</td>
+    <td><span class="tag tag-pro">P0</span></td>
+  </tr>
+  <tr>
+    <td><strong>VaR / 风险管理</strong></td>
+    <td>无</td>
+    <td>参数VaR / 历史VaR / CVA<br>压力测试 / 情景分析</td>
+    <td><span class="tag tag-pro">P1</span></td>
+  </tr>
+  <tr>
+    <td><strong>固定收益 / 收益率曲线</strong></td>
+    <td>无</td>
+    <td>Nelson-Siegel曲线拟合<br>久期/凸性/关键利率久期</td>
+    <td><span class="tag tag-warn">P2</span></td>
+  </tr>
+  <tr>
+    <td><strong>ML/统计模型</strong></td>
+    <td>基础（scipy）</td>
+    <td>神经网络/随机森林用于金融数据<br>量子启发优化算法</td>
+    <td><span class="tag tag-warn">P2</span></td>
+  </tr>
+  <tr>
+    <td><strong>AI 研究助手</strong></td>
+    <td>LLM原生推理</td>
+    <td>结构化投资研究 API<br>自然语言→结构化洞察</td>
+    <td><span class="tag tag-warn">P2</span></td>
+  </tr>
+  <tr>
+    <td><strong>美股行情/基本面</strong></td>
+    <td>有限（iFind global）</td>
+    <td>19,000+ 品种实时OHLCV<br>三大报表+估值+情绪</td>
+    <td><span class="tag tag-warn">P2</span></td>
+  </tr>
+</table>
+
+<div class="highlight">
+  <strong>核心价值定位：</strong>Fincept 补充的是 <strong>量化计算引擎</strong>（期权定价、组合优化、风险管理）和 <strong>美股数据</strong>。Hermes 保留 <strong>A股/期货数据、技术分析、政策监控、报告生成</strong> 的绝对优势。<strong>两者互补，角色清晰。</strong>
+</div>
+
+<h2>三、集成架构</h2>
+
+<h3>3.1 调用方式</h3>
+<p>Hermes 通过标准 HTTP 请求调用 Fincept API，与调用 iFind/Choice MCP 的方式完全一致：</p>
+
+<pre><code># Hermes 调用 Fincept：期权定价
+import requests
+resp = requests.post(
+    "https://api.fincept.in/quantlib/pricing/black-scholes",
+    headers={"X-API-Key": "fk_user_xxx"},
+    json={
+        "spot": 100, "strike": 105,
+        "rate": 0.05, "volatility": 0.2,
+        "time_to_maturity": 0.25, "option_type": "call"
+    },
+    timeout=30
+)
+greeks = resp.json()["data"]
+# {"price": 2.456, "delta": 0.543, "gamma": 0.028, ...}</code></pre>
+
+<h3>3.2 数据流设计</h3>
+<table>
+  <tr><th>场景</th><th>Hermes 负责</th><th>→ 传给 Fincept</th><th>Fincept 返回</th></tr>
+  <tr>
+    <td><strong>期权-期货联动</strong></td>
+    <td>从 iFind 拉期权链数据<br>提取 IV、成交价、OI</td>
+    <td>spot/volatility → BS定价<br>验证理论价 vs 市场价</td>
+    <td>Greeks、理论价格<br>定价偏差信号</td>
+  </tr>
+  <tr>
+    <td><strong>组合风险评估</strong></td>
+    <td>从数据库拉持仓/价格</td>
+    <td>持仓矩阵 → VaR计算</td>
+    <td>组合VaR、CVaR<br>压力测试结果</td>
+  </tr>
+  <tr>
+    <td><strong>资产配置优化</strong></td>
+    <td>从 Choice/iFind 拉历史收益</td>
+    <td>收益序列 → 组合优化</td>
+    <td>最优权重、有效前沿</td>
+  </tr>
+</table>
+
+<h3>3.3 封装为 Skill</h3>
+<p>将 Fincept API 封装成 Hermes 的 skill，像使用 iFind/Choice 一样自然调用：</p>
+
+<pre><code># skill: fincept-quantlib
+# 触发词: "计算期权Greeks" / "组合VaR" / "BS定价"
+
+def call_fincept(endpoint, params):
+    """统一的 Fincept API 调用入口"""
+    return requests.post(
+        f"https://api.fincept.in/{endpoint}",
+        headers={"X-API-Key": API_KEY},
+        json=params, timeout=30
+    ).json()
+
+# 使用示例
+# Hermes: "帮我算一下铜期权的Delta和Gamma"
+greeks = call_fincept("quantlib/pricing/black-scholes", {
+    "spot": 75000, "strike": 76000, "rate": 0.03,
+    "volatility": 0.22, "time_to_maturity": 0.25
+})</code></pre>
+
+<h2>四、Hermes 分工 vs Fincept 分工</h2>
+
+<div class="card">
+  <table>
+    <tr><th>层级</th><th>负责方</th><th>职责</th></tr>
+    <tr>
+      <td><strong>🧠 任务编排</strong></td>
+      <td style="color:var(--accent);font-weight:700">Hermes</td>
+      <td>理解你的需求→拆解为子任务→调度工具→整合结果→生成报告</td>
+    </tr>
+    <tr>
+      <td><strong>📊 A股/期货数据</strong></td>
+      <td style="color:var(--accent);font-weight:700">Hermes</td>
+      <td>iFinD + Choice + AKShare 三引擎</td>
+    </tr>
+    <tr>
+      <td><strong>📈 期货技术分析</strong></td>
+      <td style="color:var(--accent);font-weight:700">Hermes</td>
+      <td>通道投影、形态检测、趋势分析、季节性 — 全部自研</td>
+    </tr>
+    <tr>
+      <td><strong>🌍 政策/时政</strong></td>
+      <td style="color:var(--accent);font-weight:700">Hermes</td>
+      <td>policy-monitor + web_search + iFind新闻</td>
+    </tr>
+    <tr>
+      <td><strong>📝 报告生成/推送</strong></td>
+      <td style="color:var(--accent);font-weight:700">Hermes</td>
+      <td>Plotly HTML + Feishu/WeChat 推送</td>
+    </tr>
+    <tr>
+      <td><strong>📈 美股数据</strong></td>
+      <td style="color:var(--green);font-weight:700">Fincept</td>
+      <td>19,000+ 美股实时行情 + 基本面（按需调用）</td>
+    </tr>
+    <tr>
+      <td><strong>📐 期权定价/Greeks</strong></td>
+      <td style="color:var(--green);font-weight:700">Fincept</td>
+      <td>BS/Heston/Monte Carlo — Hermes传参数、Fincept算结果</td>
+    </tr>
+    <tr>
+      <td><strong>⚖️ VaR/组合优化</strong></td>
+      <td style="color:var(--green);font-weight:700">Fincept</td>
+      <td>Hermes准备数据→Fincept跑模型→Hermes解读结果</td>
+    </tr>
+    <tr>
+      <td><strong>🤖 AI 研究</strong></td>
+      <td style="color:var(--green);font-weight:700">Fincept</td>
+      <td>结构化投研 API — 作为 Hermes 的辅助参考源</td>
+    </tr>
+  </table>
+</div>
+
+<h2>五、成本评估</h2>
+
+<table>
+  <tr><th>计划</th><th>价格</th><th>额度</th><th>速率</th></tr>
+  <tr><td><strong>免费</strong></td><td>$0</td><td>350 credits</td><td>10 req/min</td></tr>
+  <tr><td>Basic</td><td>一次性$19</td><td>5,000 credits</td><td>30 req/min</td></tr>
+  <tr><td>Standard</td><td>一次性$49</td><td>15,000 credits</td><td>60 req/min</td></tr>
+  <tr><td>Pro</td><td>一次性$149</td><td>50,000 credits</td><td>120 req/min</td></tr>
+</table>
+
+<div class="highlight good">
+  <strong>成本极低：</strong>免费 350 credits 足以完成大量测试和低频使用。以每次期权定价消耗 1 credit 计，每周 30 次定价只需 120 credits/月。需要高频时才考虑 $19 Basic 包（5,000 credits）。一次性购买，无订阅。
+</div>
+
+<h2>六、行动计划</h2>
+
+<table>
+  <tr><th>步骤</th><th>内容</th><th>预计时间</th></tr>
+  <tr><td><strong>1. 注册 & 验证</strong></td>
+    <td>在 <code>api.fincept.in</code> 注册免费账号<br>用 curl 测试 Black-Scholes 端点<br>验证返回数据的准确性</td>
+    <td>10分钟</td>
+  </tr>
+  <tr><td><strong>2. 封装 Skill</strong></td>
+    <td>创建 <code>fincept-quantlib</code> skill<br>封装 API 调用为 Python 函数<br>注册到 Hermes 工具链</td>
+    <td>30分钟</td>
+  </tr>
+  <tr><td><strong>3. 期权联动 POC</strong></td>
+    <td>从 iFind 拉 50ETF 期权链<br>用 Fincept 计算每个合约的 Greeks<br>构建 IV Skew / P/C Ratio 看板</td>
+    <td>1-2小时</td>
+  </tr>
+  <tr><td><strong>4. 集成到研究流程</strong></td>
+    <td>在期货分析报告中加入期权信号栏目<br>Fincept Greeks + Hermes 通道/形态 → 多维判断</td>
+    <td>逐步迭代</td>
+  </tr>
+</table>
+
+<div class="highlight">
+  <strong>🎯 一句话总结：</strong>Fincept 是 Hermes 的 <strong>远程量化计算引擎</strong>。所有数据获取、分析编排、报告生成仍由 Hermes 掌控；Fincept 只负责它擅长的——期权定价、Greeks、组合优化、VaR——通过标准 HTTP API 被 Hermes 调用。架构清晰，成本极低，立即可行。
+</div>
+
+</div>
+
+<footer>评估于 2026年5月 · Hermes Agent 输出</footer>
+</body>
+</html>
