@@ -3,9 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <meta name="robots" content="noindex">
 <title>WILTW 知识库 — 13D Research</title>
 <style>
@@ -87,7 +84,10 @@ header p { opacity: 0.7; font-size: 0.8rem; margin-top: 0.2rem; }
 </style>
 </head>
 <body>
-<header><h1>📚 WILTW 知识库</h1><p>13D Research & Strategy · "What I Learned This Week" 中文知识库 · <span id="headerStats"></span></p></header>
+<header><h1>📚 WILTW 知识库</h1><p>13D Research & Strategy · "What I Learned This Week" 中文知识库 · <span id="headerStats"></span></p>
+<div style="margin-top:10px;padding:8px 14px;background:linear-gradient(135deg,#3a2f0e,#2a1f08);border:1px solid #c9a840;border-radius:8px;display:inline-block;font-size:.82rem">
+  🙏 <b style="color:#e0c068">特别鸣谢</b> &nbsp;·&nbsp; <span style="color:#f0d060">一只胖鸵鸟</span> &nbsp;—&nbsp; <span style="color:#c9b870;font-size:.75rem">对本知识库搭建与完善做出的重要贡献</span>
+</div></header>
 <div class="nav-tabs">
   <button class="nav-tab active" onclick="switchTab('wiltw')">📚 WILTW 报告</button>
   <button class="nav-tab" onclick="switchTab('futures')">📊 期货季节性</button>
@@ -134,7 +134,7 @@ header p { opacity: 0.7; font-size: 0.8rem; margin-top: 0.2rem; }
   <iframe id="channelFrame" src="channels/index.html" style="width:100%;height:calc(100vh - 130px);border:none;"></iframe>
 </div>
 <div id="pattern-panel">
-  <iframe id="patternFrame" src="patterns/index.html" style="width:100%;height:calc(100vh - 130px);border:none;"></iframe>
+  <iframe id="patternFrame" src="patterns/index.html?v=20260525" style="width:100%;height:calc(100vh - 130px);border:none;"></iframe>
 </div>
 <div class="modal" id="modal">
   <div class="modal-content">
@@ -172,7 +172,7 @@ function switchTab(tab){
   if(tab==='channel'&&!document.getElementById('channelFrame').src)
     document.getElementById('channelFrame').src='channels/index.html';
   if(tab==='pattern'&&!document.getElementById('patternFrame').src)
-    document.getElementById('patternFrame').src='patterns/index.html';
+    document.getElementById('patternFrame').src='patterns/index.html?v=20260525';
 }
 function init(){
   document.getElementById('headerStats').textContent=data.total_completed+'/'+data.reports.length+' 完整翻译';
