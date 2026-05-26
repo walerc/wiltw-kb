@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes 投资分析 Agent 矩阵 — 使用指南</title>
+<style>
+:root{--bg:#0f1419;--card:#1a1f2e;--border:#2a3040;--text:#d0d6e0;--text2:#8892a4;--accent:#4da6ff;--green:#3fb950;--red:#f85149;--yellow:#e2b84c}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+header{background:linear-gradient(135deg,#1a1f2e,#0d2137);border-bottom:1px solid var(--border);padding:45px 20px 35px;text-align:center}
+header h1{font-size:1.8em;color:#fff;margin-bottom:6px}
+header p{color:var(--text2)}
+.container{max-width:900px;margin:0 auto;padding:30px 24px}
+h2{font-size:1.1em;color:#fff;margin:30px 0 12px;padding-bottom:5px;border-bottom:2px solid var(--accent)}
+h3{font-size:.95em;color:var(--accent);margin:18px 0 6px}
+.agent-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:16px 0}
+.agent-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px}
+.agent-card h4{color:var(--yellow);margin-bottom:6px;font-size:.9em}
+.agent-card .cmd{background:#141820;padding:6px 10px;border-radius:4px;font-family:"SF Mono",monospace;font-size:.8em;color:#e6db74;margin:8px 0}
+.agent-card .score{color:var(--text2);font-size:.75em}
+.quick-ref{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.quick-ref span{background:#141820;border:1px solid var(--border);padding:4px 10px;border-radius:4px;font-size:.78em;font-family:"SF Mono",monospace;color:var(--accent)}
+.example{background:linear-gradient(135deg,#1a2a3a,#0d2137);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 6px 6px 0;margin:10px 0;font-size:.85em}
+footer{text-align:center;padding:30px 20px;color:#556;font-size:.78em;border-top:1px solid var(--border);margin-top:40px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🤖 Hermes 投资分析 Agent 矩阵</h1>
+  <p>9个专业Agent · 随时可用 · 一句话触发</p>
+</header>
+
+<div class="container">
+
+<h2>📋 快速使用</h2>
+<div class="quick-ref">
+  <span>"用Buffett视角分析贵州茅台"</span>
+  <span>"Graham框架看长江电力"</span>
+  <span>"分析铜的库存周期"</span>
+  <span>"铁矿石基差结构如何"</span>
+  <span>"Buffett+Graham+Lynch并行分析宁德时代"</span>
+  <span>"Dalio宏观视角看当前市场"</span>
+  <span>"PTA季节性分析"</span>
+  <span>"原油跨市场联动分析"</span>
+</div>
+
+<h2>📈 投资大师 Agent (5个)</h2>
+
+<div class="agent-grid">
+  <div class="agent-card">
+    <h4>🏆 Warren Buffett · 价值投资</h4>
+    <p style="font-size:.78em;color:var(--text2)">护城河 · ROE>15% · 内在价值 · 安全边际</p>
+    <div class="cmd">"用Buffett视角分析[股票名]"</div>
+    <div class="score">输出：护城河评分(1-10) · DCF内在价值 · 安全边际% · 买入/持有/卖出</div>
+  </div>
+  <div class="agent-card">
+    <h4>📖 Benjamin Graham · 深度价值</h4>
+    <p style="font-size:.78em;color:var(--text2)">Net-Net法 · 防御型7标准 · 安全边际>33%</p>
+    <div class="cmd">"用Graham框架分析[股票名]"</div>
+    <div class="score">输出：防御型7项检查 · 净流动资产比 · 格雷厄姆公式估值</div>
+  </div>
+  <div class="agent-card">
+    <h4>🚀 Peter Lynch · 成长投资</h4>
+    <p style="font-size:.78em;color:var(--text2)">六类公司分类 · PEG<1 · 完美公司特质</p>
+    <div class="cmd">"用Lynch模式分析[股票名]"</div>
+    <div class="score">输出：公司分类 · PEG估值 · 林奇六角检查 · 内部人信号</div>
+  </div>
+  <div class="agent-card">
+    <h4>🌍 Ray Dalio · 宏观全天候</h4>
+    <p style="font-size:.78em;color:var(--text2)">债务周期 · 三大驱动力 · 风险平价</p>
+    <div class="cmd">"用Dalio视角看当前宏观"</div>
+    <div class="score">输出：周期定位 · 货币政策 · 全天候配置建议</div>
+  </div>
+  <div class="agent-card">
+    <h4>🔄 George Soros · 反身性理论</h4>
+    <p style="font-size:.78em;color:var(--text2)">繁荣-萧条模型 · 拐点侦测 · 趋势-反身性</p>
+    <div class="cmd">"用Soros视角分析[资产]"</div>
+    <div class="score">输出：反身性阶段 · 八阶段定位 · 拐点信号 · 交易建议</div>
+  </div>
+</div>
+
+<h2>📊 期货专项 Agent (4个)</h2>
+
+<div class="agent-grid">
+  <div class="agent-card">
+    <h4>📦 库存周期 Agent</h4>
+    <p style="font-size:.78em;color:var(--text2)">库存周期四阶段 · 产业链库存结构 · 库存+价格信号</p>
+    <div class="cmd">"分析[品种]的库存周期"</div>
+    <div class="score">输出：去库/补库阶段 · 上中下游库存结构 · 库存价格组合信号</div>
+  </div>
+  <div class="agent-card">
+    <h4>📐 基差/升贴水 Agent</h4>
+    <p style="font-size:.78em;color:var(--text2)">Contango/Backwardation · 展期收益 · 基差趋势</p>
+    <div class="cmd">"分析[品种]的基差结构"</div>
+    <div class="score">输出：期限结构 · 年化升贴水率 · Roll Yield · 季节性对比</div>
+  </div>
+  <div class="agent-card">
+    <h4>📅 季节性 Agent</h4>
+    <p style="font-size:.78em;color:var(--text2)">月度涨跌概率 · 年内节奏 · 驱动因素 · 反季节判断</p>
+    <div class="cmd">"分析[品种]的季节性"</div>
+    <div class="score">输出：季节性强度 · 年内高低点 · 1-3月展望 · 风险提示</div>
+  </div>
+  <div class="agent-card">
+    <h4>🔗 跨市场联动 Agent</h4>
+    <p style="font-size:.78em;color:var(--text2)">上下游传导 · 替代品/互补品 · 股期联动 · 汇率/利率</p>
+    <div class="cmd">"分析[品种]的跨市场联动"</div>
+    <div class="score">输出：产业链利润分配 · 跨品种价差 · 多空信号汇总 · 综合建议</div>
+  </div>
+</div>
+
+<h2>⚡ 多Agent并行分析</h2>
+
+<div class="example">
+  <strong>示例：</strong><code>"用Buffett、Graham、Lynch三个视角并行分析宁德时代，并汇总对比结论"</code><br>
+  → Hermes 自动并行运行3个Agent → 输出对比表格 → 给出综合建议
+</div>
+
+<div class="example">
+  <strong>示例：</strong><code>"分析铜的库存周期、基差结构和季节性，汇总多空信号"</code><br>
+  → 3个期货Agent并行 → 每个维度打分 → 综合交易建议
+</div>
+
+<h2>🏷️ Agent 组合速查</h2>
+
+<table style="width:100%;font-size:.82em">
+  <tr><th>你的需求</th><th>推荐的Agent组合</th></tr>
+  <tr><td>A股个股深度分析</td><td>Buffett + Graham + Lynch 三视角并行</td></tr>
+  <tr><td>宏观市场判断</td><td>Dalio + Soros 双宏观视角</td></tr>
+  <tr><td>期货做多/做空决策</td><td>库存周期 + 基差结构 + 季节性 三Agent并行</td></tr>
+  <tr><td>产业链研究</td><td>跨市场联动 + 库存周期</td></tr>
+  <tr><td>拐点/反转判断</td><td>Soros 反身性 + 基差结构</td></tr>
+  <tr><td>完整研究体系</td><td>全部5个投资Agent + 4个期货Agent 可选组合</td></tr>
+</table>
+
+</div>
+
+<footer>Hermes Agent 矩阵 · 部署于 WILTW KB · 随时更新</footer>
+</body>
+</html>
