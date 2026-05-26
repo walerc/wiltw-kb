@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes 自检报告 — vs Fincept 核心功能</title>
+<style>
+  :root{--bg:#0f1419;--card:#1a1f2e;--border:#2a3040;--text:#d0d6e0;--text2:#8892a4;--accent:#4da6ff;--green:#3fb950;--red:#f85149;--yellow:#e2b84c}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+  header{background:linear-gradient(135deg,#1a1f2e,#0d2137);border-bottom:1px solid var(--border);padding:45px 20px 35px;text-align:center}
+  header h1{font-size:1.8em;color:#fff;margin-bottom:6px}
+  header p{color:var(--text2);font-size:.9em}
+  .container{max-width:960px;margin:0 auto;padding:32px 24px}
+  h2{font-size:1.2em;color:#fff;margin:36px 0 14px;padding-bottom:6px;border-bottom:2px solid var(--accent)}
+  h3{font-size:1em;color:var(--accent);margin:22px 0 8px}
+  p,li{font-size:.9em;margin-bottom:6px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;margin:14px 0}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.84em}
+  th{background:var(--card);color:var(--accent);text-align:left;padding:8px 12px;border-bottom:2px solid var(--border)}
+  td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+  tr:nth-child(even) td{background:#161c26}
+  .verdict{font-weight:700;text-align:center}
+  .v-equal{color:var(--yellow)}
+  .v-win{color:var(--green)}
+  .v-gap{color:var(--red)}
+  .v-partial{color:#f0c060}
+  .score{font-size:1.6em;font-weight:700;text-align:center}
+  .score-win{color:var(--green)}
+  .score-draw{color:var(--yellow)}
+  .score-gap{color:var(--red)}
+  .tag{display:inline-block;padding:1px 7px;border-radius:4px;font-size:.74em;font-weight:600}
+  .tag-ok{background:#1a3a2a;color:var(--green)}
+  .tag-gap{background:#3a1a1a;color:var(--red)}
+  .tag-warn{background:#3a2f0e;color:var(--yellow)}
+  .summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:16px 0}
+  .summary-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center}
+  .summary-item .num{font-size:2em;font-weight:700}
+  .summary-item .lbl{font-size:.72em;color:var(--text2);margin-top:4px}
+  footer{text-align:center;padding:36px 20px;color:#556;font-size:.78em;border-top:1px solid var(--border);margin-top:50px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🔍 Hermes 自检报告</h1>
+  <p>对照 Fincept Terminal 核心功能模块（不含交易执行）逐项审计</p>
+</header>
+
+<div class="container">
+
+<div class="summary-grid">
+  <div class="summary-item"><div class="num score-win">4</div><div class="lbl">持平或领先</div></div>
+  <div class="summary-item"><div class="num score-draw">2</div><div class="lbl">部分覆盖，存在差距</div></div>
+  <div class="summary-item"><div class="num score-gap">2</div><div class="lbl">当前无法实现</div></div>
+  <div class="summary-item"><div class="num" style="color:var(--accent)">8</div><div class="lbl">已审计模块</div></div>
+</div>
+
+<h2>逐项审计</h2>
+
+<table>
+  <tr><th style="width:40px">#</th><th style="width:120px">Fincept 模块</th><th>Fincept 能力</th><th>Hermes 现状</th><th style="width:70px">结论</th></tr>
+
+  <tr>
+    <td>1</td>
+    <td><strong>市场数据</strong></td>
+    <td>19,000+美股实时 OHLCV<br>5大交易所<br>50+技术指标</td>
+    <td>
+      ✅ A股5,000+（iFinD+Choice）<br>
+      ✅ 期货67品种深度数据<br>
+      ✅ 50+指标（Plotly+Python生态）<br>
+      ⚠️ 美股仅yfinance（沙箱限流）<br>
+      <strong>互补关系：Fincept美股强，Hermes中国强</strong>
+    </td>
+    <td class="verdict v-equal">⚖️ 互补</td>
+  </tr>
+
+  <tr>
+    <td>2</td>
+    <td><strong>AI 智能体</strong></td>
+    <td>37个预构建智能体<br>Buffett/Graham/Lynch/Dalio等<br>多Provider（含本地LLM）</td>
+    <td>
+      ✅ LLM原生推理（DeepSeek/Claude等）<br>
+      ✅ 可按需构建任意分析框架<br>
+      ✅ 本地LLM不依赖外部API<br>
+      ❌ <strong>缺少37个预构建的框架化智能体</strong><br>
+      <strong>差距：Prompt工程可弥补，但需要投入</strong>
+    </td>
+    <td class="verdict v-gap">❌ 有差距</td>
+  </tr>
+
+  <tr>
+    <td>3</td>
+    <td><strong>基本面研究</strong></td>
+    <td>DCF估值模型<br>CFA三级分析框架<br>三表联动（利润/负债/现金流）</td>
+    <td>
+      ✅ iFinD 财务三表查询<br>
+      ✅ Choice AI 财报点评<br>
+      ✅ 估值指标（PE/PB/ROE等）<br>
+      ⚠️ DCF需手写（Python可实现）<br>
+      <strong>数据获取持平，DCF可自建</strong>
+    </td>
+    <td class="verdict v-win">✅ 持平</td>
+  </tr>
+
+  <tr>
+    <td>4</td>
+    <td><strong>量化分析<br>（QuantLib）</strong></td>
+    <td>18个模块 497端点<br>BS / Heston / Monte Carlo<br>固定收益 / 收益率曲线<br>奇异期权 / 结构化产品</td>
+    <td>
+      ✅ BS定价 + 6 Greeks（已验证）<br>
+      ✅ 隐含波动率 IV<br>
+      ✅ PyPortfolioOpt 组合优化<br>
+      ✅ VaR（历史法+参数法）<br>
+      ⚠️ QuantLib-Python 本地已装（同样18模块）<br>
+      <strong>但尚未封装Heston/蒙特卡洛/固收模块</strong>
+    </td>
+    <td class="verdict v-partial">⚠️ 基础覆盖<br>深度待扩展</td>
+  </tr>
+
+  <tr>
+    <td>5</td>
+    <td><strong>实时新闻<br>+情绪分析</strong></td>
+    <td>聚合财经新闻<br>AI情绪评分<br>分类过滤</td>
+    <td>
+      ✅ web_search 实时搜索<br>
+      ✅ iFind search_news（中文财经）<br>
+      ✅ policy-monitor 结构化政策评估<br>
+      ⚠️ 无自动情绪评分<br>
+      <strong>中文新闻覆盖更有优势</strong>
+    </td>
+    <td class="verdict v-win">✅ 持平</td>
+  </tr>
+
+  <tr>
+    <td>6</td>
+    <td><strong>可视化工作流</strong></td>
+    <td>节点编辑器<br>拖拽式自动化管道<br>MCP工具集成</td>
+    <td>
+      ❌ 无图形化节点编辑器<br>
+      ⚠️ 代码驱动工作流（Python脚本+cronjob）<br>
+      <strong>功能等效但交互方式完全不同</strong>
+    </td>
+    <td class="verdict v-gap">❌ 有差距</td>
+  </tr>
+
+  <tr>
+    <td>7</td>
+    <td><strong>全球经济情报</strong></td>
+    <td>100+经济指标<br>50+国家覆盖<br>央行决策/信用评级</td>
+    <td>
+      ✅ iFind EDB 中国宏观全体系<br>
+      ✅ Choice mx-macro-data<br>
+      ✅ web_search 全球数据补充<br>
+      ⚠️ 非中国宏观需手动搜索<br>
+      <strong>中国宏观更强，全球覆盖偏弱</strong>
+    </td>
+    <td class="verdict v-equal">⚖️ 互补</td>
+  </tr>
+
+  <tr>
+    <td>8</td>
+    <td><strong>海事追踪<br>+地缘政治</strong></td>
+    <td>航运路线追踪<br>卫星数据分析<br>地缘风险映射</td>
+    <td>
+      ❌ 无海事追踪能力<br>
+      ✅ web_search 可获取地缘新闻<br>
+      ✅ policy-monitor 政策分析<br>
+      <strong>硬数据（航运/卫星）完全缺失</strong>
+    </td>
+    <td class="verdict v-gap">❌ 无法实现</td>
+  </tr>
+</table>
+
+<h2>综合判断</h2>
+
+<table>
+  <tr><th style="width:100px">梯队</th><th>模块</th><th>说明</th></tr>
+  <tr>
+    <td><span class="tag tag-ok">第一梯队</span><br>持平或领先</td>
+    <td>基本面研究、实时新闻</td>
+    <td>数据源覆盖持平，中文生态更有优势</td>
+  </tr>
+  <tr>
+    <td><span class="tag tag-ok">第一梯队</span><br>互补优势</td>
+    <td>市场数据、全球经济情报</td>
+    <td>Fincept美股/全球强，Hermes中国强，各有所长</td>
+  </tr>
+  <tr>
+    <td><span class="tag tag-warn">第二梯队</span><br>基础覆盖，可追赶</td>
+    <td>量化分析(QuantLib)</td>
+    <td>QuantLib-Python本地已装（18模块同源），只需封装高级端点。1-2周可对齐</td>
+  </tr>
+  <tr>
+    <td><span class="tag tag-gap">第三梯队</span><br>存在实质差距</td>
+    <td>AI 智能体</td>
+    <td>缺少预构建框架化智能体。可通过Prompt工程+skill封装逐步积累。中等投入</td>
+  </tr>
+  <tr>
+    <td><span class="tag tag-gap">第三梯队</span><br>存在实质差距</td>
+    <td>可视化工作流</td>
+    <td>代码驱动 vs 图形拖拽，交互范式不同。非核心需求，可暂缓</td>
+  </tr>
+  <tr>
+    <td><span class="tag tag-gap">第三梯队</span><br>当前无法实现</td>
+    <td>海事追踪+地缘</td>
+    <td>需要卫星/AIS数据源，超出当前能力范围。非中国期货研究的核心需求</td>
+  </tr>
+</table>
+
+<h2>行动计划</h2>
+
+<div class="card">
+  <table>
+    <tr><th>优先级</th><th>追赶目标</th><th>方案</th><th>预估</th></tr>
+    <tr>
+      <td><span class="tag tag-ok">P0</span></td>
+      <td>QuantLib 高级模块</td>
+      <td>封装 Heston/Monte Carlo/收益率曲线 端点<br>补充固收定价和结构化产品</td>
+      <td>1-2周</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-ok">P0</span></td>
+      <td>AI 分析框架</td>
+      <td>参考Fincept 37智能体的Prompt思路<br>构建5-8个期货/宏观专用Agent<br>（库存周期Agent、跨市场联动Agent、政策冲击Agent）</td>
+      <td>2-4周</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-warn">P1</span></td>
+      <td>可视化工作流</td>
+      <td>暂不开发GUI节点编辑器<br>用Python脚本链+cronjob实现等效自动化</td>
+      <td>持续优化</td>
+    </tr>
+    <tr>
+      <td><span class="tag tag-gap">P2</span></td>
+      <td>海事追踪</td>
+      <td>非中国期货核心需求，暂不投入<br>需要时通过web_search+LLM做事件驱动分析</td>
+      <td>暂缓</td>
+    </tr>
+  </table>
+</div>
+
+<div style="background:var(--card);border:2px solid var(--accent);border-radius:12px;padding:24px;margin:28px 0">
+  <h2 style="margin-top:0;border:none;color:#f0c060">📋 自检结论</h2>
+  <p><strong>8个核心模块中：4个持平/互补，2个可短期追赶，2个存在实质差距。</strong></p>
+  <p>最大的两个差距——<strong>AI智能体</strong>和<strong>QuantLib高级模块</strong>——都是可以通过代码投入在一个月内显著缩小甚至追平的。海事追踪和可视化工作流不是中国期货量化研究的核心需求，优先级低。</p>
+  <p style="color:var(--green)"><strong>关键优势：</strong>在中国期货+股票数据深度、技术分析体系（通道/形态/趋势/季节性）、政策监控自动化和报告生成方面，Hermes已经远超Fincept的覆盖范围。Fincept在这些领域基本为零。</p>
+</div>
+
+</div>
+
+<footer>Hermes 自检 · 2026年5月 · 对照 Fincept Terminal v4.0.3 报告</footer>
+</body>
+</html>
