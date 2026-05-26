@@ -3,985 +3,556 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <title>形态检测分析总览</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0d1117;color:#c9d1d9;padding:24px}
 h1{color:#f0c060;font-size:1.3rem;margin-bottom:4px}
-.sub{color:#8b949e;font-size:.8rem;margin-bottom:16px}
-
-/* 时间层级Tabs */
-.tab-bar{display:flex;gap:0;margin-bottom:16px}
-.tab-btn{padding:8px 20px;background:#161b22;border:1px solid #21262d;color:#8b949e;font-size:.82rem;cursor:pointer;border-radius:6px 6px 0 0;transition:all .15s;margin-right:-1px}
-.tab-btn:hover{background:#1c2735;color:#c9d1d9}
-.tab-btn.active{background:#1c2128;color:#58a6ff;border-color:#30363d;border-bottom-color:#1c2128}
-.tab-panel{display:none}
-.tab-panel.active{display:block}
-
-table{width:100%;border-collapse:collapse;background:#161b22;border-radius:0 8px 8px 8px;overflow:hidden;font-size:.78rem}
+.sub{color:#8b949e;font-size:.8rem;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;background:#161b22;border-radius:8px;overflow:hidden;font-size:.78rem}
 th{background:#1c2128;padding:8px 10px;text-align:left;font-size:.7rem;color:#8b949e;white-space:nowrap}
 td{padding:6px 10px;border-bottom:1px solid #21262d;font-size:.78rem}
 tr:hover td{background:#1c2735}
-.sym-name{font-size:.82rem}
-.sym-code{font-size:10px;color:#555}
+.footer{text-align:center;color:#555;font-size:.7rem;margin-top:24px}
+.stat{display:inline-block;background:#161b22;border:1px solid #21262d;border-radius:8px;padding:12px 20px;margin:0 8px 16px 0}
+.stat .val{font-size:1.2rem;font-weight:bold;color:#f0c060}
+.stat .lbl{font-size:.7rem;color:#8b949e}
 .sym-link{color:#58a6ff;text-decoration:none;font-size:.82rem}
 .sym-link:hover{color:#79c0ff;text-decoration:underline}
-.pat-flag{background:#1a2a3a;color:#58a6ff;border:1px solid #2a4a6a}
-.pat-island{background:#3a1b1b;color:#f85149;border:1px solid #5a2a2a}
+.sym-code{font-size:10px;color:#555}
 .btn-view{display:inline-block;padding:4px 10px;background:#1a3a5c;color:#58a6ff;border-radius:4px;text-decoration:none;font-size:.75rem}
 .btn-view:hover{background:#1f4a7a}
 .pat-badge{display:inline-block;padding:1px 6px;border-radius:3px;font-size:.65rem;margin:1px}
 .pat-tri{background:#1b3a1b;color:#3fb950;border:1px solid #2d5a2d}
 .pat-hs{background:#3a2f0e;color:#f0c060;border:1px solid #5a4f1e}
-.footer{text-align:center;color:#555;font-size:.7rem;margin-top:24px}
-/* 板块导航 */
-.sector-nav{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
-.sector-nav a{display:flex;align-items:center;gap:6px;padding:8px 18px;background:linear-gradient(135deg,#1a2a4a,#1a3a5c);color:#c9d1d9;border:1px solid #30363d;border-radius:8px;text-decoration:none;font-size:.8rem;transition:all .2s}
-.sector-nav a:hover{background:linear-gradient(135deg,#1a3a6a,#1a4a7c);border-color:#58a6ff;color:#58a6ff}
-.sector-nav a .tag{font-size:.65rem;padding:1px 6px;border-radius:3px;background:#1b3a1b;color:#3fb950}
-
-/* 统计条 */
-.stat-bar{display:flex;gap:16px;margin-bottom:16px}
-.stat{background:#161b22;border:1px solid #21262d;border-radius:8px;padding:10px 18px}
-.stat .val{font-size:1.1rem;font-weight:bold;color:#f0c060}
-.stat .lbl{font-size:.7rem;color:#8b949e}
+.pat-flag{background:#1a2a3a;color:#58a6ff;border:1px solid #2a4a6a}
+.pat-island{background:#3a1b1b;color:#f85149;border:1px solid #5a2a2a}
 </style>
 </head>
 <body>
 <h1>📊 期货形态检测分析 — 总览</h1>
-<div class="sub">三角/头肩/旗形/岛型反转 · 仅已完成突破形态 · 多时间层级</div>
-
-<div class="stat-bar" id="stat-bar">
-  <div class="stat"><div class="val" id="stat-prods">41</div><div class="lbl">已分析品种</div></div>
-  <div class="stat"><div class="val" id="stat-count">-</div><div class="lbl">检出形态数</div></div>
-  <div class="stat"><div class="val" id="stat-hit">-</div><div class="lbl">命中率</div></div>
+<div class="sub">三角/头肩/旗形/岛型反转 · 仅已完成突破形态 · 含目标价+目标时间</div>
+<div>
+  <div class="stat"><div class="val">73</div><div class="lbl">已分析品种</div></div>
+  <div class="stat"><div class="val">178</div><div class="lbl">检测到形态</div></div>
 </div>
-
-<div class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('daily')">📅 日线</button>
-  <button class="tab-btn" onclick="switchTab('hourly')">⏱ 60分钟</button>
-  <button class="tab-btn" onclick="switchTab('min15')">⚡ 15分钟</button>
-</div>
-
-<div class="sector-nav">
-  <a href="sh50/" target="_blank">📈 上证50成分股 <span class="tag">12</span></a>
-  <a href="indices/" target="_blank">📊 三大指数成分股 <span class="tag">538</span></a>
-</div>
-
-<!-- 日线面板：嵌入完整总览表 -->
-<div class="tab-panel active" id="panel-daily">
-  <table>
+<table>
 <tr>
   <th>品种</th><th>收盘</th><th>日期</th><th>形态详情</th><th>形态数</th><th>K线</th>
 </tr>
 <tr>
             <td><a href="A0_pattern.html" class="sym-link" target="_blank"><b>豆一</b><br><span class="sym-code">A0</span></a></td>
-            <td>4784</td>
-            <td>2026-05-22</td>
+            <td>4835</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">倒头肩底→4572</td>
             <td>1</td>
             <td><a href="A0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="AG0_pattern.html" class="sym-link" target="_blank"><b>白银</b><br><span class="sym-code">AG0</span></a></td>
-            <td>18681</td>
-            <td>2026-05-22</td>
+            <td>18995</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">岛型底→27520</td>
             <td>1</td>
             <td><a href="AG0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="AL0_pattern.html" class="sym-link" target="_blank"><b>沪铝</b><br><span class="sym-code">AL0</span></a></td>
-            <td>24505</td>
-            <td>2026-05-22</td>
+            <td>24465</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="AL0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="AO0_pattern.html" class="sym-link" target="_blank"><b>氧化铝</b><br><span class="sym-code">AO0</span></a></td>
-            <td>2717</td>
-            <td>2026-05-22</td>
+            <td>2746</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="AO0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="AP0_pattern.html" class="sym-link" target="_blank"><b>苹果</b><br><span class="sym-code">AP0</span></a></td>
-            <td>7560</td>
-            <td>2026-05-22</td>
-            <td style="font-size:11px">头肩顶→6862</td>
-            <td>1</td>
+            <td>7526</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">下降三角形→6713 · 头肩顶→6862</td>
+            <td>2</td>
             <td><a href="AP0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="AU0_pattern.html" class="sym-link" target="_blank"><b>沪金</b><br><span class="sym-code">AU0</span></a></td>
-            <td>996</td>
-            <td>2026-05-22</td>
+            <td>1001</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">岛型顶→1114</td>
             <td>1</td>
             <td><a href="AU0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="BU0_pattern.html" class="sym-link" target="_blank"><b>沥青</b><br><span class="sym-code">BU0</span></a></td>
-            <td>4333</td>
-            <td>2026-05-22</td>
+            <td>4146</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="BU0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="C0_pattern.html" class="sym-link" target="_blank"><b>玉米</b><br><span class="sym-code">C0</span></a></td>
-            <td>2331</td>
-            <td>2026-05-22</td>
+            <td>2327</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="C0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="CF0_pattern.html" class="sym-link" target="_blank"><b>棉花</b><br><span class="sym-code">CF0</span></a></td>
-            <td>15895</td>
-            <td>2026-05-22</td>
+            <td>15935</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="CF0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="CU0_pattern.html" class="sym-link" target="_blank"><b>沪铜</b><br><span class="sym-code">CU0</span></a></td>
-            <td>104870</td>
-            <td>2026-05-22</td>
-            <td style="font-size:11px">倒头肩底→117200 · 对称三角形→111530</td>
+            <td>105650</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">倒头肩底→117200 · 对称三角形→112310</td>
             <td>2</td>
             <td><a href="CU0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="FG0_pattern.html" class="sym-link" target="_blank"><b>玻璃</b><br><span class="sym-code">FG0</span></a></td>
-            <td>1020</td>
-            <td>2026-05-22</td>
-            <td style="font-size:11px">头肩顶→973 · 头肩顶→973</td>
-            <td>2</td>
+            <td>1023</td>
+            <td>2026-05-26</td>
+            <td style="font-size:11px">头肩顶→973</td>
+            <td>1</td>
             <td><a href="FG0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="HC0_pattern.html" class="sym-link" target="_blank"><b>热卷</b><br><span class="sym-code">HC0</span></a></td>
-            <td>3385</td>
-            <td>2026-05-22</td>
+            <td>3432</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">倒头肩底→3484</td>
             <td>1</td>
             <td><a href="HC0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="I0_pattern.html" class="sym-link" target="_blank"><b>铁矿石</b><br><span class="sym-code">I0</span></a></td>
-            <td>792</td>
-            <td>2026-05-22</td>
+            <td>793</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="I0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="J0_pattern.html" class="sym-link" target="_blank"><b>焦炭</b><br><span class="sym-code">J0</span></a></td>
-            <td>1731</td>
-            <td>2026-05-22</td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
+            <td>1879</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">倒头肩底→1988</td>
+            <td>1</td>
             <td><a href="J0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="JD0_pattern.html" class="sym-link" target="_blank"><b>鸡蛋</b><br><span class="sym-code">JD0</span></a></td>
-            <td>4505</td>
-            <td>2026-05-22</td>
-            <td style="font-size:11px">上升三角形→4697 · 倒头肩底→4478</td>
+            <td>4426</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">上升三角形→4618 · 倒头肩底→4478</td>
             <td>2</td>
             <td><a href="JD0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="JM0_pattern.html" class="sym-link" target="_blank"><b>焦煤</b><br><span class="sym-code">JM0</span></a></td>
-            <td>1162</td>
-            <td>2026-05-22</td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
+            <td>1266</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">倒头肩底→1456 · 倒头肩底→1456</td>
+            <td>2</td>
             <td><a href="JM0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="LC0_pattern.html" class="sym-link" target="_blank"><b>碳酸锂</b><br><span class="sym-code">LC0</span></a></td>
-            <td>184460</td>
-            <td>2026-05-22</td>
-            <td style="font-size:11px">对称三角形→237635</td>
+            <td>181200</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">对称三角形→234375</td>
             <td>1</td>
             <td><a href="LC0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="LH0_pattern.html" class="sym-link" target="_blank"><b>生猪</b><br><span class="sym-code">LH0</span></a></td>
-            <td>11190</td>
-            <td>2026-05-22</td>
-            <td style="font-size:11px">岛型顶→12116 · 头肩顶→11430</td>
-            <td>2</td>
+            <td>11000</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">岛型顶→12116</td>
+            <td>1</td>
             <td><a href="LH0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="M0_pattern.html" class="sym-link" target="_blank"><b>豆粕</b><br><span class="sym-code">M0</span></a></td>
-            <td>2990</td>
-            <td>2026-05-22</td>
+            <td>2973</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">倒头肩底→2926</td>
             <td>1</td>
             <td><a href="M0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="MA0_pattern.html" class="sym-link" target="_blank"><b>甲醇</b><br><span class="sym-code">MA0</span></a></td>
-            <td>2927</td>
-            <td>2026-05-22</td>
+            <td>2844</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="MA0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="NI0_pattern.html" class="sym-link" target="_blank"><b>沪镍</b><br><span class="sym-code">NI0</span></a></td>
-            <td>143330</td>
-            <td>2026-05-22</td>
+            <td>142600</td>
+            <td>2026-05-26</td>
             <td style="font-size:11px">倒头肩底→150400</td>
             <td>1</td>
             <td><a href="NI0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="P0_pattern.html" class="sym-link" target="_blank"><b>棕榈油</b><br><span class="sym-code">P0</span></a></td>
-            <td>9471</td>
-            <td>2026-05-22</td>
+            <td>9464</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="P0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="PG0_pattern.html" class="sym-link" target="_blank"><b>液化气</b><br><span class="sym-code">PG0</span></a></td>
-            <td>5948</td>
-            <td>2026-05-22</td>
+            <td>5680</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="PG0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="PP0_pattern.html" class="sym-link" target="_blank"><b>聚丙烯</b><br><span class="sym-code">PP0</span></a></td>
-            <td>8792</td>
-            <td>2026-05-22</td>
-            <td style="font-size:11px">倒头肩底→6978</td>
-            <td>1</td>
+            <td>8577</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">对称三角形→7481 · 倒头肩底→6978</td>
+            <td>2</td>
             <td><a href="PP0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="RB0_pattern.html" class="sym-link" target="_blank"><b>螺纹钢</b><br><span class="sym-code">RB0</span></a></td>
-            <td>3168</td>
-            <td>2026-05-22</td>
-            <td style="font-size:11px">对称三角形→3319</td>
+            <td>3218</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">倒头肩底→3336</td>
             <td>1</td>
             <td><a href="RB0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="RM0_pattern.html" class="sym-link" target="_blank"><b>菜粕</b><br><span class="sym-code">RM0</span></a></td>
-            <td>2337</td>
-            <td>2026-05-22</td>
+            <td>2300</td>
+            <td>2026-05-26</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="RM0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="RU0_pattern.html" class="sym-link" target="_blank"><b>橡胶</b><br><span class="sym-code">RU0</span></a></td>
-            <td>17420</td>
-            <td>2026-05-22</td>
+            <td>17460</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="RU0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="SA0_pattern.html" class="sym-link" target="_blank"><b>纯碱</b><br><span class="sym-code">SA0</span></a></td>
-            <td>1181</td>
-            <td>2026-05-22</td>
-            <td style="font-size:11px">头肩顶→994 · 对称三角形→1025 · 头肩顶→1113</td>
-            <td>3</td>
+            <td>1218</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">对称三角形→1062 · 头肩顶→1113</td>
+            <td>2</td>
             <td><a href="SA0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="SC0_pattern.html" class="sym-link" target="_blank"><b>原油</b><br><span class="sym-code">SC0</span></a></td>
-            <td>641</td>
-            <td>2026-05-22</td>
+            <td>608</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">倒头肩底→466</td>
             <td>1</td>
             <td><a href="SC0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="SH0_pattern.html" class="sym-link" target="_blank"><b>烧碱</b><br><span class="sym-code">SH0</span></a></td>
             <td>2001</td>
-            <td>2026-05-22</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">头肩顶→1421</td>
             <td>1</td>
             <td><a href="SH0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="SI0_pattern.html" class="sym-link" target="_blank"><b>工业硅</b><br><span class="sym-code">SI0</span></a></td>
-            <td>8440</td>
-            <td>2026-05-22</td>
+            <td>8570</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="SI0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="SR0_pattern.html" class="sym-link" target="_blank"><b>白糖</b><br><span class="sym-code">SR0</span></a></td>
-            <td>5368</td>
-            <td>2026-05-22</td>
+            <td>5346</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">倒头肩底→5484</td>
             <td>1</td>
             <td><a href="SR0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="T0_pattern.html" class="sym-link" target="_blank"><b>10年国债</b><br><span class="sym-code">T0</span></a></td>
             <td>109</td>
-            <td>2026-05-22</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">倒头肩底→109 · 倒头肩底→109</td>
             <td>2</td>
             <td><a href="T0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="TA0_pattern.html" class="sym-link" target="_blank"><b>PTA</b><br><span class="sym-code">TA0</span></a></td>
-            <td>6136</td>
-            <td>2026-05-22</td>
-            <td style="font-size:11px">对称三角形→5132 · 对称三角形→5330 · 倒头肩底→6312</td>
+            <td>5984</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">对称三角形→4980 · 对称三角形→5178 · 倒头肩底→6312</td>
             <td>3</td>
             <td><a href="TA0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="TF0_pattern.html" class="sym-link" target="_blank"><b>5年国债</b><br><span class="sym-code">TF0</span></a></td>
             <td>106</td>
-            <td>2026-05-22</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">倒头肩底→107</td>
             <td>1</td>
             <td><a href="TF0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="TL0_pattern.html" class="sym-link" target="_blank"><b>30年国债</b><br><span class="sym-code">TL0</span></a></td>
             <td>113</td>
-            <td>2026-05-22</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">倒头肩底→115</td>
             <td>1</td>
             <td><a href="TL0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="TS0_pattern.html" class="sym-link" target="_blank"><b>2年国债</b><br><span class="sym-code">TS0</span></a></td>
             <td>103</td>
-            <td>2026-05-22</td>
-            <td style="font-size:11px">倒头肩底→103</td>
-            <td>1</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
             <td><a href="TS0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="UR0_pattern.html" class="sym-link" target="_blank"><b>尿素</b><br><span class="sym-code">UR0</span></a></td>
-            <td>1826</td>
-            <td>2026-05-22</td>
+            <td>1847</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="UR0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="V0_pattern.html" class="sym-link" target="_blank"><b>PVC</b><br><span class="sym-code">V0</span></a></td>
-            <td>4846</td>
-            <td>2026-05-22</td>
+            <td>4914</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="V0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="Y0_pattern.html" class="sym-link" target="_blank"><b>豆油</b><br><span class="sym-code">Y0</span></a></td>
-            <td>8505</td>
-            <td>2026-05-22</td>
+            <td>8440</td>
+            <td>2026-05-25</td>
             <td style="font-size:11px">—</td>
             <td>0</td>
             <td><a href="Y0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr><tr>
             <td><a href="ZN0_pattern.html" class="sym-link" target="_blank"><b>沪锌</b><br><span class="sym-code">ZN0</span></a></td>
-            <td>24865</td>
-            <td>2026-05-22</td>
-            <td style="font-size:11px">倒头肩底→26575 · 对称三角形→27665</td>
-            <td>2</td>
+            <td>24875</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">倒头肩底→26575 · 对称三角形→27615 · 对称三角形→27675</td>
+            <td>3</td>
             <td><a href="ZN0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="EB0_pattern.html" class="sym-link" target="_blank"><b>苯乙烯</b><br><span class="sym-code">EB0</span></a></td>
+            <td>8968</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="EB0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="EG0_pattern.html" class="sym-link" target="_blank"><b>乙二醇</b><br><span class="sym-code">EG0</span></a></td>
+            <td>4451</td>
+            <td>2026-05-26</td>
+            <td style="font-size:11px">倒头肩底→4032</td>
+            <td>1</td>
+            <td><a href="EG0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="FU0_pattern.html" class="sym-link" target="_blank"><b>燃油</b><br><span class="sym-code">FU0</span></a></td>
+            <td>3819</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">倒头肩底→2822</td>
+            <td>1</td>
+            <td><a href="FU0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SP0_pattern.html" class="sym-link" target="_blank"><b>纸浆</b><br><span class="sym-code">SP0</span></a></td>
+            <td>4976</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">头肩顶→4712 · 下降三角形→4660</td>
+            <td>2</td>
+            <td><a href="SP0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SN0_pattern.html" class="sym-link" target="_blank"><b>沪锡</b><br><span class="sym-code">SN0</span></a></td>
+            <td>422990</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="SN0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="PB0_pattern.html" class="sym-link" target="_blank"><b>沪铅</b><br><span class="sym-code">PB0</span></a></td>
+            <td>16755</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="PB0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SF0_pattern.html" class="sym-link" target="_blank"><b>硅铁</b><br><span class="sym-code">SF0</span></a></td>
+            <td>6072</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">对称三角形→6646 · 倒头肩底→6496 · 对称三角形→6688 · 倒头肩底→6506</td>
+            <td>4</td>
+            <td><a href="SF0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SM0_pattern.html" class="sym-link" target="_blank"><b>锰硅</b><br><span class="sym-code">SM0</span></a></td>
+            <td>5954</td>
+            <td>2026-05-26</td>
+            <td style="font-size:11px">头肩顶→5374</td>
+            <td>1</td>
+            <td><a href="SM0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="CY0_pattern.html" class="sym-link" target="_blank"><b>棉纱</b><br><span class="sym-code">CY0</span></a></td>
+            <td>22080</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">倒头肩底→22740</td>
+            <td>1</td>
+            <td><a href="CY0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="OI0_pattern.html" class="sym-link" target="_blank"><b>菜油</b><br><span class="sym-code">OI0</span></a></td>
+            <td>9625</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="OI0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="PK0_pattern.html" class="sym-link" target="_blank"><b>花生</b><br><span class="sym-code">PK0</span></a></td>
+            <td>8182</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">倒头肩底→8428 · 倒头肩底→8428</td>
+            <td>2</td>
+            <td><a href="PK0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="CJ0_pattern.html" class="sym-link" target="_blank"><b>红枣</b><br><span class="sym-code">CJ0</span></a></td>
+            <td>9045</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">对称三角形→8467</td>
+            <td>1</td>
+            <td><a href="CJ0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="PF0_pattern.html" class="sym-link" target="_blank"><b>短纤</b><br><span class="sym-code">PF0</span></a></td>
+            <td>7532</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">对称三角形→6502 · 对称三角形→6678 · 倒头肩底→7608</td>
+            <td>3</td>
+            <td><a href="PF0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="LU0_pattern.html" class="sym-link" target="_blank"><b>低硫燃油</b><br><span class="sym-code">LU0</span></a></td>
+            <td>4719</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">倒头肩底→2848</td>
+            <td>1</td>
+            <td><a href="LU0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="BC0_pattern.html" class="sym-link" target="_blank"><b>国际铜</b><br><span class="sym-code">BC0</span></a></td>
+            <td>93660</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">倒头肩底→104590 · 对称三角形→100110</td>
+            <td>2</td>
+            <td><a href="BC0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="NR0_pattern.html" class="sym-link" target="_blank"><b>20号胶</b><br><span class="sym-code">NR0</span></a></td>
+            <td>14745</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="NR0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SS0_pattern.html" class="sym-link" target="_blank"><b>不锈钢</b><br><span class="sym-code">SS0</span></a></td>
+            <td>14790</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="SS0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="FB0_pattern.html" class="sym-link" target="_blank"><b>纤维板</b><br><span class="sym-code">FB0</span></a></td>
+            <td>1270</td>
+            <td>2026-05-26</td>
+            <td style="font-size:11px">头肩顶→1279</td>
+            <td>1</td>
+            <td><a href="FB0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="BB0_pattern.html" class="sym-link" target="_blank"><b>胶合板</b><br><span class="sym-code">BB0</span></a></td>
+            <td>147</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="BB0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="WR0_pattern.html" class="sym-link" target="_blank"><b>线材</b><br><span class="sym-code">WR0</span></a></td>
+            <td>3375</td>
+            <td>2026-04-22</td>
+            <td style="font-size:11px">岛型顶→3328 · 岛型顶→3250 · 岛型顶→3212 · 岛型底→3561</td>
+            <td>38</td>
+            <td><a href="WR0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="RI0_pattern.html" class="sym-link" target="_blank"><b>早籼稻</b><br><span class="sym-code">RI0</span></a></td>
+            <td>2500</td>
+            <td>2022-06-30</td>
+            <td style="font-size:11px">岛型底→2616 · 岛型顶→2146 · 岛型顶→2107 · 岛型顶→2110</td>
+            <td>5</td>
+            <td><a href="RI0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="LR0_pattern.html" class="sym-link" target="_blank"><b>晚籼稻</b><br><span class="sym-code">LR0</span></a></td>
+            <td>2535</td>
+            <td>2022-06-29</td>
+            <td style="font-size:11px">岛型底→3645 · 岛型顶→2566 · 头肩顶→2870</td>
+            <td>3</td>
+            <td><a href="LR0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="JR0_pattern.html" class="sym-link" target="_blank"><b>粳稻</b><br><span class="sym-code">JR0</span></a></td>
+            <td>2758</td>
+            <td>2022-12-30</td>
+            <td style="font-size:11px">岛型底→2873 · 岛型顶→2718 · 岛型底→2918 · 对称三角形→2465</td>
+            <td>7</td>
+            <td><a href="JR0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="RS0_pattern.html" class="sym-link" target="_blank"><b>油菜籽</b><br><span class="sym-code">RS0</span></a></td>
+            <td>5740</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="RS0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="WH0_pattern.html" class="sym-link" target="_blank"><b>强麦</b><br><span class="sym-code">WH0</span></a></td>
+            <td>3050</td>
+            <td>2023-02-28</td>
+            <td style="font-size:11px">岛型顶→3167 · 岛型顶→2525 · 岛型顶→2469 · 岛型顶→2405</td>
+            <td>24</td>
+            <td><a href="WH0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="PM0_pattern.html" class="sym-link" target="_blank"><b>普麦</b><br><span class="sym-code">PM0</span></a></td>
+            <td>3059</td>
+            <td>2022-06-23</td>
+            <td style="font-size:11px">岛型顶→2333 · 岛型顶→2214 · 岛型顶→2713 · 岛型顶→2163</td>
+            <td>33</td>
+            <td><a href="PM0_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="000001_pattern.html" class="sym-link" target="_blank"><b>上证综指</b><br><span class="sym-code">000001</span></a></td>
+            <td>4153</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="000001_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="399106_pattern.html" class="sym-link" target="_blank"><b>深证综指</b><br><span class="sym-code">399106</span></a></td>
+            <td>2890</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">倒头肩底→3085 · 岛型底→2713 · 倒头肩底→2909</td>
+            <td>3</td>
+            <td><a href="399106_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="000300_pattern.html" class="sym-link" target="_blank"><b>沪深300</b><br><span class="sym-code">000300</span></a></td>
+            <td>4922</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">岛型底→4711 · 岛型底→4764</td>
+            <td>2</td>
+            <td><a href="000300_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="000016_pattern.html" class="sym-link" target="_blank"><b>上证50</b><br><span class="sym-code">000016</span></a></td>
+            <td>2969</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">头肩顶→2789</td>
+            <td>1</td>
+            <td><a href="000016_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="000905_pattern.html" class="sym-link" target="_blank"><b>中证500</b><br><span class="sym-code">000905</span></a></td>
+            <td>8704</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">对称三角形→9361 · 倒头肩底→9706 · 岛型底→8185</td>
+            <td>3</td>
+            <td><a href="000905_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="000852_pattern.html" class="sym-link" target="_blank"><b>中证1000</b><br><span class="sym-code">000852</span></a></td>
+            <td>8799</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">倒头肩底→9537 · 岛型底→8205 · 倒头肩底→9142</td>
+            <td>3</td>
+            <td><a href="000852_pattern.html" class="btn-view" target="_blank">📊 K线</a></td>
         </tr>
 </table>
-</div>
-
-<!-- 60分钟面板 -->
-<div class="tab-panel" id="panel-hourly">
-  <p style="color:#8b949e;font-size:.75rem;padding:8px 0">
-    扫描时间: 2026-05-25 13:42:58 | SW=6 | 13个三角 · 24窗口超时跳过
-  </p>
-  <table>
-  <tr><th>品种</th><th>形态</th><th>详情</th><th>数</th><th>60分钟K线</th></tr>
-  <tr>
-            <td><span class="sym-name"><b>豆一</b></span><br><span class="sym-code">A0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→5186</td>
-            <td>1</td>
-            <td><a href="A0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>白银</b></span><br><span class="sym-code">AG0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="AG0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>沪铝</b></span><br><span class="sym-code">AL0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="AL0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>氧化铝</b></span><br><span class="sym-code">AO0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→2529</td>
-            <td>1</td>
-            <td><a href="AO0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>苹果</b></span><br><span class="sym-code">AP0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="AP0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>沪金</b></span><br><span class="sym-code">AU0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="AU0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>沥青</b></span><br><span class="sym-code">BU0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→3741</td>
-            <td>1</td>
-            <td><a href="BU0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>玉米</b></span><br><span class="sym-code">C0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="C0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>棉花</b></span><br><span class="sym-code">CF0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="CF0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>沪铜</b></span><br><span class="sym-code">CU0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="CU0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>玻璃</b></span><br><span class="sym-code">FG0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="FG0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>热卷</b></span><br><span class="sym-code">HC0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="HC0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>铁矿石</b></span><br><span class="sym-code">I0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="I0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>焦炭</b></span><br><span class="sym-code">J0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="J0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>鸡蛋</b></span><br><span class="sym-code">JD0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="JD0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>焦煤</b></span><br><span class="sym-code">JM0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→1310</td>
-            <td>1</td>
-            <td><a href="JM0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>碳酸锂</b></span><br><span class="sym-code">LC0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→219760</td>
-            <td>1</td>
-            <td><a href="LC0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>生猪</b></span><br><span class="sym-code">LH0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="LH0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>豆粕</b></span><br><span class="sym-code">M0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="M0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>甲醇</b></span><br><span class="sym-code">MA0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→2465</td>
-            <td>1</td>
-            <td><a href="MA0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>沪镍</b></span><br><span class="sym-code">NI0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="NI0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>棕榈油</b></span><br><span class="sym-code">P0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="P0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>液化气</b></span><br><span class="sym-code">PG0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="PG0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>聚丙烯</b></span><br><span class="sym-code">PP0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→7262</td>
-            <td>1</td>
-            <td><a href="PP0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>螺纹钢</b></span><br><span class="sym-code">RB0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="RB0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>菜粕</b></span><br><span class="sym-code">RM0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="RM0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>橡胶</b></span><br><span class="sym-code">RU0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="RU0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>纯碱</b></span><br><span class="sym-code">SA0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="SA0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>原油</b></span><br><span class="sym-code">SC0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→492</td>
-            <td>1</td>
-            <td><a href="SC0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>烧碱</b></span><br><span class="sym-code">SH0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="SH0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>工业硅</b></span><br><span class="sym-code">SI0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="SI0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>白糖</b></span><br><span class="sym-code">SR0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="SR0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>PTA</b></span><br><span class="sym-code">TA0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→5610</td>
-            <td>1</td>
-            <td><a href="TA0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>尿素</b></span><br><span class="sym-code">UR0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="UR0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>PVC</b></span><br><span class="sym-code">V0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→4544</td>
-            <td>1</td>
-            <td><a href="V0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>豆油</b></span><br><span class="sym-code">Y0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="Y0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>沪锌</b></span><br><span class="sym-code">ZN0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="ZN0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>燃油</b></span><br><span class="sym-code">FU0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→3483</td>
-            <td>1</td>
-            <td><a href="FU0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>纸浆</b></span><br><span class="sym-code">SP0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→4766</td>
-            <td>1</td>
-            <td><a href="SP0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>乙二醇</b></span><br><span class="sym-code">EG0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="EG0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>苯乙烯</b></span><br><span class="sym-code">EB0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→8479</td>
-            <td>1</td>
-            <td><a href="EB0_hourly.html" class="btn-view" target="_blank">📊 60分钟</a></td>
-        </tr>
-  </table>
-</div>
-
-<!-- 15分钟面板 -->
-<div class="tab-panel" id="panel-min15">
-  <p style="color:#8b949e;font-size:.75rem;padding:8px 0">
-    扫描时间: 2026-05-25 11:33:33 | SW=9 | 4个三角
-  </p>
-  <table>
-  <tr><th>品种</th><th>形态</th><th>详情</th><th>数</th><th>15分钟K线</th></tr>
-  <tr>
-            <td><span class="sym-name"><b>豆一</b></span><br><span class="sym-code">A0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="A0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>白银</b></span><br><span class="sym-code">AG0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="AG0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>沪铝</b></span><br><span class="sym-code">AL0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="AL0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>氧化铝</b></span><br><span class="sym-code">AO0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="AO0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>苹果</b></span><br><span class="sym-code">AP0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="AP0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>沪金</b></span><br><span class="sym-code">AU0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="AU0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>沥青</b></span><br><span class="sym-code">BU0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="BU0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>玉米</b></span><br><span class="sym-code">C0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="C0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>棉花</b></span><br><span class="sym-code">CF0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="CF0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>沪铜</b></span><br><span class="sym-code">CU0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="CU0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>玻璃</b></span><br><span class="sym-code">FG0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="FG0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>热卷</b></span><br><span class="sym-code">HC0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="HC0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>铁矿石</b></span><br><span class="sym-code">I0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="I0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>焦炭</b></span><br><span class="sym-code">J0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="J0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>鸡蛋</b></span><br><span class="sym-code">JD0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="JD0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>焦煤</b></span><br><span class="sym-code">JM0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="JM0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>碳酸锂</b></span><br><span class="sym-code">LC0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="LC0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>生猪</b></span><br><span class="sym-code">LH0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="LH0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>豆粕</b></span><br><span class="sym-code">M0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="M0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>甲醇</b></span><br><span class="sym-code">MA0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→2652</td>
-            <td>1</td>
-            <td><a href="MA0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>沪镍</b></span><br><span class="sym-code">NI0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="NI0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>棕榈油</b></span><br><span class="sym-code">P0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="P0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>液化气</b></span><br><span class="sym-code">PG0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="PG0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>聚丙烯</b></span><br><span class="sym-code">PP0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="PP0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>螺纹钢</b></span><br><span class="sym-code">RB0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="RB0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>菜粕</b></span><br><span class="sym-code">RM0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="RM0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>橡胶</b></span><br><span class="sym-code">RU0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="RU0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>纯碱</b></span><br><span class="sym-code">SA0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="SA0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>原油</b></span><br><span class="sym-code">SC0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="SC0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>烧碱</b></span><br><span class="sym-code">SH0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="SH0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>工业硅</b></span><br><span class="sym-code">SI0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="SI0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>白糖</b></span><br><span class="sym-code">SR0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="SR0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>PTA</b></span><br><span class="sym-code">TA0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→5642</td>
-            <td>1</td>
-            <td><a href="TA0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>尿素</b></span><br><span class="sym-code">UR0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="UR0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>PVC</b></span><br><span class="sym-code">V0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="V0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>豆油</b></span><br><span class="sym-code">Y0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="Y0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>沪锌</b></span><br><span class="sym-code">ZN0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="ZN0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>燃油</b></span><br><span class="sym-code">FU0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→3494</td>
-            <td>1</td>
-            <td><a href="FU0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>纸浆</b></span><br><span class="sym-code">SP0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="SP0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>乙二醇</b></span><br><span class="sym-code">EG0</span></td>
-            <td></td>
-            <td style="font-size:11px">—</td>
-            <td>0</td>
-            <td><a href="EG0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-<tr>
-            <td><span class="sym-name"><b>苯乙烯</b></span><br><span class="sym-code">EB0</span></td>
-            <td><span class="pat-tri">三角×1</span></td>
-            <td style="font-size:11px">三角→8455</td>
-            <td>1</td>
-            <td><a href="EB0_15min.html" class="btn-view" target="_blank">📊 15分钟</a></td>
-        </tr>
-  </table>
-</div>
-
-<div class="footer">WILTW Knowledge Base · 形态检测模块 · 2026-05-25 13:52 · <a href="sh50/" style="color:#58a6ff">📈 上证50</a> · <a href="indices/" style="color:#58a6ff">📊 三大指数</a></div>
-
-<script>
-function switchTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('panel-' + (tab==='daily'?'daily':tab==='hourly'?'hourly':'min15')).classList.add('active');
-  document.querySelectorAll('.tab-btn')[[...document.querySelectorAll('.tab-btn')].findIndex(b=>b.textContent.includes(tab==='daily'?'日线':tab==='hourly'?'60分钟':'15分钟'))].classList.add('active');
-  
-  // Update stats
-  let prods=41, count=0, hit=0;
-  if(tab==='daily') {count=34;hit='83%'}
-  else if(tab==='hourly') {count=13;hit='32%'}
-  else {count=4;hit='10%'}
-  document.getElementById('stat-count').textContent=count;
-  document.getElementById('stat-hit').textContent=hit;
-}
-// Init
-document.getElementById('stat-count').textContent='34';
-document.getElementById('stat-hit').textContent='83%';
-</script>
+<div class="footer">生成时间: 2026-05-26 16:07 · 方法: Murphy v3 P0 · 仅已完成突破形态 · 渐进窗口扫描(10→120d)</div>
 </body>
 </html>
