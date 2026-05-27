@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纳微科技(688690) 形态检测分析</title>
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0d1117;color:#c9d1d9;display:flex;height:100vh;overflow:hidden}
+#sidebar{width:340px;min-width:340px;background:#161b22;border-right:1px solid #21262d;overflow-y:auto;padding:16px}
+#main{flex:1;display:flex;flex-direction:column}
+#chart{flex:1;min-height:0}
+#titlebar{padding:12px 20px;border-bottom:1px solid #21262d;background:#161b22}
+#titlebar h1{font-size:1.1rem;color:#f0c060;font-weight:600}
+#titlebar .sub{font-size:.75rem;color:#8b949e;margin-top:2px}
+.section{margin-bottom:20px}
+.section h3{color:#f0c060;font-size:.85rem;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid #21262d}
+.channel-card{background:#0d1117;border:1px solid #21262d;border-radius:6px;padding:10px;margin-bottom:8px;font-size:.75rem}
+.channel-card h4{color:#58a6ff;font-size:.78rem;margin-bottom:6px}
+.channel-card .row{display:flex;justify-content:space-between;margin:2px 0}
+.channel-card .row .lbl{color:#8b949e}
+.channel-card .row .val{color:#c9d1d9;font-weight:500}
+.channel-card .proj{margin-top:6px;padding-top:6px;border-top:1px dashed #30363d}
+.channel-card .proj .title{color:#f0c060;font-size:.7rem;margin-bottom:4px}
+.pattern-item{background:#0d1117;border:1px solid #21262d;border-radius:6px;padding:8px 10px;margin-bottom:6px;font-size:.73rem}
+.pattern-item .type{color:#58a6ff;font-weight:600}
+.pattern-item .name{color:#f0c060}
+.pattern-item .detail{color:#8b949e;margin-top:3px;font-size:.7rem}
+.pattern-item.bullish{border-left:2px solid #ff5050}
+.pattern-item.bearish{border-left:2px solid #00c864}
+.no-data{color:#555;font-size:.75rem;font-style:italic;text-align:center;padding:12px}
+.zone-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600}
+.zone-lower{background:#1b3a1b;color:#3fb950}
+.zone-mid{background:#3a2f0e;color:#f0c060}
+.zone-upper{background:#3a1b1b;color:#f85149}
+.close-price{font-size:1.3rem;font-weight:bold;color:#c9d1d9}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:.73rem}
+.summary-item{background:#0d1117;border:1px solid #21262d;border-radius:4px;padding:6px 8px}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:#0d1117}
+::-webkit-scrollbar-thumb{background:#30363d;border-radius:3px}
+#tbtn-bar{display:flex;gap:4px;padding:4px 0}
+.tbtn{background:#21262d;border:1px solid #30363d;color:#8b949e;font-size:.75rem;padding:3px 10px;border-radius:4px;cursor:pointer;transition:all .15s}
+.tbtn:hover{background:#30363d;color:#c9d1d9;border-color:#58a6ff}
+.tbtn.active{background:#1f3a5f;color:#58a6ff;border-color:#58a6ff}
+</style>
+</head>
+<body>
+<div id="sidebar"><div class="section"><div class="close-price">¥36</div><div style="color:#8b949e;font-size:.7rem">最新收盘</div></div><div class="section"><h3>📊 形态检测</h3><div style="color:#8b949e;font-size:.72rem;margin:4px 0">长周期(150日) · 3个形态</div><div class="pattern-item bullish">
+  <span class="type">三角形</span> <span class="name">上升三角形</span>
+  <span style="background:#1b3a1b;color:#3fb950;font-size:.6rem;padding:1px 5px;border-radius:3px">已完成</span> <span style="color:#3fb950">🎯目标: ¥40</span> <span style="color:#58a6ff;font-size:.65rem">⏱+64天</span> <span style="color:#f85149">止损: ¥28</span><br><span style="color:#8b949e;font-size:.6rem">突破日: 2026-04-10</span> <span style="color:#8b949e;font-size:.6rem">形成: 108天</span><br><span style="color:#f0c060;font-size:.65rem">📊 📊 突破放量✓</span></div><div class="pattern-item bullish">
+  <span class="type">三角形</span> <span class="name">对称三角形</span>
+  <span style="background:#1b3a1b;color:#3fb950;font-size:.6rem;padding:1px 5px;border-radius:3px">已完成</span> <span style="color:#3fb950">🎯目标: ¥38</span> <span style="color:#58a6ff;font-size:.65rem">⏱+74天</span> <span style="color:#f85149">止损: ¥26</span><br><span style="color:#8b949e;font-size:.6rem">突破日: 2026-04-10</span> <span style="color:#8b949e;font-size:.6rem">形成: 124天</span><br><span style="color:#f0c060;font-size:.65rem">📊 📊 突破放量✓</span></div><div class="pattern-item bullish">
+  <span class="type">头肩</span> <span class="name">倒头肩底</span>
+  <span style="background:#1b3a1b;color:#3fb950;font-size:.6rem;padding:1px 5px;border-radius:3px">已完成</span><br><span style="color:#8b949e">颈线: ¥28</span> <span style="color:#3fb950">🎯目标: ¥32</span> <span style="color:#58a6ff;font-size:.65rem">⏱+29天</span> <span style="color:#f85149">止损: ¥25</span><br><span style="color:#8b949e;font-size:.6rem">突破日: 2026-04-10</span> <span style="color:#8b949e;font-size:.6rem">形成: 29天</span><br><span style="color:#f0c060;font-size:.65rem">📊 📊 突破放量✓</span></div></div><div class="section">
+<h3>📖 图例 · 点击切换显示</h3>
+<div style="font-size:.7rem;color:#8b949e;line-height:1.8">
+<div style="margin-top:4px;padding-top:4px;border-top:1px solid #21262d">\n<div>📈 MA线 → 点击图例任意均线切换全部</div>\n<div>📊 形态线 → <strong>点击图例逐个切换</strong>（每个形态独立）</div>\n<div style="color:#555;font-size:.65rem">或使用图表上方按钮一键切换大类</div>\n</div>
+</div>
+</div><div class="section">
+<h3>🔍 形态如何看</h3>
+<div style="font-size:.7rem;color:#c9d1d9;line-height:1.8">
+<p>图上<strong>直接画形态线</strong>于K线之上：</p>
+<div style="margin:4px 0 4px 12px">
+<div>▲ <span style="color:#ff5050">三角形</span> → 上下收敛趋势虚线 + 标记点</div>
+<div>● <span style="color:#ff5050">头肩顶/底</span> → 水平颈线 + 左肩/头/右肩圆圈标记</div>
+<div>🚩 <span style="color:#ff5050">旗形</span> → 实心旗杆 + 旗面通道虚线</div>
+<div>🏝 <span style="color:#ff5050">岛型顶</span> / 🏖 <span style="color:#00c864">岛型底</span> → 半透明填充区域</div>
+</div>
+<div style="margin-top:8px;padding-top:8px;border-top:1px solid #21262d">
+<p><strong>阶段标记含义：</strong></p>
+<div style="margin:4px 0 4px 12px">
+<div>🔄 <strong>形成中</strong> — 形态正在构建，尚未确认</div>
+<div>⚡ <strong>逼近突破</strong> — 价格接近关键突破位</div>
+<div>⚠️ <strong>已突破</strong> — 价格已突破形态边界</div>
+</div>
+</div>
+<div style="margin-top:8px;padding-top:8px;border-top:1px solid #21262d">
+<p>📌 <strong>切换操作：</strong></p>
+<p style="color:#8b949e">• 点击图例中单个形态 → 仅切换该形态显示/隐藏</p>
+<p style="color:#8b949e">• 图表上方「📊 形态」按钮 → 一键切换全部形态</p>
+<p style="color:#8b949e">• 同周期多形态用不同线型（实线/虚线/点线）区分</p>
+</div>
+</div>
+</div></div>
+<div id="main">
+  <div id="titlebar">
+    <h1>纳微科技 <span style="font-size:.75rem;color:#8b949e;font-weight:400">688690</span> <span style="font-size:.65rem;color:#555">[形态]</span></h1>
+    <div class="sub">形态状态机检测 · 2025-05-27 ~ 2026-05-26</div>
+    <div id="tbtn-bar">      <button class="tbtn active" onclick="toggleAll()">👁 全部</button>
+      <button class="tbtn" onclick="toggleMA()">📈 均线</button>
+      <button class="tbtn active" id="btn-pt" onclick="togglePT()">📊 形态</button></div>
+  </div>
+  <div id="chart"></div>
+</div>
+<script>
+var plotData = [{"type": "candlestick", "x": ["2025-05-27", "2025-05-28", "2025-05-29", "2025-05-30", "2025-06-03", "2025-06-04", "2025-06-05", "2025-06-06", "2025-06-09", "2025-06-10", "2025-06-11", "2025-06-12", "2025-06-13", "2025-06-16", "2025-06-17", "2025-06-18", "2025-06-19", "2025-06-20", "2025-06-23", "2025-06-24", "2025-06-25", "2025-06-26", "2025-06-27", "2025-06-30", "2025-07-01", "2025-07-02", "2025-07-03", "2025-07-04", "2025-07-07", "2025-07-08", "2025-07-09", "2025-07-10", "2025-07-11", "2025-07-14", "2025-07-15", "2025-07-16", "2025-07-17", "2025-07-18", "2025-07-21", "2025-07-22", "2025-07-23", "2025-07-24", "2025-07-25", "2025-07-28", "2025-07-29", "2025-07-30", "2025-07-31", "2025-08-01", "2025-08-04", "2025-08-05", "2025-08-06", "2025-08-07", "2025-08-08", "2025-08-11", "2025-08-12", "2025-08-13", "2025-08-14", "2025-08-15", "2025-08-18", "2025-08-19", "2025-08-20", "2025-08-21", "2025-08-22", "2025-08-25", "2025-08-26", "2025-08-27", "2025-08-28", "2025-08-29", "2025-09-01", "2025-09-02", "2025-09-03", "2025-09-04", "2025-09-05", "2025-09-08", "2025-09-09", "2025-09-10", "2025-09-11", "2025-09-12", "2025-09-15", "2025-09-16", "2025-09-17", "2025-09-18", "2025-09-19", "2025-09-22", "2025-09-23", "2025-09-24", "2025-09-25", "2025-09-26", "2025-09-29", "2025-09-30", "2025-10-09", "2025-10-10", "2025-10-13", "2025-10-14", "2025-10-15", "2025-10-16", "2025-10-17", "2025-10-20", "2025-10-21", "2025-10-22", "2025-10-23", "2025-10-24", "2025-10-27", "2025-10-28", "2025-10-29", "2025-10-30", "2025-10-31", "2025-11-03", "2025-11-04", "2025-11-05", "2025-11-06", "2025-11-07", "2025-11-10", "2025-11-11", "2025-11-12", "2025-11-13", "2025-11-14", "2025-11-17", "2025-11-18", "2025-11-19", "2025-11-20", "2025-11-21", "2025-11-24", "2025-11-25", "2025-11-26", "2025-11-27", "2025-11-28", "2025-12-01", "2025-12-02", "2025-12-03", "2025-12-04", "2025-12-05", "2025-12-08", "2025-12-09", "2025-12-10", "2025-12-11", "2025-12-12", "2025-12-15", "2025-12-16", "2025-12-17", "2025-12-18", "2025-12-19", "2025-12-22", "2025-12-23", "2025-12-24", "2025-12-25", "2025-12-26", "2025-12-29", "2025-12-30", "2025-12-31", "2026-01-05", "2026-01-06", "2026-01-07", "2026-01-08", "2026-01-09", "2026-01-12", "2026-01-13", "2026-01-14", "2026-01-15", "2026-01-16", "2026-01-19", "2026-01-20", "2026-01-21", "2026-01-22", "2026-01-23", "2026-01-26", "2026-01-27", "2026-01-28", "2026-01-29", "2026-01-30", "2026-02-02", "2026-02-03", "2026-02-04", "2026-02-05", "2026-02-06", "2026-02-09", "2026-02-10", "2026-02-11", "2026-02-12", "2026-02-13", "2026-02-24", "2026-02-25", "2026-02-26", "2026-02-27", "2026-03-02", "2026-03-03", "2026-03-04", "2026-03-05", "2026-03-06", "2026-03-09", "2026-03-10", "2026-03-11", "2026-03-12", "2026-03-13", "2026-03-16", "2026-03-17", "2026-03-18", "2026-03-19", "2026-03-20", "2026-03-23", "2026-03-24", "2026-03-25", "2026-03-26", "2026-03-27", "2026-03-30", "2026-03-31", "2026-04-01", "2026-04-02", "2026-04-03", "2026-04-07", "2026-04-08", "2026-04-09", "2026-04-10", "2026-04-13", "2026-04-14", "2026-04-15", "2026-04-16", "2026-04-17", "2026-04-20", "2026-04-21", "2026-04-22", "2026-04-23", "2026-04-24", "2026-04-27", "2026-04-28", "2026-04-29", "2026-04-30", "2026-05-06", "2026-05-07", "2026-05-08", "2026-05-11", "2026-05-12", "2026-05-13", "2026-05-14", "2026-05-15", "2026-05-18", "2026-05-19", "2026-05-20", "2026-05-21", "2026-05-22", "2026-05-25", "2026-05-26"], "open": [20.88, 20.82, 20.55, 21.08, 20.81, 21.7, 21.98, 21.82, 21.65, 22.69, 22.74, 22.35, 22.3, 21.76, 21.67, 21.1, 20.9, 20.58, 20.49, 20.74, 21.23, 21.58, 21.45, 21.4, 22.85, 22.85, 22.75, 23.28, 22.84, 22.85, 22.9, 23.62, 24.98, 25.51, 25.5, 25.73, 25.43, 26.09, 25.6, 25.41, 26.5, 26.6, 26.86, 27.37, 27.0, 28.6, 27.4, 27.03, 26.25, 26.86, 27.18, 26.8, 26.61, 26.25, 27.28, 26.8, 27.46, 26.69, 27.56, 27.55, 27.27, 27.98, 27.54, 28.15, 28.89, 29.05, 28.76, 28.02, 28.28, 27.8, 26.71, 26.79, 26.08, 26.63, 27.56, 26.7, 26.6, 27.2, 27.27, 26.86, 26.6, 27.3, 26.6, 26.48, 26.62, 26.06, 26.5, 28.0, 28.05, 28.39, 28.88, 28.0, 26.95, 28.35, 27.23, 27.27, 27.51, 26.88, 27.12, 27.16, 26.98, 27.5, 29.9, 29.44, 30.11, 31.15, 30.11, 30.36, 29.89, 28.92, 28.98, 28.92, 29.38, 29.1, 29.19, 29.42, 30.19, 30.01, 29.88, 30.37, 28.87, 28.2, 26.83, 27.11, 27.01, 26.8, 26.83, 26.95, 26.92, 26.31, 26.03, 26.0, 26.36, 26.38, 26.26, 26.24, 25.9, 25.71, 25.62, 25.37, 25.7, 25.41, 25.11, 25.6, 25.26, 26.0, 26.0, 26.01, 25.8, 25.83, 25.97, 26.63, 26.63, 26.86, 26.9, 27.37, 27.77, 29.31, 30.09, 29.6, 27.18, 27.89, 27.62, 28.4, 28.25, 28.3, 27.95, 28.1, 27.71, 28.31, 28.43, 27.4, 28.72, 28.68, 28.5, 28.83, 28.28, 28.31, 27.64, 27.8, 28.17, 28.06, 28.3, 28.18, 28.3, 28.25, 26.0, 26.19, 25.55, 25.72, 25.37, 25.93, 25.62, 25.71, 25.8, 26.44, 25.84, 26.0, 24.9, 23.78, 23.26, 23.7, 23.88, 23.96, 24.61, 25.0, 25.5, 26.2, 26.0, 25.79, 26.3, 26.85, 30.0, 32.48, 32.91, 32.15, 30.8, 30.72, 31.47, 31.89, 31.3, 33.97, 33.5, 32.88, 33.51, 33.72, 32.94, 32.44, 33.15, 33.99, 34.38, 34.5, 34.29, 35.23, 34.23, 34.71, 35.76, 35.54, 37.05, 34.9, 36.66, 36.02], "high": [21.07, 20.9, 21.1, 21.29, 22.34, 22.17, 22.1, 21.98, 22.77, 23.03, 22.8, 22.65, 22.3, 21.87, 22.11, 21.1, 21.15, 20.84, 20.76, 21.33, 21.59, 21.76, 21.73, 22.98, 23.26, 22.98, 23.42, 23.28, 23.01, 23.33, 23.2, 25.98, 25.91, 26.1, 26.43, 25.98, 26.16, 26.09, 25.66, 27.42, 27.35, 27.08, 28.11, 27.74, 28.93, 28.6, 27.8, 27.55, 26.97, 26.99, 27.4, 27.53, 26.84, 27.54, 27.36, 27.48, 27.67, 27.37, 27.88, 28.2, 27.65, 28.28, 28.4, 29.85, 29.45, 30.0, 29.15, 29.44, 28.59, 28.36, 27.34, 27.17, 26.85, 27.55, 27.56, 27.17, 27.27, 27.33, 27.27, 26.86, 27.64, 27.6, 27.15, 26.94, 26.75, 26.67, 28.1, 28.3, 28.48, 29.17, 29.0, 28.26, 28.36, 28.35, 27.49, 28.4, 27.87, 28.26, 27.43, 27.35, 27.48, 29.66, 30.23, 30.04, 32.1, 31.5, 30.88, 30.98, 30.0, 29.24, 29.32, 29.39, 29.66, 29.66, 29.73, 30.38, 30.75, 30.48, 30.83, 30.89, 29.11, 28.42, 27.27, 27.42, 27.4, 27.37, 27.06, 27.1, 27.0, 26.57, 26.37, 26.28, 26.82, 26.62, 26.26, 26.33, 26.1, 25.94, 25.63, 25.79, 25.88, 25.5, 25.55, 25.6, 26.1, 26.36, 26.28, 26.04, 26.13, 26.05, 26.55, 26.77, 27.22, 27.3, 27.36, 27.8, 30.14, 31.01, 30.3, 29.74, 28.2, 28.15, 28.5, 28.4, 28.48, 28.67, 28.31, 28.41, 28.88, 28.78, 28.47, 29.09, 29.8, 28.96, 28.86, 28.9, 28.68, 28.41, 27.99, 28.25, 28.45, 28.64, 28.3, 28.63, 28.82, 28.44, 26.63, 26.34, 26.16, 25.72, 26.0, 26.04, 25.78, 26.29, 26.63, 26.7, 26.42, 26.18, 25.3, 23.86, 23.63, 24.3, 24.56, 24.79, 25.35, 25.62, 26.3, 26.4, 26.13, 26.05, 27.2, 27.22, 31.54, 33.75, 33.3, 32.37, 31.07, 32.0, 32.91, 32.63, 34.09, 34.87, 33.5, 34.2, 34.7, 33.72, 33.48, 33.33, 34.38, 34.72, 35.1, 34.59, 35.57, 35.9, 35.35, 36.0, 36.25, 37.58, 38.08, 36.4, 37.4, 37.4], "low": [20.62, 20.6, 20.5, 20.74, 20.71, 21.7, 21.65, 21.36, 21.39, 22.23, 22.37, 22.27, 21.46, 21.46, 20.79, 20.78, 20.43, 20.43, 20.38, 20.72, 21.16, 21.23, 21.36, 21.18, 22.66, 22.45, 22.64, 22.5, 22.45, 22.74, 22.69, 23.6, 24.7, 25.25, 25.32, 25.21, 25.26, 25.23, 25.14, 25.37, 26.44, 26.48, 26.71, 26.96, 26.81, 27.11, 26.96, 26.37, 26.1, 26.32, 26.41, 26.59, 26.06, 26.25, 26.41, 26.74, 26.67, 26.53, 27.23, 27.22, 26.74, 27.27, 27.43, 27.91, 28.33, 28.53, 27.04, 27.43, 27.4, 26.17, 26.48, 25.55, 25.74, 26.4, 26.63, 26.33, 25.91, 26.53, 26.71, 26.24, 26.31, 26.26, 26.17, 26.07, 25.31, 25.71, 26.32, 27.53, 27.46, 28.14, 27.9, 27.62, 26.8, 27.09, 26.8, 27.02, 26.54, 26.88, 26.98, 26.75, 26.45, 27.41, 29.17, 29.36, 30.11, 29.9, 30.11, 29.58, 29.03, 28.41, 28.64, 28.65, 28.74, 29.0, 28.85, 29.1, 29.88, 29.66, 29.55, 28.23, 28.37, 26.68, 26.73, 26.92, 26.8, 26.75, 26.73, 26.51, 26.36, 25.96, 25.86, 25.78, 26.23, 26.16, 25.86, 25.8, 25.68, 25.55, 25.14, 25.2, 25.07, 24.98, 25.06, 25.17, 25.23, 25.94, 25.94, 25.74, 25.68, 25.5, 25.58, 26.25, 26.43, 26.79, 26.76, 27.17, 27.77, 29.09, 29.31, 26.92, 26.86, 27.3, 27.41, 27.87, 28.04, 27.71, 27.16, 27.7, 27.6, 27.55, 26.92, 26.88, 28.66, 28.25, 28.04, 28.2, 28.15, 27.56, 27.61, 27.6, 27.55, 27.95, 27.93, 28.0, 27.72, 26.07, 25.7, 25.52, 25.55, 24.65, 25.37, 25.55, 25.38, 25.6, 25.7, 25.81, 25.75, 24.87, 24.01, 22.61, 22.74, 23.55, 23.88, 23.9, 24.41, 24.96, 25.15, 25.8, 25.55, 25.4, 26.2, 26.26, 29.93, 31.88, 31.26, 30.98, 29.5, 30.5, 31.47, 31.24, 31.26, 32.9, 32.45, 32.7, 33.3, 32.59, 32.1, 32.2, 32.78, 33.72, 33.53, 33.7, 33.72, 34.0, 34.23, 34.0, 34.66, 35.28, 34.53, 34.78, 35.5, 34.81], "close": [20.75, 20.66, 21.04, 20.81, 21.94, 22.0, 21.8, 21.48, 22.54, 22.54, 22.47, 22.43, 21.67, 21.55, 21.2, 20.95, 20.51, 20.44, 20.68, 21.25, 21.53, 21.36, 21.4, 22.83, 22.89, 22.77, 23.12, 22.87, 22.77, 22.98, 23.02, 24.88, 25.51, 25.66, 25.93, 25.51, 26.07, 25.63, 25.45, 26.66, 26.6, 26.85, 27.43, 27.11, 28.73, 27.47, 27.3, 26.42, 26.85, 26.83, 26.93, 26.68, 26.29, 27.35, 26.78, 27.37, 26.7, 27.2, 27.69, 27.37, 27.56, 27.51, 28.1, 28.95, 28.99, 28.94, 28.03, 28.84, 27.8, 26.48, 26.58, 25.95, 26.77, 27.41, 26.81, 26.73, 27.19, 27.07, 26.71, 26.53, 27.11, 26.53, 26.17, 26.76, 25.92, 26.4, 27.99, 28.0, 28.45, 28.88, 28.03, 27.77, 28.15, 27.19, 27.22, 27.62, 26.65, 26.96, 27.13, 26.96, 27.41, 29.62, 29.44, 29.52, 31.17, 30.35, 30.64, 29.95, 29.23, 28.79, 28.91, 29.1, 29.16, 29.16, 29.27, 30.32, 30.01, 30.2, 30.41, 28.64, 28.38, 26.7, 26.98, 27.0, 26.88, 26.83, 26.98, 26.9, 26.39, 26.07, 25.98, 26.24, 26.36, 26.16, 26.04, 25.81, 25.73, 25.55, 25.31, 25.68, 25.08, 25.01, 25.46, 25.24, 25.93, 26.04, 26.01, 25.82, 25.82, 25.81, 26.54, 26.58, 26.83, 26.95, 27.31, 27.64, 29.28, 30.05, 29.54, 27.09, 28.0, 27.71, 28.06, 28.14, 28.44, 27.98, 28.1, 27.82, 28.36, 28.26, 27.1, 29.0, 28.81, 28.73, 28.5, 28.31, 28.21, 27.65, 27.87, 27.83, 28.01, 28.21, 28.07, 28.63, 28.15, 26.22, 25.71, 25.66, 25.87, 25.17, 25.88, 25.61, 25.72, 26.0, 26.57, 25.85, 26.22, 25.04, 24.01, 22.81, 23.51, 24.09, 24.14, 24.67, 25.07, 25.1, 26.27, 25.94, 25.65, 25.6, 26.96, 26.28, 31.54, 32.81, 31.94, 31.3, 31.03, 31.88, 31.68, 31.49, 33.5, 33.32, 32.92, 33.14, 33.36, 32.88, 32.62, 33.15, 34.17, 34.34, 34.75, 34.48, 35.22, 34.31, 34.71, 35.86, 35.58, 37.05, 34.68, 36.21, 35.74, 36.39], "name": "K线", "increasing": {"line": {"color": "#ef5350"}, "fillcolor": "#ef5350"}, "decreasing": {"line": {"color": "#26a69a"}, "fillcolor": "#26a69a"}, "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2025-09-30", "2026-03-17"], "y": [29.17, 28.78568627451], "mode": "lines", "name": "长周期(150日)▲上升三角形 上轨", "line": {"color": "#ff5050", "width": 2.5, "dash": "dash"}, "opacity": 0.9, "showlegend": true, "legendgroup": "pt_L_tri_0", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2025-09-11", "2026-03-17"], "y": [25.91, 27.757469879517885], "mode": "lines", "name": "长周期(150日)▲上升三角形 下轨", "line": {"color": "#00c864", "width": 2.5, "dash": "dash"}, "opacity": 0.9, "showlegend": true, "legendgroup": "pt_L_tri_0", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2026-04-10"], "y": [31.54], "mode": "markers", "name": "长周期(150日)▲上升三角形 突破", "marker": {"size": 14, "symbol": "diamond", "color": "#f0c060", "line": {"color": "#fff", "width": 2}}, "showlegend": false, "legendgroup": "pt_L_tri_0", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2025-09-30", "2026-03-02"], "y": [39.65, 39.65], "mode": "lines", "name": "长周期(150日)▲上升三角形 目标", "line": {"color": "#f0c060", "width": 1.5, "dash": "dot"}, "opacity": 0.7, "showlegend": false, "legendgroup": "pt_L_tri_0", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2026-03-17"], "y": [28.79], "mode": "markers", "name": "长周期(150日)▲上升三角形 apex", "marker": {"size": 8, "symbol": "x-thin", "color": "#8b949e", "line": {"width": 2}}, "showlegend": false, "legendgroup": "pt_L_tri_0", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2025-09-17", "2026-04-01"], "y": [27.64, 26.622099447513847], "mode": "lines", "name": "长周期(150日)▲对称三角形 上轨", "line": {"color": "#ff5050", "width": 2.5, "dash": "dash"}, "opacity": 0.9, "showlegend": true, "legendgroup": "pt_L_tri_1", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2025-09-04", "2026-04-01"], "y": [25.55, 25.461440677966152], "mode": "lines", "name": "长周期(150日)▲对称三角形 下轨", "line": {"color": "#00c864", "width": 2.5, "dash": "dash"}, "opacity": 0.9, "showlegend": true, "legendgroup": "pt_L_tri_1", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2026-04-10"], "y": [31.54], "mode": "markers", "name": "长周期(150日)▲对称三角形 突破", "marker": {"size": 14, "symbol": "diamond", "color": "#f0c060", "line": {"color": "#fff", "width": 2}}, "showlegend": false, "legendgroup": "pt_L_tri_1", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2025-09-17", "2026-03-17"], "y": [38.48, 38.48], "mode": "lines", "name": "长周期(150日)▲对称三角形 目标", "line": {"color": "#f0c060", "width": 1.5, "dash": "dot"}, "opacity": 0.7, "showlegend": false, "legendgroup": "pt_L_tri_1", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2026-04-01"], "y": [26.62], "mode": "markers", "name": "长周期(150日)▲对称三角形 apex", "marker": {"size": 8, "symbol": "x-thin", "color": "#8b949e", "line": {"width": 2}}, "showlegend": false, "legendgroup": "pt_L_tri_1", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2025-09-04", "2025-10-23"], "y": [26.0, 26.0], "mode": "lines", "name": "长周期(150日)●倒头肩底", "line": {"color": "#ff5050", "width": 1.5, "dash": "solid"}, "opacity": 0.85, "showlegend": true, "legendgroup": "pt_L_hs_0", "xaxis": "x", "yaxis": "y"}, {"type": "scatter", "x": ["2025-09-04", "2025-09-23", "2025-10-23"], "y": [27.17, 26.75, 27.48], "mode": "markers+text", "text": ["左肩", "头部", "右肩"], "textposition": "top center", "name": "长周期(150日)●倒头肩底", "marker": {"size": 10, "symbol": "circle", "color": "#ff5050", "line": {"width": 1, "color": "#fff"}}, "textfont": {"size": 9, "color": "#ff5050"}, "opacity": 0.9, "showlegend": false, "legendgroup": "pt_L_hs_0", "xaxis": "x", "yaxis": "y"}];
+var layout = {"title": null, "xaxis": {"rangeslider": {"visible": false}, "type": "category", "showgrid": true, "gridcolor": "#21262d", "tickfont": {"color": "#8b949e", "size": 10}}, "yaxis": {"title": "价格", "showgrid": true, "gridcolor": "#21262d", "tickfont": {"color": "#8b949e", "size": 10}, "side": "right"}, "plot_bgcolor": "#0d1117", "paper_bgcolor": "#0d1117", "font": {"color": "#c9d1d9"}, "margin": {"l": 10, "r": 80, "t": 30, "b": 40}, "legend": {"orientation": "h", "yanchor": "top", "y": 1.12, "xanchor": "left", "x": 0, "font": {"color": "#8b949e", "size": 10}, "bgcolor": "rgba(0,0,0,0)"}, "hovermode": "x unified", "shapes": [], "annotations": [{"x": "2025-09-30", "y": 29.17, "xref": "x", "yref": "y", "text": "<b>P1</b> 09-30 ¥29", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2026-02-04", "y": 29.8, "xref": "x", "yref": "y", "text": "<b>P2</b> 02-04 ¥30", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2026-03-02", "y": 28.82, "xref": "x", "yref": "y", "text": "<b>P3</b> 03-02 ¥29", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2025-09-11", "y": 25.91, "xref": "x", "yref": "y", "text": "<b>T1</b> 09-11 ¥26", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2025-10-23", "y": 26.45, "xref": "x", "yref": "y", "text": "<b>T2</b> 10-23 ¥26", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2026-02-24", "y": 27.55, "xref": "x", "yref": "y", "text": "<b>T3</b> 02-24 ¥28", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2026-04-10", "y": 31.54, "xref": "x", "yref": "y", "text": "⚡突破 04-10 ¥32", "showarrow": true, "arrowhead": 3, "arrowwidth": 2, "arrowcolor": "#f0c060", "ax": 15, "ay": -25, "font": {"size": 10, "color": "#1a1a2e"}, "bgcolor": "#f0c060", "borderpad": 4}, {"x": "2026-03-02", "y": 39.65, "xref": "x", "yref": "y", "text": "🎯 目标 ¥40", "showarrow": false, "font": {"size": 10, "color": "#f0c060"}, "bgcolor": "rgba(0,0,0,0)", "borderpad": 2, "xanchor": "left"}, {"x": "2025-09-17", "y": 27.64, "xref": "x", "yref": "y", "text": "<b>P1</b> 09-17 ¥28", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2025-12-25", "y": 26.36, "xref": "x", "yref": "y", "text": "<b>P2</b> 12-25 ¥26", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2026-03-17", "y": 26.7, "xref": "x", "yref": "y", "text": "<b>P3</b> 03-17 ¥27", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#ff5050", "ax": 0, "ay": -28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(255,50,50,0.25)", "borderpad": 3}, {"x": "2025-09-04", "y": 25.55, "xref": "x", "yref": "y", "text": "<b>T1</b> 09-04 ¥26", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2025-09-23", "y": 25.31, "xref": "x", "yref": "y", "text": "<b>T2</b> 09-23 ¥25", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2025-12-31", "y": 25.5, "xref": "x", "yref": "y", "text": "<b>T3</b> 12-31 ¥26", "showarrow": true, "arrowhead": 2, "arrowwidth": 1.5, "arrowcolor": "#00c864", "ax": 0, "ay": 28, "font": {"size": 9, "color": "#fff"}, "bgcolor": "rgba(0,200,100,0.25)", "borderpad": 3}, {"x": "2026-04-10", "y": 31.54, "xref": "x", "yref": "y", "text": "⚡突破 04-10 ¥32", "showarrow": true, "arrowhead": 3, "arrowwidth": 2, "arrowcolor": "#f0c060", "ax": 15, "ay": -25, "font": {"size": 10, "color": "#1a1a2e"}, "bgcolor": "#f0c060", "borderpad": 4}, {"x": "2026-03-17", "y": 38.48, "xref": "x", "yref": "y", "text": "🎯 目标 ¥38", "showarrow": false, "font": {"size": 10, "color": "#f0c060"}, "bgcolor": "rgba(0,0,0,0)", "borderpad": 2, "xanchor": "left"}, {"x": "2025-09-24", "y": 26.0, "xref": "x", "yref": "y", "text": "⚠️ 倒头肩底", "showarrow": true, "arrowhead": 3, "arrowwidth": 2, "arrowcolor": "#ff5050", "ax": 0, "ay": -45, "font": {"size": 11, "color": "#ffffff"}, "bgcolor": "rgba(255,80,80,0.85)", "borderpad": 4}], "dragmode": "pan"};
+var config = {"displayModeBar": true, "modeBarButtonsToRemove": ["lasso2d", "select2d", "autoScale2d"], "displaylogo": false, "responsive": true, "edits": {"annotationPosition": false, "annotationText": false, "annotationTail": false}};
+var gd = null;
+var allVis = [], visNoMA = [], visNoCH = [], visNoPT = [];
+var fullAnnos = [], emptyAnnos = [];
+var ptShowing = true, maShowing = true, chShowing = true;
+
+function initToggles() {
+    var n = gd.data.length;
+    fullAnnos = (gd.layout.annotations || []).slice();
+    for (var i = 0; i < n; i++) {
+        allVis.push(true);
+        var lg = gd.data[i].legendgroup || '';
+        visNoMA.push(lg !== 'ma');
+        visNoCH.push(!lg.startsWith('ch_'));
+        visNoPT.push(!lg.startsWith('pt_'));
+    }
+}
+
+function setBtnState(id, active) {
+    var b = document.getElementById(id);
+    if (b) b.className = 'tbtn' + (active ? ' active' : '');
+}
+
+function toggleAll() {
+    Plotly.restyle(gd, 'visible', allVis);
+    Plotly.relayout(gd, {'annotations': fullAnnos});
+    ptShowing = maShowing = chShowing = true;
+    setBtnState('btn-ma', false); setBtnState('btn-ch', false); setBtnState('btn-pt', true);
+}
+
+function toggleMA() {
+    maShowing = !maShowing;
+    var vis = maShowing ? allVis : visNoMA;
+    Plotly.restyle(gd, 'visible', vis);
+    setBtnState('btn-ma', maShowing);
+}
+
+function toggleCH() {
+    chShowing = !chShowing;
+    var vis = chShowing ? allVis : visNoCH;
+    Plotly.restyle(gd, 'visible', vis);
+    setBtnState('btn-ch', chShowing);
+}
+
+function togglePT() {
+    ptShowing = !ptShowing;
+    var vis = ptShowing ? allVis : visNoPT;
+    Plotly.restyle(gd, 'visible', vis);
+    Plotly.relayout(gd, {'annotations': ptShowing ? fullAnnos : emptyAnnos});
+    setBtnState('btn-pt', ptShowing);
+}
+
+Plotly.newPlot('chart', plotData, layout, config).then(function(g) {
+    gd = g;
+    document.getElementById('sidebar').scrollTop = 0;
+    initToggles();
+});
+window.addEventListener('resize', function() { if (gd) Plotly.Plots.resize('chart'); });
+</script>
+</body>
+</html>
