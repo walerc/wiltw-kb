@@ -41,7 +41,7 @@
     "symbol": "T0",
     "name": "10年国债",
     "direction": "看跌",
-    "status": "open",
+    "status": "closed",
     "entry_date": "2026-06-05 10:56",
     "entry_close": 109.29,
     "channels": {
@@ -71,7 +71,14 @@
       "long_slope": 0.0,
       "long_d20": 109.2
     },
-    "result": null
+    "result": {
+      "close_date": "2026-06-10 17:33",
+      "exit_close": 108.835,
+      "change_pct": -0.42,
+      "correct": true,
+      "hold_days": 5.3
+    },
+    "close_date": "2026-06-10 17:33"
   },
   {
     "id": "20260605-105654",
@@ -159,7 +166,7 @@
     "symbol": "I0",
     "name": "铁矿石",
     "direction": "看涨",
-    "status": "open",
+    "status": "closed",
     "entry_date": "2026-06-05 10:56",
     "entry_close": 767.5,
     "channels": {
@@ -189,14 +196,21 @@
       "long_slope": 0.09,
       "long_d20": 824.2
     },
-    "result": null
+    "result": {
+      "close_date": "2026-06-10 17:33",
+      "exit_close": 771.5,
+      "change_pct": 0.52,
+      "correct": true,
+      "hold_days": 5.3
+    },
+    "close_date": "2026-06-10 17:33"
   },
   {
     "id": "20260605-105654",
     "symbol": "JM0",
     "name": "焦煤",
     "direction": "看跌",
-    "status": "open",
+    "status": "closed",
     "entry_date": "2026-06-05 10:56",
     "entry_close": 1431.5,
     "channels": {
@@ -226,14 +240,21 @@
       "long_slope": 0.21,
       "long_d20": 1382.2
     },
-    "result": null
+    "result": {
+      "close_date": "2026-06-10 17:22",
+      "exit_close": 1363.5,
+      "change_pct": -4.75,
+      "correct": true,
+      "hold_days": 5.3
+    },
+    "close_date": "2026-06-10 17:22"
   },
   {
     "id": "20260605-105654",
     "symbol": "J0",
     "name": "焦炭",
     "direction": "看跌",
-    "status": "open",
+    "status": "closed",
     "entry_date": "2026-06-05 10:56",
     "entry_close": 2043.0,
     "channels": {
@@ -263,7 +284,14 @@
       "long_slope": -0.25,
       "long_d20": 1875.2
     },
-    "result": null
+    "result": {
+      "close_date": "2026-06-10 17:22",
+      "exit_close": 1983.0,
+      "change_pct": -2.94,
+      "correct": true,
+      "hold_days": 5.3
+    },
+    "close_date": "2026-06-10 17:22"
   },
   {
     "id": "20260608-181646",
@@ -381,7 +409,7 @@
     "symbol": "SR0",
     "name": "白糖",
     "direction": "看涨",
-    "status": "open",
+    "status": "closed",
     "entry_date": "2026-06-08 18:16",
     "entry_close": 5330.0,
     "channels": {
@@ -411,7 +439,14 @@
       "long_slope": 0.33,
       "long_d20": 5527.6
     },
-    "result": null
+    "result": {
+      "close_date": "2026-06-10 17:33",
+      "exit_close": 5314.0,
+      "change_pct": -0.3,
+      "correct": false,
+      "hold_days": 2.0
+    },
+    "close_date": "2026-06-10 17:33"
   },
   {
     "id": "20260608-181712",
@@ -447,6 +482,191 @@
       "long_width": 7.1,
       "long_slope": 1.96,
       "long_d20": 3160.7
+    },
+    "result": null
+  },
+  {
+    "id": "20260610-173400",
+    "symbol": "AU0",
+    "name": "沪金",
+    "direction": "看涨",
+    "status": "open",
+    "entry_date": "2026-06-10 17:34",
+    "entry_close": 919.32,
+    "channels": {
+      "close": 919.32,
+      "short_upper": 985.0,
+      "short_lower": 953.9,
+      "short_center": 969.5,
+      "short_position": -110.9,
+      "short_r2": 0.738,
+      "short_width": 3.2,
+      "short_slope": -2.87,
+      "short_d20": 927.6,
+      "medium_upper": 1032.2,
+      "medium_lower": 891.1,
+      "medium_center": 961.7,
+      "medium_position": 20.0,
+      "medium_r2": 0.522,
+      "medium_width": 14.7,
+      "medium_slope": -2.79,
+      "medium_d20": 976.4,
+      "long_upper": 1192.5,
+      "long_lower": 935.5,
+      "long_center": 1064.0,
+      "long_position": -6.3,
+      "long_r2": 0.048,
+      "long_width": 24.2,
+      "long_slope": -0.44,
+      "long_d20": 1183.7
+    },
+    "result": null
+  },
+  {
+    "id": "20260610-173401",
+    "symbol": "AG0",
+    "name": "白银",
+    "direction": "看涨",
+    "status": "open",
+    "entry_date": "2026-06-10 17:34",
+    "entry_close": 15622.0,
+    "channels": {
+      "close": 15622.0,
+      "short_upper": 18448.2,
+      "short_lower": 16366.7,
+      "short_center": 17407.5,
+      "short_position": -35.8,
+      "short_r2": 0.648,
+      "short_width": 12.0,
+      "short_slope": -154.74,
+      "short_d20": 15353.5,
+      "medium_upper": 20487.9,
+      "medium_lower": 17084.0,
+      "medium_center": 18786.0,
+      "medium_position": -43.0,
+      "medium_r2": 0.001,
+      "medium_width": 18.1,
+      "medium_slope": 1.74,
+      "medium_d20": 20522.8,
+      "long_upper": 25659.8,
+      "long_lower": 17523.0,
+      "long_center": 21591.3,
+      "long_position": -23.4,
+      "long_r2": 0.496,
+      "long_width": 37.7,
+      "long_slope": 61.76,
+      "long_d20": 26894.9
+    },
+    "result": null
+  },
+  {
+    "id": "20260610-173403",
+    "symbol": "NI0",
+    "name": "沪镍",
+    "direction": "看涨",
+    "status": "open",
+    "entry_date": "2026-06-10 17:34",
+    "entry_close": 135100.0,
+    "channels": {
+      "close": 135100.0,
+      "short_upper": 143573.1,
+      "short_lower": 138799.8,
+      "short_center": 141186.4,
+      "short_position": -77.5,
+      "short_r2": 0.504,
+      "short_width": 3.4,
+      "short_slope": -264.06,
+      "short_d20": 138291.9,
+      "medium_upper": 153032.3,
+      "medium_lower": 140667.8,
+      "medium_center": 146850.0,
+      "medium_position": -45.0,
+      "medium_r2": 0.441,
+      "medium_width": 8.4,
+      "medium_slope": 207.84,
+      "medium_d20": 157189.2,
+      "long_upper": 158574.2,
+      "long_lower": 138533.6,
+      "long_center": 148554.0,
+      "long_position": -17.1,
+      "long_r2": 0.639,
+      "long_width": 13.5,
+      "long_slope": 204.04,
+      "long_d20": 162655.0
+    },
+    "result": null
+  },
+  {
+    "id": "20260610-173404",
+    "symbol": "RU0",
+    "name": "橡胶",
+    "direction": "看涨",
+    "status": "open",
+    "entry_date": "2026-06-10 17:34",
+    "entry_close": 17330.0,
+    "channels": {
+      "close": 17330.0,
+      "short_upper": 18279.6,
+      "short_lower": 17413.5,
+      "short_center": 17846.6,
+      "short_position": -9.6,
+      "short_r2": 0.038,
+      "short_width": 4.9,
+      "short_slope": 9.48,
+      "short_d20": 18469.3,
+      "medium_upper": 18494.1,
+      "medium_lower": 17489.2,
+      "medium_center": 17991.6,
+      "medium_position": -15.8,
+      "medium_r2": 0.673,
+      "medium_width": 5.6,
+      "medium_slope": 27.31,
+      "medium_d20": 19040.3,
+      "long_upper": 18309.7,
+      "long_lower": 17334.6,
+      "long_center": 17822.2,
+      "long_position": -0.5,
+      "long_r2": 0.879,
+      "long_width": 5.5,
+      "long_slope": 20.11,
+      "long_d20": 18712.0
+    },
+    "result": null
+  },
+  {
+    "id": "20260610-173406",
+    "symbol": "SP0",
+    "name": "纸浆",
+    "direction": "看跌",
+    "status": "open",
+    "entry_date": "2026-06-10 17:34",
+    "entry_close": 4868.0,
+    "channels": {
+      "close": 4868.0,
+      "short_upper": 4872.9,
+      "short_lower": 4768.4,
+      "short_center": 4820.7,
+      "short_position": 95.3,
+      "short_r2": 0.898,
+      "short_width": 2.2,
+      "short_slope": -16.99,
+      "short_d20": 4533.0,
+      "medium_upper": 5029.5,
+      "medium_lower": 4827.5,
+      "medium_center": 4928.5,
+      "medium_position": 20.1,
+      "medium_r2": 0.614,
+      "medium_width": 4.1,
+      "medium_slope": -4.82,
+      "medium_d20": 4933.0,
+      "long_upper": 5197.7,
+      "long_lower": 4810.1,
+      "long_center": 5003.9,
+      "long_position": 14.9,
+      "long_r2": 0.57,
+      "long_width": 7.7,
+      "long_slope": -3.41,
+      "long_d20": 5129.4
     },
     "result": null
   }
