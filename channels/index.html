@@ -1,90 +1,1065 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>通道投影分析总览</title><meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><style>
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Microsoft YaHei",sans-serif;background:#0d1117;color:#c9d1d9;padding:16px 24px}h1{color:#f0c060;font-size:1.2rem;margin-bottom:4px}.sub{color:#8b949e;font-size:.73rem;margin-bottom:12px;line-height:1.6}.legend{font-size:.64rem;color:#8b949e;margin-bottom:10px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}.legend .sep{color:#30363d}.filter-bar{display:flex;gap:8px;align-items:center;margin-bottom:12px;font-size:.7rem;flex-wrap:wrap}.filter-bar input{background:#161b22;border:1px solid #30363d;color:#c9d1d9;padding:4px 8px;border-radius:4px;width:150px}.filter-bar select{background:#161b22;border:1px solid #30363d;color:#c9d1d9;padding:4px 8px;border-radius:4px}.btn-sort{background:#21262d;border:1px solid #30363d;color:#8b949e;padding:3px 8px;border-radius:4px;cursor:pointer;font-size:.65rem}.btn-sort:hover,.btn-sort.active{background:#1a3a5c;color:#58a6ff;border-color:#58a6ff}table{width:100%;border-collapse:collapse;background:#161b22;border-radius:8px;overflow:hidden;font-size:.63rem}th{background:#1c2128;padding:4px 5px;text-align:center;font-size:.58rem;color:#8b949e;white-space:nowrap;position:sticky;top:0;z-index:2}th.period-hdr{color:#f0c060;font-size:.64rem;border-bottom:2px solid #30363d}td{padding:4px 5px;border-bottom:1px solid #21262d;text-align:center;white-space:nowrap;font-size:.68rem}tr:hover td{background:#1c2735!important}.sym-link{color:#58a6ff;text-decoration:none;font-weight:600;font-size:.72rem}.sym-link:hover{color:#79c0ff;text-decoration:underline}.sym-code{font-size:7px;color:#555}.btn-view{display:inline-block;padding:3px 8px;background:#1a3a5c;color:#58a6ff;border-radius:4px;text-decoration:none;font-size:.68rem}.btn-view:hover{background:#1f4a7a}td.name-cell{text-align:left;position:sticky;left:0;background:#161b22;z-index:1}tr:hover td.name-cell{background:#1c2735!important}.footer{text-align:center;color:#555;font-size:.68rem;margin-top:24px}#table-container{overflow-x:auto;max-width:100%}.pos-num{font-size:.82rem;font-weight:700}.pctile-num{font-size:.6rem;margin-left:2px}.ptop{color:#da6e6e}.pbot{color:#57ab5a}.pmid{color:#6e7681}.brk-up{color:#ff6b6b}.brk-down{color:#4ae07a}.zone-up{color:#f0886e}.zone-mid{color:#e2b84c}.zone-low{color:#6ebf8a}.r2-good{color:#56d364;font-weight:600}.r2-mid{color:#d2a850}.r2-dim{color:#6e7681}.width-num{color:#aab2be;font-size:.66rem}.close-price{font-weight:700;font-size:.76rem;color:#e6edf3}.d20-num{font-size:.65rem}.d20-up{color:#f0886e}.d20-down{color:#6ebf8a}.d20-flat{color:#8b949e}.update-badge{display:inline-block;background:#1a3a5c;color:#58a6ff;padding:2px 8px;border-radius:4px;font-size:.7rem;margin-left:8px}
-</style></head><body>
-<h1>📐 通道投影分析 — 短中长三周期总览</h1>
-<div style="margin:6px 0 12px;padding:6px 12px;background:linear-gradient(135deg,#3a2f0e,#2a1f08);border:1px solid #c9a840;border-radius:6px;display:inline-block;font-size:.72rem">🙏 <b style="color:#e0c068">特别鸣谢</b> · <span style="color:#f0d060">一只胖鸵鸟</span></div>
-<div class="sub">位置%=(收盘−下轨)/(上轨−下轨)×100 · P=跨品种百分位 · D+20=20日后上轨(红↑=向上/绿↓=向下)<span class="update-badge">📐 通道刷新: 2026-06-12 20:01 | 通道参数: 本次已刷新</span></div>
-<div style="margin:4px 0 12px"><a href="prediction_board.html" style="color:#58a6ff;text-decoration:none;font-size:.78rem;background:rgba(88,166,255,0.08);padding:5px 14px;border:1px solid rgba(88,166,255,0.25);border-radius:6px;display:inline-block">📋 预测看板 → 追踪方向判断</a></div>
-<div class="legend"><span style="color:#ff6b6b;font-weight:700">▲突破上轨</span><span class="sep">|</span><span style="color:#f0886e">上轨区</span><span class="sep">|</span><span style="color:#e2b84c">中轨区</span><span class="sep">|</span><span style="color:#6ebf8a">下轨区</span><span class="sep">|</span><span style="color:#4ae07a;font-weight:700">▼跌破下轨</span><span class="sep">|</span>R²:<span style="color:#56d364">≥0.5</span><span style="color:#d2a850">0.2-0.5</span><span style="color:#6e7681"><0.2</span></div>
-<div class="filter-bar"><input type="text" id="search" placeholder="🔍 搜索..." oninput="filterTable()"><select id="zoneFilter" onchange="filterTable()"><option value="all">全部</option><option value="break-up">▲突破上轨</option><option value="upper">上轨区</option><option value="mid">中轨区</option><option value="lower">下轨区</option><option value="break-down">▼跌破下轨</option></select><span style="color:#556">| 排序:</span><button class="btn-sort active" onclick="sortTable('medium-pos',this)">中位置</button><button class="btn-sort" onclick="sortTable('short-pos',this)">短位置</button><button class="btn-sort" onclick="sortTable('long-pos',this)">长位置</button><button class="btn-sort" onclick="sortTable('medium-r2',this)">中R²</button><button class="btn-sort" onclick="sortTable('name',this)">名称</button></div>
-<div id="table-container"><table><thead><tr><th rowspan="2" style="width:64px">品种</th><th rowspan="2">收盘</th><th class="period-hdr" colspan="4">📗短(20日)</th><th class="period-hdr" colspan="4">📘中(60日)</th><th class="period-hdr" colspan="4">📙长(150日)</th><th rowspan="2">K线</th></tr><tr><th>位置</th><th>宽度</th><th>R²</th><th>D+20</th><th>位置</th><th>宽度</th><th>R²</th><th>D+20</th><th>位置</th><th>宽度</th><th>R²</th><th>D+20</th></tr></thead><tbody>
-<tr data-name="豆一 a0" data-short-pos="64.8" data-short-r2="0.201" data-medium-pos="34.5" data-medium-r2="0.008" data-long-pos="-6.3" data-long-r2="0.812"><td class="name-cell"><a href="A0_channel.html" class="sym-link" target="_blank">豆一<br><span class="sym-code">A0</span></a></td><td><span class="close-price">4744</span></td><td><span class="pos-num zone-mid">65%</span><span class="pctile-num pmid">P67</span></td><td><span class="width-num">2.9%</span></td><td><span class="r2-mid">0.20</span></td><td><span class="d20-num d20-down">↓4717.3</span></td><td><span class="pos-num zone-mid">34%</span><span class="pctile-num pmid">P64</span></td><td><span class="width-num">6.8%</span></td><td><span class="r2-dim">0.01</span></td><td><span class="d20-num d20-up">↑4968.7</span></td><td><span class="pos-num brk-down">▼-6%</span><span class="pctile-num pbot">P16</span></td><td><span class="width-num">7.9%</span></td><td><span class="r2-good">0.81</span></td><td><span class="d20-num d20-up">↑5287.4</span></td><td><a href="A0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="白银 ag0" data-short-pos="39.6" data-short-r2="0.739" data-medium-pos="-8.3" data-medium-r2="0.009" data-long-pos="-8.7" data-long-r2="0.381"><td class="name-cell"><a href="AG0_channel.html" class="sym-link" target="_blank">白银<br><span class="sym-code">AG0</span></a></td><td><span class="close-price">15972</span></td><td><span class="pos-num zone-mid">40%</span><span class="pctile-num pmid">P49</span></td><td><span class="width-num">11.1%</span></td><td><span class="r2-good">0.74</span></td><td><span class="d20-num d20-down">↓13750.1</span></td><td><span class="pos-num brk-down">▼-8%</span><span class="pctile-num pbot">P15</span></td><td><span class="width-num">20.9%</span></td><td><span class="r2-dim">0.01</span></td><td><span class="d20-num d20-up">↑19951.8</span></td><td><span class="pos-num brk-down">▼-9%</span><span class="pctile-num pbot">P12</span></td><td><span class="width-num">40.8%</span></td><td><span class="r2-mid">0.38</span></td><td><span class="d20-num d20-up">↑26306.9</span></td><td><a href="AG0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="沪铝 al0" data-short-pos="53.8" data-short-r2="0.343" data-medium-pos="27.8" data-medium-r2="0.018" data-long-pos="-4.0" data-long-r2="0.644"><td class="name-cell"><a href="AL0_channel.html" class="sym-link" target="_blank">沪铝<br><span class="sym-code">AL0</span></a></td><td><span class="close-price">24165</span></td><td><span class="pos-num zone-mid">54%</span><span class="pctile-num pmid">P62</span></td><td><span class="width-num">2.2%</span></td><td><span class="r2-mid">0.34</span></td><td><span class="d20-num d20-down">↓23988.9</span></td><td><span class="pos-num zone-low">28%</span><span class="pctile-num pmid">P60</span></td><td><span class="width-num">5.0%</span></td><td><span class="r2-dim">0.02</span></td><td><span class="d20-num d20-up">↑24986.9</span></td><td><span class="pos-num brk-down">▼-4%</span><span class="pctile-num pbot">P18</span></td><td><span class="width-num">9.0%</span></td><td><span class="r2-good">0.64</span></td><td><span class="d20-num d20-up">↑26996.9</span></td><td><a href="AL0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="氧化铝 ao0" data-short-pos="70.3" data-short-r2="0.426" data-medium-pos="107.2" data-medium-r2="0.395" data-long-pos="60.4" data-long-r2="0.002"><td class="name-cell"><a href="AO0_channel.html" class="sym-link" target="_blank">氧化铝<br><span class="sym-code">AO0</span></a></td><td><span class="close-price">2923</span></td><td><span class="pos-num zone-up">70%</span><span class="pctile-num pmid">P73</span></td><td><span class="width-num">5.9%</span></td><td><span class="r2-mid">0.43</span></td><td><span class="d20-num d20-up">↑3134.3</span></td><td><span class="pos-num brk-up">▲107%</span><span class="pctile-num ptop">P99</span></td><td><span class="width-num">12.6%</span></td><td><span class="r2-mid">0.40</span></td><td><span class="d20-num d20-down">↓2793.4</span></td><td><span class="pos-num zone-mid">60%</span><span class="pctile-num ptop">P88</span></td><td><span class="width-num">13.6%</span></td><td><span class="r2-dim">0.00</span></td><td><span class="d20-num d20-up">↑3075.7</span></td><td><a href="AO0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="苹果 ap0" data-short-pos="81.0" data-short-r2="0.167" data-medium-pos="121.7" data-medium-r2="0.769" data-long-pos="31.5" data-long-r2="0.011"><td class="name-cell"><a href="AP0_channel.html" class="sym-link" target="_blank">苹果<br><span class="sym-code">AP0</span></a></td><td><span class="close-price">7698</span></td><td><span class="pos-num zone-up">81%</span><span class="pctile-num ptop">P81</span></td><td><span class="width-num">4.0%</span></td><td><span class="r2-dim">0.17</span></td><td><span class="d20-num d20-up">↑7902.9</span></td><td><span class="pos-num brk-up">▲122%</span><span class="pctile-num ptop">P100</span></td><td><span class="width-num">7.9%</span></td><td><span class="r2-good">0.77</span></td><td><span class="d20-num d20-down">↓7174.5</span></td><td><span class="pos-num zone-low">32%</span><span class="pctile-num pmid">P64</span></td><td><span class="width-num">13.0%</span></td><td><span class="r2-dim">0.01</span></td><td><span class="d20-num d20-up">↑8383.9</span></td><td><a href="AP0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="沪金 au0" data-short-pos="18.6" data-short-r2="0.709" data-medium-pos="9.7" data-medium-r2="0.527" data-long-pos="1.7" data-long-r2="0.122"><td class="name-cell"><a href="AU0_channel.html" class="sym-link" target="_blank">沪金<br><span class="sym-code">AU0</span></a></td><td><span class="close-price">911.6</span></td><td><span class="pos-num zone-low">19%</span><span class="pctile-num pmid">P25</span></td><td><span class="width-num">5.7%</span></td><td><span class="r2-good">0.71</span></td><td><span class="d20-num d20-down">↓864</span></td><td><span class="pos-num zone-low">10%</span><span class="pctile-num pmid">P34</span></td><td><span class="width-num">11.4%</span></td><td><span class="r2-good">0.53</span></td><td><span class="d20-num d20-up">↑966.5</span></td><td><span class="pos-num zone-low">2%</span><span class="pctile-num pmid">P26</span></td><td><span class="width-num">25.1%</span></td><td><span class="r2-dim">0.12</span></td><td><span class="d20-num d20-up">↑1153.2</span></td><td><a href="AU0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="沥青 bu0" data-short-pos="64.6" data-short-r2="0.123" data-medium-pos="68.9" data-medium-r2="0.077" data-long-pos="43.0" data-long-r2="0.781"><td class="name-cell"><a href="BU0_channel.html" class="sym-link" target="_blank">沥青<br><span class="sym-code">BU0</span></a></td><td><span class="close-price">4456</span></td><td><span class="pos-num zone-mid">65%</span><span class="pctile-num pmid">P66</span></td><td><span class="width-num">7.8%</span></td><td><span class="r2-dim">0.12</span></td><td><span class="d20-num d20-up">↑4719</span></td><td><span class="pos-num zone-up">69%</span><span class="pctile-num ptop">P85</span></td><td><span class="width-num">10.8%</span></td><td><span class="r2-dim">0.08</span></td><td><span class="d20-num d20-up">↑4653.7</span></td><td><span class="pos-num zone-mid">43%</span><span class="pctile-num pmid">P77</span></td><td><span class="width-num">20.3%</span></td><td><span class="r2-good">0.78</span></td><td><span class="d20-num d20-up">↑5244.1</span></td><td><a href="BU0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="玉米 c0" data-short-pos="96.2" data-short-r2="0.016" data-medium-pos="67.3" data-medium-r2="0.266" data-long-pos="4.9" data-long-r2="0.672"><td class="name-cell"><a href="C0_channel.html" class="sym-link" target="_blank">玉米<br><span class="sym-code">C0</span></a></td><td><span class="close-price">2351</span></td><td><span class="pos-num zone-up">96%</span><span class="pctile-num ptop">P90</span></td><td><span class="width-num">2.2%</span></td><td><span class="r2-dim">0.02</span></td><td><span class="d20-num d20-flat">2345.7</span></td><td><span class="pos-num zone-up">67%</span><span class="pctile-num ptop">P82</span></td><td><span class="width-num">4.0%</span></td><td><span class="r2-mid">0.27</span></td><td><span class="d20-num d20-flat">2360.2</span></td><td><span class="pos-num zone-low">5%</span><span class="pctile-num pmid">P33</span></td><td><span class="width-num">5.7%</span></td><td><span class="r2-good">0.67</span></td><td><span class="d20-num d20-up">↑2512.9</span></td><td><a href="C0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="棉花 cf0" data-short-pos="31.6" data-short-r2="0.209" data-medium-pos="-5.9" data-medium-r2="0.401" data-long-pos="-38.6" data-long-r2="0.913"><td class="name-cell"><a href="CF0_channel.html" class="sym-link" target="_blank">棉花<br><span class="sym-code">CF0</span></a></td><td><span class="close-price">15765</span></td><td><span class="pos-num zone-low">32%</span><span class="pctile-num pmid">P42</span></td><td><span class="width-num">3.6%</span></td><td><span class="r2-mid">0.21</span></td><td><span class="d20-num d20-flat">15833.5</span></td><td><span class="pos-num brk-down">▼-6%</span><span class="pctile-num pbot">P19</span></td><td><span class="width-num">6.4%</span></td><td><span class="r2-mid">0.40</span></td><td><span class="d20-num d20-up">↑17206.7</span></td><td><span class="pos-num brk-down">▼-39%</span><span class="pctile-num pbot">P1</span></td><td><span class="width-num">5.1%</span></td><td><span class="r2-good">0.91</span></td><td><span class="d20-num d20-up">↑17340.1</span></td><td><a href="CF0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="沪铜 cu0" data-short-pos="47.5" data-short-r2="0.000" data-medium-pos="5.7" data-medium-r2="0.739" data-long-pos="31.7" data-long-r2="0.605"><td class="name-cell"><a href="CU0_channel.html" class="sym-link" target="_blank">沪铜<br><span class="sym-code">CU0</span></a></td><td><span class="close-price">104660</span></td><td><span class="pos-num zone-mid">48%</span><span class="pctile-num pmid">P56</span></td><td><span class="width-num">2.4%</span></td><td><span class="r2-dim">0.00</span></td><td><span class="d20-num d20-up">↑105924.9</span></td><td><span class="pos-num zone-low">6%</span><span class="pctile-num pmid">P32</span></td><td><span class="width-num">5.7%</span></td><td><span class="r2-good">0.74</span></td><td><span class="d20-num d20-up">↑114382.9</span></td><td><span class="pos-num zone-low">32%</span><span class="pctile-num pmid">P66</span></td><td><span class="width-num">11.4%</span></td><td><span class="r2-good">0.60</span></td><td><span class="d20-num d20-up">↑115269.2</span></td><td><a href="CU0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="玻璃 fg0" data-short-pos="19.2" data-short-r2="0.275" data-medium-pos="43.1" data-medium-r2="0.785" data-long-pos="17.9" data-long-r2="0.768"><td class="name-cell"><a href="FG0_channel.html" class="sym-link" target="_blank">玻璃<br><span class="sym-code">FG0</span></a></td><td><span class="close-price">987</span></td><td><span class="pos-num zone-low">19%</span><span class="pctile-num pmid">P26</span></td><td><span class="width-num">5.8%</span></td><td><span class="r2-mid">0.28</span></td><td><span class="d20-num d20-up">↑994.8</span></td><td><span class="pos-num zone-mid">43%</span><span class="pctile-num pmid">P68</span></td><td><span class="width-num">7.5%</span></td><td><span class="r2-good">0.79</span></td><td><span class="d20-num d20-down">↓975.4</span></td><td><span class="pos-num zone-low">18%</span><span class="pctile-num pmid">P51</span></td><td><span class="width-num">11.9%</span></td><td><span class="r2-good">0.77</span></td><td><span class="d20-num d20-up">↑1053.6</span></td><td><a href="FG0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="热卷 hc0" data-short-pos="78.8" data-short-r2="0.428" data-medium-pos="16.6" data-medium-r2="0.359" data-long-pos="49.0" data-long-r2="0.389"><td class="name-cell"><a href="HC0_channel.html" class="sym-link" target="_blank">热卷<br><span class="sym-code">HC0</span></a></td><td><span class="close-price">3379</span></td><td><span class="pos-num zone-up">79%</span><span class="pctile-num pmid">P77</span></td><td><span class="width-num">1.6%</span></td><td><span class="r2-mid">0.43</span></td><td><span class="d20-num d20-down">↓3339.1</span></td><td><span class="pos-num zone-low">17%</span><span class="pctile-num pmid">P47</span></td><td><span class="width-num">4.5%</span></td><td><span class="r2-mid">0.36</span></td><td><span class="d20-num d20-up">↑3552.1</span></td><td><span class="pos-num zone-mid">49%</span><span class="pctile-num pmid">P79</span></td><td><span class="width-num">4.6%</span></td><td><span class="r2-mid">0.39</span></td><td><span class="d20-num d20-up">↑3477.4</span></td><td><a href="HC0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="铁矿石 i0" data-short-pos="76.1" data-short-r2="0.858" data-medium-pos="27.0" data-medium-r2="0.152" data-long-pos="10.6" data-long-r2="0.006"><td class="name-cell"><a href="I0_channel.html" class="sym-link" target="_blank">铁矿石<br><span class="sym-code">I0</span></a></td><td><span class="close-price">764</span></td><td><span class="pos-num zone-up">76%</span><span class="pctile-num pmid">P75</span></td><td><span class="width-num">2.1%</span></td><td><span class="r2-good">0.86</span></td><td><span class="d20-num d20-down">↓725.2</span></td><td><span class="pos-num zone-low">27%</span><span class="pctile-num pmid">P59</span></td><td><span class="width-num">7.4%</span></td><td><span class="r2-dim">0.15</span></td><td><span class="d20-num d20-up">↑796.6</span></td><td><span class="pos-num zone-low">11%</span><span class="pctile-num pmid">P40</span></td><td><span class="width-num">7.7%</span></td><td><span class="r2-dim">0.01</span></td><td><span class="d20-num d20-up">↑819.3</span></td><td><a href="I0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="焦炭 j0" data-short-pos="50.8" data-short-r2="0.830" data-medium-pos="103.2" data-medium-r2="0.608" data-long-pos="139.4" data-long-r2="0.063"><td class="name-cell"><a href="J0_channel.html" class="sym-link" target="_blank">焦炭<br><span class="sym-code">J0</span></a></td><td><span class="close-price">2078</span></td><td><span class="pos-num zone-mid">51%</span><span class="pctile-num pmid">P60</span></td><td><span class="width-num">6.7%</span></td><td><span class="r2-good">0.83</span></td><td><span class="d20-num d20-up">↑2482.2</span></td><td><span class="pos-num brk-up">▲103%</span><span class="pctile-num ptop">P97</span></td><td><span class="width-num">10.9%</span></td><td><span class="r2-good">0.61</span></td><td><span class="d20-num d20-up">↑2172.1</span></td><td><span class="pos-num brk-up">▲139%</span><span class="pctile-num ptop">P100</span></td><td><span class="width-num">16.3%</span></td><td><span class="r2-dim">0.06</span></td><td><span class="d20-num d20-down">↓1973.4</span></td><td><a href="J0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="鸡蛋 jd0" data-short-pos="11.8" data-short-r2="0.594" data-medium-pos="43.9" data-medium-r2="0.878" data-long-pos="98.6" data-long-r2="0.348"><td class="name-cell"><a href="JD0_channel.html" class="sym-link" target="_blank">鸡蛋<br><span class="sym-code">JD0</span></a></td><td><span class="close-price">4690</span></td><td><span class="pos-num zone-low">12%</span><span class="pctile-num pbot">P12</span></td><td><span class="width-num">5.7%</span></td><td><span class="r2-good">0.59</span></td><td><span class="d20-num d20-up">↑5296.6</span></td><td><span class="pos-num zone-mid">44%</span><span class="pctile-num pmid">P70</span></td><td><span class="width-num">5.4%</span></td><td><span class="r2-good">0.88</span></td><td><span class="d20-num d20-up">↑5088.9</span></td><td><span class="pos-num zone-up">99%</span><span class="pctile-num ptop">P97</span></td><td><span class="width-num">14.5%</span></td><td><span class="r2-mid">0.35</span></td><td><span class="d20-num d20-up">↑4769.6</span></td><td><a href="JD0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="焦煤 jm0" data-short-pos="18.0" data-short-r2="0.575" data-medium-pos="46.2" data-medium-r2="0.419" data-long-pos="81.0" data-long-r2="0.132"><td class="name-cell"><a href="JM0_channel.html" class="sym-link" target="_blank">焦煤<br><span class="sym-code">JM0</span></a></td><td><span class="close-price">1,370.5</span></td><td><span class="pos-num zone-low">18%</span><span class="pctile-num pmid">P22</span></td><td><span class="width-num">9.5%</span></td><td><span class="r2-good">0.57</span></td><td><span class="d20-num d20-up">↑1653.3</span></td><td><span class="pos-num zone-mid">46%</span><span class="pctile-num pmid">P73</span></td><td><span class="width-num">14.5%</span></td><td><span class="r2-mid">0.42</span></td><td><span class="d20-num d20-up">↑1542</span></td><td><span class="pos-num zone-up">81%</span><span class="pctile-num ptop">P93</span></td><td><span class="width-num">22.8%</span></td><td><span class="r2-dim">0.13</span></td><td><span class="d20-num d20-up">↑1443.4</span></td><td><a href="JM0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="碳酸锂 lc0" data-short-pos="110.4" data-short-r2="0.567" data-medium-pos="22.4" data-medium-r2="0.265" data-long-pos="17.2" data-long-r2="0.583"><td class="name-cell"><a href="LC0_channel.html" class="sym-link" target="_blank">碳酸锂<br><span class="sym-code">LC0</span></a></td><td><span class="close-price">175300</span></td><td><span class="pos-num brk-up">▲110%</span><span class="pctile-num ptop">P100</span></td><td><span class="width-num">10.0%</span></td><td><span class="r2-good">0.57</span></td><td><span class="d20-num d20-down">↓152798</span></td><td><span class="pos-num zone-low">22%</span><span class="pctile-num pmid">P49</span></td><td><span class="width-num">21.0%</span></td><td><span class="r2-mid">0.27</span></td><td><span class="d20-num d20-up">↑214484.6</span></td><td><span class="pos-num zone-low">17%</span><span class="pctile-num pmid">P48</span></td><td><span class="width-num">29.4%</span></td><td><span class="r2-good">0.58</span></td><td><span class="d20-num d20-up">↑232825.1</span></td><td><a href="LC0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="生猪 lh0" data-short-pos="106.0" data-short-r2="0.452" data-medium-pos="63.0" data-medium-r2="0.287" data-long-pos="58.7" data-long-r2="0.768"><td class="name-cell"><a href="LH0_channel.html" class="sym-link" target="_blank">生猪<br><span class="sym-code">LH0</span></a></td><td><span class="close-price">12140</span></td><td><span class="pos-num brk-up">▲106%</span><span class="pctile-num ptop">P99</span></td><td><span class="width-num">4.3%</span></td><td><span class="r2-mid">0.45</span></td><td><span class="d20-num d20-down">↓11597.3</span></td><td><span class="pos-num zone-mid">63%</span><span class="pctile-num ptop">P81</span></td><td><span class="width-num">9.9%</span></td><td><span class="r2-mid">0.29</span></td><td><span class="d20-num d20-up">↑12294</span></td><td><span class="pos-num zone-mid">59%</span><span class="pctile-num ptop">P85</span></td><td><span class="width-num">14.7%</span></td><td><span class="r2-good">0.77</span></td><td><span class="d20-num d20-up">↑12377.1</span></td><td><a href="LH0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="豆粕 m0" data-short-pos="86.6" data-short-r2="0.670" data-medium-pos="26.1" data-medium-r2="0.023" data-long-pos="18.3" data-long-r2="0.541"><td class="name-cell"><a href="M0_channel.html" class="sym-link" target="_blank">豆粕<br><span class="sym-code">M0</span></a></td><td><span class="close-price">2941</span></td><td><span class="pos-num zone-up">87%</span><span class="pctile-num ptop">P89</span></td><td><span class="width-num">2.3%</span></td><td><span class="r2-good">0.67</span></td><td><span class="d20-num d20-down">↓2844</span></td><td><span class="pos-num zone-low">26%</span><span class="pctile-num pmid">P55</span></td><td><span class="width-num">4.1%</span></td><td><span class="r2-dim">0.02</span></td><td><span class="d20-num d20-up">↑3023</span></td><td><span class="pos-num zone-low">18%</span><span class="pctile-num pmid">P52</span></td><td><span class="width-num">7.3%</span></td><td><span class="r2-good">0.54</span></td><td><span class="d20-num d20-up">↑3158.5</span></td><td><a href="M0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="甲醇 ma0" data-short-pos="75.5" data-short-r2="0.079" data-medium-pos="97.0" data-medium-r2="0.416" data-long-pos="28.2" data-long-r2="0.629"><td class="name-cell"><a href="MA0_channel.html" class="sym-link" target="_blank">甲醇<br><span class="sym-code">MA0</span></a></td><td><span class="close-price">3010</span></td><td><span class="pos-num zone-up">76%</span><span class="pctile-num pmid">P74</span></td><td><span class="width-num">7.5%</span></td><td><span class="r2-dim">0.08</span></td><td><span class="d20-num d20-up">↑3135.9</span></td><td><span class="pos-num zone-up">97%</span><span class="pctile-num ptop">P96</span></td><td><span class="width-num">14.0%</span></td><td><span class="r2-mid">0.42</span></td><td><span class="d20-num d20-down">↓2896</span></td><td><span class="pos-num zone-low">28%</span><span class="pctile-num pmid">P60</span></td><td><span class="width-num">17.9%</span></td><td><span class="r2-good">0.63</span></td><td><span class="d20-num d20-up">↑3524.8</span></td><td><a href="MA0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="沪镍 ni0" data-short-pos="20.7" data-short-r2="0.703" data-medium-pos="-17.4" data-medium-r2="0.191" data-long-pos="-14.1" data-long-r2="0.583"><td class="name-cell"><a href="NI0_channel.html" class="sym-link" target="_blank">沪镍<br><span class="sym-code">NI0</span></a></td><td><span class="close-price">134540</span></td><td><span class="pos-num zone-low">21%</span><span class="pctile-num pmid">P29</span></td><td><span class="width-num">4.5%</span></td><td><span class="r2-good">0.70</span></td><td><span class="d20-num d20-down">↓129005.1</span></td><td><span class="pos-num brk-down">▼-17%</span><span class="pctile-num pbot">P10</span></td><td><span class="width-num">10.5%</span></td><td><span class="r2-dim">0.19</span></td><td><span class="d20-num d20-up">↑155086.2</span></td><td><span class="pos-num brk-down">▼-14%</span><span class="pctile-num pbot">P5</span></td><td><span class="width-num">14.3%</span></td><td><span class="r2-good">0.58</span></td><td><span class="d20-num d20-up">↑162483.7</span></td><td><a href="NI0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="棕榈油 p0" data-short-pos="30.6" data-short-r2="0.266" data-medium-pos="19.5" data-medium-r2="0.303" data-long-pos="-10.6" data-long-r2="0.675"><td class="name-cell"><a href="P0_channel.html" class="sym-link" target="_blank">棕榈油<br><span class="sym-code">P0</span></a></td><td><span class="close-price">9321</span></td><td><span class="pos-num zone-low">31%</span><span class="pctile-num pmid">P38</span></td><td><span class="width-num">4.2%</span></td><td><span class="r2-mid">0.27</span></td><td><span class="d20-num d20-flat">9334.7</span></td><td><span class="pos-num zone-low">20%</span><span class="pctile-num pmid">P48</span></td><td><span class="width-num">5.0%</span></td><td><span class="r2-mid">0.30</span></td><td><span class="d20-num d20-up">↑9584.8</span></td><td><span class="pos-num brk-down">▼-11%</span><span class="pctile-num pbot">P10</span></td><td><span class="width-num">8.7%</span></td><td><span class="r2-good">0.68</span></td><td><span class="d20-num d20-up">↑10460.3</span></td><td><a href="P0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="液化气 pg0" data-short-pos="26.3" data-short-r2="0.421" data-medium-pos="16.1" data-medium-r2="0.039" data-long-pos="0.5" data-long-r2="0.699"><td class="name-cell"><a href="PG0_channel.html" class="sym-link" target="_blank">液化气<br><span class="sym-code">PG0</span></a></td><td><span class="close-price">5381</span></td><td><span class="pos-num zone-low">26%</span><span class="pctile-num pmid">P34</span></td><td><span class="width-num">9.9%</span></td><td><span class="r2-mid">0.42</span></td><td><span class="d20-num d20-down">↓5272.5</span></td><td><span class="pos-num zone-low">16%</span><span class="pctile-num pmid">P44</span></td><td><span class="width-num">16.1%</span></td><td><span class="r2-dim">0.04</span></td><td><span class="d20-num d20-up">↑6080.3</span></td><td><span class="pos-num zone-low">0%</span><span class="pctile-num pmid">P22</span></td><td><span class="width-num">22.1%</span></td><td><span class="r2-good">0.70</span></td><td><span class="d20-num d20-up">↑7018.1</span></td><td><a href="PG0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="聚丙烯 pp0" data-short-pos="41.2" data-short-r2="0.057" data-medium-pos="26.9" data-medium-r2="0.143" data-long-pos="16.2" data-long-r2="0.826"><td class="name-cell"><a href="PP0_channel.html" class="sym-link" target="_blank">聚丙烯<br><span class="sym-code">PP0</span></a></td><td><span class="close-price">8596</span></td><td><span class="pos-num zone-mid">41%</span><span class="pctile-num pmid">P53</span></td><td><span class="width-num">5.9%</span></td><td><span class="r2-dim">0.06</span></td><td><span class="d20-num d20-up">↑8757.7</span></td><td><span class="pos-num zone-low">27%</span><span class="pctile-num pmid">P58</span></td><td><span class="width-num">7.8%</span></td><td><span class="r2-dim">0.14</span></td><td><span class="d20-num d20-up">↑9199.9</span></td><td><span class="pos-num zone-low">16%</span><span class="pctile-num pmid">P47</span></td><td><span class="width-num">13.9%</span></td><td><span class="r2-good">0.83</span></td><td><span class="d20-num d20-up">↑10067.7</span></td><td><a href="PP0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="螺纹钢 rb0" data-short-pos="86.1" data-short-r2="0.184" data-medium-pos="30.9" data-medium-r2="0.195" data-long-pos="44.8" data-long-r2="0.375"><td class="name-cell"><a href="RB0_channel.html" class="sym-link" target="_blank">螺纹钢<br><span class="sym-code">RB0</span></a></td><td><span class="close-price">3178</span></td><td><span class="pos-num zone-up">86%</span><span class="pctile-num ptop">P86</span></td><td><span class="width-num">1.8%</span></td><td><span class="r2-dim">0.18</span></td><td><span class="d20-num d20-down">↓3155.9</span></td><td><span class="pos-num zone-low">31%</span><span class="pctile-num pmid">P63</span></td><td><span class="width-num">4.1%</span></td><td><span class="r2-dim">0.20</span></td><td><span class="d20-num d20-up">↑3292.6</span></td><td><span class="pos-num zone-mid">45%</span><span class="pctile-num pmid">P78</span></td><td><span class="width-num">4.0%</span></td><td><span class="r2-mid">0.38</span></td><td><span class="d20-num d20-up">↑3264</span></td><td><a href="RB0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="菜粕 rm0" data-short-pos="82.1" data-short-r2="0.753" data-medium-pos="29.5" data-medium-r2="0.124" data-long-pos="33.8" data-long-r2="0.172"><td class="name-cell"><a href="RM0_channel.html" class="sym-link" target="_blank">菜粕<br><span class="sym-code">RM0</span></a></td><td><span class="close-price">2259</span></td><td><span class="pos-num zone-up">82%</span><span class="pctile-num ptop">P84</span></td><td><span class="width-num">2.9%</span></td><td><span class="r2-good">0.75</span></td><td><span class="d20-num d20-down">↓2147.9</span></td><td><span class="pos-num zone-low">30%</span><span class="pctile-num pmid">P62</span></td><td><span class="width-num">7.7%</span></td><td><span class="r2-dim">0.12</span></td><td><span class="d20-num d20-up">↑2359</span></td><td><span class="pos-num zone-mid">34%</span><span class="pctile-num pmid">P68</span></td><td><span class="width-num">9.6%</span></td><td><span class="r2-dim">0.17</span></td><td><span class="d20-num d20-up">↑2389.1</span></td><td><a href="RM0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="橡胶 ru0" data-short-pos="31.4" data-short-r2="0.014" data-medium-pos="-1.6" data-medium-r2="0.708" data-long-pos="13.7" data-long-r2="0.887"><td class="name-cell"><a href="RU0_channel.html" class="sym-link" target="_blank">橡胶<br><span class="sym-code">RU0</span></a></td><td><span class="close-price">17565</span></td><td><span class="pos-num zone-low">31%</span><span class="pctile-num pmid">P41</span></td><td><span class="width-num">4.7%</span></td><td><span class="r2-dim">0.01</span></td><td><span class="d20-num d20-up">↑18243.9</span></td><td><span class="pos-num brk-down">▼-2%</span><span class="pctile-num pmid">P23</span></td><td><span class="width-num">5.3%</span></td><td><span class="r2-good">0.71</span></td><td><span class="d20-num d20-up">↑19096.3</span></td><td><span class="pos-num zone-low">14%</span><span class="pctile-num pmid">P42</span></td><td><span class="width-num">5.3%</span></td><td><span class="r2-good">0.89</span></td><td><span class="d20-num d20-up">↑18791.5</span></td><td><a href="RU0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="纯碱 sa0" data-short-pos="27.9" data-short-r2="0.358" data-medium-pos="26.8" data-medium-r2="0.674" data-long-pos="-8.6" data-long-r2="0.163"><td class="name-cell"><a href="SA0_channel.html" class="sym-link" target="_blank">纯碱<br><span class="sym-code">SA0</span></a></td><td><span class="close-price">1150</span></td><td><span class="pos-num zone-low">28%</span><span class="pctile-num pmid">P36</span></td><td><span class="width-num">5.0%</span></td><td><span class="r2-mid">0.36</span></td><td><span class="d20-num d20-flat">1144.3</span></td><td><span class="pos-num zone-low">27%</span><span class="pctile-num pmid">P56</span></td><td><span class="width-num">6.5%</span></td><td><span class="r2-good">0.67</span></td><td><span class="d20-num d20-up">↑1164.2</span></td><td><span class="pos-num brk-down">▼-9%</span><span class="pctile-num pbot">P14</span></td><td><span class="width-num">9.8%</span></td><td><span class="r2-dim">0.16</span></td><td><span class="d20-num d20-up">↑1272</span></td><td><a href="SA0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="原油 sc0" data-short-pos="36.0" data-short-r2="0.722" data-medium-pos="16.5" data-medium-r2="0.594" data-long-pos="-10.3" data-long-r2="0.622"><td class="name-cell"><a href="SC0_channel.html" class="sym-link" target="_blank">原油<br><span class="sym-code">SC0</span></a></td><td><span class="close-price">553.5</span></td><td><span class="pos-num zone-mid">36%</span><span class="pctile-num pmid">P45</span></td><td><span class="width-num">10.5%</span></td><td><span class="r2-good">0.72</span></td><td><span class="d20-num d20-down">↓487.3</span></td><td><span class="pos-num zone-low">16%</span><span class="pctile-num pmid">P45</span></td><td><span class="width-num">16.3%</span></td><td><span class="r2-good">0.59</span></td><td><span class="d20-num d20-up">↑589.4</span></td><td><span class="pos-num brk-down">▼-10%</span><span class="pctile-num pbot">P11</span></td><td><span class="width-num">31.6%</span></td><td><span class="r2-good">0.62</span></td><td><span class="d20-num d20-up">↑834.7</span></td><td><a href="SC0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="烧碱 sh0" data-short-pos="101.2" data-short-r2="0.853" data-medium-pos="81.0" data-medium-r2="0.819" data-long-pos="30.6" data-long-r2="0.666"><td class="name-cell"><a href="SH0_channel.html" class="sym-link" target="_blank">烧碱<br><span class="sym-code">SH0</span></a></td><td><span class="close-price">1900</span></td><td><span class="pos-num brk-up">▲101%</span><span class="pctile-num ptop">P96</span></td><td><span class="width-num">3.6%</span></td><td><span class="r2-good">0.85</span></td><td><span class="d20-num d20-down">↓1721.1</span></td><td><span class="pos-num zone-up">81%</span><span class="pctile-num ptop">P90</span></td><td><span class="width-num">14.0%</span></td><td><span class="r2-good">0.82</span></td><td><span class="d20-num d20-down">↓1743.4</span></td><td><span class="pos-num zone-low">31%</span><span class="pctile-num pmid">P63</span></td><td><span class="width-num">19.2%</span></td><td><span class="r2-good">0.67</span></td><td><span class="d20-num d20-up">↑2081.6</span></td><td><a href="SH0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="工业硅 si0" data-short-pos="37.2" data-short-r2="0.685" data-medium-pos="53.6" data-medium-r2="0.160" data-long-pos="87.6" data-long-r2="0.219"><td class="name-cell"><a href="SI0_channel.html" class="sym-link" target="_blank">工业硅<br><span class="sym-code">SI0</span></a></td><td><span class="close-price">8745</span></td><td><span class="pos-num zone-mid">37%</span><span class="pctile-num pmid">P47</span></td><td><span class="width-num">2.4%</span></td><td><span class="r2-good">0.69</span></td><td><span class="d20-num d20-up">↑9223.5</span></td><td><span class="pos-num zone-mid">54%</span><span class="pctile-num pmid">P79</span></td><td><span class="width-num">6.3%</span></td><td><span class="r2-dim">0.16</span></td><td><span class="d20-num d20-up">↑9089.8</span></td><td><span class="pos-num zone-up">88%</span><span class="pctile-num ptop">P96</span></td><td><span class="width-num">8.1%</span></td><td><span class="r2-mid">0.22</span></td><td><span class="d20-num d20-flat">8774.6</span></td><td><a href="SI0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="白糖 sr0" data-short-pos="39.1" data-short-r2="0.367" data-medium-pos="11.4" data-medium-r2="0.015" data-long-pos="30.0" data-long-r2="0.039"><td class="name-cell"><a href="SR0_channel.html" class="sym-link" target="_blank">白糖<br><span class="sym-code">SR0</span></a></td><td><span class="close-price">5315</span></td><td><span class="pos-num zone-mid">39%</span><span class="pctile-num pmid">P48</span></td><td><span class="width-num">2.2%</span></td><td><span class="r2-mid">0.37</span></td><td><span class="d20-num d20-flat">5288.7</span></td><td><span class="pos-num zone-low">11%</span><span class="pctile-num pmid">P37</span></td><td><span class="width-num">3.1%</span></td><td><span class="r2-dim">0.01</span></td><td><span class="d20-num d20-up">↑5454.9</span></td><td><span class="pos-num zone-low">30%</span><span class="pctile-num pmid">P62</span></td><td><span class="width-num">5.5%</span></td><td><span class="r2-dim">0.04</span></td><td><span class="d20-num d20-up">↑5529.1</span></td><td><a href="SR0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="10年国债 t0" data-short-pos="9.8" data-short-r2="0.004" data-medium-pos="-31.8" data-medium-r2="0.810" data-long-pos="51.8" data-long-r2="0.416"><td class="name-cell"><a href="T0_channel.html" class="sym-link" target="_blank">10年国债<br><span class="sym-code">T0</span></a></td><td><span class="close-price">108.8</span></td><td><span class="pos-num zone-low">10%</span><span class="pctile-num pbot">P10</span></td><td><span class="width-num">0.5%</span></td><td><span class="r2-dim">0.00</span></td><td><span class="d20-num d20-flat">109.2</span></td><td><span class="pos-num brk-down">▼-32%</span><span class="pctile-num pbot">P7</span></td><td><span class="width-num">0.4%</span></td><td><span class="r2-good">0.81</span></td><td><span class="d20-num d20-up">↑109.8</span></td><td><span class="pos-num zone-mid">52%</span><span class="pctile-num ptop">P82</span></td><td><span class="width-num">0.8%</span></td><td><span class="r2-mid">0.42</span></td><td><span class="d20-num d20-flat">109.3</span></td><td><a href="T0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="pta ta0" data-short-pos="67.2" data-short-r2="0.007" data-medium-pos="83.0" data-medium-r2="0.479" data-long-pos="7.3" data-long-r2="0.689"><td class="name-cell"><a href="TA0_channel.html" class="sym-link" target="_blank">PTA<br><span class="sym-code">TA0</span></a></td><td><span class="close-price">6352</span></td><td><span class="pos-num zone-up">67%</span><span class="pctile-num pmid">P70</span></td><td><span class="width-num">7.3%</span></td><td><span class="r2-dim">0.01</span></td><td><span class="d20-num d20-up">↑6545.6</span></td><td><span class="pos-num zone-up">83%</span><span class="pctile-num ptop">P92</span></td><td><span class="width-num">9.2%</span></td><td><span class="r2-mid">0.48</span></td><td><span class="d20-num d20-down">↓6243.2</span></td><td><span class="pos-num zone-low">7%</span><span class="pctile-num pmid">P38</span></td><td><span class="width-num">14.9%</span></td><td><span class="r2-good">0.69</span></td><td><span class="d20-num d20-up">↑7515.3</span></td><td><a href="TA0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="5年国债 tf0" data-short-pos="16.7" data-short-r2="0.383" data-medium-pos="-42.6" data-medium-r2="0.610" data-long-pos="12.2" data-long-r2="0.532"><td class="name-cell"><a href="TF0_channel.html" class="sym-link" target="_blank">5年国债<br><span class="sym-code">TF0</span></a></td><td><span class="close-price">106.1</span></td><td><span class="pos-num zone-low">17%</span><span class="pctile-num pbot">P19</span></td><td><span class="width-num">0.3%</span></td><td><span class="r2-mid">0.38</span></td><td><span class="d20-num d20-flat">106.1</span></td><td><span class="pos-num brk-down">▼-43%</span><span class="pctile-num pbot">P1</span></td><td><span class="width-num">0.3%</span></td><td><span class="r2-good">0.61</span></td><td><span class="d20-num d20-up">↑106.8</span></td><td><span class="pos-num zone-low">12%</span><span class="pctile-num pmid">P41</span></td><td><span class="width-num">0.4%</span></td><td><span class="r2-good">0.53</span></td><td><span class="d20-num d20-flat">106.6</span></td><td><a href="TF0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="30年国债 tl0" data-short-pos="17.9" data-short-r2="0.103" data-medium-pos="5.6" data-medium-r2="0.665" data-long-pos="78.4" data-long-r2="0.104"><td class="name-cell"><a href="TL0_channel.html" class="sym-link" target="_blank">30年国债<br><span class="sym-code">TL0</span></a></td><td><span class="close-price">113.3</span></td><td><span class="pos-num zone-low">18%</span><span class="pctile-num pmid">P21</span></td><td><span class="width-num">1.3%</span></td><td><span class="r2-dim">0.10</span></td><td><span class="d20-num d20-up">↑115</span></td><td><span class="pos-num zone-low">6%</span><span class="pctile-num pmid">P30</span></td><td><span class="width-num">1.6%</span></td><td><span class="r2-good">0.67</span></td><td><span class="d20-num d20-up">↑115.9</span></td><td><span class="pos-num zone-up">78%</span><span class="pctile-num ptop">P92</span></td><td><span class="width-num">3.9%</span></td><td><span class="r2-dim">0.10</span></td><td><span class="d20-num d20-up">↑114</span></td><td><a href="TL0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="2年国债 ts0" data-short-pos="2.2" data-short-r2="0.565" data-medium-pos="-40.0" data-medium-r2="0.570" data-long-pos="17.8" data-long-r2="0.486"><td class="name-cell"><a href="TS0_channel.html" class="sym-link" target="_blank">2年国债<br><span class="sym-code">TS0</span></a></td><td><span class="close-price">102.5</span></td><td><span class="pos-num zone-low">2%</span><span class="pctile-num pbot">P5</span></td><td><span class="width-num">0.1%</span></td><td><span class="r2-good">0.56</span></td><td><span class="d20-num d20-flat">102.5</span></td><td><span class="pos-num brk-down">▼-40%</span><span class="pctile-num pbot">P3</span></td><td><span class="width-num">0.1%</span></td><td><span class="r2-good">0.57</span></td><td><span class="d20-num d20-flat">102.8</span></td><td><span class="pos-num zone-low">18%</span><span class="pctile-num pmid">P49</span></td><td><span class="width-num">0.2%</span></td><td><span class="r2-mid">0.49</span></td><td><span class="d20-num d20-flat">102.7</span></td><td><a href="TS0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="尿素 ur0" data-short-pos="48.6" data-short-r2="0.349" data-medium-pos="24.8" data-medium-r2="0.072" data-long-pos="-12.9" data-long-r2="0.224"><td class="name-cell"><a href="UR0_channel.html" class="sym-link" target="_blank">尿素<br><span class="sym-code">UR0</span></a></td><td><span class="close-price">1792</span></td><td><span class="pos-num zone-mid">49%</span><span class="pctile-num pmid">P58</span></td><td><span class="width-num">4.0%</span></td><td><span class="r2-mid">0.35</span></td><td><span class="d20-num d20-down">↓1771.1</span></td><td><span class="pos-num zone-low">25%</span><span class="pctile-num pmid">P53</span></td><td><span class="width-num">11.2%</span></td><td><span class="r2-dim">0.07</span></td><td><span class="d20-num d20-up">↑1925.4</span></td><td><span class="pos-num brk-down">▼-13%</span><span class="pctile-num pbot">P7</span></td><td><span class="width-num">10.3%</span></td><td><span class="r2-mid">0.22</span></td><td><span class="d20-num d20-up">↑2030.8</span></td><td><a href="UR0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="pvc v0" data-short-pos="55.5" data-short-r2="0.618" data-medium-pos="50.6" data-medium-r2="0.755" data-long-pos="-7.2" data-long-r2="0.391"><td class="name-cell"><a href="V0_channel.html" class="sym-link" target="_blank">PVC<br><span class="sym-code">V0</span></a></td><td><span class="close-price">4741</span></td><td><span class="pos-num zone-mid">56%</span><span class="pctile-num pmid">P63</span></td><td><span class="width-num">4.6%</span></td><td><span class="r2-good">0.62</span></td><td><span class="d20-num d20-down">↓4535.4</span></td><td><span class="pos-num zone-mid">51%</span><span class="pctile-num pmid">P77</span></td><td><span class="width-num">9.1%</span></td><td><span class="r2-good">0.76</span></td><td><span class="d20-num d20-down">↓4668</span></td><td><span class="pos-num brk-down">▼-7%</span><span class="pctile-num pbot">P15</span></td><td><span class="width-num">16.2%</span></td><td><span class="r2-mid">0.39</span></td><td><span class="d20-num d20-up">↑5750.5</span></td><td><a href="V0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="豆油 y0" data-short-pos="40.4" data-short-r2="0.388" data-medium-pos="16.1" data-medium-r2="0.358" data-long-pos="5.1" data-long-r2="0.497"><td class="name-cell"><a href="Y0_channel.html" class="sym-link" target="_blank">豆油<br><span class="sym-code">Y0</span></a></td><td><span class="close-price">8357</span></td><td><span class="pos-num zone-mid">40%</span><span class="pctile-num pmid">P51</span></td><td><span class="width-num">2.8%</span></td><td><span class="r2-mid">0.39</span></td><td><span class="d20-num d20-down">↓8291.6</span></td><td><span class="pos-num zone-low">16%</span><span class="pctile-num pmid">P44</span></td><td><span class="width-num">2.9%</span></td><td><span class="r2-mid">0.36</span></td><td><span class="d20-num d20-up">↑8492.5</span></td><td><span class="pos-num zone-low">5%</span><span class="pctile-num pmid">P34</span></td><td><span class="width-num">6.7%</span></td><td><span class="r2-mid">0.50</span></td><td><span class="d20-num d20-up">↑8991</span></td><td><a href="Y0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="沪锌 zn0" data-short-pos="11.1" data-short-r2="0.169" data-medium-pos="-29.9" data-medium-r2="0.784" data-long-pos="26.0" data-long-r2="0.427"><td class="name-cell"><a href="ZN0_channel.html" class="sym-link" target="_blank">沪锌<br><span class="sym-code">ZN0</span></a></td><td><span class="close-price">24360</span></td><td><span class="pos-num zone-low">11%</span><span class="pctile-num pbot">P11</span></td><td><span class="width-num">2.6%</span></td><td><span class="r2-dim">0.17</span></td><td><span class="d20-num d20-up">↑24610.5</span></td><td><span class="pos-num brk-down">▼-30%</span><span class="pctile-num pbot">P8</span></td><td><span class="width-num">3.6%</span></td><td><span class="r2-good">0.78</span></td><td><span class="d20-num d20-up">↑26184.8</span></td><td><span class="pos-num zone-low">26%</span><span class="pctile-num pmid">P59</span></td><td><span class="width-num">8.0%</span></td><td><span class="r2-mid">0.43</span></td><td><span class="d20-num d20-up">↑26095.7</span></td><td><a href="ZN0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="苯乙烯 eb0" data-short-pos="61.1" data-short-r2="0.762" data-medium-pos="41.3" data-medium-r2="0.844" data-long-pos="-22.4" data-long-r2="0.633"><td class="name-cell"><a href="EB0_channel.html" class="sym-link" target="_blank">苯乙烯<br><span class="sym-code">EB0</span></a></td><td><span class="close-price">8483</span></td><td><span class="pos-num zone-mid">61%</span><span class="pctile-num pmid">P64</span></td><td><span class="width-num">5.5%</span></td><td><span class="r2-good">0.76</span></td><td><span class="d20-num d20-down">↓7749.5</span></td><td><span class="pos-num zone-mid">41%</span><span class="pctile-num pmid">P67</span></td><td><span class="width-num">9.2%</span></td><td><span class="r2-good">0.84</span></td><td><span class="d20-num d20-down">↓8251.3</span></td><td><span class="pos-num brk-down">▼-22%</span><span class="pctile-num pbot">P4</span></td><td><span class="width-num">22.2%</span></td><td><span class="r2-good">0.63</span></td><td><span class="d20-num d20-up">↑11679.9</span></td><td><a href="EB0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="乙二醇 eg0" data-short-pos="98.3" data-short-r2="0.076" data-medium-pos="77.5" data-medium-r2="0.481" data-long-pos="26.0" data-long-r2="0.603"><td class="name-cell"><a href="EG0_channel.html" class="sym-link" target="_blank">乙二醇<br><span class="sym-code">EG0</span></a></td><td><span class="close-price">4679</span></td><td><span class="pos-num zone-up">98%</span><span class="pctile-num ptop">P93</span></td><td><span class="width-num">7.7%</span></td><td><span class="r2-dim">0.08</span></td><td><span class="d20-num d20-down">↓4576.1</span></td><td><span class="pos-num zone-up">78%</span><span class="pctile-num ptop">P89</span></td><td><span class="width-num">13.3%</span></td><td><span class="r2-mid">0.48</span></td><td><span class="d20-num d20-down">↓4595.3</span></td><td><span class="pos-num zone-low">26%</span><span class="pctile-num pmid">P59</span></td><td><span class="width-num">24.1%</span></td><td><span class="r2-good">0.60</span></td><td><span class="d20-num d20-up">↑5789.9</span></td><td><a href="EG0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="燃油 fu0" data-short-pos="28.6" data-short-r2="0.613" data-medium-pos="38.0" data-medium-r2="0.326" data-long-pos="-1.8" data-long-r2="0.598"><td class="name-cell"><a href="FU0_channel.html" class="sym-link" target="_blank">燃油<br><span class="sym-code">FU0</span></a></td><td><span class="close-price">3608</span></td><td><span class="pos-num zone-low">29%</span><span class="pctile-num pmid">P37</span></td><td><span class="width-num">9.4%</span></td><td><span class="r2-good">0.61</span></td><td><span class="d20-num d20-down">↓3377</span></td><td><span class="pos-num zone-mid">38%</span><span class="pctile-num pmid">P66</span></td><td><span class="width-num">23.2%</span></td><td><span class="r2-mid">0.33</span></td><td><span class="d20-num d20-up">↑3915.5</span></td><td><span class="pos-num brk-down">▼-2%</span><span class="pctile-num pmid">P21</span></td><td><span class="width-num">32.0%</span></td><td><span class="r2-good">0.60</span></td><td><span class="d20-num d20-up">↑5277</span></td><td><a href="FU0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="纸浆 sp0" data-short-pos="98.4" data-short-r2="0.626" data-medium-pos="46.9" data-medium-r2="0.603" data-long-pos="33.9" data-long-r2="0.672"><td class="name-cell"><a href="SP0_channel.html" class="sym-link" target="_blank">纸浆<br><span class="sym-code">SP0</span></a></td><td><span class="close-price">4896</span></td><td><span class="pos-num zone-up">98%</span><span class="pctile-num ptop">P95</span></td><td><span class="width-num">2.7%</span></td><td><span class="r2-good">0.63</span></td><td><span class="d20-num d20-down">↓4713.1</span></td><td><span class="pos-num zone-mid">47%</span><span class="pctile-num pmid">P74</span></td><td><span class="width-num">4.1%</span></td><td><span class="r2-good">0.60</span></td><td><span class="d20-num d20-flat">4908.8</span></td><td><span class="pos-num zone-mid">34%</span><span class="pctile-num pmid">P70</span></td><td><span class="width-num">7.2%</span></td><td><span class="r2-good">0.67</span></td><td><span class="d20-num d20-up">↑5054.6</span></td><td><a href="SP0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="沪锡 sn0" data-short-pos="35.2" data-short-r2="0.042" data-medium-pos="-3.9" data-medium-r2="0.668" data-long-pos="24.9" data-long-r2="0.456"><td class="name-cell"><a href="SN0_channel.html" class="sym-link" target="_blank">沪锡<br><span class="sym-code">SN0</span></a></td><td><span class="close-price">407990</span></td><td><span class="pos-num zone-mid">35%</span><span class="pctile-num pmid">P44</span></td><td><span class="width-num">10.2%</span></td><td><span class="r2-dim">0.04</span></td><td><span class="d20-num d20-up">↑425724.2</span></td><td><span class="pos-num brk-down">▼-4%</span><span class="pctile-num pmid">P22</span></td><td><span class="width-num">10.6%</span></td><td><span class="r2-good">0.67</span></td><td><span class="d20-num d20-up">↑479943.8</span></td><td><span class="pos-num zone-low">25%</span><span class="pctile-num pmid">P56</span></td><td><span class="width-num">23.4%</span></td><td><span class="r2-mid">0.46</span></td><td><span class="d20-num d20-up">↑498450.7</span></td><td><a href="SN0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="沪铅 pb0" data-short-pos="8.4" data-short-r2="0.547" data-medium-pos="-36.2" data-medium-r2="0.066" data-long-pos="0.6" data-long-r2="0.638"><td class="name-cell"><a href="PB0_channel.html" class="sym-link" target="_blank">沪铅<br><span class="sym-code">PB0</span></a></td><td><span class="close-price">16055</span></td><td><span class="pos-num zone-low">8%</span><span class="pctile-num pbot">P8</span></td><td><span class="width-num">2.7%</span></td><td><span class="r2-good">0.55</span></td><td><span class="d20-num d20-down">↓15926.4</span></td><td><span class="pos-num brk-down">▼-36%</span><span class="pctile-num pbot">P4</span></td><td><span class="width-num">3.2%</span></td><td><span class="r2-dim">0.07</span></td><td><span class="d20-num d20-up">↑16728.6</span></td><td><span class="pos-num zone-low">1%</span><span class="pctile-num pmid">P23</span></td><td><span class="width-num">4.1%</span></td><td><span class="r2-good">0.64</span></td><td><span class="d20-num d20-up">↑16585.8</span></td><td><a href="PB0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="硅铁 sf0" data-short-pos="13.8" data-short-r2="0.003" data-medium-pos="45.5" data-medium-r2="0.001" data-long-pos="18.4" data-long-r2="0.596"><td class="name-cell"><a href="SF0_channel.html" class="sym-link" target="_blank">硅铁<br><span class="sym-code">SF0</span></a></td><td><span class="close-price">5822</span></td><td><span class="pos-num zone-low">14%</span><span class="pctile-num pbot">P16</span></td><td><span class="width-num">3.2%</span></td><td><span class="r2-dim">0.00</span></td><td><span class="d20-num d20-up">↑5997.6</span></td><td><span class="pos-num zone-mid">46%</span><span class="pctile-num pmid">P71</span></td><td><span class="width-num">5.7%</span></td><td><span class="r2-dim">0.00</span></td><td><span class="d20-num d20-up">↑5998.1</span></td><td><span class="pos-num zone-low">18%</span><span class="pctile-num pmid">P53</span></td><td><span class="width-num">5.5%</span></td><td><span class="r2-good">0.60</span></td><td><span class="d20-num d20-up">↑6150.7</span></td><td><a href="SF0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="锰硅 sm0" data-short-pos="31.0" data-short-r2="0.366" data-medium-pos="88.0" data-medium-r2="0.619" data-long-pos="16.2" data-long-r2="0.381"><td class="name-cell"><a href="SM0_channel.html" class="sym-link" target="_blank">锰硅<br><span class="sym-code">SM0</span></a></td><td><span class="close-price">6016</span></td><td><span class="pos-num zone-low">31%</span><span class="pctile-num pmid">P40</span></td><td><span class="width-num">2.5%</span></td><td><span class="r2-mid">0.37</span></td><td><span class="d20-num d20-up">↑6242.8</span></td><td><span class="pos-num zone-up">88%</span><span class="pctile-num ptop">P95</span></td><td><span class="width-num">6.3%</span></td><td><span class="r2-good">0.62</span></td><td><span class="d20-num d20-down">↓5881.4</span></td><td><span class="pos-num zone-low">16%</span><span class="pctile-num pmid">P47</span></td><td><span class="width-num">8.4%</span></td><td><span class="r2-mid">0.38</span></td><td><span class="d20-num d20-up">↑6516.5</span></td><td><a href="SM0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="棉纱 cy0" data-short-pos="20.8" data-short-r2="0.040" data-medium-pos="-0.9" data-medium-r2="0.542" data-long-pos="-10.6" data-long-r2="0.923"><td class="name-cell"><a href="CY0_channel.html" class="sym-link" target="_blank">棉纱<br><span class="sym-code">CY0</span></a></td><td><span class="close-price">22135</span></td><td><span class="pos-num zone-low">21%</span><span class="pctile-num pmid">P30</span></td><td><span class="width-num">3.0%</span></td><td><span class="r2-dim">0.04</span></td><td><span class="d20-num d20-up">↑22821.5</span></td><td><span class="pos-num brk-down">▼-1%</span><span class="pctile-num pmid">P25</span></td><td><span class="width-num">3.6%</span></td><td><span class="r2-good">0.54</span></td><td><span class="d20-num d20-up">↑23274.3</span></td><td><span class="pos-num brk-down">▼-11%</span><span class="pctile-num pbot">P10</span></td><td><span class="width-num">3.5%</span></td><td><span class="r2-good">0.92</span></td><td><span class="d20-num d20-up">↑23409.6</span></td><td><a href="CY0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="菜油 oi0" data-short-pos="12.4" data-short-r2="0.339" data-medium-pos="51.0" data-medium-r2="0.100" data-long-pos="60.6" data-long-r2="0.179"><td class="name-cell"><a href="OI0_channel.html" class="sym-link" target="_blank">菜油<br><span class="sym-code">OI0</span></a></td><td><span class="close-price">9874</span></td><td><span class="pos-num zone-low">12%</span><span class="pctile-num pbot">P14</span></td><td><span class="width-num">5.2%</span></td><td><span class="r2-mid">0.34</span></td><td><span class="d20-num d20-up">↑10741.2</span></td><td><span class="pos-num zone-mid">51%</span><span class="pctile-num pmid">P78</span></td><td><span class="width-num">5.7%</span></td><td><span class="r2-dim">0.10</span></td><td><span class="d20-num d20-up">↑10221.7</span></td><td><span class="pos-num zone-mid">61%</span><span class="pctile-num ptop">P89</span></td><td><span class="width-num">9.9%</span></td><td><span class="r2-dim">0.18</span></td><td><span class="d20-num d20-up">↑10323.9</span></td><td><a href="OI0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="花生 pk0" data-short-pos="83.3" data-short-r2="0.595" data-medium-pos="87.7" data-medium-r2="0.040" data-long-pos="81.1" data-long-r2="0.563"><td class="name-cell"><a href="PK0_channel.html" class="sym-link" target="_blank">花生<br><span class="sym-code">PK0</span></a></td><td><span class="close-price">8426</span></td><td><span class="pos-num zone-up">83%</span><span class="pctile-num ptop">P85</span></td><td><span class="width-num">2.4%</span></td><td><span class="r2-good">0.59</span></td><td><span class="d20-num d20-up">↑8720.9</span></td><td><span class="pos-num zone-up">88%</span><span class="pctile-num ptop">P93</span></td><td><span class="width-num">4.1%</span></td><td><span class="r2-dim">0.04</span></td><td><span class="d20-num d20-up">↑8495</span></td><td><span class="pos-num zone-up">81%</span><span class="pctile-num ptop">P95</span></td><td><span class="width-num">4.3%</span></td><td><span class="r2-good">0.56</span></td><td><span class="d20-num d20-up">↑8556</span></td><td><a href="PK0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="红枣 cj0" data-short-pos="18.2" data-short-r2="0.009" data-medium-pos="14.4" data-medium-r2="0.016" data-long-pos="40.6" data-long-r2="0.566"><td class="name-cell"><a href="CJ0_channel.html" class="sym-link" target="_blank">红枣<br><span class="sym-code">CJ0</span></a></td><td><span class="close-price">8900</span></td><td><span class="pos-num zone-low">18%</span><span class="pctile-num pmid">P23</span></td><td><span class="width-num">7.6%</span></td><td><span class="r2-dim">0.01</span></td><td><span class="d20-num d20-up">↑9398.8</span></td><td><span class="pos-num zone-low">14%</span><span class="pctile-num pmid">P40</span></td><td><span class="width-num">6.9%</span></td><td><span class="r2-dim">0.02</span></td><td><span class="d20-num d20-up">↑9407.8</span></td><td><span class="pos-num zone-mid">41%</span><span class="pctile-num pmid">P74</span></td><td><span class="width-num">8.1%</span></td><td><span class="r2-good">0.57</span></td><td><span class="d20-num d20-up">↑9204.3</span></td><td><a href="CJ0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="短纤 pf0" data-short-pos="79.2" data-short-r2="0.088" data-medium-pos="68.6" data-medium-r2="0.491" data-long-pos="2.5" data-long-r2="0.711"><td class="name-cell"><a href="PF0_channel.html" class="sym-link" target="_blank">短纤<br><span class="sym-code">PF0</span></a></td><td><span class="close-price">7848</span></td><td><span class="pos-num zone-up">79%</span><span class="pctile-num pmid">P79</span></td><td><span class="width-num">6.1%</span></td><td><span class="r2-dim">0.09</span></td><td><span class="d20-num d20-down">↓7785.9</span></td><td><span class="pos-num zone-up">69%</span><span class="pctile-num ptop">P84</span></td><td><span class="width-num">7.2%</span></td><td><span class="r2-mid">0.49</span></td><td><span class="d20-num d20-flat">7815.7</span></td><td><span class="pos-num zone-low">2%</span><span class="pctile-num pmid">P27</span></td><td><span class="width-num">12.4%</span></td><td><span class="r2-good">0.71</span></td><td><span class="d20-num d20-up">↑9106.1</span></td><td><a href="PF0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="低硫燃油 lu0" data-short-pos="15.1" data-short-r2="0.599" data-medium-pos="5.6" data-medium-r2="0.063" data-long-pos="3.7" data-long-r2="0.766"><td class="name-cell"><a href="LU0_channel.html" class="sym-link" target="_blank">低硫燃油<br><span class="sym-code">LU0</span></a></td><td><span class="close-price">4371</span></td><td><span class="pos-num zone-low">15%</span><span class="pctile-num pbot">P18</span></td><td><span class="width-num">9.9%</span></td><td><span class="r2-good">0.60</span></td><td><span class="d20-num d20-down">↓4150.8</span></td><td><span class="pos-num zone-low">6%</span><span class="pctile-num pmid">P30</span></td><td><span class="width-num">19.2%</span></td><td><span class="r2-dim">0.06</span></td><td><span class="d20-num d20-up">↑5328.3</span></td><td><span class="pos-num zone-low">4%</span><span class="pctile-num pmid">P30</span></td><td><span class="width-num">28.2%</span></td><td><span class="r2-good">0.77</span></td><td><span class="d20-num d20-up">↑6125.5</span></td><td><a href="LU0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="国际铜 bc0" data-short-pos="42.9" data-short-r2="0.000" data-medium-pos="4.0" data-medium-r2="0.729" data-long-pos="32.3" data-long-r2="0.572"><td class="name-cell"><a href="BC0_channel.html" class="sym-link" target="_blank">国际铜<br><span class="sym-code">BC0</span></a></td><td><span class="close-price">92690</span></td><td><span class="pos-num zone-mid">43%</span><span class="pctile-num pmid">P55</span></td><td><span class="width-num">2.8%</span></td><td><span class="r2-dim">0.00</span></td><td><span class="d20-num d20-up">↑94109</span></td><td><span class="pos-num zone-low">4%</span><span class="pctile-num pmid">P27</span></td><td><span class="width-num">6.0%</span></td><td><span class="r2-good">0.73</span></td><td><span class="d20-num d20-up">↑101725.1</span></td><td><span class="pos-num zone-low">32%</span><span class="pctile-num pmid">P67</span></td><td><span class="width-num">11.6%</span></td><td><span class="r2-good">0.57</span></td><td><span class="d20-num d20-up">↑102035.2</span></td><td><a href="BC0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="20号胶 nr0" data-short-pos="20.6" data-short-r2="0.228" data-medium-pos="0.1" data-medium-r2="0.829" data-long-pos="49.7" data-long-r2="0.900"><td class="name-cell"><a href="NR0_channel.html" class="sym-link" target="_blank">20号胶<br><span class="sym-code">NR0</span></a></td><td><span class="close-price">15145</span></td><td><span class="pos-num zone-low">21%</span><span class="pctile-num pmid">P27</span></td><td><span class="width-num">7.0%</span></td><td><span class="r2-mid">0.23</span></td><td><span class="d20-num d20-up">↑16639.9</span></td><td><span class="pos-num zone-low">0%</span><span class="pctile-num pmid">P26</span></td><td><span class="width-num">6.1%</span></td><td><span class="r2-good">0.83</span></td><td><span class="d20-num d20-up">↑16892.6</span></td><td><span class="pos-num zone-mid">50%</span><span class="pctile-num ptop">P81</span></td><td><span class="width-num">6.6%</span></td><td><span class="r2-good">0.90</span></td><td><span class="d20-num d20-up">↑16103</span></td><td><a href="NR0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="不锈钢 ss0" data-short-pos="82.1" data-short-r2="0.213" data-medium-pos="23.8" data-medium-r2="0.246" data-long-pos="4.7" data-long-r2="0.799"><td class="name-cell"><a href="SS0_channel.html" class="sym-link" target="_blank">不锈钢<br><span class="sym-code">SS0</span></a></td><td><span class="close-price">14785</span></td><td><span class="pos-num zone-up">82%</span><span class="pctile-num ptop">P84</span></td><td><span class="width-num">3.3%</span></td><td><span class="r2-mid">0.21</span></td><td><span class="d20-num d20-down">↓14595.1</span></td><td><span class="pos-num zone-low">24%</span><span class="pctile-num pmid">P52</span></td><td><span class="width-num">7.5%</span></td><td><span class="r2-mid">0.25</span></td><td><span class="d20-num d20-up">↑15894.1</span></td><td><span class="pos-num zone-low">5%</span><span class="pctile-num pmid">P32</span></td><td><span class="width-num">8.5%</span></td><td><span class="r2-good">0.80</span></td><td><span class="d20-num d20-up">↑16430.4</span></td><td><a href="SS0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="纤维板 fb0" data-short-pos="25.9" data-short-r2="0.310" data-medium-pos="48.7" data-medium-r2="0.282" data-long-pos="1.0" data-long-r2="0.377"><td class="name-cell"><a href="FB0_channel.html" class="sym-link" target="_blank">纤维板<br><span class="sym-code">FB0</span></a></td><td><span class="close-price">1,284.5</span></td><td><span class="pos-num zone-low">26%</span><span class="pctile-num pmid">P32</span></td><td><span class="width-num">2.4%</span></td><td><span class="r2-mid">0.31</span></td><td><span class="d20-num d20-up">↑1330.7</span></td><td><span class="pos-num zone-mid">49%</span><span class="pctile-num pmid">P75</span></td><td><span class="width-num">6.6%</span></td><td><span class="r2-mid">0.28</span></td><td><span class="d20-num d20-up">↑1308</span></td><td><span class="pos-num zone-low">1%</span><span class="pctile-num pmid">P25</span></td><td><span class="width-num">5.9%</span></td><td><span class="r2-mid">0.38</span></td><td><span class="d20-num d20-up">↑1371.8</span></td><td><a href="FB0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="胶合板 bb0" data-short-pos="78.9" data-short-r2="0.633" data-medium-pos="14.2" data-medium-r2="0.173" data-long-pos="59.6" data-long-r2="0.156"><td class="name-cell"><a href="BB0_channel.html" class="sym-link" target="_blank">胶合板<br><span class="sym-code">BB0</span></a></td><td><span class="close-price">147.1</span></td><td><span class="pos-num zone-up">79%</span><span class="pctile-num pmid">P78</span></td><td><span class="width-num">2.3%</span></td><td><span class="r2-good">0.63</span></td><td><span class="d20-num d20-down">↓143</span></td><td><span class="pos-num zone-low">14%</span><span class="pctile-num pmid">P38</span></td><td><span class="width-num">3.3%</span></td><td><span class="r2-dim">0.17</span></td><td><span class="d20-num d20-up">↑152.1</span></td><td><span class="pos-num zone-mid">60%</span><span class="pctile-num ptop">P86</span></td><td><span class="width-num">5.1%</span></td><td><span class="r2-dim">0.16</span></td><td><span class="d20-num d20-up">↑149.6</span></td><td><a href="BB0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="线材 wr0" data-short-pos="26.2" data-short-r2="0.036" data-medium-pos="9.1" data-medium-r2="0.124" data-long-pos="66.9" data-long-r2="0.456"><td class="name-cell"><a href="WR0_channel.html" class="sym-link" target="_blank">线材<br><span class="sym-code">WR0</span></a></td><td><span class="close-price">3375</span></td><td><span class="pos-num zone-low">26%</span><span class="pctile-num pmid">P33</span></td><td><span class="width-num">5.3%</span></td><td><span class="r2-dim">0.04</span></td><td><span class="d20-num d20-up">↑3470.9</span></td><td><span class="pos-num zone-low">9%</span><span class="pctile-num pmid">P33</span></td><td><span class="width-num">7.2%</span></td><td><span class="r2-dim">0.12</span></td><td><span class="d20-num d20-up">↑3637</span></td><td><span class="pos-num zone-mid">67%</span><span class="pctile-num ptop">P90</span></td><td><span class="width-num">10.4%</span></td><td><span class="r2-mid">0.46</span></td><td><span class="d20-num d20-up">↑3441.1</span></td><td><a href="WR0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="早籼稻 ri0" data-short-pos="-27.6" data-short-r2="0.006" data-medium-pos="-12.5" data-medium-r2="0.779" data-long-pos="39.8" data-long-r2="0.814"><td class="name-cell"><a href="RI0_channel.html" class="sym-link" target="_blank">早籼稻<br><span class="sym-code">RI0</span></a></td><td><span class="close-price">2500</span></td><td><span class="pos-num brk-down">▼-28%</span><span class="pctile-num pbot">P1</span></td><td><span class="width-num">2.4%</span></td><td><span class="r2-dim">0.01</span></td><td><span class="d20-num d20-up">↑2574.1</span></td><td><span class="pos-num brk-down">▼-12%</span><span class="pctile-num pbot">P14</span></td><td><span class="width-num">5.5%</span></td><td><span class="r2-good">0.78</span></td><td><span class="d20-num d20-up">↑2759.6</span></td><td><span class="pos-num zone-mid">40%</span><span class="pctile-num pmid">P73</span></td><td><span class="width-num">9.8%</span></td><td><span class="r2-good">0.81</span></td><td><span class="d20-num d20-up">↑2728.5</span></td><td><a href="RI0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="晚籼稻 lr0" data-short-pos="86.3" data-short-r2="0.880" data-medium-pos="15.2" data-medium-r2="0.509" data-long-pos="-36.8" data-long-r2="0.044"><td class="name-cell"><a href="LR0_channel.html" class="sym-link" target="_blank">晚籼稻<br><span class="sym-code">LR0</span></a></td><td><span class="close-price">2535</span></td><td><span class="pos-num zone-up">86%</span><span class="pctile-num ptop">P88</span></td><td><span class="width-num">8.3%</span></td><td><span class="r2-good">0.88</span></td><td><span class="d20-num d20-down">↓1957.5</span></td><td><span class="pos-num zone-low">15%</span><span class="pctile-num pmid">P41</span></td><td><span class="width-num">21.9%</span></td><td><span class="r2-good">0.51</span></td><td><span class="d20-num d20-up">↑2813</span></td><td><span class="pos-num brk-down">▼-37%</span><span class="pctile-num pbot">P3</span></td><td><span class="width-num">21.3%</span></td><td><span class="r2-dim">0.04</span></td><td><span class="d20-num d20-up">↑3463.3</span></td><td><a href="LR0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="粳稻 jr0" data-short-pos="3.5" data-short-r2="0.431" data-medium-pos="-16.7" data-medium-r2="0.655" data-long-pos="6.3" data-long-r2="0.507"><td class="name-cell"><a href="JR0_channel.html" class="sym-link" target="_blank">粳稻<br><span class="sym-code">JR0</span></a></td><td><span class="close-price">2758</span></td><td><span class="pos-num zone-low">4%</span><span class="pctile-num pbot">P7</span></td><td><span class="width-num">3.4%</span></td><td><span class="r2-mid">0.43</span></td><td><span class="d20-num d20-flat">2759</span></td><td><span class="pos-num brk-down">▼-17%</span><span class="pctile-num pbot">P11</span></td><td><span class="width-num">3.9%</span></td><td><span class="r2-good">0.66</span></td><td><span class="d20-num d20-up">↑2829.1</span></td><td><span class="pos-num zone-low">6%</span><span class="pctile-num pmid">P36</span></td><td><span class="width-num">8.2%</span></td><td><span class="r2-good">0.51</span></td><td><span class="d20-num d20-up">↑2940.2</span></td><td><a href="JR0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="油菜籽 rs0" data-short-pos="12.7" data-short-r2="0.721" data-medium-pos="72.3" data-medium-r2="0.067" data-long-pos="56.2" data-long-r2="0.369"><td class="name-cell"><a href="RS0_channel.html" class="sym-link" target="_blank">油菜籽<br><span class="sym-code">RS0</span></a></td><td><span class="close-price">5920</span></td><td><span class="pos-num zone-low">13%</span><span class="pctile-num pbot">P15</span></td><td><span class="width-num">3.3%</span></td><td><span class="r2-good">0.72</span></td><td><span class="d20-num d20-up">↑6434.2</span></td><td><span class="pos-num zone-up">72%</span><span class="pctile-num ptop">P88</span></td><td><span class="width-num">5.6%</span></td><td><span class="r2-dim">0.07</span></td><td><span class="d20-num d20-up">↑6044.6</span></td><td><span class="pos-num zone-mid">56%</span><span class="pctile-num ptop">P84</span></td><td><span class="width-num">7.9%</span></td><td><span class="r2-mid">0.37</span></td><td><span class="d20-num d20-up">↑6180</span></td><td><a href="RS0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="强麦 wh0" data-short-pos="-3.9" data-short-r2="0.137" data-medium-pos="-32.7" data-medium-r2="0.751" data-long-pos="15.0" data-long-r2="0.822"><td class="name-cell"><a href="WH0_channel.html" class="sym-link" target="_blank">强麦<br><span class="sym-code">WH0</span></a></td><td><span class="close-price">3050</span></td><td><span class="pos-num brk-down">▼-4%</span><span class="pctile-num pbot">P4</span></td><td><span class="width-num">13.4%</span></td><td><span class="r2-dim">0.14</span></td><td><span class="d20-num d20-up">↑3701</span></td><td><span class="pos-num brk-down">▼-33%</span><span class="pctile-num pbot">P5</span></td><td><span class="width-num">12.0%</span></td><td><span class="r2-good">0.75</span></td><td><span class="d20-num d20-up">↑3858.9</span></td><td><span class="pos-num zone-low">15%</span><span class="pctile-num pmid">P44</span></td><td><span class="width-num">13.7%</span></td><td><span class="r2-good">0.82</span></td><td><span class="d20-num d20-up">↑3566.9</span></td><td><a href="WH0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="普麦 pm0" data-short-pos="-7.2" data-short-r2="0.778" data-medium-pos="71.6" data-medium-r2="0.585" data-long-pos="125.6" data-long-r2="0.290"><td class="name-cell"><a href="PM0_channel.html" class="sym-link" target="_blank">普麦<br><span class="sym-code">PM0</span></a></td><td><span class="close-price">3059</span></td><td><span class="pos-num brk-down">▼-7%</span><span class="pctile-num pbot">P3</span></td><td><span class="width-num">15.8%</span></td><td><span class="r2-good">0.78</span></td><td><span class="d20-num d20-up">↑4714.6</span></td><td><span class="pos-num zone-up">72%</span><span class="pctile-num ptop">P86</span></td><td><span class="width-num">22.6%</span></td><td><span class="r2-good">0.58</span></td><td><span class="d20-num d20-up">↑3542.4</span></td><td><span class="pos-num brk-up">▲126%</span><span class="pctile-num ptop">P99</span></td><td><span class="width-num">23.6%</span></td><td><span class="r2-mid">0.29</span></td><td><span class="d20-num d20-down">↓2962.1</span></td><td><a href="PM0_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="上证综指 000001" data-short-pos="97.1" data-short-r2="0.770" data-medium-pos="9.9" data-medium-r2="0.264" data-long-pos="20.2" data-long-r2="0.214"><td class="name-cell"><a href="000001_channel.html" class="sym-link" target="_blank">上证综指<br><span class="sym-code">000001</span></a></td><td><span class="close-price">4,031.5</span></td><td><span class="pos-num zone-up">97%</span><span class="pctile-num ptop">P92</span></td><td><span class="width-num">2.2%</span></td><td><span class="r2-good">0.77</span></td><td><span class="d20-num d20-down">↓3854.2</span></td><td><span class="pos-num zone-low">10%</span><span class="pctile-num pmid">P36</span></td><td><span class="width-num">6.1%</span></td><td><span class="r2-mid">0.26</span></td><td><span class="d20-num d20-up">↑4316.5</span></td><td><span class="pos-num zone-low">20%</span><span class="pctile-num pmid">P55</span></td><td><span class="width-num">6.6%</span></td><td><span class="r2-mid">0.21</span></td><td><span class="d20-num d20-up">↑4269.9</span></td><td><a href="000001_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="深证综指 399106" data-short-pos="48.9" data-short-r2="0.772" data-medium-pos="-13.7" data-medium-r2="0.457" data-long-pos="-2.3" data-long-r2="0.623"><td class="name-cell"><a href="399106_channel.html" class="sym-link" target="_blank">深证综指<br><span class="sym-code">399106</span></a></td><td><span class="close-price">2,697.2</span></td><td><span class="pos-num zone-mid">49%</span><span class="pctile-num pmid">P59</span></td><td><span class="width-num">3.9%</span></td><td><span class="r2-good">0.77</span></td><td><span class="d20-num d20-down">↓2539.1</span></td><td><span class="pos-num brk-down">▼-14%</span><span class="pctile-num pbot">P12</span></td><td><span class="width-num">9.5%</span></td><td><span class="r2-mid">0.46</span></td><td><span class="d20-num d20-up">↑3103.1</span></td><td><span class="pos-num brk-down">▼-2%</span><span class="pctile-num pbot">P19</span></td><td><span class="width-num">8.9%</span></td><td><span class="r2-good">0.62</span></td><td><span class="d20-num d20-up">↑3003.9</span></td><td><a href="399106_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="沪深300 000300" data-short-pos="40.8" data-short-r2="0.198" data-medium-pos="-5.3" data-medium-r2="0.598" data-long-pos="41.2" data-long-r2="0.309"><td class="name-cell"><a href="000300_channel.html" class="sym-link" target="_blank">沪深300<br><span class="sym-code">000300</span></a></td><td><span class="close-price">4,777.3</span></td><td><span class="pos-num zone-mid">41%</span><span class="pctile-num pmid">P52</span></td><td><span class="width-num">4.1%</span></td><td><span class="r2-dim">0.20</span></td><td><span class="d20-num d20-flat">4786.7</span></td><td><span class="pos-num brk-down">▼-5%</span><span class="pctile-num pmid">P21</span></td><td><span class="width-num">6.2%</span></td><td><span class="r2-good">0.60</span></td><td><span class="d20-num d20-up">↑5245.3</span></td><td><span class="pos-num zone-mid">41%</span><span class="pctile-num pmid">P75</span></td><td><span class="width-num">6.5%</span></td><td><span class="r2-mid">0.31</span></td><td><span class="d20-num d20-up">↑4993.9</span></td><td><a href="000300_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="上证50 000016" data-short-pos="101.8" data-short-r2="0.664" data-medium-pos="22.9" data-medium-r2="0.048" data-long-pos="38.9" data-long-r2="0.298"><td class="name-cell"><a href="000016_channel.html" class="sym-link" target="_blank">上证50<br><span class="sym-code">000016</span></a></td><td><span class="close-price">2,890.8</span></td><td><span class="pos-num brk-up">▲102%</span><span class="pctile-num ptop">P97</span></td><td><span class="width-num">2.7%</span></td><td><span class="r2-good">0.66</span></td><td><span class="d20-num d20-down">↓2770.5</span></td><td><span class="pos-num zone-low">23%</span><span class="pctile-num pmid">P51</span></td><td><span class="width-num">6.1%</span></td><td><span class="r2-dim">0.05</span></td><td><span class="d20-num d20-up">↑3045.6</span></td><td><span class="pos-num zone-mid">39%</span><span class="pctile-num pmid">P71</span></td><td><span class="width-num">6.7%</span></td><td><span class="r2-mid">0.30</span></td><td><span class="d20-num d20-up">↑2991.2</span></td><td><a href="000016_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="中证500 000905" data-short-pos="65.4" data-short-r2="0.778" data-medium-pos="-6.4" data-medium-r2="0.400" data-long-pos="3.7" data-long-r2="0.545"><td class="name-cell"><a href="000905_channel.html" class="sym-link" target="_blank">中证500<br><span class="sym-code">000905</span></a></td><td><span class="close-price">8,106.2</span></td><td><span class="pos-num zone-mid">65%</span><span class="pctile-num pmid">P68</span></td><td><span class="width-num">4.1%</span></td><td><span class="r2-good">0.78</span></td><td><span class="d20-num d20-down">↓7540.6</span></td><td><span class="pos-num brk-down">▼-6%</span><span class="pctile-num pbot">P18</span></td><td><span class="width-num">10.2%</span></td><td><span class="r2-mid">0.40</span></td><td><span class="d20-num d20-up">↑9306.2</span></td><td><span class="pos-num zone-low">4%</span><span class="pctile-num pmid">P30</span></td><td><span class="width-num">13.2%</span></td><td><span class="r2-good">0.55</span></td><td><span class="d20-num d20-up">↑9391.1</span></td><td><a href="000905_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-<tr data-name="中证1000 000852" data-short-pos="70.3" data-short-r2="0.821" data-medium-pos="-7.3" data-medium-r2="0.457" data-long-pos="6.5" data-long-r2="0.572"><td class="name-cell"><a href="000852_channel.html" class="sym-link" target="_blank">中证1000<br><span class="sym-code">000852</span></a></td><td><span class="close-price">8,202.8</span></td><td><span class="pos-num zone-up">70%</span><span class="pctile-num pmid">P73</span></td><td><span class="width-num">3.7%</span></td><td><span class="r2-good">0.82</span></td><td><span class="d20-num d20-down">↓7590.1</span></td><td><span class="pos-num brk-down">▼-7%</span><span class="pctile-num pbot">P16</span></td><td><span class="width-num">10.2%</span></td><td><span class="r2-mid">0.46</span></td><td><span class="d20-num d20-up">↑9459.8</span></td><td><span class="pos-num zone-low">6%</span><span class="pctile-num pmid">P37</span></td><td><span class="width-num">10.9%</span></td><td><span class="r2-good">0.57</span></td><td><span class="d20-num d20-up">↑9241</span></td><td><a href="000852_channel.html" class="btn-view" target="_blank">📊</a></td></tr>
-</tbody></table></div>
-<div class="footer">73 品种 · 2026-06-12 20:01 · 通道本次已刷新</div>
-<script>
-function filterTable(){var s=document.getElementById('search').value.toLowerCase();var z=document.getElementById('zoneFilter').value;document.querySelectorAll('tbody tr').forEach(function(r){var name=r.getAttribute('data-name')||'';var show=true;if(s&&name.indexOf(s)===-1)show=false;if(z!=='all'){var cls='';if(z==='break-up')cls='brk-up';else if(z==='break-down')cls='brk-down';else if(z==='upper')cls='zone-up';else if(z==='mid')cls='zone-mid';else if(z==='lower')cls='zone-low';if(cls){var has=false;r.querySelectorAll('.pos-num').forEach(function(p){if(p.classList.contains(cls))has=true});if(!has)show=false}}r.style.display=show?'':'none'})}
-function sortTable(key,btn){document.querySelectorAll('.btn-sort').forEach(function(b){b.classList.remove('active')});if(btn)btn.classList.add('active');var rows=Array.from(document.querySelectorAll('tbody tr'));rows.sort(function(a,b){if(key==='name')return(a.getAttribute('data-name')||'').localeCompare(b.getAttribute('data-name')||'','zh');return(parseFloat(b.getAttribute('data-'+key))||0)-(parseFloat(a.getAttribute('data-'+key))||0)});var t=document.querySelector('tbody');rows.forEach(function(r){t.appendChild(r)})}
-</script>
-</body></html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>通道投影分析总览</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0d1117;color:#c9d1d9;padding:24px}
+h1{color:#f0c060;font-size:1.3rem;margin-bottom:4px}
+.sub{color:#8b949e;font-size:.8rem;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;background:#161b22;border-radius:8px;overflow:hidden;font-size:.78rem}
+th{background:#1c2128;padding:8px 10px;text-align:left;font-size:.7rem;color:#8b949e;white-space:nowrap}
+td{padding:6px 10px;border-bottom:1px solid #21262d;font-size:.78rem;white-space:nowrap}
+tr:hover td{background:#1c2735}
+.footer{text-align:center;color:#555;font-size:.7rem;margin-top:24px}
+.stat{display:inline-block;background:#161b22;border:1px solid #21262d;border-radius:8px;padding:12px 20px;margin:0 8px 16px 0}
+.stat .val{font-size:1.2rem;font-weight:bold;color:#f0c060}
+.stat .lbl{font-size:.7rem;color:#8b949e}
+.sym-link{color:#58a6ff;text-decoration:none;font-size:.82rem}
+.sym-link:hover{color:#79c0ff;text-decoration:underline}
+.sym-code{font-size:10px;color:#555}
+.btn-view{display:inline-block;padding:4px 10px;background:#1a3a5c;color:#58a6ff;border-radius:4px;text-decoration:none;font-size:.75rem}
+.btn-view:hover{background:#1f4a7a}
+</style>
+</head>
+<body>
+<h1>📐 通道投影分析 — 总览</h1>
+<div class="sub">中周期(60日) Raff回归通道 · 上/中/下轨 + D+5/10/20 未来投影</div>
+<div>
+  <div class="stat"><div class="val">73</div><div class="lbl">已分析品种</div></div>
+</div>
+<table>
+<tr>
+  <th>品种</th><th>收盘</th><th>日期</th><th>通道位置</th>
+  <th>上轨</th><th>中轨</th><th>下轨</th><th>宽度</th><th>R²</th>
+  <th>D+5上轨</th><th>D+10上轨</th><th>D+20上轨</th><th>K线</th>
+</tr>
+<tr>
+            <td><a href="A0_channel.html" class="sym-link" target="_blank"><b>豆一</b><br><span class="sym-code">A0</span></a></td>
+            <td>4744</td>
+            <td>2026-06-12</td>
+            <td style="color:#f0c060">中1/3 (通道中枢，观望区)</td>
+            <td>4958</td>
+            <td>4795</td>
+            <td>4632</td>
+            <td>6.8%</td>
+            <td>0.01</td>
+            <td>4960</td>
+            <td>4963</td>
+            <td>4969</td>
+            <td><a href="A0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="AG0_channel.html" class="sym-link" target="_blank"><b>白银</b><br><span class="sym-code">AG0</span></a></td>
+            <td>15972</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>20086</td>
+            <td>18186</td>
+            <td>16287</td>
+            <td>20.9%</td>
+            <td>0.01</td>
+            <td>20052</td>
+            <td>20019</td>
+            <td>19952</td>
+            <td><a href="AG0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="AL0_channel.html" class="sym-link" target="_blank"><b>沪铝</b><br><span class="sym-code">AL0</span></a></td>
+            <td>24165</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>25049</td>
+            <td>24437</td>
+            <td>23824</td>
+            <td>5.0%</td>
+            <td>0.02</td>
+            <td>25034</td>
+            <td>25018</td>
+            <td>24987</td>
+            <td><a href="AL0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="AO0_channel.html" class="sym-link" target="_blank"><b>氧化铝</b><br><span class="sym-code">AO0</span></a></td>
+            <td>2923</td>
+            <td>2026-06-12</td>
+            <td style="color:#f85149">上1/3 (接近上轨，减仓观察区)</td>
+            <td>2898</td>
+            <td>2727</td>
+            <td>2555</td>
+            <td>12.6%</td>
+            <td>0.40</td>
+            <td>2872</td>
+            <td>2846</td>
+            <td>2793</td>
+            <td><a href="AO0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="AP0_channel.html" class="sym-link" target="_blank"><b>苹果</b><br><span class="sym-code">AP0</span></a></td>
+            <td>7698</td>
+            <td>2026-06-12</td>
+            <td style="color:#f85149">上1/3 (接近上轨，减仓观察区)</td>
+            <td>7573</td>
+            <td>7285</td>
+            <td>6996</td>
+            <td>7.9%</td>
+            <td>0.77</td>
+            <td>7473</td>
+            <td>7374</td>
+            <td>7175</td>
+            <td><a href="AP0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="AU0_channel.html" class="sym-link" target="_blank"><b>沪金</b><br><span class="sym-code">AU0</span></a></td>
+            <td>912</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>1010</td>
+            <td>956</td>
+            <td>901</td>
+            <td>11.4%</td>
+            <td>0.53</td>
+            <td>999</td>
+            <td>988</td>
+            <td>966</td>
+            <td><a href="AU0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="BU0_channel.html" class="sym-link" target="_blank"><b>沥青</b><br><span class="sym-code">BU0</span></a></td>
+            <td>4456</td>
+            <td>2026-06-12</td>
+            <td style="color:#f85149">上1/3 (接近上轨，减仓观察区)</td>
+            <td>4602</td>
+            <td>4367</td>
+            <td>4132</td>
+            <td>10.8%</td>
+            <td>0.08</td>
+            <td>4615</td>
+            <td>4628</td>
+            <td>4654</td>
+            <td><a href="BU0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="C0_channel.html" class="sym-link" target="_blank"><b>玉米</b><br><span class="sym-code">C0</span></a></td>
+            <td>2351</td>
+            <td>2026-06-12</td>
+            <td style="color:#f0c060">上1/3 (接近上轨，减仓观察区)</td>
+            <td>2381</td>
+            <td>2335</td>
+            <td>2288</td>
+            <td>4.0%</td>
+            <td>0.27</td>
+            <td>2376</td>
+            <td>2371</td>
+            <td>2360</td>
+            <td><a href="C0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="CF0_channel.html" class="sym-link" target="_blank"><b>棉花</b><br><span class="sym-code">CF0</span></a></td>
+            <td>15765</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>16881</td>
+            <td>16354</td>
+            <td>15828</td>
+            <td>6.4%</td>
+            <td>0.40</td>
+            <td>16962</td>
+            <td>17044</td>
+            <td>17207</td>
+            <td><a href="CF0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="CU0_channel.html" class="sym-link" target="_blank"><b>沪铜</b><br><span class="sym-code">CU0</span></a></td>
+            <td>104660</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>110460</td>
+            <td>107384</td>
+            <td>104308</td>
+            <td>5.7%</td>
+            <td>0.74</td>
+            <td>111441</td>
+            <td>112421</td>
+            <td>114383</td>
+            <td><a href="CU0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="FG0_channel.html" class="sym-link" target="_blank"><b>玻璃</b><br><span class="sym-code">FG0</span></a></td>
+            <td>987</td>
+            <td>2026-06-12</td>
+            <td style="color:#f0c060">中1/3 (通道中枢，观望区)</td>
+            <td>1029</td>
+            <td>992</td>
+            <td>955</td>
+            <td>7.5%</td>
+            <td>0.79</td>
+            <td>1016</td>
+            <td>1002</td>
+            <td>975</td>
+            <td><a href="FG0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="HC0_channel.html" class="sym-link" target="_blank"><b>热卷</b><br><span class="sym-code">HC0</span></a></td>
+            <td>3379</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>3508</td>
+            <td>3431</td>
+            <td>3353</td>
+            <td>4.5%</td>
+            <td>0.36</td>
+            <td>3519</td>
+            <td>3530</td>
+            <td>3552</td>
+            <td><a href="HC0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="I0_channel.html" class="sym-link" target="_blank"><b>铁矿石</b><br><span class="sym-code">I0</span></a></td>
+            <td>764</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>806</td>
+            <td>777</td>
+            <td>749</td>
+            <td>7.4%</td>
+            <td>0.15</td>
+            <td>804</td>
+            <td>801</td>
+            <td>797</td>
+            <td><a href="I0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="J0_channel.html" class="sym-link" target="_blank"><b>焦炭</b><br><span class="sym-code">J0</span></a></td>
+            <td>2078</td>
+            <td>2026-06-12</td>
+            <td style="color:#f85149">上1/3 (接近上轨，减仓观察区)</td>
+            <td>2071</td>
+            <td>1964</td>
+            <td>1857</td>
+            <td>10.9%</td>
+            <td>0.61</td>
+            <td>2096</td>
+            <td>2122</td>
+            <td>2172</td>
+            <td><a href="J0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="JD0_channel.html" class="sym-link" target="_blank"><b>鸡蛋</b><br><span class="sym-code">JD0</span></a></td>
+            <td>4690</td>
+            <td>2026-06-12</td>
+            <td style="color:#f0c060">中1/3 (通道中枢，观望区)</td>
+            <td>4832</td>
+            <td>4706</td>
+            <td>4579</td>
+            <td>5.4%</td>
+            <td>0.88</td>
+            <td>4896</td>
+            <td>4961</td>
+            <td>5089</td>
+            <td><a href="JD0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="JM0_channel.html" class="sym-link" target="_blank"><b>焦煤</b><br><span class="sym-code">JM0</span></a></td>
+            <td>1370</td>
+            <td>2026-06-12</td>
+            <td style="color:#f0c060">中1/3 (通道中枢，观望区)</td>
+            <td>1478</td>
+            <td>1378</td>
+            <td>1278</td>
+            <td>14.5%</td>
+            <td>0.42</td>
+            <td>1494</td>
+            <td>1510</td>
+            <td>1542</td>
+            <td><a href="JM0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="LC0_channel.html" class="sym-link" target="_blank"><b>碳酸锂</b><br><span class="sym-code">LC0</span></a></td>
+            <td>175300</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>205604</td>
+            <td>186085</td>
+            <td>166566</td>
+            <td>21.0%</td>
+            <td>0.27</td>
+            <td>207824</td>
+            <td>210044</td>
+            <td>214485</td>
+            <td><a href="LC0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="LH0_channel.html" class="sym-link" target="_blank"><b>生猪</b><br><span class="sym-code">LH0</span></a></td>
+            <td>12140</td>
+            <td>2026-06-12</td>
+            <td style="color:#f0c060">中1/3 (通道中枢，观望区)</td>
+            <td>12578</td>
+            <td>11987</td>
+            <td>11395</td>
+            <td>9.9%</td>
+            <td>0.29</td>
+            <td>12507</td>
+            <td>12436</td>
+            <td>12294</td>
+            <td><a href="LH0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="M0_channel.html" class="sym-link" target="_blank"><b>豆粕</b><br><span class="sym-code">M0</span></a></td>
+            <td>2941</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>3030</td>
+            <td>2970</td>
+            <td>2909</td>
+            <td>4.1%</td>
+            <td>0.02</td>
+            <td>3028</td>
+            <td>3027</td>
+            <td>3023</td>
+            <td><a href="M0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="MA0_channel.html" class="sym-link" target="_blank"><b>甲醇</b><br><span class="sym-code">MA0</span></a></td>
+            <td>3010</td>
+            <td>2026-06-12</td>
+            <td style="color:#f85149">上1/3 (接近上轨，减仓观察区)</td>
+            <td>3022</td>
+            <td>2825</td>
+            <td>2628</td>
+            <td>14.0%</td>
+            <td>0.42</td>
+            <td>2990</td>
+            <td>2959</td>
+            <td>2896</td>
+            <td><a href="MA0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="NI0_channel.html" class="sym-link" target="_blank"><b>沪镍</b><br><span class="sym-code">NI0</span></a></td>
+            <td>134540</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>152301</td>
+            <td>144738</td>
+            <td>137174</td>
+            <td>10.5%</td>
+            <td>0.19</td>
+            <td>152998</td>
+            <td>153694</td>
+            <td>155086</td>
+            <td><a href="NI0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="P0_channel.html" class="sym-link" target="_blank"><b>棕榈油</b><br><span class="sym-code">P0</span></a></td>
+            <td>9321</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>9703</td>
+            <td>9466</td>
+            <td>9228</td>
+            <td>5.0%</td>
+            <td>0.30</td>
+            <td>9674</td>
+            <td>9644</td>
+            <td>9585</td>
+            <td><a href="P0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="PG0_channel.html" class="sym-link" target="_blank"><b>液化气</b><br><span class="sym-code">PG0</span></a></td>
+            <td>5381</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>6150</td>
+            <td>5692</td>
+            <td>5233</td>
+            <td>16.1%</td>
+            <td>0.04</td>
+            <td>6133</td>
+            <td>6115</td>
+            <td>6080</td>
+            <td><a href="PG0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="PP0_channel.html" class="sym-link" target="_blank"><b>聚丙烯</b><br><span class="sym-code">PP0</span></a></td>
+            <td>8596</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>9094</td>
+            <td>8754</td>
+            <td>8413</td>
+            <td>7.8%</td>
+            <td>0.14</td>
+            <td>9121</td>
+            <td>9147</td>
+            <td>9200</td>
+            <td><a href="PP0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="RB0_channel.html" class="sym-link" target="_blank"><b>螺纹钢</b><br><span class="sym-code">RB0</span></a></td>
+            <td>3178</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>3268</td>
+            <td>3203</td>
+            <td>3138</td>
+            <td>4.1%</td>
+            <td>0.20</td>
+            <td>3274</td>
+            <td>3280</td>
+            <td>3293</td>
+            <td><a href="RB0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="RM0_channel.html" class="sym-link" target="_blank"><b>菜粕</b><br><span class="sym-code">RM0</span></a></td>
+            <td>2259</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>2384</td>
+            <td>2295</td>
+            <td>2207</td>
+            <td>7.7%</td>
+            <td>0.12</td>
+            <td>2378</td>
+            <td>2372</td>
+            <td>2359</td>
+            <td><a href="RM0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="RU0_channel.html" class="sym-link" target="_blank"><b>橡胶</b><br><span class="sym-code">RU0</span></a></td>
+            <td>17565</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>18534</td>
+            <td>18057</td>
+            <td>17581</td>
+            <td>5.3%</td>
+            <td>0.71</td>
+            <td>18675</td>
+            <td>18815</td>
+            <td>19096</td>
+            <td><a href="RU0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SA0_channel.html" class="sym-link" target="_blank"><b>纯碱</b><br><span class="sym-code">SA0</span></a></td>
+            <td>1150</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>1205</td>
+            <td>1168</td>
+            <td>1130</td>
+            <td>6.5%</td>
+            <td>0.67</td>
+            <td>1195</td>
+            <td>1185</td>
+            <td>1164</td>
+            <td><a href="SA0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SC0_channel.html" class="sym-link" target="_blank"><b>原油</b><br><span class="sym-code">SC0</span></a></td>
+            <td>554</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>633</td>
+            <td>585</td>
+            <td>538</td>
+            <td>16.3%</td>
+            <td>0.59</td>
+            <td>622</td>
+            <td>611</td>
+            <td>589</td>
+            <td><a href="SC0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SH0_channel.html" class="sym-link" target="_blank"><b>烧碱</b><br><span class="sym-code">SH0</span></a></td>
+            <td>1900</td>
+            <td>2026-06-12</td>
+            <td style="color:#f85149">上1/3 (接近上轨，减仓观察区)</td>
+            <td>1948</td>
+            <td>1821</td>
+            <td>1694</td>
+            <td>14.0%</td>
+            <td>0.82</td>
+            <td>1897</td>
+            <td>1846</td>
+            <td>1743</td>
+            <td><a href="SH0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SI0_channel.html" class="sym-link" target="_blank"><b>工业硅</b><br><span class="sym-code">SI0</span></a></td>
+            <td>8745</td>
+            <td>2026-06-12</td>
+            <td style="color:#f0c060">中1/3 (通道中枢，观望区)</td>
+            <td>8999</td>
+            <td>8725</td>
+            <td>8451</td>
+            <td>6.3%</td>
+            <td>0.16</td>
+            <td>9022</td>
+            <td>9044</td>
+            <td>9090</td>
+            <td><a href="SI0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SR0_channel.html" class="sym-link" target="_blank"><b>白糖</b><br><span class="sym-code">SR0</span></a></td>
+            <td>5315</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>5463</td>
+            <td>5379</td>
+            <td>5296</td>
+            <td>3.1%</td>
+            <td>0.01</td>
+            <td>5461</td>
+            <td>5459</td>
+            <td>5455</td>
+            <td><a href="SR0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="T0_channel.html" class="sym-link" target="_blank"><b>10年国债</b><br><span class="sym-code">T0</span></a></td>
+            <td>109</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>109</td>
+            <td>109</td>
+            <td>109</td>
+            <td>0.4%</td>
+            <td>0.81</td>
+            <td>109</td>
+            <td>110</td>
+            <td>110</td>
+            <td><a href="T0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="TA0_channel.html" class="sym-link" target="_blank"><b>PTA</b><br><span class="sym-code">TA0</span></a></td>
+            <td>6352</td>
+            <td>2026-06-12</td>
+            <td style="color:#f85149">上1/3 (接近上轨，减仓观察区)</td>
+            <td>6448</td>
+            <td>6165</td>
+            <td>5883</td>
+            <td>9.2%</td>
+            <td>0.48</td>
+            <td>6397</td>
+            <td>6346</td>
+            <td>6243</td>
+            <td><a href="TA0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="TF0_channel.html" class="sym-link" target="_blank"><b>5年国债</b><br><span class="sym-code">TF0</span></a></td>
+            <td>106</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>107</td>
+            <td>106</td>
+            <td>106</td>
+            <td>0.3%</td>
+            <td>0.61</td>
+            <td>107</td>
+            <td>107</td>
+            <td>107</td>
+            <td><a href="TF0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="TL0_channel.html" class="sym-link" target="_blank"><b>30年国债</b><br><span class="sym-code">TL0</span></a></td>
+            <td>113</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>115</td>
+            <td>114</td>
+            <td>113</td>
+            <td>1.6%</td>
+            <td>0.67</td>
+            <td>115</td>
+            <td>115</td>
+            <td>116</td>
+            <td><a href="TL0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="TS0_channel.html" class="sym-link" target="_blank"><b>2年国债</b><br><span class="sym-code">TS0</span></a></td>
+            <td>103</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>103</td>
+            <td>103</td>
+            <td>103</td>
+            <td>0.1%</td>
+            <td>0.57</td>
+            <td>103</td>
+            <td>103</td>
+            <td>103</td>
+            <td><a href="TS0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="UR0_channel.html" class="sym-link" target="_blank"><b>尿素</b><br><span class="sym-code">UR0</span></a></td>
+            <td>1792</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>1947</td>
+            <td>1844</td>
+            <td>1741</td>
+            <td>11.2%</td>
+            <td>0.07</td>
+            <td>1942</td>
+            <td>1936</td>
+            <td>1925</td>
+            <td><a href="UR0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="V0_channel.html" class="sym-link" target="_blank"><b>PVC</b><br><span class="sym-code">V0</span></a></td>
+            <td>4741</td>
+            <td>2026-06-12</td>
+            <td style="color:#f0c060">中1/3 (通道中枢，观望区)</td>
+            <td>4953</td>
+            <td>4738</td>
+            <td>4524</td>
+            <td>9.1%</td>
+            <td>0.76</td>
+            <td>4882</td>
+            <td>4811</td>
+            <td>4668</td>
+            <td><a href="V0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="Y0_channel.html" class="sym-link" target="_blank"><b>豆油</b><br><span class="sym-code">Y0</span></a></td>
+            <td>8357</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>8561</td>
+            <td>8440</td>
+            <td>8318</td>
+            <td>2.9%</td>
+            <td>0.36</td>
+            <td>8544</td>
+            <td>8527</td>
+            <td>8493</td>
+            <td><a href="Y0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="ZN0_channel.html" class="sym-link" target="_blank"><b>沪锌</b><br><span class="sym-code">ZN0</span></a></td>
+            <td>24360</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>25534</td>
+            <td>25082</td>
+            <td>24630</td>
+            <td>3.6%</td>
+            <td>0.78</td>
+            <td>25697</td>
+            <td>25859</td>
+            <td>26185</td>
+            <td><a href="ZN0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="EB0_channel.html" class="sym-link" target="_blank"><b>苯乙烯</b><br><span class="sym-code">EB0</span></a></td>
+            <td>8483</td>
+            <td>2026-06-12</td>
+            <td style="color:#f0c060">中1/3 (通道中枢，观望区)</td>
+            <td>8947</td>
+            <td>8552</td>
+            <td>8156</td>
+            <td>9.2%</td>
+            <td>0.84</td>
+            <td>8773</td>
+            <td>8599</td>
+            <td>8251</td>
+            <td><a href="EB0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="EG0_channel.html" class="sym-link" target="_blank"><b>乙二醇</b><br><span class="sym-code">EG0</span></a></td>
+            <td>4679</td>
+            <td>2026-06-12</td>
+            <td style="color:#f85149">上1/3 (接近上轨，减仓观察区)</td>
+            <td>4814</td>
+            <td>4514</td>
+            <td>4213</td>
+            <td>13.3%</td>
+            <td>0.48</td>
+            <td>4759</td>
+            <td>4705</td>
+            <td>4595</td>
+            <td><a href="EG0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="FU0_channel.html" class="sym-link" target="_blank"><b>燃油</b><br><span class="sym-code">FU0</span></a></td>
+            <td>3608</td>
+            <td>2026-06-12</td>
+            <td style="color:#f0c060">中1/3 (通道中枢，观望区)</td>
+            <td>4142</td>
+            <td>3712</td>
+            <td>3281</td>
+            <td>23.2%</td>
+            <td>0.33</td>
+            <td>4086</td>
+            <td>4029</td>
+            <td>3916</td>
+            <td><a href="FU0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SP0_channel.html" class="sym-link" target="_blank"><b>纸浆</b><br><span class="sym-code">SP0</span></a></td>
+            <td>4896</td>
+            <td>2026-06-12</td>
+            <td style="color:#f0c060">中1/3 (通道中枢，观望区)</td>
+            <td>5002</td>
+            <td>4902</td>
+            <td>4802</td>
+            <td>4.1%</td>
+            <td>0.60</td>
+            <td>4979</td>
+            <td>4955</td>
+            <td>4909</td>
+            <td><a href="SP0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SN0_channel.html" class="sym-link" target="_blank"><b>沪锡</b><br><span class="sym-code">SN0</span></a></td>
+            <td>407990</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>455431</td>
+            <td>432607</td>
+            <td>409783</td>
+            <td>10.6%</td>
+            <td>0.67</td>
+            <td>461559</td>
+            <td>467687</td>
+            <td>479944</td>
+            <td><a href="SN0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="PB0_channel.html" class="sym-link" target="_blank"><b>沪铅</b><br><span class="sym-code">PB0</span></a></td>
+            <td>16055</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>16782</td>
+            <td>16515</td>
+            <td>16248</td>
+            <td>3.2%</td>
+            <td>0.07</td>
+            <td>16769</td>
+            <td>16755</td>
+            <td>16729</td>
+            <td><a href="PB0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SF0_channel.html" class="sym-link" target="_blank"><b>硅铁</b><br><span class="sym-code">SF0</span></a></td>
+            <td>5822</td>
+            <td>2026-06-12</td>
+            <td style="color:#f0c060">中1/3 (通道中枢，观望区)</td>
+            <td>6003</td>
+            <td>5837</td>
+            <td>5671</td>
+            <td>5.7%</td>
+            <td>0.00</td>
+            <td>6001</td>
+            <td>6000</td>
+            <td>5998</td>
+            <td><a href="SF0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SM0_channel.html" class="sym-link" target="_blank"><b>锰硅</b><br><span class="sym-code">SM0</span></a></td>
+            <td>6016</td>
+            <td>2026-06-12</td>
+            <td style="color:#f85149">上1/3 (接近上轨，减仓观察区)</td>
+            <td>6061</td>
+            <td>5875</td>
+            <td>5689</td>
+            <td>6.3%</td>
+            <td>0.62</td>
+            <td>6016</td>
+            <td>5971</td>
+            <td>5881</td>
+            <td><a href="SM0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="CY0_channel.html" class="sym-link" target="_blank"><b>棉纱</b><br><span class="sym-code">CY0</span></a></td>
+            <td>22135</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>22944</td>
+            <td>22543</td>
+            <td>22142</td>
+            <td>3.6%</td>
+            <td>0.54</td>
+            <td>23026</td>
+            <td>23109</td>
+            <td>23274</td>
+            <td><a href="CY0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="OI0_channel.html" class="sym-link" target="_blank"><b>菜油</b><br><span class="sym-code">OI0</span></a></td>
+            <td>9874</td>
+            <td>2026-06-12</td>
+            <td style="color:#f0c060">中1/3 (通道中枢，观望区)</td>
+            <td>10151</td>
+            <td>9869</td>
+            <td>9587</td>
+            <td>5.7%</td>
+            <td>0.10</td>
+            <td>10168</td>
+            <td>10186</td>
+            <td>10222</td>
+            <td><a href="OI0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="PK0_channel.html" class="sym-link" target="_blank"><b>花生</b><br><span class="sym-code">PK0</span></a></td>
+            <td>8426</td>
+            <td>2026-06-12</td>
+            <td style="color:#f85149">上1/3 (接近上轨，减仓观察区)</td>
+            <td>8468</td>
+            <td>8297</td>
+            <td>8125</td>
+            <td>4.1%</td>
+            <td>0.04</td>
+            <td>8475</td>
+            <td>8482</td>
+            <td>8495</td>
+            <td><a href="PK0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="CJ0_channel.html" class="sym-link" target="_blank"><b>红枣</b><br><span class="sym-code">CJ0</span></a></td>
+            <td>8900</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>9438</td>
+            <td>9124</td>
+            <td>8809</td>
+            <td>6.9%</td>
+            <td>0.02</td>
+            <td>9430</td>
+            <td>9423</td>
+            <td>9408</td>
+            <td><a href="CJ0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="PF0_channel.html" class="sym-link" target="_blank"><b>短纤</b><br><span class="sym-code">PF0</span></a></td>
+            <td>7848</td>
+            <td>2026-06-12</td>
+            <td style="color:#f85149">上1/3 (接近上轨，减仓观察区)</td>
+            <td>8024</td>
+            <td>7744</td>
+            <td>7463</td>
+            <td>7.2%</td>
+            <td>0.49</td>
+            <td>7972</td>
+            <td>7920</td>
+            <td>7816</td>
+            <td><a href="PF0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="LU0_channel.html" class="sym-link" target="_blank"><b>低硫燃油</b><br><span class="sym-code">LU0</span></a></td>
+            <td>4371</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>5238</td>
+            <td>4779</td>
+            <td>4319</td>
+            <td>19.2%</td>
+            <td>0.06</td>
+            <td>5260</td>
+            <td>5283</td>
+            <td>5328</td>
+            <td><a href="LU0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="BC0_channel.html" class="sym-link" target="_blank"><b>国际铜</b><br><span class="sym-code">BC0</span></a></td>
+            <td>92690</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>98179</td>
+            <td>95318</td>
+            <td>92458</td>
+            <td>6.0%</td>
+            <td>0.73</td>
+            <td>99065</td>
+            <td>99952</td>
+            <td>101725</td>
+            <td><a href="BC0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="NR0_channel.html" class="sym-link" target="_blank"><b>20号胶</b><br><span class="sym-code">NR0</span></a></td>
+            <td>15145</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>16098</td>
+            <td>15621</td>
+            <td>15144</td>
+            <td>6.1%</td>
+            <td>0.83</td>
+            <td>16297</td>
+            <td>16495</td>
+            <td>16893</td>
+            <td><a href="NR0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="SS0_channel.html" class="sym-link" target="_blank"><b>不锈钢</b><br><span class="sym-code">SS0</span></a></td>
+            <td>14785</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>15649</td>
+            <td>15082</td>
+            <td>14515</td>
+            <td>7.5%</td>
+            <td>0.25</td>
+            <td>15710</td>
+            <td>15772</td>
+            <td>15894</td>
+            <td><a href="SS0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="FB0_channel.html" class="sym-link" target="_blank"><b>纤维板</b><br><span class="sym-code">FB0</span></a></td>
+            <td>1284</td>
+            <td>2026-06-12</td>
+            <td style="color:#f0c060">中1/3 (通道中枢，观望区)</td>
+            <td>1328</td>
+            <td>1286</td>
+            <td>1243</td>
+            <td>6.6%</td>
+            <td>0.28</td>
+            <td>1323</td>
+            <td>1318</td>
+            <td>1308</td>
+            <td><a href="FB0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="BB0_channel.html" class="sym-link" target="_blank"><b>胶合板</b><br><span class="sym-code">BB0</span></a></td>
+            <td>147</td>
+            <td>2026-06-02</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>151</td>
+            <td>149</td>
+            <td>146</td>
+            <td>3.3%</td>
+            <td>0.17</td>
+            <td>151</td>
+            <td>152</td>
+            <td>152</td>
+            <td><a href="BB0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="WR0_channel.html" class="sym-link" target="_blank"><b>线材</b><br><span class="sym-code">WR0</span></a></td>
+            <td>3375</td>
+            <td>2026-04-22</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>3602</td>
+            <td>3477</td>
+            <td>3352</td>
+            <td>7.2%</td>
+            <td>0.12</td>
+            <td>3610</td>
+            <td>3619</td>
+            <td>3637</td>
+            <td><a href="WR0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="RI0_channel.html" class="sym-link" target="_blank"><b>早籼稻</b><br><span class="sym-code">RI0</span></a></td>
+            <td>2500</td>
+            <td>2022-06-30</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>2659</td>
+            <td>2588</td>
+            <td>2518</td>
+            <td>5.5%</td>
+            <td>0.78</td>
+            <td>2684</td>
+            <td>2709</td>
+            <td>2760</td>
+            <td><a href="RI0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="LR0_channel.html" class="sym-link" target="_blank"><b>晚籼稻</b><br><span class="sym-code">LR0</span></a></td>
+            <td>2535</td>
+            <td>2022-06-29</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>3044</td>
+            <td>2744</td>
+            <td>2444</td>
+            <td>21.9%</td>
+            <td>0.51</td>
+            <td>2987</td>
+            <td>2929</td>
+            <td>2813</td>
+            <td><a href="LR0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="JR0_channel.html" class="sym-link" target="_blank"><b>粳稻</b><br><span class="sym-code">JR0</span></a></td>
+            <td>2758</td>
+            <td>2022-12-30</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>2886</td>
+            <td>2831</td>
+            <td>2776</td>
+            <td>3.9%</td>
+            <td>0.66</td>
+            <td>2872</td>
+            <td>2858</td>
+            <td>2829</td>
+            <td><a href="JR0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="RS0_channel.html" class="sym-link" target="_blank"><b>油菜籽</b><br><span class="sym-code">RS0</span></a></td>
+            <td>5920</td>
+            <td>2026-06-12</td>
+            <td style="color:#f85149">上1/3 (接近上轨，减仓观察区)</td>
+            <td>6011</td>
+            <td>5846</td>
+            <td>5682</td>
+            <td>5.6%</td>
+            <td>0.07</td>
+            <td>6020</td>
+            <td>6028</td>
+            <td>6045</td>
+            <td><a href="RS0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="WH0_channel.html" class="sym-link" target="_blank"><b>强麦</b><br><span class="sym-code">WH0</span></a></td>
+            <td>3050</td>
+            <td>2023-02-28</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>3591</td>
+            <td>3387</td>
+            <td>3183</td>
+            <td>12.0%</td>
+            <td>0.75</td>
+            <td>3658</td>
+            <td>3725</td>
+            <td>3859</td>
+            <td><a href="WH0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="PM0_channel.html" class="sym-link" target="_blank"><b>普麦</b><br><span class="sym-code">PM0</span></a></td>
+            <td>3059</td>
+            <td>2022-06-23</td>
+            <td style="color:#f85149">上1/3 (接近上轨，减仓观察区)</td>
+            <td>3246</td>
+            <td>2917</td>
+            <td>2587</td>
+            <td>22.6%</td>
+            <td>0.58</td>
+            <td>3320</td>
+            <td>3394</td>
+            <td>3542</td>
+            <td><a href="PM0_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="000001_channel.html" class="sym-link" target="_blank"><b>上证综指</b><br><span class="sym-code">000001</span></a></td>
+            <td>4032</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>4259</td>
+            <td>4133</td>
+            <td>4006</td>
+            <td>6.1%</td>
+            <td>0.26</td>
+            <td>4274</td>
+            <td>4288</td>
+            <td>4316</td>
+            <td><a href="000001_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="399106_channel.html" class="sym-link" target="_blank"><b>深证综指</b><br><span class="sym-code">399106</span></a></td>
+            <td>2697</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>3008</td>
+            <td>2871</td>
+            <td>2735</td>
+            <td>9.5%</td>
+            <td>0.46</td>
+            <td>3032</td>
+            <td>3056</td>
+            <td>3103</td>
+            <td><a href="399106_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="000300_channel.html" class="sym-link" target="_blank"><b>沪深300</b><br><span class="sym-code">000300</span></a></td>
+            <td>4777</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>5103</td>
+            <td>4948</td>
+            <td>4794</td>
+            <td>6.2%</td>
+            <td>0.60</td>
+            <td>5138</td>
+            <td>5174</td>
+            <td>5245</td>
+            <td><a href="000300_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="000016_channel.html" class="sym-link" target="_blank"><b>上证50</b><br><span class="sym-code">000016</span></a></td>
+            <td>2891</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>3030</td>
+            <td>2940</td>
+            <td>2850</td>
+            <td>6.1%</td>
+            <td>0.05</td>
+            <td>3034</td>
+            <td>3038</td>
+            <td>3046</td>
+            <td><a href="000016_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="000905_channel.html" class="sym-link" target="_blank"><b>中证500</b><br><span class="sym-code">000905</span></a></td>
+            <td>8106</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>9036</td>
+            <td>8599</td>
+            <td>8162</td>
+            <td>10.2%</td>
+            <td>0.40</td>
+            <td>9104</td>
+            <td>9171</td>
+            <td>9306</td>
+            <td><a href="000905_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr><tr>
+            <td><a href="000852_channel.html" class="sym-link" target="_blank"><b>中证1000</b><br><span class="sym-code">000852</span></a></td>
+            <td>8203</td>
+            <td>2026-06-12</td>
+            <td style="color:#3fb950">下1/3 (接近下轨，加仓观察区)</td>
+            <td>9152</td>
+            <td>8710</td>
+            <td>8267</td>
+            <td>10.2%</td>
+            <td>0.46</td>
+            <td>9229</td>
+            <td>9306</td>
+            <td>9460</td>
+            <td><a href="000852_channel.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+</table>
+<div class="footer">生成时间: 2026-06-13 08:06 · 通道方法: Raff回归(收盘价) · 通道宽度: ±1.5 SE</div>
+</body>
+</html>
