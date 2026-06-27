@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>上证50 三角形态分析</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0d1117;color:#c9d1d9;padding:24px}
+h1{color:#f0c060;font-size:1.3rem;margin-bottom:4px}
+.sub{color:#8b949e;font-size:.8rem;margin-bottom:20px}
+table{width:100%;border-collapse:collapse;background:#161b22;border-radius:8px;overflow:hidden;font-size:.78rem}
+th{background:#1c2128;padding:8px 10px;text-align:left;font-size:.7rem;color:#8b949e;white-space:nowrap}
+td{padding:6px 10px;border-bottom:1px solid #21262d;font-size:.78rem}
+tr:hover td{background:#1c2735}
+.footer{text-align:center;color:#555;font-size:.7rem;margin-top:24px}
+.stat{display:inline-block;background:#161b22;border:1px solid #21262d;border-radius:8px;padding:12px 20px;margin:0 8px 16px 0}
+.stat .val{font-size:1.2rem;font-weight:bold;color:#f0c060}
+.stat .lbl{font-size:.7rem;color:#8b949e}
+.sym-link{color:#58a6ff;text-decoration:none;font-size:.82rem}
+.sym-link:hover{color:#79c0ff;text-decoration:underline}
+.sym-code{font-size:10px;color:#555}
+.btn-view{display:inline-block;padding:4px 10px;background:#1a3a5c;color:#58a6ff;border-radius:4px;text-decoration:none;font-size:.75rem}
+.btn-view:hover{background:#1f4a7a}
+</style>
+</head>
+<body>
+<h1>📊 上证50 三角形态分析</h1>
+<div class="sub">日线级别 · Murphy v3 P0三角检测 · 仅已完成突破形态 · 渐进窗口扫描(10→120d)</div>
+<div>
+  <div class="stat"><div class="val">50</div><div class="lbl">已分析</div></div>
+  <div class="stat"><div class="val">12</div><div class="lbl">三角总数</div></div>
+</div>
+<table>
+<tr><th>代码</th><th>名称</th><th>收盘</th><th>日期</th><th>三角详情</th><th>数量</th><th>K线</th></tr>
+<tr>
+            <td><a href="600028.html" class="sym-link" target="_blank"><b>中国石化</b><br><span class="sym-code">600028</span></a></td>
+            <td>4.92</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600028.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600030.html" class="sym-link" target="_blank"><b>中信证券</b><br><span class="sym-code">600030</span></a></td>
+            <td>26.19</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600030.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600031.html" class="sym-link" target="_blank"><b>三一重工</b><br><span class="sym-code">600031</span></a></td>
+            <td>18.83</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600031.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600036.html" class="sym-link" target="_blank"><b>招商银行</b><br><span class="sym-code">600036</span></a></td>
+            <td>36.94</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600036.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600050.html" class="sym-link" target="_blank"><b>中国联通</b><br><span class="sym-code">600050</span></a></td>
+            <td>4.46</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600050.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600104.html" class="sym-link" target="_blank"><b>上汽集团</b><br><span class="sym-code">600104</span></a></td>
+            <td>12.33</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">下降三角形→12</td>
+            <td>1</td>
+            <td><a href="600104.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600111.html" class="sym-link" target="_blank"><b>北方稀土</b><br><span class="sym-code">600111</span></a></td>
+            <td>51.11</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600111.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600150.html" class="sym-link" target="_blank"><b>中国船舶</b><br><span class="sym-code">600150</span></a></td>
+            <td>37.90</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600150.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600276.html" class="sym-link" target="_blank"><b>恒瑞医药</b><br><span class="sym-code">600276</span></a></td>
+            <td>49.43</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600276.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600309.html" class="sym-link" target="_blank"><b>万华化学</b><br><span class="sym-code">600309</span></a></td>
+            <td>76.85</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600309.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600406.html" class="sym-link" target="_blank"><b>国电南瑞</b><br><span class="sym-code">600406</span></a></td>
+            <td>26.26</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600406.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600519.html" class="sym-link" target="_blank"><b>贵州茅台</b><br><span class="sym-code">600519</span></a></td>
+            <td>1285.88</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">下降三角形→1101</td>
+            <td>1</td>
+            <td><a href="600519.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600690.html" class="sym-link" target="_blank"><b>海尔智家</b><br><span class="sym-code">600690</span></a></td>
+            <td>20.31</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600690.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600760.html" class="sym-link" target="_blank"><b>中航沈飞</b><br><span class="sym-code">600760</span></a></td>
+            <td>44.22</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600760.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600809.html" class="sym-link" target="_blank"><b>山西汾酒</b><br><span class="sym-code">600809</span></a></td>
+            <td>128.63</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600809.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600887.html" class="sym-link" target="_blank"><b>伊利股份</b><br><span class="sym-code">600887</span></a></td>
+            <td>26.27</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600887.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600900.html" class="sym-link" target="_blank"><b>长江电力</b><br><span class="sym-code">600900</span></a></td>
+            <td>26.67</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600900.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="600930.html" class="sym-link" target="_blank"><b>华电新能</b><br><span class="sym-code">600930</span></a></td>
+            <td>6.14</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="600930.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601012.html" class="sym-link" target="_blank"><b>隆基绿能</b><br><span class="sym-code">601012</span></a></td>
+            <td>14.85</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601012.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601088.html" class="sym-link" target="_blank"><b>中国神华</b><br><span class="sym-code">601088</span></a></td>
+            <td>44.78</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601088.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601127.html" class="sym-link" target="_blank"><b>赛力斯</b><br><span class="sym-code">601127</span></a></td>
+            <td>82.08</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601127.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601166.html" class="sym-link" target="_blank"><b>兴业银行</b><br><span class="sym-code">601166</span></a></td>
+            <td>17.64</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">对称三角形→16</td>
+            <td>1</td>
+            <td><a href="601166.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601211.html" class="sym-link" target="_blank"><b>国泰海通</b><br><span class="sym-code">601211</span></a></td>
+            <td>15.15</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601211.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601225.html" class="sym-link" target="_blank"><b>陕西煤业</b><br><span class="sym-code">601225</span></a></td>
+            <td>23.89</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">对称三角形→18 · 对称三角形→18</td>
+            <td>2</td>
+            <td><a href="601225.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601288.html" class="sym-link" target="_blank"><b>农业银行</b><br><span class="sym-code">601288</span></a></td>
+            <td>6.44</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601288.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601318.html" class="sym-link" target="_blank"><b>中国平安</b><br><span class="sym-code">601318</span></a></td>
+            <td>54.22</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601318.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601328.html" class="sym-link" target="_blank"><b>交通银行</b><br><span class="sym-code">601328</span></a></td>
+            <td>6.61</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">下降三角形→6 · 对称三角形→6 · 对称三角形→6</td>
+            <td>4</td>
+            <td><a href="601328.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601398.html" class="sym-link" target="_blank"><b>工商银行</b><br><span class="sym-code">601398</span></a></td>
+            <td>7.17</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601398.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601601.html" class="sym-link" target="_blank"><b>中国太保</b><br><span class="sym-code">601601</span></a></td>
+            <td>33.29</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601601.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601628.html" class="sym-link" target="_blank"><b>中国人寿</b><br><span class="sym-code">601628</span></a></td>
+            <td>33.83</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601628.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601658.html" class="sym-link" target="_blank"><b>邮储银行</b><br><span class="sym-code">601658</span></a></td>
+            <td>4.97</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601658.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601668.html" class="sym-link" target="_blank"><b>中国建筑</b><br><span class="sym-code">601668</span></a></td>
+            <td>4.77</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601668.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601728.html" class="sym-link" target="_blank"><b>中国电信</b><br><span class="sym-code">601728</span></a></td>
+            <td>6.13</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601728.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601816.html" class="sym-link" target="_blank"><b>京沪高铁</b><br><span class="sym-code">601816</span></a></td>
+            <td>4.84</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601816.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601857.html" class="sym-link" target="_blank"><b>中国石油</b><br><span class="sym-code">601857</span></a></td>
+            <td>10.73</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">对称三角形→8</td>
+            <td>1</td>
+            <td><a href="601857.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601888.html" class="sym-link" target="_blank"><b>中国中免</b><br><span class="sym-code">601888</span></a></td>
+            <td>56.80</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601888.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601899.html" class="sym-link" target="_blank"><b>紫金矿业</b><br><span class="sym-code">601899</span></a></td>
+            <td>31.35</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601899.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601919.html" class="sym-link" target="_blank"><b>中远海控</b><br><span class="sym-code">601919</span></a></td>
+            <td>14.65</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601919.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601985.html" class="sym-link" target="_blank"><b>中国核电</b><br><span class="sym-code">601985</span></a></td>
+            <td>8.75</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">对称三角形→8 · 对称三角形→8</td>
+            <td>2</td>
+            <td><a href="601985.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="601988.html" class="sym-link" target="_blank"><b>中国银行</b><br><span class="sym-code">601988</span></a></td>
+            <td>5.90</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="601988.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="603019.html" class="sym-link" target="_blank"><b>中科曙光</b><br><span class="sym-code">603019</span></a></td>
+            <td>96.45</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="603019.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="603259.html" class="sym-link" target="_blank"><b>药明康德</b><br><span class="sym-code">603259</span></a></td>
+            <td>102.55</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="603259.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="603501.html" class="sym-link" target="_blank"><b>豪威集团</b><br><span class="sym-code">603501</span></a></td>
+            <td>108.94</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="603501.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="603993.html" class="sym-link" target="_blank"><b>洛阳钼业</b><br><span class="sym-code">603993</span></a></td>
+            <td>19.34</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="603993.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="688008.html" class="sym-link" target="_blank"><b>澜起科技</b><br><span class="sym-code">688008</span></a></td>
+            <td>284.08</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="688008.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="688012.html" class="sym-link" target="_blank"><b>中微公司</b><br><span class="sym-code">688012</span></a></td>
+            <td>485.30</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="688012.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="688041.html" class="sym-link" target="_blank"><b>海光信息</b><br><span class="sym-code">688041</span></a></td>
+            <td>329.68</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="688041.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="688111.html" class="sym-link" target="_blank"><b>金山办公</b><br><span class="sym-code">688111</span></a></td>
+            <td>245.34</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="688111.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="688256.html" class="sym-link" target="_blank"><b>寒武纪</b><br><span class="sym-code">688256</span></a></td>
+            <td>1406.50</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="688256.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+<tr>
+            <td><a href="688981.html" class="sym-link" target="_blank"><b>中芯国际</b><br><span class="sym-code">688981</span></a></td>
+            <td>156.00</td>
+            <td>2026-05-25</td>
+            <td style="font-size:11px">—</td>
+            <td>0</td>
+            <td><a href="688981.html" class="btn-view" target="_blank">📊 K线</a></td>
+        </tr>
+
+</table>
+<div class="footer">生成时间: 2026-05-25 18:00 · 方法: Murphy v3 P0 · 数据源: AKShare(前复权)</div>
+</body>
+</html>
