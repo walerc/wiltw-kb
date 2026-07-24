@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>📋 通道预测看板</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --card-bg: #161b22;
+  --border: #30363d;
+  --text: #c9d1d9;
+  --text-secondary: #8b949e;
+  --red: #ff5050;
+  --green: #00c864;
+  --gold: #e3b341;
+  --blue: #58a6ff;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',sans-serif; background:var(--bg); color:var(--text); padding:24px; min-height:100vh; }
+h1 { font-size:22px; margin-bottom:8px; }
+.subtitle { color:var(--text-secondary); font-size:13px; margin-bottom:24px; }
+.nav { margin-bottom:24px; }
+.nav a { color:var(--blue); text-decoration:none; font-size:14px; }
+.nav a:hover { text-decoration:underline; }
+
+/* 汇总卡片 */
+.summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-bottom:28px; }
+.card { background:var(--card-bg); border:1px solid var(--border); border-radius:8px; padding:16px; text-align:center; }
+.card .label { font-size:12px; color:var(--text-secondary); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.5px; }
+.card .value { font-size:28px; font-weight:700; }
+.card .sub { font-size:12px; color:var(--text-secondary); margin-top:4px; }
+
+/* 表格 */
+.section { margin-bottom:32px; }
+.section h2 { font-size:16px; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { text-align:left; padding:8px 12px; color:var(--text-secondary); font-weight:600; font-size:12px; border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02); }
+td { padding:10px 12px; border-bottom:1px solid rgba(48,54,61,0.5); }
+tr:hover td { background:rgba(88,166,255,0.04); }
+.up { color:var(--red); }
+.down { color:var(--green); }
+.win { color:var(--green); font-weight:600; }
+.loss { color:var(--red); font-weight:600; }
+.badge { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:600; }
+.badge-long { background:rgba(255,80,80,0.15); color:var(--red); }
+.badge-short { background:rgba(0,200,100,0.15); color:var(--green); }
+
+/* 通道参数展开 */
+.channel-row { cursor:pointer; }
+.channel-row .expand-icon { display:inline-block; width:16px; color:var(--text-secondary); font-size:11px; }
+.channel-detail { display:none; }
+.channel-detail.show { display:table-row; }
+.channel-detail td { padding:0; background:rgba(255,255,255,0.01); }
+.channel-box { padding:8px 12px 12px 36px; display:grid; grid-template-columns:repeat(3,1fr); gap:8px; font-size:12px; }
+.channel-period { background:rgba(255,255,255,0.03); border-radius:6px; padding:10px; border-left:3px solid var(--border); }
+.channel-period.short { border-left-color:#58a6ff; }
+.channel-period.medium { border-left-color:#e3b341; }
+.channel-period.long { border-left-color:#f78166; }
+.channel-period .pname { font-size:11px; color:var(--text-secondary); margin-bottom:4px; }
+.channel-period .pval { margin:2px 0; }
+.channel-period .pval strong { color:var(--text); }
+
+/* 结算信息 */
+.settle-info { font-size:11px; color:var(--text-secondary); }
+
+.empty { text-align:center; color:var(--text-secondary); padding:40px; font-size:14px; }
+.footer { text-align:center; color:var(--text-secondary); font-size:11px; margin-top:32px; padding-top:16px; border-top:1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<div class="nav"><a href="index.html">← 通道投影总览</a></div>
+<h1>📋 通道投影预测看板</h1>
+<p class="subtitle">基于 Raff 回归通道的品种方向判断追踪 · 数据源: prediction_journal.json</p>
+
+<div class="summary" id="summary"></div>
+
+<div class="section">
+  <h2>🟢 活跃预测 (<span id="activeCount">0</span>)</h2>
+  <table>
+    <thead><tr>
+      <th style="width:4%">#</th><th style="width:12%">品种</th><th style="width:7%">方向</th><th style="width:10%">入场价</th><th style="width:14%">入场时间</th><th style="width:8%">持仓</th><th style="width:45%">三周期位置</th>
+    </tr></thead>
+    <tbody id="activeTable"></tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h2>⚫ 已结算 (<span id="closedCount">0</span>)</h2>
+  <table>
+    <thead><tr>
+      <th style="width:4%">#</th><th style="width:10%">品种</th><th style="width:7%">方向</th><th style="width:9%">入场价</th><th style="width:9%">出场价</th><th style="width:9%">盈亏</th><th style="width:14%">入场时间</th><th style="width:14%">结算时间</th><th style="width:12%">持仓</th><th style="width:12%">判定</th>
+    </tr></thead>
+    <tbody id="closedTable"></tbody>
+  </table>
+</div>
+
+<div class="footer">通道投影预测看板 · 数据自动同步 · <span id="updateTime"></span></div>
+
+<script>
+const DIR_ICON = {'看涨':'📈','看跌':'📉'};
+const DIR_CLASS = {'看涨':'up','看跌':'down'};
+
+async function load() {
+  try {
+    const res = await fetch('prediction_journal.json?t=' + Date.now());
+    const records = await res.json();
+    render(records);
+  } catch(e) {
+    document.getElementById('activeTable').innerHTML = '<tr><td colspan="7" class="empty">⚠️ 无法加载数据</td></tr>';
+  }
+}
+
+function render(records) {
+  const active = records.filter(r => r.status === 'open');
+  const closed = records.filter(r => r.status === 'closed');
+  const now = new Date();
+  
+  // 汇总
+  document.getElementById('activeCount').textContent = active.length;
+  document.getElementById('closedCount').textContent = closed.length;
+  
+  const closedWithResult = closed.filter(r => r.result);
+  const correct = closedWithResult.filter(r => r.result.correct).length;
+  const totalClosed = closedWithResult.length;
+  const accuracy = totalClosed > 0 ? (correct/totalClosed*100).toFixed(0) : '—';
+  const totalPnl = closedWithResult.reduce((s,r) => s + r.result.change_pct, 0).toFixed(2);
+  
+  document.getElementById('summary').innerHTML = `
+    <div class="card"><div class="label">总预测</div><div class="value">${records.length}</div></div>
+    <div class="card"><div class="label">活跃中</div><div class="value" style="color:var(--gold)">${active.length}</div></div>
+    <div class="card"><div class="label">已结算</div><div class="value" style="color:var(--blue)">${closed.length}</div></div>
+    <div class="card"><div class="label">准确率</div><div class="value">${accuracy}%</div><div class="sub">${correct}/${totalClosed}</div></div>
+    <div class="card"><div class="label">累计盈亏</div><div class="value" style="color:${totalPnl>=0?'var(--red)':'var(--green)'}">${totalPnl>=0?'+':''}${totalPnl}%</div></div>
+  `;
+
+  // 活跃预测
+  if (active.length === 0) {
+    document.getElementById('activeTable').innerHTML = '<tr><td colspan="7" class="empty">暂无活跃预测</td></tr>';
+  } else {
+    document.getElementById('activeTable').innerHTML = active.map((r,i) => {
+      const ch = r.channels;
+      const entryDt = new Date(r.entry_date.replace(' ','T'));
+      const days = ((now - entryDt) / 86400000).toFixed(1);
+      const dirClass = DIR_CLASS[r.direction];
+      const posShort = ch.short_position.toFixed(1);
+      const posMed = ch.medium_position.toFixed(1);
+      const posLong = ch.long_position.toFixed(1);
+      const posColor = (v) => v>100 ? 'var(--red)' : v<0 ? 'var(--green)' : 'var(--text)';
+      
+      return `<tr class="channel-row" onclick="toggleDetail('a${i}')">
+        <td><span class="expand-icon" id="a${i}_icon">▶</span></td>
+        <td><strong>${r.name}</strong> <span style="color:var(--text-secondary)">${r.symbol}</span></td>
+        <td><span class="badge ${r.direction==='看涨'?'badge-long':'badge-short'}">${DIR_ICON[r.direction]} ${r.direction}</span></td>
+        <td><span class="${dirClass}">${r.entry_close}</span></td>
+        <td class="settle-info">${r.entry_date}</td>
+        <td class="settle-info">${days}天</td>
+        <td style="font-size:12px">
+          📗<span style="color:${posColor(posShort)}">${posShort}%</span>
+          &nbsp;📘<span style="color:${posColor(posMed)}">${posMed}%</span>
+          &nbsp;📙<span style="color:${posColor(posLong)}">${posLong}%</span>
+        </td>
+      </tr>
+      <tr class="channel-detail" id="a${i}_detail">
+        <td colspan="7">${channelDetail(r)}</td>
+      </tr>`;
+    }).join('');
+  }
+  
+  // 已结算
+  if (closed.length === 0) {
+    document.getElementById('closedTable').innerHTML = '<tr><td colspan="10" class="empty">暂无结算记录</td></tr>';
+  } else {
+    document.getElementById('closedTable').innerHTML = closed.map((r,i) => {
+      const res = r.result || {};
+      const pnl = res.change_pct || 0;
+      const dirClass = DIR_CLASS[r.direction];
+      return `<tr>
+        <td>${i+1}</td>
+        <td><strong>${r.name}</strong> <span style="color:var(--text-secondary)">${r.symbol}</span></td>
+        <td><span class="badge ${r.direction==='看涨'?'badge-long':'badge-short'}">${DIR_ICON[r.direction]} ${r.direction}</span></td>
+        <td class="${dirClass}">${r.entry_close}</td>
+        <td>${res.exit_close||'—'}</td>
+        <td class="${pnl>=0?'win':'loss'}">${pnl>=0?'+':''}${pnl.toFixed(2)}%</td>
+        <td class="settle-info">${r.entry_date}</td>
+        <td class="settle-info">${res.close_date||'—'}</td>
+        <td class="settle-info">${res.hold_days||'—'}天</td>
+        <td>${res.correct===true?'✅':'❌'}</td>
+      </tr>`;
+    }).join('');
+  }
+  
+  document.getElementById('updateTime').textContent = '最后更新: ' + new Date().toLocaleString('zh-CN');
+}
+
+function channelDetail(r) {
+  const ch = r.channels;
+  return `<div class="channel-box">
+    <div class="channel-period short">
+      <div class="pname">📗 短周期 20日</div>
+      <div class="pval">位置 <strong>${ch.short_position.toFixed(1)}%</strong></div>
+      <div class="pval">上轨 <strong>${ch.short_upper.toFixed(0)}</strong> 下轨 <strong>${ch.short_lower.toFixed(0)}</strong></div>
+      <div class="pval">中轨 <strong>${ch.short_center.toFixed(0)}</strong> | 宽 ${ch.short_width.toFixed(1)}%</div>
+      <div class="pval">R²=${ch.short_r2.toFixed(2)} | 斜率${ch.short_slope>=0?'+':''}${ch.short_slope.toFixed(1)}/日 | D+20→${ch.short_d20.toFixed(0)}</div>
+    </div>
+    <div class="channel-period medium">
+      <div class="pname">📘 中周期 60日</div>
+      <div class="pval">位置 <strong>${ch.medium_position.toFixed(1)}%</strong></div>
+      <div class="pval">上轨 <strong>${ch.medium_upper.toFixed(0)}</strong> 下轨 <strong>${ch.medium_lower.toFixed(0)}</strong></div>
+      <div class="pval">中轨 <strong>${ch.medium_center.toFixed(0)}</strong> | 宽 ${ch.medium_width.toFixed(1)}%</div>
+      <div class="pval">R²=${ch.medium_r2.toFixed(2)} | 斜率${ch.medium_slope>=0?'+':''}${ch.medium_slope.toFixed(1)}/日 | D+20→${ch.medium_d20.toFixed(0)}</div>
+    </div>
+    <div class="channel-period long">
+      <div class="pname">📙 长周期 150日</div>
+      <div class="pval">位置 <strong>${ch.long_position.toFixed(1)}%</strong></div>
+      <div class="pval">上轨 <strong>${ch.long_upper.toFixed(0)}</strong> 下轨 <strong>${ch.long_lower.toFixed(0)}</strong></div>
+      <div class="pval">中轨 <strong>${ch.long_center.toFixed(0)}</strong> | 宽 ${ch.long_width.toFixed(1)}%</div>
+      <div class="pval">R²=${ch.long_r2.toFixed(2)} | 斜率${ch.long_slope>=0?'+':''}${ch.long_slope.toFixed(1)}/日 | D+20→${ch.long_d20.toFixed(0)}</div>
+    </div>
+  </div>`;
+}
+
+function toggleDetail(id) {
+  const detail = document.getElementById(id+'_detail');
+  const icon = document.getElementById(id+'_icon');
+  if (detail.classList.contains('show')) {
+    detail.classList.remove('show');
+    icon.textContent = '▶';
+  } else {
+    detail.classList.add('show');
+    icon.textContent = '▼';
+  }
+}
+
+load();
+</script>
+</body>
+</html>
