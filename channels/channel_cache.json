@@ -9521,5 +9521,911 @@
         }
       }
     }
+  },
+  "000001": {
+    "_close": 3946.675,
+    "_date": "2026-08-12",
+    "short": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 20,
+      "n_bars": 20,
+      "slope_per_day": 5.9222,
+      "r_squared": 0.389,
+      "se": 45.08,
+      "current": {
+        "close": 3946.68,
+        "center": 3916.28,
+        "upper": 3983.89,
+        "lower": 3848.66,
+        "width_pct": 3.5,
+        "position_pct": 72.0,
+        "zone": "上1/3 (接近上轨，减仓观察区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 3922.2,
+          "upper": 3989.81,
+          "lower": 3854.59
+        },
+        "D+3": {
+          "center": 3934.04,
+          "upper": 4001.66,
+          "lower": 3866.43
+        },
+        "D+5(≈W+1)": {
+          "center": 3945.89,
+          "upper": 4013.5,
+          "lower": 3878.27
+        },
+        "D+10(≈W+2)": {
+          "center": 3975.5,
+          "upper": 4043.11,
+          "lower": 3907.88
+        },
+        "D+20(≈W+4)": {
+          "center": 4034.72,
+          "upper": 4102.33,
+          "lower": 3967.11
+        },
+        "D+40(≈2M)": {
+          "center": 4153.16,
+          "upper": 4220.78,
+          "lower": 4085.55
+        }
+      }
+    },
+    "medium": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 60,
+      "n_bars": 60,
+      "slope_per_day": -5.0124,
+      "r_squared": 0.618,
+      "se": 69.36,
+      "current": {
+        "close": 3946.68,
+        "center": 3844.38,
+        "upper": 3948.42,
+        "lower": 3740.33,
+        "width_pct": 5.4,
+        "position_pct": 99.0,
+        "zone": "上1/3 (接近上轨，减仓观察区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 3839.36,
+          "upper": 3943.41,
+          "lower": 3735.32
+        },
+        "D+3": {
+          "center": 3829.34,
+          "upper": 3933.39,
+          "lower": 3725.29
+        },
+        "D+5(≈W+1)": {
+          "center": 3819.31,
+          "upper": 3923.36,
+          "lower": 3715.27
+        },
+        "D+10(≈W+2)": {
+          "center": 3794.25,
+          "upper": 3898.3,
+          "lower": 3690.21
+        },
+        "D+20(≈W+4)": {
+          "center": 3744.13,
+          "upper": 3848.18,
+          "lower": 3640.08
+        },
+        "D+40(≈2M)": {
+          "center": 3643.88,
+          "upper": 3747.93,
+          "lower": 3539.83
+        }
+      }
+    },
+    "long": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 150,
+      "n_bars": 150,
+      "slope_per_day": -1.1328,
+      "r_squared": 0.216,
+      "se": 94.2,
+      "current": {
+        "close": 3946.68,
+        "center": 3957.37,
+        "upper": 4098.68,
+        "lower": 3816.07,
+        "width_pct": 7.1,
+        "position_pct": 46.0,
+        "zone": "中1/3 (通道中枢，观望区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 3956.24,
+          "upper": 4097.54,
+          "lower": 3814.94
+        },
+        "D+3": {
+          "center": 3953.97,
+          "upper": 4095.28,
+          "lower": 3812.67
+        },
+        "D+5(≈W+1)": {
+          "center": 3951.71,
+          "upper": 4093.01,
+          "lower": 3810.4
+        },
+        "D+10(≈W+2)": {
+          "center": 3946.04,
+          "upper": 4087.35,
+          "lower": 3804.74
+        },
+        "D+20(≈W+4)": {
+          "center": 3934.72,
+          "upper": 4076.02,
+          "lower": 3793.41
+        },
+        "D+40(≈2M)": {
+          "center": 3912.06,
+          "upper": 4053.36,
+          "lower": 3770.75
+        }
+      }
+    }
+  },
+  "399106": {
+    "_close": 2577.619,
+    "_date": "2026-08-11",
+    "short": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 20,
+      "n_bars": 20,
+      "slope_per_day": 2.7936,
+      "r_squared": 0.053,
+      "se": 71.92,
+      "current": {
+        "close": 2577.62,
+        "center": 2512.62,
+        "upper": 2620.5,
+        "lower": 2404.74,
+        "width_pct": 8.6,
+        "position_pct": 80.0,
+        "zone": "上1/3 (接近上轨，减仓观察区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 2515.42,
+          "upper": 2623.3,
+          "lower": 2407.54
+        },
+        "D+3": {
+          "center": 2521.0,
+          "upper": 2628.88,
+          "lower": 2413.12
+        },
+        "D+5(≈W+1)": {
+          "center": 2526.59,
+          "upper": 2634.47,
+          "lower": 2418.71
+        },
+        "D+10(≈W+2)": {
+          "center": 2540.56,
+          "upper": 2648.44,
+          "lower": 2432.68
+        },
+        "D+20(≈W+4)": {
+          "center": 2568.49,
+          "upper": 2676.37,
+          "lower": 2460.61
+        },
+        "D+40(≈2M)": {
+          "center": 2624.37,
+          "upper": 2732.25,
+          "lower": 2516.49
+        }
+      }
+    },
+    "medium": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 60,
+      "n_bars": 60,
+      "slope_per_day": -7.6169,
+      "r_squared": 0.676,
+      "se": 92.9,
+      "current": {
+        "close": 2577.62,
+        "center": 2460.6,
+        "upper": 2599.94,
+        "lower": 2321.26,
+        "width_pct": 11.3,
+        "position_pct": 92.0,
+        "zone": "上1/3 (接近上轨，减仓观察区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 2452.98,
+          "upper": 2592.33,
+          "lower": 2313.64
+        },
+        "D+3": {
+          "center": 2437.75,
+          "upper": 2577.09,
+          "lower": 2298.41
+        },
+        "D+5(≈W+1)": {
+          "center": 2422.52,
+          "upper": 2561.86,
+          "lower": 2283.17
+        },
+        "D+10(≈W+2)": {
+          "center": 2384.43,
+          "upper": 2523.77,
+          "lower": 2245.09
+        },
+        "D+20(≈W+4)": {
+          "center": 2308.26,
+          "upper": 2447.61,
+          "lower": 2168.92
+        },
+        "D+40(≈2M)": {
+          "center": 2155.92,
+          "upper": 2295.27,
+          "lower": 2016.58
+        }
+      }
+    },
+    "long": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 150,
+      "n_bars": 150,
+      "slope_per_day": -0.1557,
+      "r_squared": 0.003,
+      "se": 127.06,
+      "current": {
+        "close": 2577.62,
+        "center": 2675.82,
+        "upper": 2866.41,
+        "lower": 2485.22,
+        "width_pct": 14.2,
+        "position_pct": 24.0,
+        "zone": "下1/3 (接近下轨，加仓观察区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 2675.66,
+          "upper": 2866.26,
+          "lower": 2485.07
+        },
+        "D+3": {
+          "center": 2675.35,
+          "upper": 2865.95,
+          "lower": 2484.75
+        },
+        "D+5(≈W+1)": {
+          "center": 2675.04,
+          "upper": 2865.64,
+          "lower": 2484.44
+        },
+        "D+10(≈W+2)": {
+          "center": 2674.26,
+          "upper": 2864.86,
+          "lower": 2483.66
+        },
+        "D+20(≈W+4)": {
+          "center": 2672.7,
+          "upper": 2863.3,
+          "lower": 2482.11
+        },
+        "D+40(≈2M)": {
+          "center": 2669.59,
+          "upper": 2860.19,
+          "lower": 2478.99
+        }
+      }
+    }
+  },
+  "000300": {
+    "_close": 4690.917,
+    "_date": "2026-08-12",
+    "short": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 20,
+      "n_bars": 20,
+      "slope_per_day": 0.4795,
+      "r_squared": 0.002,
+      "se": 68.01,
+      "current": {
+        "close": 4690.92,
+        "center": 4648.27,
+        "upper": 4750.3,
+        "lower": 4546.25,
+        "width_pct": 4.4,
+        "position_pct": 71.0,
+        "zone": "上1/3 (接近上轨，减仓观察区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 4648.75,
+          "upper": 4750.78,
+          "lower": 4546.73
+        },
+        "D+3": {
+          "center": 4649.71,
+          "upper": 4751.74,
+          "lower": 4547.69
+        },
+        "D+5(≈W+1)": {
+          "center": 4650.67,
+          "upper": 4752.69,
+          "lower": 4548.65
+        },
+        "D+10(≈W+2)": {
+          "center": 4653.07,
+          "upper": 4755.09,
+          "lower": 4551.05
+        },
+        "D+20(≈W+4)": {
+          "center": 4657.86,
+          "upper": 4759.89,
+          "lower": 4555.84
+        },
+        "D+40(≈2M)": {
+          "center": 4667.45,
+          "upper": 4769.48,
+          "lower": 4565.43
+        }
+      }
+    },
+    "medium": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 60,
+      "n_bars": 60,
+      "slope_per_day": -5.2297,
+      "r_squared": 0.488,
+      "se": 94.31,
+      "current": {
+        "close": 4690.92,
+        "center": 4636.14,
+        "upper": 4777.61,
+        "lower": 4494.67,
+        "width_pct": 6.1,
+        "position_pct": 69.0,
+        "zone": "上1/3 (接近上轨，减仓观察区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 4630.91,
+          "upper": 4772.38,
+          "lower": 4489.44
+        },
+        "D+3": {
+          "center": 4620.45,
+          "upper": 4761.92,
+          "lower": 4478.98
+        },
+        "D+5(≈W+1)": {
+          "center": 4609.99,
+          "upper": 4751.46,
+          "lower": 4468.52
+        },
+        "D+10(≈W+2)": {
+          "center": 4583.84,
+          "upper": 4725.32,
+          "lower": 4442.37
+        },
+        "D+20(≈W+4)": {
+          "center": 4531.55,
+          "upper": 4673.02,
+          "lower": 4390.08
+        },
+        "D+40(≈2M)": {
+          "center": 4426.95,
+          "upper": 4568.42,
+          "lower": 4285.48
+        }
+      }
+    },
+    "long": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 150,
+      "n_bars": 150,
+      "slope_per_day": 0.7415,
+      "r_squared": 0.061,
+      "se": 127.28,
+      "current": {
+        "close": 4690.92,
+        "center": 4789.43,
+        "upper": 4980.36,
+        "lower": 4598.51,
+        "width_pct": 8.0,
+        "position_pct": 24.0,
+        "zone": "下1/3 (接近下轨，加仓观察区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 4790.18,
+          "upper": 4981.1,
+          "lower": 4599.25
+        },
+        "D+3": {
+          "center": 4791.66,
+          "upper": 4982.58,
+          "lower": 4600.73
+        },
+        "D+5(≈W+1)": {
+          "center": 4793.14,
+          "upper": 4984.07,
+          "lower": 4602.22
+        },
+        "D+10(≈W+2)": {
+          "center": 4796.85,
+          "upper": 4987.77,
+          "lower": 4605.92
+        },
+        "D+20(≈W+4)": {
+          "center": 4804.26,
+          "upper": 4995.19,
+          "lower": 4613.34
+        },
+        "D+40(≈2M)": {
+          "center": 4819.09,
+          "upper": 5010.02,
+          "lower": 4628.17
+        }
+      }
+    }
+  },
+  "000016": {
+    "_close": 2938.385,
+    "_date": "2026-08-12",
+    "short": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 20,
+      "n_bars": 20,
+      "slope_per_day": 0.6888,
+      "r_squared": 0.011,
+      "se": 39.16,
+      "current": {
+        "close": 2938.39,
+        "center": 2936.01,
+        "upper": 2994.75,
+        "lower": 2877.26,
+        "width_pct": 4.0,
+        "position_pct": 52.0,
+        "zone": "中1/3 (通道中枢，观望区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 2936.7,
+          "upper": 2995.44,
+          "lower": 2877.95
+        },
+        "D+3": {
+          "center": 2938.07,
+          "upper": 2996.82,
+          "lower": 2879.33
+        },
+        "D+5(≈W+1)": {
+          "center": 2939.45,
+          "upper": 2998.2,
+          "lower": 2880.71
+        },
+        "D+10(≈W+2)": {
+          "center": 2942.9,
+          "upper": 3001.64,
+          "lower": 2884.15
+        },
+        "D+20(≈W+4)": {
+          "center": 2949.78,
+          "upper": 3008.53,
+          "lower": 2891.04
+        },
+        "D+40(≈2M)": {
+          "center": 2963.56,
+          "upper": 3022.31,
+          "lower": 2904.81
+        }
+      }
+    },
+    "medium": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 60,
+      "n_bars": 60,
+      "slope_per_day": 0.3938,
+      "r_squared": 0.027,
+      "se": 41.35,
+      "current": {
+        "close": 2938.39,
+        "center": 2940.41,
+        "upper": 3002.44,
+        "lower": 2878.37,
+        "width_pct": 4.2,
+        "position_pct": 48.0,
+        "zone": "中1/3 (通道中枢，观望区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 2940.8,
+          "upper": 3002.83,
+          "lower": 2878.77
+        },
+        "D+3": {
+          "center": 2941.59,
+          "upper": 3003.62,
+          "lower": 2879.55
+        },
+        "D+5(≈W+1)": {
+          "center": 2942.38,
+          "upper": 3004.41,
+          "lower": 2880.34
+        },
+        "D+10(≈W+2)": {
+          "center": 2944.34,
+          "upper": 3006.38,
+          "lower": 2882.31
+        },
+        "D+20(≈W+4)": {
+          "center": 2948.28,
+          "upper": 3010.31,
+          "lower": 2886.25
+        },
+        "D+40(≈2M)": {
+          "center": 2956.16,
+          "upper": 3018.19,
+          "lower": 2894.13
+        }
+      }
+    },
+    "long": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 150,
+      "n_bars": 150,
+      "slope_per_day": -1.055,
+      "r_squared": 0.333,
+      "se": 65.03,
+      "current": {
+        "close": 2938.39,
+        "center": 2888.38,
+        "upper": 2985.93,
+        "lower": 2790.83,
+        "width_pct": 6.8,
+        "position_pct": 76.0,
+        "zone": "上1/3 (接近上轨，减仓观察区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 2887.33,
+          "upper": 2984.87,
+          "lower": 2789.78
+        },
+        "D+3": {
+          "center": 2885.22,
+          "upper": 2982.76,
+          "lower": 2787.67
+        },
+        "D+5(≈W+1)": {
+          "center": 2883.11,
+          "upper": 2980.65,
+          "lower": 2785.56
+        },
+        "D+10(≈W+2)": {
+          "center": 2877.83,
+          "upper": 2975.38,
+          "lower": 2780.28
+        },
+        "D+20(≈W+4)": {
+          "center": 2867.28,
+          "upper": 2964.83,
+          "lower": 2769.73
+        },
+        "D+40(≈2M)": {
+          "center": 2846.18,
+          "upper": 2943.73,
+          "lower": 2748.63
+        }
+      }
+    }
+  },
+  "000905": {
+    "_close": 8045.31,
+    "_date": "2026-08-12",
+    "short": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 20,
+      "n_bars": 20,
+      "slope_per_day": 16.1687,
+      "r_squared": 0.171,
+      "se": 216.05,
+      "current": {
+        "close": 8045.31,
+        "center": 7847.43,
+        "upper": 8171.51,
+        "lower": 7523.36,
+        "width_pct": 8.3,
+        "position_pct": 81.0,
+        "zone": "上1/3 (接近上轨，减仓观察区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 7863.6,
+          "upper": 8187.68,
+          "lower": 7539.53
+        },
+        "D+3": {
+          "center": 7895.94,
+          "upper": 8220.01,
+          "lower": 7571.87
+        },
+        "D+5(≈W+1)": {
+          "center": 7928.28,
+          "upper": 8252.35,
+          "lower": 7604.2
+        },
+        "D+10(≈W+2)": {
+          "center": 8009.12,
+          "upper": 8333.19,
+          "lower": 7685.05
+        },
+        "D+20(≈W+4)": {
+          "center": 8170.81,
+          "upper": 8494.88,
+          "lower": 7846.73
+        },
+        "D+40(≈2M)": {
+          "center": 8494.18,
+          "upper": 8818.25,
+          "lower": 8170.11
+        }
+      }
+    },
+    "medium": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 60,
+      "n_bars": 60,
+      "slope_per_day": -16.3342,
+      "r_squared": 0.376,
+      "se": 370.68,
+      "current": {
+        "close": 8045.31,
+        "center": 7753.19,
+        "upper": 8309.21,
+        "lower": 7197.17,
+        "width_pct": 14.3,
+        "position_pct": 76.0,
+        "zone": "上1/3 (接近上轨，减仓观察区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 7736.86,
+          "upper": 8292.88,
+          "lower": 7180.84
+        },
+        "D+3": {
+          "center": 7704.19,
+          "upper": 8260.21,
+          "lower": 7148.17
+        },
+        "D+5(≈W+1)": {
+          "center": 7671.52,
+          "upper": 8227.54,
+          "lower": 7115.5
+        },
+        "D+10(≈W+2)": {
+          "center": 7589.85,
+          "upper": 8145.87,
+          "lower": 7033.83
+        },
+        "D+20(≈W+4)": {
+          "center": 7426.51,
+          "upper": 7982.53,
+          "lower": 6870.49
+        },
+        "D+40(≈2M)": {
+          "center": 7099.83,
+          "upper": 7655.85,
+          "lower": 6543.81
+        }
+      }
+    },
+    "long": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 150,
+      "n_bars": 150,
+      "slope_per_day": 0.0377,
+      "r_squared": 0.0,
+      "se": 401.09,
+      "current": {
+        "close": 8045.31,
+        "center": 8211.75,
+        "upper": 8813.38,
+        "lower": 7610.12,
+        "width_pct": 14.7,
+        "position_pct": 36.0,
+        "zone": "中1/3 (通道中枢，观望区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 8211.79,
+          "upper": 8813.42,
+          "lower": 7610.16
+        },
+        "D+3": {
+          "center": 8211.86,
+          "upper": 8813.49,
+          "lower": 7610.23
+        },
+        "D+5(≈W+1)": {
+          "center": 8211.94,
+          "upper": 8813.57,
+          "lower": 7610.31
+        },
+        "D+10(≈W+2)": {
+          "center": 8212.13,
+          "upper": 8813.76,
+          "lower": 7610.49
+        },
+        "D+20(≈W+4)": {
+          "center": 8212.5,
+          "upper": 8814.14,
+          "lower": 7610.87
+        },
+        "D+40(≈2M)": {
+          "center": 8213.26,
+          "upper": 8814.89,
+          "lower": 7611.63
+        }
+      }
+    }
+  },
+  "000852": {
+    "_close": 7793.717,
+    "_date": "2026-08-12",
+    "short": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 20,
+      "n_bars": 20,
+      "slope_per_day": 27.8424,
+      "r_squared": 0.328,
+      "se": 242.06,
+      "current": {
+        "close": 7793.72,
+        "center": 7563.95,
+        "upper": 7927.04,
+        "lower": 7200.87,
+        "width_pct": 9.6,
+        "position_pct": 82.0,
+        "zone": "上1/3 (接近上轨，减仓观察区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 7591.8,
+          "upper": 7954.88,
+          "lower": 7228.71
+        },
+        "D+3": {
+          "center": 7647.48,
+          "upper": 8010.57,
+          "lower": 7284.39
+        },
+        "D+5(≈W+1)": {
+          "center": 7703.16,
+          "upper": 8066.25,
+          "lower": 7340.08
+        },
+        "D+10(≈W+2)": {
+          "center": 7842.38,
+          "upper": 8205.46,
+          "lower": 7479.29
+        },
+        "D+20(≈W+4)": {
+          "center": 8120.8,
+          "upper": 8483.89,
+          "lower": 7757.71
+        },
+        "D+40(≈2M)": {
+          "center": 8677.65,
+          "upper": 9040.74,
+          "lower": 8314.56
+        }
+      }
+    },
+    "medium": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 60,
+      "n_bars": 60,
+      "slope_per_day": -27.4554,
+      "r_squared": 0.587,
+      "se": 405.51,
+      "current": {
+        "close": 7793.72,
+        "center": 7270.51,
+        "upper": 7878.78,
+        "lower": 6662.24,
+        "width_pct": 16.7,
+        "position_pct": 93.0,
+        "zone": "上1/3 (接近上轨，减仓观察区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 7243.06,
+          "upper": 7851.33,
+          "lower": 6634.79
+        },
+        "D+3": {
+          "center": 7188.15,
+          "upper": 7796.42,
+          "lower": 6579.87
+        },
+        "D+5(≈W+1)": {
+          "center": 7133.24,
+          "upper": 7741.51,
+          "lower": 6524.96
+        },
+        "D+10(≈W+2)": {
+          "center": 6995.96,
+          "upper": 7604.23,
+          "lower": 6387.69
+        },
+        "D+20(≈W+4)": {
+          "center": 6721.41,
+          "upper": 7329.68,
+          "lower": 6113.13
+        },
+        "D+40(≈2M)": {
+          "center": 6172.3,
+          "upper": 6780.57,
+          "lower": 5564.03
+        }
+      }
+    },
+    "long": {
+      "method": "Raff回归(收盘价)",
+      "lookback": 150,
+      "n_bars": 150,
+      "slope_per_day": -1.8489,
+      "r_squared": 0.029,
+      "se": 468.46,
+      "current": {
+        "close": 7793.72,
+        "center": 8005.36,
+        "upper": 8708.04,
+        "lower": 7302.67,
+        "width_pct": 17.6,
+        "position_pct": 35.0,
+        "zone": "中1/3 (通道中枢，观望区)"
+      },
+      "projection": {
+        "D+1": {
+          "center": 8003.51,
+          "upper": 8706.2,
+          "lower": 7300.82
+        },
+        "D+3": {
+          "center": 7999.81,
+          "upper": 8702.5,
+          "lower": 7297.12
+        },
+        "D+5(≈W+1)": {
+          "center": 7996.11,
+          "upper": 8698.8,
+          "lower": 7293.42
+        },
+        "D+10(≈W+2)": {
+          "center": 7986.87,
+          "upper": 8689.56,
+          "lower": 7284.18
+        },
+        "D+20(≈W+4)": {
+          "center": 7968.38,
+          "upper": 8671.07,
+          "lower": 7265.69
+        },
+        "D+40(≈2M)": {
+          "center": 7931.4,
+          "upper": 8634.09,
+          "lower": 7228.71
+        }
+      }
+    }
   }
 }
