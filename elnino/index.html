@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>厄尔尼诺事件研究 — 农产品分段窗口</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#0d1117; color:#c9d1d9; line-height:1.6; }
+.wrap { max-width:1180px; margin:0 auto; padding:24px 20px 60px; }
+header { padding:24px 0 16px; border-bottom:1px solid #30363d; margin-bottom:20px; }
+header h1 { font-size:1.6rem; color:#e0c068; font-weight:700; }
+header p { color:#8b949e; font-size:.9rem; margin-top:6px; }
+h2 { font-size:1.15rem; color:#e0c068; margin:28px 0 12px; padding-left:10px; border-left:4px solid #e0c068; }
+h3 { font-size:.95rem; color:#58a6ff; margin:16px 0 8px; }
+table { width:100%; border-collapse:collapse; margin:10px 0; font-size:.82rem; }
+th,td { padding:6px 8px; text-align:center; border:1px solid #30363d; }
+th { background:#161b22; color:#8b949e; font-weight:600; white-space:nowrap; }
+td:first-child, th:first-child { text-align:left; }
+.pos { color:#ff7b72; font-weight:600; }   /* 涨=红 */
+.neg { color:#3fb950; font-weight:600; }   /* 跌=绿 */
+.na { color:#6e7681; }
+.grade-超强 { background:#3a1d1d; color:#ff7b72; font-weight:700; }
+.grade-强   { background:#2d1a1a; color:#ffa198; font-weight:600; }
+.grade-中强 { background:#2a1d0a; color:#e3b341; font-weight:600; }
+.grade-中   { background:#1d2a1a; color:#3fb950; }
+.grade-弱   { background:#1a2a2d; color:#79c0ff; }
+.card { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:14px 16px; margin:10px 0; }
+.concl { margin:8px 0; padding-left:20px; position:relative; font-size:.88rem; color:#c9d1d9; }
+.concl::before { content:"▸"; position:absolute; left:4px; color:#e0c068; }
+.note { font-size:.78rem; color:#8b949e; background:#161b22; border:1px dashed #30363d; border-radius:6px; padding:10px 14px; margin-top:20px; }
+.heat td { font-weight:700; }
+.tag { display:inline-block; padding:1px 8px; border-radius:10px; font-size:.72rem; margin-right:4px; }
+.tab-bar { display:flex; gap:6px; margin:14px 0 6px; flex-wrap:wrap; }
+.tab { padding:6px 14px; border:1px solid #30363d; border-radius:16px; cursor:pointer; font-size:.8rem; color:#8b949e; }
+.tab.active { background:#e0c068; color:#0d1117; font-weight:700; border-color:#e0c068; }
+.hidden { display:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>🌊 厄尔尼诺事件研究</h1>
+  <p>农产品分段窗口事件研究 · 棕榈油 / 天然橡胶 / 白糖 / 大豆 · 事件池9次 + 三段窗口（pre / peak / post）</p>
+</header>
+
+<div class="tab-bar">
+  <span class="tab active" onclick="showSec('overview',this)">概览与结论</span>
+  <span class="tab" onclick="showSec('price',this)">📈 价格口径</span>
+  <span class="tab" onclick="showSec('prod',this)">🌾 产量口径</span>
+  <span class="tab" onclick="showSec('events',this)">📋 事件池</span>
+</div>
+
+<!-- 概览 -->
+<div id="sec-overview">
+  <h2>核心结论</h2>
+  <div class="card" id="conclCard"></div>
+  <div class="note" id="overviewNote"></div>
+</div>
+
+<!-- 价格口径 -->
+<div id="sec-price" class="hidden">
+  <h2>📈 价格口径（国内期货前复权）</h2>
+  <h3>品种 × 分段窗口（跨事件均值，%）</h3>
+  <table class="heat" id="priceAggTable"></table>
+  <h3>各品种 × 各事件明细</h3>
+  <div id="priceDetail"></div>
+</div>
+
+<!-- 产量口径 -->
+<div id="sec-prod" class="hidden">
+  <h2>🌾 产量口径（iFinD EDB，dev_prod% 相对前5年基线）</h2>
+  <h3>品种 × 分段窗口（跨事件均值，%，负=减产）</h3>
+  <table class="heat" id="prodAggTable"></table>
+  <h3>各品种 × 各事件明细</h3>
+  <div id="prodDetail"></div>
+</div>
+
+<!-- 事件池 -->
+<div id="sec-events" class="hidden">
+  <h2>📋 事件池与强度分级</h2>
+  <table id="eventsTable"></table>
+</div>
+
+<div class="note" id="footerNote"></div>
+</div>
+
+<script>
+const WINDOWS = ["pre","peak_w","post0_6","post6_12","post12_24"];
+const WL = {"pre":"启动→峰值前","peak_w":"峰值±1月","post0_6":"峰值后0-6月","post6_12":"峰值后6-12月","post12_24":"峰值后12-24月"};
+let DATA = null;
+
+function fmtCell(v, heat) {
+  if (v === null || v === undefined || isNaN(v)) return '<td class="na">—</td>';
+  const cls = v >= 0 ? "pos" : "neg";
+  return `<td class="${cls}">${v>=0?'+':''}${Number(v).toFixed(1)}%</td>`;
+}
+
+function heatTable(agg, id) {
+  const codes = Object.keys(agg);
+  let h = '<table class="heat"><tr><th>品种</th>';
+  WINDOWS.forEach(w => h += `<th>${WL[w]}</th>`);
+  h += '</tr>';
+  codes.forEach(c => {
+    h += `<tr><td>${agg[c].name}</td>`;
+    WINDOWS.forEach(w => h += fmtCell(agg[c][w], true));
+    h += '</tr>';
+  });
+  h += '</table>';
+  document.getElementById(id).innerHTML = h;
+}
+
+function detailTable(results, commodities, id) {
+  const codes = Object.keys(commodities);
+  let h = '';
+  codes.forEach(c => {
+    const rows = results.filter(r => r.commodity === c);
+    if (!rows.length) return;
+    h += `<h3>${commodities[c]}（${c}）</h3><table><tr><th>事件</th><th>强度</th>`;
+    WINDOWS.forEach(w => h += `<th>${WL[w]}</th>`);
+    h += '</tr>';
+    rows.forEach(r => {
+      h += `<tr><td>${r.event}</td><td><span class="tag grade-${r.grade}">${r.grade}</span></td>`;
+      WINDOWS.forEach(w => h += fmtCell(r[w], false));
+      h += '</tr>';
+    });
+    h += '</table>';
+  });
+  document.getElementById(id).innerHTML = h;
+}
+
+function renderEvents() {
+  let h = '<table><tr><th>事件</th><th>ONI起止</th><th>峰值月</th><th>峰值ONI</th><th>强度</th><th>备注</th></tr>';
+  DATA.events.forEach(e => {
+    h += `<tr><td>${e.id}</td><td>${e.start} ~ ${e.end}</td><td>${e.peak}</td><td>+${e.oni}</td>`;
+    h += `<td><span class="tag grade-${e.grade}">${e.grade}</span></td><td style="text-align:left">${e.note}</td></tr>`;
+  });
+  h += '</table>';
+  document.getElementById("eventsTable").innerHTML = h;
+}
+
+function render() {
+  // 结论
+  document.getElementById("conclCard").innerHTML = DATA.conclusions.map(c => `<div class="concl">${c}</div>`).join('');
+  document.getElementById("overviewNote").innerHTML = `<b>数据说明：</b>${DATA.note}`;
+  document.getElementById("footerNote").innerHTML = `<b>数据说明：</b>${DATA.note}<br><b>生成时间：</b>${DATA.generated} · 数据源：国内期货(akshare前复权) + iFinD EDB产量`;
+  // 价格
+  heatTable(DATA.price.agg_by_commodity, "priceAggTable");
+  detailTable(DATA.price.results, DATA.price.commodities, "priceDetail");
+  // 产量
+  heatTable(DATA.production.agg_by_commodity, "prodAggTable");
+  detailTable(DATA.production.results, DATA.production.commodities, "prodDetail");
+  // 事件池
+  renderEvents();
+}
+
+function showSec(sec, el) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  el.classList.add("active");
+  ["overview","price","prod","events"].forEach(s => {
+    document.getElementById("sec-" + s).classList.toggle("hidden", s !== sec);
+  });
+}
+
+fetch('data/elnino_data.json?t=' + Date.now())
+  .then(r => r.json())
+  .then(d => { DATA = d; render(); })
+  .catch(e => document.getElementById("conclCard").innerHTML = '<div class="concl">❌ 数据加载失败: ' + e.message + '</div>');
+</script>
+</body>
+</html>
