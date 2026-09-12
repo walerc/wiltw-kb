@@ -30,6 +30,7 @@ td:first-child, th:first-child { text-align:left; }
 .concl { margin:8px 0; padding-left:20px; position:relative; font-size:.88rem; color:#c9d1d9; }
 .concl::before { content:"▸"; position:absolute; left:4px; color:#e0c068; }
 .note { font-size:.78rem; color:#8b949e; background:#161b22; border:1px dashed #30363d; border-radius:6px; padding:10px 14px; margin-top:20px; }
+.note.inline { margin:6px 0 12px; color:#9da7b3; }
 .heat td { font-weight:700; }
 .tag { display:inline-block; padding:1px 8px; border-radius:10px; font-size:.72rem; margin-right:4px; }
 .tab-bar { display:flex; gap:6px; margin:14px 0 6px; flex-wrap:wrap; }
@@ -42,7 +43,7 @@ td:first-child, th:first-child { text-align:left; }
 <div class="wrap">
 <header>
   <h1>🌊 厄尔尼诺事件研究</h1>
-  <p>农产品分段窗口事件研究 · 棕榈油 / 天然橡胶 / 白糖 / 大豆(国产·进口·美·巴西) · 事件池9次 + 三段窗口（pre / peak / post）</p>
+  <p>农产品分段窗口事件研究 · 棕榈油 / 天然橡胶 / 白糖 / 大豆(国产·进口·美·巴西) · 事件池9次 + 分段窗口</p>
 </header>
 
 <div class="tab-bar">
@@ -61,7 +62,7 @@ td:first-child, th:first-child { text-align:left; }
 
 <!-- 价格口径 -->
 <div id="sec-price" class="hidden">
-  <h2>📈 价格口径（国内期货前复权）</h2>
+  <h2>📈 价格口径（国内期货前复权 + CBOT美豆）</h2>
   <h3>品种 × 分段窗口（跨事件均值，%）</h3>
   <table class="heat" id="priceAggTable"></table>
   <h3>各品种 × 各事件明细</h3>
@@ -70,11 +71,17 @@ td:first-child, th:first-child { text-align:left; }
 
 <!-- 产量口径 -->
 <div id="sec-prod" class="hidden">
-  <h2>🌾 产量口径（iFinD EDB，dev_prod% 相对前5年基线）</h2>
-  <h3>品种 × 分段窗口（跨事件均值，%，负=减产）</h3>
-  <table class="heat" id="prodAggTable"></table>
-  <h3>各品种 × 各事件明细</h3>
-  <div id="prodDetail"></div>
+  <h2>🌾 产量口径（iFinD EDB + USDA，dev_prod% 相对前5年基线，负=减产）</h2>
+
+  <h3>🌱 年度作物（一年一季，按作物年度对应峰值）</h3>
+  <div class="note inline" id="annualSeasonNote"></div>
+  <table class="heat" id="annualAggTable"></table>
+  <div id="annualDetail"></div>
+
+  <h3>🌴 月度品种（全年连续生产）</h3>
+  <div class="note inline" id="monthlyLagNote"></div>
+  <table class="heat" id="monthlyAggTable"></table>
+  <div id="monthlyDetail"></div>
 </div>
 
 <!-- 事件池 -->
@@ -97,32 +104,32 @@ function fmtCell(v, heat) {
   return `<td class="${cls}">${v>=0?'+':''}${Number(v).toFixed(1)}%</td>`;
 }
 
-function heatTable(agg, id) {
+function heatTable(agg, windows, labels, id) {
   const codes = Object.keys(agg);
   let h = '<table class="heat"><tr><th>品种</th>';
-  WINDOWS.forEach(w => h += `<th>${WL[w]}</th>`);
+  windows.forEach(w => h += `<th>${labels[w]}</th>`);
   h += '</tr>';
   codes.forEach(c => {
     h += `<tr><td>${agg[c].name}</td>`;
-    WINDOWS.forEach(w => h += fmtCell(agg[c][w], true));
+    windows.forEach(w => h += fmtCell(agg[c][w], true));
     h += '</tr>';
   });
   h += '</table>';
   document.getElementById(id).innerHTML = h;
 }
 
-function detailTable(results, commodities, id) {
+function detailTable(results, commodities, windows, labels, id) {
   const codes = Object.keys(commodities);
   let h = '';
   codes.forEach(c => {
     const rows = results.filter(r => r.commodity === c);
     if (!rows.length) return;
     h += `<h3>${commodities[c]}（${c}）</h3><table><tr><th>事件</th><th>强度</th>`;
-    WINDOWS.forEach(w => h += `<th>${WL[w]}</th>`);
+    windows.forEach(w => h += `<th>${labels[w]}</th>`);
     h += '</tr>';
     rows.forEach(r => {
       h += `<tr><td>${r.event}</td><td><span class="tag grade-${r.grade}">${r.grade}</span></td>`;
-      WINDOWS.forEach(w => h += fmtCell(r[w], false));
+      windows.forEach(w => h += fmtCell(r[w], false));
       h += '</tr>';
     });
     h += '</table>';
@@ -144,13 +151,20 @@ function render() {
   // 结论
   document.getElementById("conclCard").innerHTML = DATA.conclusions.map(c => `<div class="concl">${c}</div>`).join('');
   document.getElementById("overviewNote").innerHTML = `<b>数据说明：</b>${DATA.note}`;
-  document.getElementById("footerNote").innerHTML = `<b>数据说明：</b>${DATA.note}<br><b>生成时间：</b>${DATA.generated} · 数据源：国内期货(akshare前复权) + CBOT美豆 + iFinD EDB产量`;
+  document.getElementById("footerNote").innerHTML = `<b>数据说明：</b>${DATA.note}<br><b>生成时间：</b>${DATA.generated} · 数据源：国内期货(akshare前复权) + CBOT美豆 + iFinD EDB/USDA产量`;
   // 价格
-  heatTable(DATA.price.agg_by_commodity, "priceAggTable");
-  detailTable(DATA.price.results, DATA.price.commodities, "priceDetail");
-  // 产量
-  heatTable(DATA.production.agg_by_commodity, "prodAggTable");
-  detailTable(DATA.production.results, DATA.production.commodities, "prodDetail");
+  heatTable(DATA.price.agg_by_commodity, WINDOWS, WL, "priceAggTable");
+  detailTable(DATA.price.results, DATA.price.commodities, WINDOWS, WL, "priceDetail");
+  // 产量 - 年度作物
+  const ann = DATA.production.annual;
+  document.getElementById("annualSeasonNote").innerHTML = `<b>季节对应：</b>${ann.season_note}`;
+  heatTable(ann.agg_by_commodity, ann.windows, ann.window_labels, "annualAggTable");
+  detailTable(ann.results, ann.commodities, ann.windows, ann.window_labels, "annualDetail");
+  // 产量 - 月度品种
+  const mon = DATA.production.monthly;
+  document.getElementById("monthlyLagNote").innerHTML = `<b>生理滞后：</b>${mon.lag_note}`;
+  heatTable(mon.agg_by_commodity, mon.windows, mon.window_labels, "monthlyAggTable");
+  detailTable(mon.results, mon.commodities, mon.windows, mon.window_labels, "monthlyDetail");
   // 事件池
   renderEvents();
 }
