@@ -42,7 +42,7 @@ td:first-child, th:first-child { text-align:left; }
 <div class="wrap">
 <header>
   <h1>🌊 厄尔尼诺事件研究</h1>
-  <p>农产品分段窗口事件研究 · 棕榈油 / 天然橡胶 / 白糖 / 大豆 · 事件池9次 + 三段窗口（pre / peak / post）</p>
+  <p>农产品分段窗口事件研究 · 棕榈油 / 天然橡胶 / 白糖 / 大豆(国产·进口·美·巴西) · 事件池9次 + 三段窗口（pre / peak / post）</p>
 </header>
 
 <div class="tab-bar">
@@ -144,7 +144,7 @@ function render() {
   // 结论
   document.getElementById("conclCard").innerHTML = DATA.conclusions.map(c => `<div class="concl">${c}</div>`).join('');
   document.getElementById("overviewNote").innerHTML = `<b>数据说明：</b>${DATA.note}`;
-  document.getElementById("footerNote").innerHTML = `<b>数据说明：</b>${DATA.note}<br><b>生成时间：</b>${DATA.generated} · 数据源：国内期货(akshare前复权) + iFinD EDB产量`;
+  document.getElementById("footerNote").innerHTML = `<b>数据说明：</b>${DATA.note}<br><b>生成时间：</b>${DATA.generated} · 数据源：国内期货(akshare前复权) + CBOT美豆 + iFinD EDB产量`;
   // 价格
   heatTable(DATA.price.agg_by_commodity, "priceAggTable");
   detailTable(DATA.price.results, DATA.price.commodities, "priceDetail");
