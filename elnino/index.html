@@ -72,13 +72,18 @@ td:first-child, th:first-child { text-align:left; }
 
 <!-- 产量口径 -->
 <div id="sec-prod" class="hidden">
-  <h2>🌾 产量口径（iFinD EDB 年度产量，dev_prod% 相对前5年基线，负=减产）</h2>
+  <h2>🌾 产量口径（iFinD EDB 年度产量，双口径对比）</h2>
   <div class="note inline" id="prodSeasonNote"></div>
-  <div class="note inline" id="prodTrendNote"></div>
-  <h3>品种 × 作物年度窗口（跨事件均值，%）</h3>
-  <table class="heat" id="prodAggTable"></table>
-  <h3>各品种 × 各事件明细</h3>
-  <div id="prodDetail"></div>
+
+  <h3>口径A：前5年基线偏离（含长期扩产趋势）</h3>
+  <div class="note inline" id="prodBaselineNote"></div>
+  <table class="heat" id="prodBaselineAgg"></table>
+  <div id="prodBaselineDetail"></div>
+
+  <h3>口径B：对数去趋势偏离（前10年滚动，剔除趋势）</h3>
+  <div class="note inline" id="prodDetrendedNote"></div>
+  <table class="heat" id="prodDetrendedAgg"></table>
+  <div id="prodDetrendedDetail"></div>
 </div>
 
 <!-- 事件池 -->
@@ -153,12 +158,15 @@ function render() {
   document.getElementById("priceSourceNote").innerHTML = `<b>数据源：</b>${DATA.price.source_note}`;
   heatTable(DATA.price.agg_by_commodity, WINDOWS, WL, "priceAggTable");
   detailTable(DATA.price.results, DATA.price.commodities, WINDOWS, WL, "priceDetail");
-  // 产量 - 统一作物年度窗口
+  // 产量 - 双口径
   const prod = DATA.production;
   document.getElementById("prodSeasonNote").innerHTML = `<b>季节对应：</b>${prod.season_note}`;
-  document.getElementById("prodTrendNote").innerHTML = prod.trend_note;
-  heatTable(prod.agg_by_commodity, prod.windows, prod.window_labels, "prodAggTable");
-  detailTable(prod.results, prod.commodities, prod.windows, prod.window_labels, "prodDetail");
+  document.getElementById("prodBaselineNote").innerHTML = prod.baseline.note;
+  heatTable(prod.baseline.agg_by_commodity, prod.windows, prod.window_labels, "prodBaselineAgg");
+  detailTable(prod.baseline.results, prod.commodities, prod.windows, prod.window_labels, "prodBaselineDetail");
+  document.getElementById("prodDetrendedNote").innerHTML = prod.detrended.note;
+  heatTable(prod.detrended.agg_by_commodity, prod.windows, prod.window_labels, "prodDetrendedAgg");
+  detailTable(prod.detrended.results, prod.commodities, prod.windows, prod.window_labels, "prodDetrendedDetail");
   // 事件池
   renderEvents();
 }
