@@ -43,7 +43,7 @@ td:first-child, th:first-child { text-align:left; }
 <div class="wrap">
 <header>
   <h1>🌊 厄尔尼诺事件研究</h1>
-  <p>农产品分段窗口事件研究 · 棕榈油 / 天然橡胶 / 白糖 / 大豆(国产·进口·美·巴西) · 事件池9次 + 分段窗口</p>
+  <p>农产品分段窗口事件研究 · 棕榈油 / 橡胶 / 白糖 / 大豆 · 事件池9次(1982-2024) + 分段窗口</p>
 </header>
 
 <div class="tab-bar">
@@ -62,7 +62,8 @@ td:first-child, th:first-child { text-align:left; }
 
 <!-- 价格口径 -->
 <div id="sec-price" class="hidden">
-  <h2>📈 价格口径（国内期货前复权 + CBOT美豆）</h2>
+  <h2>📈 价格口径（国际价格，美元计价，9次事件）</h2>
+  <div class="note inline" id="priceSourceNote"></div>
   <h3>品种 × 分段窗口（跨事件均值，%）</h3>
   <table class="heat" id="priceAggTable"></table>
   <h3>各品种 × 各事件明细</h3>
@@ -151,8 +152,9 @@ function render() {
   // 结论
   document.getElementById("conclCard").innerHTML = DATA.conclusions.map(c => `<div class="concl">${c}</div>`).join('');
   document.getElementById("overviewNote").innerHTML = `<b>数据说明：</b>${DATA.note}`;
-  document.getElementById("footerNote").innerHTML = `<b>数据说明：</b>${DATA.note}<br><b>生成时间：</b>${DATA.generated} · 数据源：国内期货(akshare前复权) + CBOT美豆 + iFinD EDB/USDA产量`;
+  document.getElementById("footerNote").innerHTML = `<b>数据说明：</b>${DATA.note}<br><b>生成时间：</b>${DATA.generated} · 数据源：IMF商品价格 + CBOT大豆 + iFinD EDB/USDA产量`;
   // 价格
+  document.getElementById("priceSourceNote").innerHTML = `<b>数据源：</b>${DATA.price.source_note}`;
   heatTable(DATA.price.agg_by_commodity, WINDOWS, WL, "priceAggTable");
   detailTable(DATA.price.results, DATA.price.commodities, WINDOWS, WL, "priceDetail");
   // 产量 - 年度作物
