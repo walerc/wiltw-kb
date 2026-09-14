@@ -96,6 +96,8 @@ td:first-child, th:first-child { text-align:left; }
   <table class="heat" id="usdEventTable"></table>
   <h4>剔除汇率后 vs 原始名义（跨事件均值，%）</h4>
   <table class="heat" id="usdAdjTable"></table>
+  <h4>各品种 × 各事件：剔除汇率后 vs 名义（逐事件，%）</h4>
+  <div id="usdDetail"></div>
 </div>
 
 <!-- 产量口径 -->
@@ -224,6 +226,34 @@ function renderUsd() {
   });
   h2 += '</table>';
   document.getElementById("usdAdjTable").innerHTML = h2;
+  // 逐事件对比（剔除 vs 名义）
+  const adjRows = usd.results_adjusted || [];
+  const origMap = {};
+  (DATA.price.results || []).forEach(r => { origMap[r.commodity + '|' + r.event] = r; });
+  let h3 = '';
+  Object.keys(DATA.price.commodities).forEach(c => {
+    const rows = adjRows.filter(r => r.commodity === c);
+    if (!rows.length) return;
+    h3 += `<h4 style="color:#e0c068">${DATA.price.commodities[c]}</h4>`;
+    h3 += '<table><tr><th>事件</th><th>强度</th>';
+    WINDOWS.forEach(w => h3 += `<th>${WL[w]}</th>`);
+    h3 += '</tr>';
+    rows.forEach(r => {
+      const o = origMap[c + '|' + r.event];
+      h3 += `<tr><td>${r.event}</td><td><span class="tag grade-${r.grade}">${r.grade}</span></td>`;
+      WINDOWS.forEach(w => {
+        const a = r[w];
+        const ov = o ? o[w] : null;
+        if (a === null || a === undefined) { h3 += '<td class="na">—</td>'; return; }
+        const cls = a >= 0 ? 'pos' : 'neg';
+        const oStr = (ov !== null && ov !== undefined && !isNaN(ov)) ? `<span class="na">(${ov>=0?'+':''}${ov.toFixed(1)})</span>` : '';
+        h3 += `<td class="${cls}">${a>=0?'+':''}${a.toFixed(1)}${oStr}</td>`;
+      });
+      h3 += '</tr>';
+    });
+    h3 += '</table>';
+  });
+  document.getElementById("usdDetail").innerHTML = h3;
 }
 
 function renderAgronomy() {

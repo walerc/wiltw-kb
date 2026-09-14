@@ -156,6 +156,33 @@ def usd_section(usd, price):
                 h.append(f'<td class="{cls}">{a:+.1f}%<span class="na">{ostr}</span></td>')
         h.append('</tr>')
     h.append('</table>')
+    # 逐事件对比（剔除 vs 名义）
+    h.append('<h4>各品种 × 各事件：剔除汇率后 vs 名义（逐事件，%）</h4>')
+    adj_rows = usd.get("results_adjusted", [])
+    orig_map = {r["commodity"] + "|" + r["event"]: r for r in price.get("results", [])}
+    for c, name in price["commodities"].items():
+        rows = [r for r in adj_rows if r["commodity"] == c]
+        if not rows:
+            continue
+        h.append(f'<div class="subhead">{esc(name)}</div>')
+        h.append('<table><tr><th>事件</th><th>强度</th>')
+        for w in PRICE_WINDOWS:
+            h.append(f'<th>{PRICE_WL[w]}</th>')
+        h.append('</tr>')
+        for r in rows:
+            o = orig_map.get(c + "|" + r["event"])
+            h.append(f'<tr><td>{esc(r["event"])}</td><td><span class="g g-{esc(r["grade"])}">{esc(r["grade"])}</span></td>')
+            for w in PRICE_WINDOWS:
+                a = r.get(w)
+                ov = o.get(w) if o else None
+                if a is None:
+                    h.append('<td class="na">—</td>')
+                else:
+                    cls = "pos" if a >= 0 else "neg"
+                    ostr = f' <span class="na">({ov:+.1f})</span>' if ov is not None else ''
+                    h.append(f'<td class="{cls}">{a:+.1f}{ostr}</td>')
+            h.append('</tr>')
+        h.append('</table>')
     return "".join(h)
 
 
@@ -220,6 +247,7 @@ def build():
   .region-row {{ font-size:10px; color:#333; margin:2px 0; }}
   .region-row.en {{ color:#8a5a00; }}
   .rk {{ display:inline-block; color:#888; font-size:9px; width:44px; }}
+  .subhead {{ font-weight:700; color:#0d3b66; font-size:11px; margin:8px 0 2px; page-break-after:avoid; }}
   .pagebreak {{ page-break-before:always; }}
 </style>
 </head>
