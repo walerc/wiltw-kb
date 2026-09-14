@@ -49,6 +49,14 @@ td:first-child, th:first-child { text-align:left; }
 .link-tag { font-size:.72rem; color:#8b949e; margin-top:6px; }
 .agri-card { margin:14px 0; }
 .agri-card h3 { margin:0 0 2px; }
+.region-block { margin-top:10px; }
+.region-title { font-size:.82rem; color:#e0c068; font-weight:700; margin:4px 0 6px; }
+.region-card { background:#10151c; border:1px solid #30363d; border-left:3px solid #58a6ff; border-radius:6px; padding:8px 12px; margin:6px 0; }
+.region-head { font-weight:700; color:#e6edf3; font-size:.86rem; }
+.region-rank { display:inline-block; font-size:.68rem; color:#79c0ff; background:#1a2a2d; border-radius:8px; padding:0 6px; margin-left:6px; font-weight:600; }
+.region-row { font-size:.78rem; color:#c9d1d9; margin:3px 0; }
+.region-row.en { color:#e3b341; }
+.rk { display:inline-block; color:#8b949e; font-size:.72rem; width:44px; flex-shrink:0; }
 </style>
 </head>
 <body>
@@ -193,6 +201,20 @@ function renderAgronomy() {
     h += `<div class="irrev-box">⚠️ <b>不可逆损伤 / 益处：</b><ul>${o.irreversible.map(x=>'<li>'+x+'</li>').join('')}</ul></div>`;
     // 厄尔尼诺传导
     h += `<div class="elnino-box">🌊 <b>厄尔尼诺传导：</b>${o.el_nino}</div>`;
+    // 产区细分
+    if (o.regions && o.regions.length) {
+      h += '<div class="region-block"><div class="region-title">📍 产区细分（气候 · 位置 · 土壤）</div>';
+      o.regions.forEach(r => {
+        h += `<div class="region-card">`;
+        h += `<div class="region-head">${r.name}<span class="region-rank">${r.rank}</span></div>`;
+        h += `<div class="region-row"><span class="rk">位置</span>${r.location}</div>`;
+        h += `<div class="region-row"><span class="rk">气候</span>${r.climate}</div>`;
+        h += `<div class="region-row"><span class="rk">土壤</span>${r.soil}</div>`;
+        h += `<div class="region-row en"><span class="rk">厄尔尼诺</span>${r.elnino}</div>`;
+        h += `</div>`;
+      });
+      h += '</div>';
+    }
     h += `<div class="link-tag">🔗 ${o.link}</div></div>`;
   });
   document.getElementById("agroCards").innerHTML = h;

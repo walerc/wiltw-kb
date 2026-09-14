@@ -1,0 +1,2830 @@
+{
+ "events": [
+  {
+   "id": "1982/83",
+   "start": "1982-04",
+   "peak": "1983-01",
+   "end": "1983-06",
+   "oni": 2.7,
+   "grade": "超强",
+   "note": "东部型，印尼/澳洲旱"
+  },
+  {
+   "id": "1986/88",
+   "start": "1986-08",
+   "peak": "1987-01",
+   "end": "1988-02",
+   "oni": 1.9,
+   "grade": "中强",
+   "note": "中部型为主，棕榈反应弱于东部型"
+  },
+  {
+   "id": "1991/92",
+   "start": "1991-05",
+   "peak": "1992-01",
+   "end": "1992-06",
+   "oni": 1.7,
+   "grade": "中",
+   "note": "叠皮纳图博火山冷强迫"
+  },
+  {
+   "id": "1997/98",
+   "start": "1997-04",
+   "peak": "1997-11",
+   "end": "1998-04",
+   "oni": 2.7,
+   "grade": "超强",
+   "note": "经典东部型，棕榈/糖/胶全触发"
+  },
+  {
+   "id": "2002/03",
+   "start": "2002-05",
+   "peak": "2002-11",
+   "end": "2003-03",
+   "oni": 1.5,
+   "grade": "中",
+   "note": "中部型，印度季风偏弱"
+  },
+  {
+   "id": "2009/10",
+   "start": "2009-06",
+   "peak": "2009-12",
+   "end": "2010-04",
+   "oni": 1.65,
+   "grade": "中强",
+   "note": "东南亚旱+巴西榨季多雨"
+  },
+  {
+   "id": "2014/16",
+   "start": "2014-10",
+   "peak": "2015-12",
+   "end": "2016-04",
+   "oni": 2.7,
+   "grade": "超强",
+   "note": "峰值2015末，棕榈2016兑现、胶2016旺产季最差"
+  },
+  {
+   "id": "2018/19",
+   "start": "2018-08",
+   "peak": "2018-12",
+   "end": "2019-07",
+   "oni": 0.95,
+   "grade": "弱",
+   "note": "农产品价格反应温和"
+  },
+  {
+   "id": "2023/24",
+   "start": "2023-06",
+   "peak": "2023-12",
+   "end": "2024-05",
+   "oni": 2.05,
+   "grade": "强",
+   "note": "印泰旱、巴西中南部多雨增产对冲"
+  }
+ ],
+ "windows": [
+  "pre",
+  "peak_w",
+  "post0_6",
+  "post6_12",
+  "post12_24"
+ ],
+ "price": {
+  "commodities": {
+   "P": "棕榈油(国际)",
+   "SR": "白糖(国际)",
+   "RU": "橡胶(RSS3)",
+   "SB": "大豆(CBOT)",
+   "CT": "棉花(郑棉)"
+  },
+  "source_note": "国际价格口径（美元计价，9次事件全覆盖）：棕榈油/白糖/橡胶=IMF商品价格月度(1980起)，大豆=CBOT结算价(1973起)。⚠️棉花价格仅4事件(2009/10起)——郑棉期货(2005起)，因IMF棉花价格指标数据单位不一致(2020前后跳变)不可用。",
+  "results": [
+   {
+    "event": "1982/83",
+    "grade": "超强",
+    "peak": "1983-01",
+    "commodity": "P",
+    "name": "棕榈油",
+    "pre": -26.9,
+    "peak_w": -2.4,
+    "post0_6": 14.2,
+    "post6_12": 105.9,
+    "post12_24": -33.4
+   },
+   {
+    "event": "1986/88",
+    "grade": "中强",
+    "peak": "1987-01",
+    "commodity": "P",
+    "name": "棕榈油",
+    "pre": 77.7,
+    "peak_w": 12.6,
+    "post0_6": -14.3,
+    "post6_12": 62.0,
+    "post12_24": -21.2
+   },
+   {
+    "event": "1991/92",
+    "grade": "中",
+    "peak": "1992-01",
+    "commodity": "P",
+    "name": "棕榈油",
+    "pre": 20.4,
+    "peak_w": 1.6,
+    "post0_6": -0.3,
+    "post6_12": 7.3,
+    "post12_24": -1.5
+   },
+   {
+    "event": "1997/98",
+    "grade": "超强",
+    "peak": "1997-11",
+    "commodity": "P",
+    "name": "棕榈油",
+    "pre": -1.1,
+    "peak_w": 3.5,
+    "post0_6": 26.8,
+    "post6_12": -3.4,
+    "post12_24": -45.7
+   },
+   {
+    "event": "2002/03",
+    "grade": "中",
+    "peak": "2002-11",
+    "commodity": "P",
+    "name": "棕榈油",
+    "pre": 20.8,
+    "peak_w": 14.5,
+    "post0_6": -2.4,
+    "post6_12": 20.7,
+    "post12_24": -17.0
+   },
+   {
+    "event": "2009/10",
+    "grade": "中强",
+    "peak": "2009-12",
+    "commodity": "P",
+    "name": "棕榈油",
+    "pre": 4.2,
+    "peak_w": 8.9,
+    "post0_6": 0.5,
+    "post6_12": 49.5,
+    "post12_24": -9.1
+   },
+   {
+    "event": "2014/16",
+    "grade": "超强",
+    "peak": "2015-12",
+    "commodity": "P",
+    "name": "棕榈油",
+    "pre": -20.5,
+    "peak_w": 0.7,
+    "post0_6": 18.3,
+    "post6_12": 13.0,
+    "post12_24": -16.3
+   },
+   {
+    "event": "2018/19",
+    "grade": "弱",
+    "peak": "2018-12",
+    "commodity": "P",
+    "name": "棕榈油",
+    "pre": -13.0,
+    "peak_w": 8.5,
+    "post0_6": 3.2,
+    "post6_12": 38.4,
+    "post12_24": 33.0
+   },
+   {
+    "event": "2023/24",
+    "grade": "强",
+    "peak": "2023-12",
+    "commodity": "P",
+    "name": "棕榈油",
+    "pre": -0.4,
+    "peak_w": 1.8,
+    "post0_6": 7.4,
+    "post6_12": 36.2,
+    "post12_24": null
+   },
+   {
+    "event": "1982/83",
+    "grade": "超强",
+    "peak": "1983-01",
+    "commodity": "SR",
+    "name": "白糖",
+    "pre": -38.1,
+    "peak_w": 0.0,
+    "post0_6": 76.9,
+    "post6_12": -34.8,
+    "post12_24": -46.7
+   },
+   {
+    "event": "1986/88",
+    "grade": "中强",
+    "peak": "1987-01",
+    "commodity": "SR",
+    "name": "白糖",
+    "pre": 16.7,
+    "peak_w": 23.1,
+    "post0_6": -7.1,
+    "post6_12": 61.5,
+    "post12_24": 0.0
+   },
+   {
+    "event": "1991/92",
+    "grade": "中",
+    "peak": "1992-01",
+    "commodity": "SR",
+    "name": "白糖",
+    "pre": 5.9,
+    "peak_w": -15.0,
+    "post0_6": 27.8,
+    "post6_12": -21.7,
+    "post12_24": 27.8
+   },
+   {
+    "event": "1997/98",
+    "grade": "超强",
+    "peak": "1997-11",
+    "commodity": "SR",
+    "name": "白糖",
+    "pre": 4.0,
+    "peak_w": 8.0,
+    "post0_6": -23.1,
+    "post6_12": -10.0,
+    "post12_24": -22.2
+   },
+   {
+    "event": "2002/03",
+    "grade": "中",
+    "peak": "2002-11",
+    "commodity": "SR",
+    "name": "白糖",
+    "pre": 30.8,
+    "peak_w": 5.9,
+    "post0_6": -5.9,
+    "post6_12": -18.8,
+    "post12_24": 38.5
+   },
+   {
+    "event": "2009/10",
+    "grade": "中强",
+    "peak": "2009-12",
+    "commodity": "SR",
+    "name": "白糖",
+    "pre": 44.4,
+    "peak_w": 18.4,
+    "post0_6": -32.7,
+    "post6_12": 77.1,
+    "post12_24": -17.7
+   },
+   {
+    "event": "2014/16",
+    "grade": "超强",
+    "peak": "2015-12",
+    "commodity": "SR",
+    "name": "白糖",
+    "pre": -13.5,
+    "peak_w": -3.1,
+    "post0_6": 34.4,
+    "post6_12": -4.7,
+    "post12_24": -22.0
+   },
+   {
+    "event": "2018/19",
+    "grade": "弱",
+    "peak": "2018-12",
+    "commodity": "SR",
+    "name": "白糖",
+    "pre": 16.7,
+    "peak_w": 0.0,
+    "post0_6": 0.0,
+    "post6_12": 7.1,
+    "post12_24": 3.3
+   },
+   {
+    "event": "2023/24",
+    "grade": "强",
+    "peak": "2023-12",
+    "commodity": "SR",
+    "name": "白糖",
+    "pre": -11.1,
+    "peak_w": -15.8,
+    "post0_6": -10.4,
+    "post6_12": 2.3,
+    "post12_24": null
+   },
+   {
+    "event": "1982/83",
+    "grade": "超强",
+    "peak": "1983-01",
+    "commodity": "RU",
+    "name": "橡胶",
+    "pre": -7.9,
+    "peak_w": 17.5,
+    "post0_6": 37.8,
+    "post6_12": 0.9,
+    "post12_24": -33.3
+   },
+   {
+    "event": "1986/88",
+    "grade": "中强",
+    "peak": "1987-01",
+    "commodity": "RU",
+    "name": "橡胶",
+    "pre": 4.8,
+    "peak_w": 7.1,
+    "post0_6": 15.9,
+    "post6_12": 7.8,
+    "post12_24": 1.8
+   },
+   {
+    "event": "1991/92",
+    "grade": "中",
+    "peak": "1992-01",
+    "commodity": "RU",
+    "name": "橡胶",
+    "pre": -2.4,
+    "peak_w": 2.5,
+    "post0_6": 10.0,
+    "post6_12": 3.4,
+    "post12_24": -11.0
+   },
+   {
+    "event": "1997/98",
+    "grade": "超强",
+    "peak": "1997-11",
+    "commodity": "RU",
+    "name": "橡胶",
+    "pre": -27.0,
+    "peak_w": -16.1,
+    "post0_6": -7.1,
+    "post6_12": -7.7,
+    "post12_24": 2.8
+   },
+   {
+    "event": "2002/03",
+    "grade": "中",
+    "peak": "2002-11",
+    "commodity": "RU",
+    "name": "橡胶",
+    "pre": 20.0,
+    "peak_w": 2.4,
+    "post0_6": 19.0,
+    "post6_12": 28.0,
+    "post12_24": -3.9
+   },
+   {
+    "event": "2009/10",
+    "grade": "中强",
+    "peak": "2009-12",
+    "commodity": "RU",
+    "name": "橡胶",
+    "pre": 67.7,
+    "peak_w": 21.7,
+    "post0_6": 27.5,
+    "post6_12": 33.1,
+    "post12_24": -28.8
+   },
+   {
+    "event": "2014/16",
+    "grade": "超强",
+    "peak": "2015-12",
+    "commodity": "RU",
+    "name": "橡胶",
+    "pre": -22.1,
+    "peak_w": -0.8,
+    "post0_6": 17.3,
+    "post6_12": 49.7,
+    "post12_24": -26.0
+   },
+   {
+    "event": "2018/19",
+    "grade": "弱",
+    "peak": "2018-12",
+    "commodity": "RU",
+    "name": "橡胶",
+    "pre": -2.0,
+    "peak_w": 17.8,
+    "post0_6": 34.0,
+    "post6_12": -14.0,
+    "post12_24": 40.4
+   },
+   {
+    "event": "2023/24",
+    "grade": "强",
+    "peak": "2023-12",
+    "commodity": "RU",
+    "name": "橡胶",
+    "pre": 8.5,
+    "peak_w": 7.8,
+    "post0_6": 36.1,
+    "post6_12": 5.3,
+    "post12_24": -13.4
+   },
+   {
+    "event": "1982/83",
+    "grade": "超强",
+    "peak": "1983-01",
+    "commodity": "SB",
+    "name": "大豆",
+    "pre": -7.2,
+    "peak_w": -1.1,
+    "post0_6": 15.6,
+    "post6_12": 4.6,
+    "post12_24": -17.7
+   },
+   {
+    "event": "1986/88",
+    "grade": "中强",
+    "peak": "1987-01",
+    "commodity": "SB",
+    "name": "大豆",
+    "pre": 3.6,
+    "peak_w": -1.7,
+    "post0_6": 6.3,
+    "post6_12": 14.6,
+    "post12_24": 26.8
+   },
+   {
+    "event": "1991/92",
+    "grade": "中",
+    "peak": "1992-01",
+    "commodity": "SB",
+    "name": "大豆",
+    "pre": -1.7,
+    "peak_w": 4.6,
+    "post0_6": -2.5,
+    "post6_12": 2.9,
+    "post12_24": 19.6
+   },
+   {
+    "event": "1997/98",
+    "grade": "超强",
+    "peak": "1997-11",
+    "commodity": "SB",
+    "name": "大豆",
+    "pre": -19.3,
+    "peak_w": -2.9,
+    "post0_6": -13.9,
+    "post6_12": -4.0,
+    "post12_24": -19.8
+   },
+   {
+    "event": "2002/03",
+    "grade": "中",
+    "peak": "2002-11",
+    "commodity": "SB",
+    "name": "大豆",
+    "pre": 13.8,
+    "peak_w": 0.8,
+    "post0_6": 7.9,
+    "post6_12": 21.1,
+    "post12_24": -29.3
+   },
+   {
+    "event": "2009/10",
+    "grade": "中强",
+    "peak": "2009-12",
+    "commodity": "SB",
+    "name": "大豆",
+    "pre": -15.2,
+    "peak_w": -13.8,
+    "post0_6": -8.8,
+    "post6_12": 46.9,
+    "post12_24": -14.0
+   },
+   {
+    "event": "2014/16",
+    "grade": "超强",
+    "peak": "2015-12",
+    "commodity": "SB",
+    "name": "大豆",
+    "pre": -16.7,
+    "peak_w": 0.1,
+    "post0_6": 34.9,
+    "post6_12": -15.2,
+    "post12_24": -4.5
+   },
+   {
+    "event": "2018/19",
+    "grade": "弱",
+    "peak": "2018-12",
+    "commodity": "SB",
+    "name": "大豆",
+    "pre": 5.9,
+    "peak_w": 2.3,
+    "post0_6": 2.0,
+    "post6_12": 4.8,
+    "post12_24": 39.5
+   },
+   {
+    "event": "2023/24",
+    "grade": "强",
+    "peak": "2023-12",
+    "commodity": "SB",
+    "name": "大豆",
+    "pre": -16.9,
+    "peak_w": -9.0,
+    "post0_6": -11.1,
+    "post6_12": -13.2,
+    "post12_24": null
+   },
+   {
+    "commodity": "CT",
+    "name": "棉花(郑棉)",
+    "event": "2009/10",
+    "grade": "中强",
+    "peak": "2009-12",
+    "pre": 24.3,
+    "peak_w": 0.5,
+    "post0_6": 2.1,
+    "post6_12": 68.1,
+    "post12_24": -27.1
+   },
+   {
+    "commodity": "CT",
+    "name": "棉花(郑棉)",
+    "event": "2014/16",
+    "grade": "超强",
+    "peak": "2015-12",
+    "pre": -16.2,
+    "peak_w": -2.5,
+    "post0_6": 29.2,
+    "post6_12": 2.1,
+    "post12_24": -0.6
+   },
+   {
+    "commodity": "CT",
+    "name": "棉花(郑棉)",
+    "event": "2018/19",
+    "grade": "弱",
+    "peak": "2018-12",
+    "pre": -10.9,
+    "peak_w": 1.4,
+    "post0_6": -7.7,
+    "post6_12": 1.7,
+    "post12_24": 7.7
+   },
+   {
+    "commodity": "CT",
+    "name": "棉花(郑棉)",
+    "event": "2023/24",
+    "grade": "强",
+    "peak": "2023-12",
+    "pre": -7.2,
+    "peak_w": 5.4,
+    "post0_6": -4.9,
+    "post6_12": -8.2,
+    "post12_24": null
+   }
+  ],
+  "agg_by_commodity": {
+   "P": {
+    "name": "棕榈油(国际)",
+    "pre": 6.8,
+    "peak_w": 5.5,
+    "post0_6": 5.9,
+    "post6_12": 36.6,
+    "post12_24": -13.9
+   },
+   "SR": {
+    "name": "白糖(国际)",
+    "pre": 6.2,
+    "peak_w": 2.4,
+    "post0_6": 6.7,
+    "post6_12": 6.4,
+    "post12_24": -4.9
+   },
+   "RU": {
+    "name": "橡胶(RSS3)",
+    "pre": 4.4,
+    "peak_w": 6.7,
+    "post0_6": 21.2,
+    "post6_12": 11.8,
+    "post12_24": -7.9
+   },
+   "SB": {
+    "name": "大豆(CBOT)",
+    "pre": -6.0,
+    "peak_w": -2.3,
+    "post0_6": 3.4,
+    "post6_12": 6.9,
+    "post12_24": 0.1
+   },
+   "CT": {
+    "name": "棉花(郑棉)",
+    "pre": -2.5,
+    "peak_w": 1.2,
+    "post0_6": 4.7,
+    "post6_12": 15.9,
+    "post12_24": -6.7
+   }
+  }
+ },
+ "production": {
+  "commodities": {
+   "US": "大豆(美国)",
+   "BR": "大豆(巴西)",
+   "MY": "棕榈油(马来)",
+   "ID": "棕榈油(印尼)",
+   "TH": "橡胶(泰国)",
+   "CTUS": "棉花(美国)",
+   "CTCN": "棉花(中国)",
+   "CTBR": "棉花(巴西)"
+  },
+  "windows": [
+   "pre",
+   "post1",
+   "post2",
+   "post3"
+  ],
+  "window_labels": {
+   "pre": "峰值前1季",
+   "post1": "峰值后第1季",
+   "post2": "第2季",
+   "post3": "第3季"
+  },
+  "season_note": "一年一季作物按作物年度对应峰值(美豆北半球峰值12月休耕→下一季；巴西豆南半球峰值正值生长季→当季)。棕榈油/橡胶为连续生产，早期仅年度数据，用年度值+作物年度窗口(峰值后第1季=生理滞后兑现期)。",
+  "baseline": {
+   "label": "前5年基线偏离",
+   "note": "⚠️ 含长期扩产趋势，增长型作物的减产信号被系统性低估（仅马来棕榈油等饱和品种可见）。",
+   "results": [
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": null,
+     "post1": null,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": -0.9,
+     "post1": -1.1,
+     "post2": -18.1,
+     "post3": 2.6
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": 7.3,
+     "post1": 17.5,
+     "post2": -2.3,
+     "post3": 27.2
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": 20.7,
+     "post1": 17.8,
+     "post2": 6.1,
+     "post3": 9.1
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": 0.3,
+     "post1": -11.1,
+     "post2": 15.6,
+     "post3": 9.5
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": 11.8,
+     "post1": 9.1,
+     "post2": -0.4,
+     "post3": -1.4
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": 17.2,
+     "post1": 23.8,
+     "post2": 18.9,
+     "post3": 11.2
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": 11.2,
+     "post1": -15.4,
+     "post2": 2.3,
+     "post3": 6.8
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": -0.6,
+     "post1": 5.8,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": 2.8,
+     "post1": 16.1,
+     "post2": 14.6,
+     "post3": 25.0
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": -12.6,
+     "post1": 13.8,
+     "post2": 14.4,
+     "post3": 46.4
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": -19.1,
+     "post1": 2.3,
+     "post2": 17.5,
+     "post3": 23.8
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": 14.2,
+     "post1": 27.5,
+     "post2": 17.8,
+     "post3": 19.3
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": 32.1,
+     "post1": 48.2,
+     "post2": 26.6,
+     "post3": 19.4
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": 5.8,
+     "post1": 23.4,
+     "post2": 26.3,
+     "post3": 3.3
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": 29.0,
+     "post1": 18.5,
+     "post2": 34.0,
+     "post3": 23.6
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": 23.6,
+     "post1": 11.4,
+     "post2": 12.6,
+     "post3": 19.3
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": 24.7,
+     "post1": 12.1,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": 26.6,
+     "post1": 19.1,
+     "post2": 26.5,
+     "post3": 45.8
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": 23.6,
+     "post1": 23.4,
+     "post2": 32.1,
+     "post3": 35.6
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": 13.2,
+     "post1": 22.2,
+     "post2": 13.0,
+     "post3": 18.1
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": 8.3,
+     "post1": 20.0,
+     "post2": 21.1,
+     "post3": 29.7
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": 25.4,
+     "post1": 17.3,
+     "post2": 24.8,
+     "post3": 18.0
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": 9.9,
+     "post1": 9.2,
+     "post2": 5.7,
+     "post3": 8.5
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": -7.6,
+     "post1": -1.0,
+     "post2": 2.6,
+     "post3": 8.0
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": 8.0,
+     "post1": -0.7,
+     "post2": -7.3,
+     "post3": -5.9
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": 4.3,
+     "post1": 3.8,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": 40.0,
+     "post1": 45.1,
+     "post2": 32.5,
+     "post3": 29.2
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": 18.6,
+     "post1": 16.1,
+     "post2": 35.2,
+     "post3": 64.6
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": 48.3,
+     "post1": 51.6,
+     "post2": 54.8,
+     "post3": 43.6
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": 15.6,
+     "post1": 24.0,
+     "post2": 42.4,
+     "post3": 47.0
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": 45.1,
+     "post1": 46.7,
+     "post2": 44.3,
+     "post3": 45.9
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": 30.6,
+     "post1": 27.3,
+     "post2": 30.1,
+     "post3": 29.2
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": 12.8,
+     "post1": 19.8,
+     "post2": 23.4,
+     "post3": 21.3
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": 21.3,
+     "post1": 16.8,
+     "post2": 13.6,
+     "post3": 3.4
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": 0.2,
+     "post1": 5.3,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": null,
+     "post1": null,
+     "post2": null,
+     "post3": 40.0
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": 55.8,
+     "post1": 51.7,
+     "post2": 44.6,
+     "post3": 43.4
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": -1.7,
+     "post1": 12.9,
+     "post2": 17.1,
+     "post3": 20.2
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": 18.0,
+     "post1": 14.0,
+     "post2": 14.3,
+     "post3": 21.5
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": 23.2,
+     "post1": 25.2,
+     "post2": 21.8,
+     "post3": 12.0
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": 1.3,
+     "post1": -0.5,
+     "post2": 8.7,
+     "post3": 32.0
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": 15.0,
+     "post1": 8.5,
+     "post2": 2.4,
+     "post3": 7.6
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": 7.6,
+     "post1": 5.8,
+     "post2": 5.0,
+     "post3": 3.9
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": -0.6,
+     "post1": -1.0,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": null,
+     "post1": null,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": -21.3,
+     "post1": 32.0,
+     "post2": 31.3,
+     "post3": -8.0
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": 30.2,
+     "post1": 7.4,
+     "post2": 4.8,
+     "post3": 26.6
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": 5.7,
+     "post1": -23.9,
+     "post2": -4.9,
+     "post3": -0.7
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": -1.3,
+     "post1": 6.7,
+     "post2": 29.3,
+     "post3": 24.2
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": -39.5,
+     "post1": 0.9,
+     "post2": -7.2,
+     "post3": 11.1
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": -19.6,
+     "post1": 14.5,
+     "post2": 36.6,
+     "post3": 14.5
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": 14.5,
+     "post1": 16.2,
+     "post2": -18.2,
+     "post3": -3.7
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": -28.9,
+     "post1": -8.3,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": 48.7,
+     "post1": 69.9,
+     "post2": 94.1,
+     "post3": 2.8
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": -18.1,
+     "post1": -4.3,
+     "post2": -9.1,
+     "post3": -15.2
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": 40.3,
+     "post1": 0.8,
+     "post2": -17.4,
+     "post3": -2.3
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": 6.7,
+     "post1": 3.9,
+     "post2": -14.6,
+     "post3": 0.8
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": 8.4,
+     "post1": 5.7,
+     "post2": 35.4,
+     "post3": 10.6
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": -9.4,
+     "post1": -15.9,
+     "post2": -5.2,
+     "post3": -0.9
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": -6.2,
+     "post1": -15.5,
+     "post2": -7.2,
+     "post3": 3.5
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": 3.5,
+     "post1": 0.5,
+     "post2": 2.3,
+     "post3": -0.8
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": -5.1,
+     "post1": 5.8,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": 13.2,
+     "post1": -6.4,
+     "post2": 26.0,
+     "post3": 57.1
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": 12.6,
+     "post1": -23.0,
+     "post2": 19.6,
+     "post3": -20.1
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": 1.1,
+     "post1": -6.2,
+     "post2": -44.7,
+     "post3": -22.9
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": -39.4,
+     "post1": 2.3,
+     "post2": 28.1,
+     "post3": 71.3
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": 33.4,
+     "post1": 16.1,
+     "post2": 80.8,
+     "post3": 42.9
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": -21.5,
+     "post1": -16.0,
+     "post2": 50.5,
+     "post3": 30.7
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": -2.9,
+     "post1": -20.2,
+     "post2": -4.4,
+     "post3": 30.6
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": 30.6,
+     "post1": 68.1,
+     "post2": 52.6,
+     "post3": 8.9
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": 21.0,
+     "post1": 27.2,
+     "post2": null,
+     "post3": null
+    }
+   ],
+   "agg_by_commodity": {
+    "US": {
+     "name": "大豆(美国)",
+     "pre": 8.4,
+     "post1": 5.8,
+     "post2": 3.2,
+     "post3": 9.3
+    },
+    "BR": {
+     "name": "大豆(巴西)",
+     "pre": 11.2,
+     "post1": 19.3,
+     "post2": 20.5,
+     "post3": 22.5
+    },
+    "MY": {
+     "name": "棕榈油(马来)",
+     "pre": 12.4,
+     "post1": 12.6,
+     "post2": 14.8,
+     "post3": 19.7
+    },
+    "ID": {
+     "name": "棕榈油(印尼)",
+     "pre": 25.8,
+     "post1": 28.1,
+     "post2": 34.5,
+     "post3": 35.5
+    },
+    "TH": {
+     "name": "橡胶(泰国)",
+     "pre": 14.8,
+     "post1": 14.6,
+     "post2": 16.3,
+     "post3": 22.6
+    },
+    "CTUS": {
+     "name": "棉花(美国)",
+     "pre": -7.5,
+     "post1": 5.7,
+     "post2": 10.2,
+     "post3": 9.1
+    },
+    "CTCN": {
+     "name": "棉花(中国)",
+     "pre": 7.6,
+     "post1": 5.7,
+     "post2": 9.8,
+     "post3": -0.2
+    },
+    "CTBR": {
+     "name": "棉花(巴西)",
+     "pre": 5.3,
+     "post1": 4.7,
+     "post2": 26.1,
+     "post3": 24.8
+    }
+   }
+  },
+  "detrended": {
+   "label": "对数去趋势偏离（前10年滚动）",
+   "note": "✅ 剔除长期扩产趋势，真实反映厄尔尼诺的供给冲击——1982/83超强全面减产、1997/98印尼棕榈油-24.8%(叠加森林大火)、2014/16东南亚棕榈油减产。",
+   "results": [
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度(去趋势)",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": -5.1,
+     "post1": -31.7,
+     "post2": -16.7,
+     "post3": 0.5
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度(去趋势)",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": -9.0,
+     "post1": -2.2,
+     "post2": -18.4,
+     "post3": 14.1
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度(去趋势)",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": 10.2,
+     "post1": 17.4,
+     "post2": -8.8,
+     "post3": 28.2
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度(去趋势)",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": 9.8,
+     "post1": 1.4,
+     "post2": -4.4,
+     "post3": -3.9
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度(去趋势)",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": -9.4,
+     "post1": -20.4,
+     "post2": 11.1,
+     "post3": 1.9
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度(去趋势)",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": 11.0,
+     "post1": 4.8,
+     "post2": -6.3,
+     "post3": -8.7
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度(去趋势)",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": 10.2,
+     "post1": 12.1,
+     "post2": 3.8,
+     "post3": -0.6
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度(去趋势)",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": -0.6,
+     "post1": -23.6,
+     "post2": -5.8,
+     "post3": -2.6
+    },
+    {
+     "commodity": "US",
+     "name": "大豆(美国)",
+     "gran": "年度(去趋势)",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": -7.0,
+     "post1": 2.0,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度(去趋势)",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": -34.3,
+     "post1": -14.2,
+     "post2": -2.6,
+     "post3": 13.3
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度(去趋势)",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": -24.6,
+     "post1": -0.0,
+     "post2": -1.4,
+     "post3": 31.2
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度(去趋势)",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": -30.8,
+     "post1": -4.7,
+     "post2": 12.9,
+     "post3": 17.0
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度(去趋势)",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": 4.3,
+     "post1": 18.2,
+     "post2": 5.8,
+     "post3": -2.3
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度(去趋势)",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": 9.8,
+     "post1": 24.1,
+     "post2": 0.7,
+     "post3": -7.2
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度(去趋势)",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": -15.8,
+     "post1": 2.0,
+     "post2": 7.2,
+     "post3": -11.1
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度(去趋势)",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": 10.3,
+     "post1": -1.4,
+     "post2": 10.4,
+     "post3": 1.0
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度(去趋势)",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": 1.0,
+     "post1": -10.5,
+     "post2": -6.7,
+     "post3": -1.7
+    },
+    {
+     "commodity": "BR",
+     "name": "大豆(巴西)",
+     "gran": "年度(去趋势)",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": 7.4,
+     "post1": -4.5,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度(去趋势)",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": -17.4,
+     "post1": -17.8,
+     "post2": -9.7,
+     "post3": 5.2
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度(去趋势)",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": -10.2,
+     "post1": -9.4,
+     "post2": 1.7,
+     "post3": 6.5
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度(去趋势)",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": -11.1,
+     "post1": -3.8,
+     "post2": -9.4,
+     "post3": -2.0
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度(去趋势)",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": -9.0,
+     "post1": 3.8,
+     "post2": 4.7,
+     "post3": 8.9
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度(去趋势)",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": 4.0,
+     "post1": -3.0,
+     "post2": 4.1,
+     "post3": -2.5
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度(去趋势)",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": -6.1,
+     "post1": -5.6,
+     "post2": -8.2,
+     "post3": -2.4
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度(去趋势)",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": -15.6,
+     "post1": -6.3,
+     "post2": 0.6,
+     "post3": 5.0
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度(去趋势)",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": 5.0,
+     "post1": -4.9,
+     "post2": -10.6,
+     "post3": -5.2
+    },
+    {
+     "commodity": "MY",
+     "name": "棕榈油(马来)",
+     "gran": "年度(去趋势)",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": 8.1,
+     "post1": 3.2,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度(去趋势)",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": -0.5,
+     "post1": 5.4,
+     "post2": -4.8,
+     "post3": -7.6
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度(去趋势)",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": -13.5,
+     "post1": -13.4,
+     "post2": 4.6,
+     "post3": 25.3
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度(去趋势)",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": 8.1,
+     "post1": 9.8,
+     "post2": 11.1,
+     "post3": -1.4
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度(去趋势)",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": -24.8,
+     "post1": -12.9,
+     "post2": 4.7,
+     "post3": 7.9
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度(去趋势)",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": 4.9,
+     "post1": 8.3,
+     "post2": 5.5,
+     "post3": 4.3
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度(去趋势)",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": -6.5,
+     "post1": -7.7,
+     "post2": -4.9,
+     "post3": -3.9
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度(去趋势)",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": -12.2,
+     "post1": -4.6,
+     "post2": -0.6,
+     "post3": -1.5
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度(去趋势)",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": -1.5,
+     "post1": -5.0,
+     "post2": -6.8,
+     "post3": -12.3
+    },
+    {
+     "commodity": "ID",
+     "name": "棕榈油(印尼)",
+     "gran": "年度(去趋势)",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": -11.7,
+     "post1": -5.3,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度(去趋势)",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": null,
+     "post1": null,
+     "post2": null,
+     "post3": 13.4
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度(去趋势)",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": 20.0,
+     "post1": 10.3,
+     "post2": 2.2,
+     "post3": 1.8
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度(去趋势)",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": -29.7,
+     "post1": -15.9,
+     "post2": -11.9,
+     "post3": -7.0
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度(去趋势)",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": 1.1,
+     "post1": -1.2,
+     "post2": -0.5,
+     "post3": 3.7
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度(去趋势)",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": 2.7,
+     "post1": 4.4,
+     "post2": 1.4,
+     "post3": -7.1
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度(去趋势)",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": -11.4,
+     "post1": -10.0,
+     "post2": 2.0,
+     "post3": 24.4
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度(去趋势)",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": -0.0,
+     "post1": -5.5,
+     "post2": -10.8,
+     "post3": -6.8
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度(去趋势)",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": -6.8,
+     "post1": -9.5,
+     "post2": -9.4,
+     "post3": -6.1
+    },
+    {
+     "commodity": "TH",
+     "name": "橡胶(泰国)",
+     "gran": "年度(去趋势)",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": -3.7,
+     "post1": -3.4,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": -20.4,
+     "post1": -44.8,
+     "post2": 11.1,
+     "post3": 9.0
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": -18.8,
+     "post1": 40.3,
+     "post2": 29.4,
+     "post3": -3.7
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": 23.5,
+     "post1": -5.7,
+     "post2": -13.1,
+     "post3": 12.7
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": -4.7,
+     "post1": -31.5,
+     "post2": -8.3,
+     "post3": -0.3
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": -4.8,
+     "post1": 3.8,
+     "post2": 33.3,
+     "post3": 20.0
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": -34.7,
+     "post1": 18.5,
+     "post2": 3.7,
+     "post3": 19.5
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": -3.3,
+     "post1": 29.3,
+     "post2": 39.1,
+     "post3": 1.2
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": 1.2,
+     "post1": 7.3,
+     "post2": -22.6,
+     "post3": -4.0
+    },
+    {
+     "commodity": "CTUS",
+     "name": "棉花(美国)",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": -31.8,
+     "post1": -2.3,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": 32.7,
+     "post1": 56.9,
+     "post2": 63.4,
+     "post3": -22.1
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": -39.4,
+     "post1": -23.9,
+     "post2": -24.9,
+     "post3": -27.7
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": 28.2,
+     "post1": -2.4,
+     "post2": -15.6,
+     "post3": 4.4
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": 2.8,
+     "post1": -0.9,
+     "post2": -15.1,
+     "post3": 8.3
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": 4.6,
+     "post1": -1.7,
+     "post2": 29.2,
+     "post3": 3.8
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": -25.7,
+     "post1": -26.8,
+     "post2": -9.8,
+     "post3": -7.9
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": -5.2,
+     "post1": -7.4,
+     "post2": 2.6,
+     "post3": 10.7
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": 10.7,
+     "post1": 2.7,
+     "post2": 3.5,
+     "post3": 2.3
+    },
+    {
+     "commodity": "CTCN",
+     "name": "棉花(中国)",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": -2.5,
+     "post1": 7.3,
+     "post2": null,
+     "post3": null
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "1982/83",
+     "grade": "超强",
+     "peak": "1983-01",
+     "pre": 25.5,
+     "post1": -2.4,
+     "post2": 27.5,
+     "post3": 46.8
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "1986/88",
+     "grade": "中强",
+     "peak": "1987-01",
+     "pre": -3.8,
+     "post1": -31.1,
+     "post2": 10.0,
+     "post3": -25.6
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "1991/92",
+     "grade": "中",
+     "peak": "1992-01",
+     "pre": -3.6,
+     "post1": -10.0,
+     "post2": -42.8,
+     "post3": -6.6
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "1997/98",
+     "grade": "超强",
+     "peak": "1997-11",
+     "pre": -24.0,
+     "post1": 40.9,
+     "post2": 71.3,
+     "post3": 112.2
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "2002/03",
+     "grade": "中",
+     "peak": "2002-11",
+     "pre": 23.3,
+     "post1": -2.6,
+     "post2": 50.4,
+     "post3": 3.8
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "2009/10",
+     "grade": "中强",
+     "peak": "2009-12",
+     "pre": -39.2,
+     "post1": -28.5,
+     "post2": 35.9,
+     "post3": 13.1
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "2014/16",
+     "grade": "超强",
+     "peak": "2015-12",
+     "pre": -6.8,
+     "post1": -21.1,
+     "post2": -2.8,
+     "post3": 23.2
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "2018/19",
+     "grade": "弱",
+     "peak": "2018-12",
+     "pre": 23.2,
+     "post1": 52.7,
+     "post2": 35.1,
+     "post3": -1.7
+    },
+    {
+     "commodity": "CTBR",
+     "name": "棉花(巴西)",
+     "event": "2023/24",
+     "grade": "强",
+     "peak": "2023-12",
+     "pre": 1.5,
+     "post1": 6.0,
+     "post2": null,
+     "post3": null
+    }
+   ],
+   "agg_by_commodity": {
+    "US": {
+     "name": "大豆(美国)",
+     "pre": 1.1,
+     "post1": -4.5,
+     "post2": -5.7,
+     "post3": 3.6
+    },
+    "BR": {
+     "name": "大豆(巴西)",
+     "pre": -8.1,
+     "post1": 1.0,
+     "post2": 3.3,
+     "post3": 5.0
+    },
+    "MY": {
+     "name": "棕榈油(马来)",
+     "pre": -5.8,
+     "post1": -4.9,
+     "post2": -3.3,
+     "post3": 1.7
+    },
+    "ID": {
+     "name": "棕榈油(印尼)",
+     "pre": -6.4,
+     "post1": -2.8,
+     "post2": 1.1,
+     "post3": 1.4
+    },
+    "TH": {
+     "name": "橡胶(泰国)",
+     "pre": -3.5,
+     "post1": -3.8,
+     "post2": -3.9,
+     "post3": 2.0
+    },
+    "CTUS": {
+     "name": "棉花(美国)",
+     "pre": -10.4,
+     "post1": 1.7,
+     "post2": 9.1,
+     "post3": 6.8
+    },
+    "CTCN": {
+     "name": "棉花(中国)",
+     "pre": 0.7,
+     "post1": 0.4,
+     "post2": 4.2,
+     "post3": -3.5
+    },
+    "CTBR": {
+     "name": "棉花(巴西)",
+     "pre": -0.4,
+     "post1": 0.4,
+     "post2": 23.1,
+     "post3": 20.6
+    }
+   }
+  }
+ },
+ "conclusions": [
+  "【滞后效应·9事件】峰值不是买点：价格在峰值后0-12个月涨幅最大（棕榈油+36.6%、橡胶+21.2%），滞后窗口才是主升浪。",
+  "【超强三段式】3次超强(82/83、97/98、14/16)规律清晰：启动期普跌(-14~-19%)→峰值后0-6月反弹(+12~+29%)→12-24月回吐(-14~-32%，利好出尽)。",
+  "【超强≠大涨】超强事件分化巨大：82/83纯供给冲击(棕榈+106%、糖+77%)，97/98叠亚洲金融危机(橡胶大豆反跌)，14/16叠商品熊市(涨幅被压)——宏观背景决定最终涨幅。",
+  "【品种敏感度】橡胶>棕榈油>白糖>大豆。橡胶峰值后0-6月即+21%，大豆全程最弱。",
+  "【大豆最不敏感】厄尔尼诺对大豆是区域性对冲（巴西/美国增产 vs 东南亚/印度干旱），全球合计效应弱。",
+  "【产量印证·去趋势】剔除增长趋势后减产信号清晰：1982/83超强全面减产(美豆-32%、巴西豆-34%、棕榈油-17%)，1997/98印尼棕榈油-25%(叠加森林大火)，2014/16东南亚棕榈油减产(马来-16%、印尼-12%)而美豆增产——厄尔尼诺是区域性供给冲击。",
+  "【棉花】美棉对厄尔尼诺最敏感(1982/83超强减产-44.8%、1997/98减产-31.5%，德州干旱)，中国棉相对抗跌(新疆内陆影响小)，巴西棉波动大；郑棉价格滞后窗口明显(2009/10峰值后6-12月+68%)。"
+ ],
+ "note": "价格口径9次事件(1982-2024)：棕榈油/白糖/橡胶=IMF国际商品价格(1980起)，大豆=CBOT结算价(1973起)，棉花=郑棉期货(2005起,仅4事件)。产量口径9次事件：大豆(美/巴)/棕榈油(马来/印尼)/橡胶(泰国)/棉花(美/中/巴西)=iFinD EDB年度产量(1961-1980起)，双口径——①前5年基线偏离(含趋势)②对数去趋势偏离(前10年滚动,剔除趋势)。数据源:iFinD EDB+USDA+IMF。",
+ "generated": "2026-09",
+ "agronomy": {
+  "intro": "各品种对厄尔尼诺的响应为何方向不同、且普遍滞后？答案藏在它们的种植生理阶段里。多年生作物(棕榈/橡胶)的产量与数月前甚至两年前的气候挂钩，一年生作物(大豆/棉花/甘蔗)则在特定物候期对水分极度敏感。下表梳理每个品种的生长阶段、水肥需求、关键期与不可逆损伤机制。",
+  "legend": "「不可逆」= 该阶段的气候异常会造成无法挽回的产量/品质损失(如落花、落铃、雌花定型)；「关键期」= 对最终产量贡献最大的阶段。红字=关键阶段。",
+  "commodities": {
+   "P": {
+    "name": "棕榈油",
+    "crop": "油棕",
+    "type": "多年生乔木 · 全年滚动开花结果",
+    "cycle": "苗圃12-18月 → 定植3年起果 → 盛产5-25年",
+    "stages": [
+     {
+      "stage": "性别分化期",
+      "timing": "收获前≈24月",
+      "water": "对水分极敏感，干旱抑制雌花分化",
+      "fert": "需充足钾、磷",
+      "key": true,
+      "irrev": "干旱→雌花比例永久下降→2年后减产(滞后不可逆)"
+     },
+     {
+      "stage": "花期/授粉期",
+      "timing": "收获前6-9月",
+      "water": "需正常降雨，烟霾干扰授粉昆虫",
+      "fert": "—",
+      "key": false,
+      "irrev": "严重干旱+烟霾→授粉不良→空果穗"
+     },
+     {
+      "stage": "果实膨大期",
+      "timing": "收获前3-6月",
+      "water": "需水最多，决定果穗大小",
+      "fert": "钾肥最关键",
+      "key": true,
+      "irrev": "干旱→果穗小、出油率低→数月后减产"
+     },
+     {
+      "stage": "采收期",
+      "timing": "全年滚动",
+      "water": "—",
+      "fert": "—",
+      "key": false,
+      "irrev": "—"
+     }
+    ],
+    "critical": "性别分化期(收获前24月，定潜在产量) + 果实膨大期(收获前3-6月，定果穗大小与出油率)",
+    "irreversible": [
+     "性别分化期干旱 → 雌花比例永久下降，2年后才兑现减产(滞后但不可逆)",
+     "果实膨大期干旱 → 果穗小、出油率低，数月后兑现"
+    ],
+    "el_nino": "厄尔尼诺→东南亚干旱→减产分两波兑现：峰值后6-12月(果穗膨大受损) + 12-24月(性别分化受损)。这解释了棕榈油价格主升浪为何落在滞后窗口而非峰值本身。",
+    "link": "呼应结论①⑤",
+    "regions": [
+     {
+      "name": "印度尼西亚",
+      "rank": "全球最大(约55%)",
+      "location": "苏门答腊+加里曼丹，赤道附近(南北纬5°内)",
+      "climate": "热带雨林，全年高温多雨(年降雨2000-3000mm)，无旱季",
+      "soil": "酸性红壤+大量泥炭土(peat)，泥炭排水后极易燃",
+      "elnino": "降雨锐减(月降雨<100mm持续数月)→减产；泥炭干涸→森林大火(1997/98、2015)→减产+烟霾叠加"
+     },
+     {
+      "name": "马来西亚",
+      "rank": "全球第二(约25%)",
+      "location": "北纬1-6°，半岛+沙巴/沙捞越",
+      "climate": "热带雨林/季风，全年降雨均匀(年降雨2000-2500mm)",
+      "soil": "酸性红壤(Ultisol/Oxisol)，肥力中等需施肥",
+      "elnino": "半岛西部受印度洋调节，干旱程度通常轻于印尼加里曼丹"
+     }
+    ]
+   },
+   "RU": {
+    "name": "橡胶",
+    "crop": "橡胶树",
+    "type": "多年生乔木 · 割胶取乳",
+    "cycle": "定植后6-7年树围达标开割 → 经济寿命25-30年",
+    "stages": [
+     {
+      "stage": "未开割幼树期",
+      "timing": "定植后0-7年",
+      "water": "营养生长，需水稳定",
+      "fert": "氮、钾为主",
+      "key": false,
+      "irrev": "—"
+     },
+     {
+      "stage": "割胶旺产期",
+      "timing": "雨季(常年)",
+      "water": "雨季=高胶乳量；雨天无法割胶(胶乳被冲、割面感染)",
+      "fert": "钾肥(胶乳含钾)",
+      "key": true,
+      "irrev": "雨天停割→当日产量损失"
+     },
+     {
+      "stage": "旱季落叶期",
+      "timing": "旱季2-3月",
+      "water": "落叶停割(树木保水机制)",
+      "fert": "—",
+      "key": true,
+      "irrev": "旱季延长→旺产季缩短→减产"
+     }
+    ],
+    "critical": "割胶旺产期(雨季)——胶乳产量与树干水分状况直接相关，旱季落叶期是被动减产窗口",
+    "irreversible": [
+     "严重干旱→叶片大量脱落、树势衰弱，恢复需1-2年(木本恢复慢)",
+     "但橡胶有落叶保护机制，比棕榈耐旱，短期干旱影响可部分恢复"
+    ],
+    "el_nino": "厄尔尼诺→东南亚旱季延长、落叶提前→旺产季缩短→减产。幅度通常小于棕榈油(有落叶保护机制)。",
+    "link": "呼应结论④(敏感度第二)",
+    "regions": [
+     {
+      "name": "泰国南部/东北部",
+      "rank": "全球最大(约35%)",
+      "location": "南部(北纬6-10°，克拉地峡两侧)",
+      "climate": "热带季风，南部全年降雨，11-1月东北季风雨季",
+      "soil": "砖红壤(Oxisol)，酸性、排水良好",
+      "elnino": "干旱→旱季延长、落叶提前、割胶减少；2015/16泰国旺产季最差"
+     },
+     {
+      "name": "印尼/马来",
+      "rank": "全球第二/第三",
+      "location": "苏门答腊+马来半岛，赤道附近",
+      "climate": "热带雨林，全年降雨均匀",
+      "soil": "酸性红壤",
+      "elnino": "干旱→割胶减少，但落叶保护机制使减产幅度小于棕榈油"
+     }
+    ]
+   },
+   "SR": {
+    "name": "白糖",
+    "crop": "甘蔗(主) + 甜菜(辅)",
+    "type": "甘蔗为宿根多年生 · 甜菜为一年/二年生",
+    "cycle": "甘蔗：萌芽→分蘖→伸长→成熟(宿根可收2-3年)",
+    "stages": [
+     {
+      "stage": "萌芽/分蘖期",
+      "timing": "种植后1-3月",
+      "water": "需水适中",
+      "fert": "氮、磷",
+      "key": false,
+      "irrev": "—"
+     },
+     {
+      "stage": "伸长期",
+      "timing": "分蘖后3-8月",
+      "water": "需水最多，决定茎秆长度与产量",
+      "fert": "氮、钾",
+      "key": true,
+      "irrev": "干旱→茎秆短→产量永久损失"
+     },
+     {
+      "stage": "成熟期(糖分积累)",
+      "timing": "采收前1-2月",
+      "water": "需适度干旱+低温+昼夜温差大",
+      "fert": "控氮、钾促糖分",
+      "key": true,
+      "irrev": "多雨→糖分低(增产不增糖)；干旱→糖分高(唯一干旱有利阶段)"
+     },
+     {
+      "stage": "采收/宿根",
+      "timing": "榨季",
+      "water": "—",
+      "fert": "—",
+      "key": false,
+      "irrev": "—"
+     }
+    ],
+    "critical": "伸长期(定甘蔗产量) + 成熟期(定糖分含量)——蔗糖=甘蔗产量×糖分含量的二元结构",
+    "irreversible": [
+     "伸长期干旱→茎秆短、产量永久损失",
+     "成熟期多雨→糖分低(采收时定性)，但甘蔗本身产量不减——'增产不增糖'",
+     "成熟期干旱→糖分高(唯一'干旱反而有利'的阶段)"
+    ],
+    "el_nino": "巴西中南部(全球最大产区)厄尔尼诺多雨→甘蔗增产但糖分下降；印度季风偏弱→干旱减产；泰国干旱减产。区域分化+增产不增糖，是全球糖价反应最复杂的品种。",
+    "link": "呼应结论⑤(区域对冲)",
+    "regions": [
+     {
+      "name": "巴西中南部",
+      "rank": "全球最大(约40%)",
+      "location": "圣保罗州为主，南纬20-24°，内陆高原(海拔600-900m)",
+      "climate": "热带高原，雨季10-3月、旱季4-9月(榨季4-11月)",
+      "soil": "紫色土(Terra Roxa，玄武岩风化)，肥沃宜蔗",
+      "elnino": "生长季/成熟期多雨→甘蔗增产但糖分下降('增产不增糖')"
+     },
+     {
+      "name": "印度",
+      "rank": "全球第二",
+      "location": "马哈拉施特拉(德干高原西侧)+北方邦(恒河平原)",
+      "climate": "热带季风，依赖西南季风(6-9月)降雨",
+      "soil": "黑棉土(Vertisol)黏重、保水强、裂缝性；北方邦为冲积土",
+      "elnino": "季风偏弱→干旱→减产(2009/10、2015/16)"
+     },
+     {
+      "name": "泰国东北部",
+      "rank": "全球第三",
+      "location": "呵叻高原(东北部)",
+      "climate": "热带季风，雨季5-10月、旱季11-4月",
+      "soil": "沙壤土(砂质，保水差)→对干旱更敏感",
+      "elnino": "干旱→减产"
+     }
+    ]
+   },
+   "SB": {
+    "name": "大豆",
+    "crop": "大豆",
+    "type": "一年生豆科(根瘤固氮)",
+    "cycle": "90-150天：出苗→苗期→开花→结荚→鼓粒→成熟",
+    "stages": [
+     {
+      "stage": "出苗/苗期",
+      "timing": "播种后0-40天",
+      "water": "需水少、耐旱(深根)",
+      "fert": "少量启动氮+磷",
+      "key": false,
+      "irrev": "苗期受涝→死苗(不可逆)"
+     },
+     {
+      "stage": "营养生长期",
+      "timing": "40-60天",
+      "water": "需水渐增",
+      "fert": "磷、钾",
+      "key": false,
+      "irrev": "—"
+     },
+     {
+      "stage": "开花结荚期",
+      "timing": "出苗后40-80天",
+      "water": "需水陡增(占全期60%+)",
+      "fert": "磷、钾、硼",
+      "key": true,
+      "irrev": "干旱/高温→落花落荚→荚数永久减少"
+     },
+     {
+      "stage": "鼓粒期",
+      "timing": "花后30-40天",
+      "water": "需水峰值，决定粒重",
+      "fert": "磷、钾",
+      "key": true,
+      "irrev": "干旱→籽粒不饱满→百粒重永久下降"
+     },
+     {
+      "stage": "成熟期",
+      "timing": "落叶-荚黄",
+      "water": "需水减少(利于脱水)",
+      "fert": "—",
+      "key": false,
+      "irrev": "多雨→荚霉烂、收获困难"
+     }
+    ],
+    "critical": "开花结荚期(定荚数) + 鼓粒期(定粒重)——产量=荚数×每荚粒数×粒重",
+    "irreversible": [
+     "开花结荚期干旱/高温→落花落荚，荚数永久减少",
+     "鼓粒期干旱→百粒重永久下降",
+     "苗期干旱可逆(后续雨水可恢复，只要不死苗)"
+    ],
+    "el_nino": "美豆(中西部)厄尔尼诺夏季多雨利于鼓粒→增产；巴豆区域分化(南部多雨北部偏干)；全球合计效应弱——典型的区域对冲品种。",
+    "link": "呼应结论⑤(最不敏感)",
+    "regions": [
+     {
+      "name": "美国中西部",
+      "rank": "全球最大(约30%)",
+      "location": "北纬35-45°，密西西比河流域(伊利诺伊/爱荷华/明尼苏达等)",
+      "climate": "温带大陆性湿润，夏季温暖多雨(生长季450-600mm)，冬季寒冷",
+      "soil": "黑钙土(Mollisol)，有机质丰富、保水保肥强，世界顶级农田",
+      "elnino": "关键鼓粒期(夏)降水偏多、温度适中 → 有利增产"
+     },
+     {
+      "name": "巴西中西部/南部",
+      "rank": "全球第二",
+      "location": "马托格罗索(南纬10-15°)+南里奥格兰德(南纬28-30°)",
+      "climate": "热带/亚热带，中西部雨季10-3月，南部四季分明",
+      "soil": "红壤(Oxisol)酸性强、贫瘠、需大量石灰改良；南部玄武岩红壤较肥沃",
+      "elnino": "南部多雨有利、北部偏干 → 区域分化；强厄尔尼诺中西部雨季或延迟"
+     },
+     {
+      "name": "阿根廷潘帕斯",
+      "rank": "全球第三",
+      "location": "南纬30-40°，潘帕斯草原",
+      "climate": "温带，降水自东向西递减(500-1000mm)，夏为生长季",
+      "soil": "深厚黑土(Mollisol)，世界最肥沃草原土之一",
+      "elnino": "潘帕斯降水偏多 → 有利增产(与巴西同向)"
+     }
+    ]
+   },
+   "CT": {
+    "name": "棉花",
+    "crop": "棉花",
+    "type": "一年生(温带/亚热带)",
+    "cycle": "120-150天：出苗→苗期→蕾期→花铃期→吐絮期",
+    "stages": [
+     {
+      "stage": "出苗/苗期",
+      "timing": "播种后0-40天",
+      "water": "耐旱(深根系)",
+      "fert": "氮、磷",
+      "key": false,
+      "irrev": "苗期受涝→死苗"
+     },
+     {
+      "stage": "蕾期",
+      "timing": "40-60天",
+      "water": "需水渐增",
+      "fert": "氮、磷",
+      "key": true,
+      "irrev": "现蕾少→铃数受限"
+     },
+     {
+      "stage": "花铃期",
+      "timing": "60-120天",
+      "water": "需水峰值(占全期50-60%)，需肥高峰",
+      "fert": "氮、磷、钾",
+      "key": true,
+      "irrev": "干旱/涝/高温→蕾铃大量脱落(脱落率可达60-70%)→铃数永久减少"
+     },
+     {
+      "stage": "吐絮期",
+      "timing": "120-150天",
+      "water": "需干燥(利于吐絮采收)",
+      "fert": "—",
+      "key": true,
+      "irrev": "多雨→烂铃(纤维霉变，品质+产量双损)"
+     }
+    ],
+    "critical": "花铃期(定铃数×铃重=产量) + 吐絮期(定纤维品质)",
+    "irreversible": [
+     "花铃期干旱/涝害/高温→蕾铃大量脱落(铃数永久减少，脱落的花铃无法再长)",
+     "吐絮期多雨→烂铃(不可逆)",
+     "苗期受涝→死苗"
+    ],
+    "el_nino": "美棉(德州半干旱区)降水异常方向不定——干旱年份减产、多雨年份增产；中国新疆内陆灌溉区影响小(抗跌)；巴西多雨→吐絮期烂铃风险+增产对冲。",
+    "link": "呼应结论⑦(美棉最敏感)",
+    "regions": [
+     {
+      "name": "美国德州",
+      "rank": "全球最大出口国",
+      "location": "德州高原/南部，北纬26-36°，半干旱区",
+      "climate": "半干旱(年降雨400-650mm，变率大)，夏季高温",
+      "soil": "钙层土(Calcisol)+黑土(Vertisol)，部分灌溉",
+      "elnino": "降水异常方向不定→干旱年份花铃期缺水减产(1982/83、1997/98)、多雨年份增产"
+     },
+     {
+      "name": "中国新疆",
+      "rank": "全球最大产棉区之一",
+      "location": "北纬37-42°，塔里木盆地边缘绿洲(内陆)",
+      "climate": "温带干旱荒漠(年降雨<100mm)，依赖冰川融雪+灌溉",
+      "soil": "灌淤土/砂壤土，绿洲灌溉农业",
+      "elnino": "内陆远离赤道太平洋，海温异常影响弱→抗跌(呼应结论⑦)"
+     },
+     {
+      "name": "巴西",
+      "rank": "全球第四大",
+      "location": "马托格罗索(南纬12-16°)+东北部巴伊亚",
+      "climate": "热带，雨季11-4月",
+      "soil": "红壤(Oxisol)酸性贫瘠需改良",
+      "elnino": "多雨→吐絮期烂铃风险+增产对冲"
+     },
+     {
+      "name": "印度中部",
+      "rank": "全球第三大",
+      "location": "马哈拉施特拉/古吉拉特/特伦甘纳",
+      "climate": "季风依赖",
+      "soil": "黑棉土(Vertisol)保水好，适合旱作棉花",
+      "elnino": "季风偏弱→干旱减产"
+     }
+    ]
+   }
+  }
+ }
+}

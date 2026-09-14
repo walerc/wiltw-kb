@@ -97,6 +97,18 @@ def agronomy_cards(ag):
         h.append(f'<div class="crit">🎯 <b>关键阶段：</b>{esc(o["critical"])}</div>')
         h.append(f'<div class="irrev"><b>⚠️ 不可逆损伤 / 益处：</b><ul>{"".join("<li>"+esc(x)+"</li>" for x in o["irreversible"])}</ul></div>')
         h.append(f'<div class="elnino">🌊 <b>厄尔尼诺传导：</b>{esc(o["el_nino"])}</div>')
+        # 产区细分
+        regs = o.get("regions", [])
+        if regs:
+            h.append('<div class="region-title">📍 产区细分（气候 · 位置 · 土壤）</div>')
+            for r in regs:
+                h.append(f'<div class="region-card">'
+                         f'<div class="region-head">{esc(r["name"])}<span class="region-rank">{esc(r["rank"])}</span></div>'
+                         f'<div class="region-row"><span class="rk">位置</span>{esc(r["location"])}</div>'
+                         f'<div class="region-row"><span class="rk">气候</span>{esc(r["climate"])}</div>'
+                         f'<div class="region-row"><span class="rk">土壤</span>{esc(r["soil"])}</div>'
+                         f'<div class="region-row en"><span class="rk">厄尔尼诺</span>{esc(r["elnino"])}</div>'
+                         f'</div>')
         h.append(f'<p class="link">🔗 {esc(o["link"])}</p></div>')
     return "".join(h)
 
@@ -154,6 +166,13 @@ def build():
   .irrev ul {{ margin:3px 0 0 18px; }}
   .elnino {{ background:#fef5e7; border-left:3px solid #b9770e; padding:6px 10px; margin:8px 0; font-size:10.5px; border-radius:0 4px 4px 0; }}
   .link {{ font-size:9px; color:#888; margin:4px 0 0; }}
+  .region-title {{ font-size:11px; color:#0d3b66; font-weight:700; margin:8px 0 4px; }}
+  .region-card {{ border:1px solid #d5dbe0; border-left:3px solid #2471a3; border-radius:4px; padding:6px 10px; margin:5px 0; page-break-inside:avoid; }}
+  .region-head {{ font-weight:700; color:#222; font-size:11px; }}
+  .region-rank {{ display:inline-block; font-size:9px; color:#2471a3; background:#eaf2f8; border-radius:8px; padding:0 6px; margin-left:6px; font-weight:600; }}
+  .region-row {{ font-size:10px; color:#333; margin:2px 0; }}
+  .region-row.en {{ color:#8a5a00; }}
+  .rk {{ display:inline-block; color:#888; font-size:9px; width:44px; }}
   .pagebreak {{ page-break-before:always; }}
 </style>
 </head>
