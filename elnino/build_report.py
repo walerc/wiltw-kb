@@ -113,12 +113,59 @@ def agronomy_cards(ag):
     return "".join(h)
 
 
+def usd_section(usd, price):
+    if not usd:
+        return ""
+    h = ['<h3>💵 美元汇率因素（剔除美元估值效应）</h3>']
+    h.append(f'<div class="note">{esc(usd["method"])}<br><b>说明：</b>{esc(usd["note"])}</div>')
+    # 美元指数窗口涨幅表
+    h.append('<h4>美元指数(REER)各事件窗口涨跌幅（%）</h4>')
+    h.append('<table class="heat"><tr><th>事件</th>')
+    for w in PRICE_WINDOWS:
+        h.append(f'<th>{PRICE_WL[w]}</th>')
+    h.append('</tr>')
+    for eid, wchg in usd["windows_by_event"].items():
+        h.append(f'<tr><td class="rowh">{esc(eid)}</td>')
+        for w in PRICE_WINDOWS:
+            v = wchg.get(w)
+            if v is None:
+                h.append('<td class="na">—</td>')
+            else:
+                cls = "pos" if v >= 0 else "neg"
+                h.append(f'<td class="{cls}">{v:+.1f}%</td>')
+        h.append('</tr>')
+    h.append('</table>')
+    # 剔除后聚合表
+    h.append('<h4>剔除汇率后 vs 原始名义（跨事件均值，%）</h4>')
+    agg = usd["agg_adjusted"]
+    orig = price["agg_by_commodity"]
+    h.append('<table class="heat"><tr><th>品种</th>')
+    for w in PRICE_WINDOWS:
+        h.append(f'<th>{PRICE_WL[w]}</th>')
+    h.append('</tr>')
+    for c in agg:
+        h.append(f'<tr><td class="rowh">{esc(agg[c]["name"])}</td>')
+        for w in PRICE_WINDOWS:
+            a = agg[c].get(w)
+            o = orig.get(c, {}).get(w)
+            if a is None:
+                h.append('<td class="na">—</td>')
+            else:
+                cls = "pos" if a >= 0 else "neg"
+                ostr = f' ({o:+.1f})' if o is not None else ''
+                h.append(f'<td class="{cls}">{a:+.1f}%<span class="na">{ostr}</span></td>')
+        h.append('</tr>')
+    h.append('</table>')
+    return "".join(h)
+
+
 def build():
     with open(JSON_PATH, encoding="utf-8") as f:
         d = json.load(f)
     price = d["price"]
     prod = d["production"]
     ag = d.get("agronomy", {})
+    usd = d.get("usd", {})
 
     concl = "".join(f"<li>{esc(c)}</li>" for c in d["conclusions"])
 
@@ -192,6 +239,7 @@ def build():
 {heat_table(price['agg_by_commodity'], PRICE_WINDOWS, PRICE_WL)}
 <h3>各品种 × 各事件明细</h3>
 {detail_tables(price['results'], price['commodities'], PRICE_WINDOWS, PRICE_WL)}
+{usd_section(usd, price)}
 
 <h2 class="pagebreak">四、产量口径（iFinD EDB 年度产量，双口径对比）</h2>
 <div class="note">{esc(prod['season_note'])}</div>

@@ -89,6 +89,13 @@ td:first-child, th:first-child { text-align:left; }
   <table class="heat" id="priceAggTable"></table>
   <h3>各品种 × 各事件明细</h3>
   <div id="priceDetail"></div>
+
+  <h3>💵 美元汇率因素（剔除美元估值效应）</h3>
+  <div class="note inline" id="usdNote"></div>
+  <h4>美元指数(REER) / 人民币汇率 各事件窗口涨跌幅（%）</h4>
+  <table class="heat" id="usdEventTable"></table>
+  <h4>剔除汇率后 vs 原始名义（跨事件均值，%）</h4>
+  <table class="heat" id="usdAdjTable"></table>
 </div>
 
 <!-- 产量口径 -->
@@ -177,6 +184,48 @@ function renderEvents() {
   document.getElementById("eventsTable").innerHTML = h;
 }
 
+function renderUsd() {
+  const usd = DATA.usd;
+  if (!usd) return;
+  document.getElementById("usdNote").innerHTML = `<b>方法：</b>${usd.method}<br><b>说明：</b>${usd.note}`;
+  // 美元指数窗口涨幅表
+  const ev = usd.windows_by_event;
+  let h = '<table class="heat"><tr><th>事件</th>';
+  WINDOWS.forEach(w => h += `<th>${WL[w]}</th>`);
+  h += '</tr>';
+  Object.keys(ev).forEach(eid => {
+    h += `<tr><td>${eid}</td>`;
+    WINDOWS.forEach(w => {
+      const v = ev[eid][w];
+      if (v === null || v === undefined) h += '<td class="na">—</td>';
+      else h += `<td class="${v>=0?'pos':'neg'}">${v>=0?'+':''}${v.toFixed(1)}%</td>`;
+    });
+    h += '</tr>';
+  });
+  h += '</table>';
+  document.getElementById("usdEventTable").innerHTML = h;
+  // 剔除后聚合表（对比原始）
+  const agg = usd.agg_adjusted;
+  const orig = DATA.price.agg_by_commodity;
+  let h2 = '<table class="heat"><tr><th>品种</th>';
+  WINDOWS.forEach(w => h2 += `<th>${WL[w]}</th>`);
+  h2 += '</tr>';
+  Object.keys(agg).forEach(c => {
+    h2 += `<tr><td>${agg[c].name}</td>`;
+    WINDOWS.forEach(w => {
+      const a = agg[c][w];
+      const o = orig[c] ? orig[c][w] : null;
+      if (a === null || a === undefined) { h2 += '<td class="na">—</td>'; return; }
+      const cls = a >= 0 ? 'pos' : 'neg';
+      const oStr = (o !== null && o !== undefined && !isNaN(o)) ? ` <span class="na">(${o>=0?'+':''}${o.toFixed(1)})</span>` : '';
+      h2 += `<td class="${cls}">${a>=0?'+':''}${a.toFixed(1)}%${oStr}</td>`;
+    });
+    h2 += '</tr>';
+  });
+  h2 += '</table>';
+  document.getElementById("usdAdjTable").innerHTML = h2;
+}
+
 function renderAgronomy() {
   const ag = DATA.agronomy;
   if (!ag) { document.getElementById("agroCards").innerHTML = '<div class="note">无种植知识数据</div>'; return; }
@@ -229,6 +278,8 @@ function render() {
   document.getElementById("priceSourceNote").innerHTML = `<b>数据源：</b>${DATA.price.source_note}`;
   heatTable(DATA.price.agg_by_commodity, WINDOWS, WL, "priceAggTable");
   detailTable(DATA.price.results, DATA.price.commodities, WINDOWS, WL, "priceDetail");
+  // 美元因素
+  renderUsd();
   // 产量 - 双口径
   const prod = DATA.production;
   document.getElementById("prodSeasonNote").innerHTML = `<b>季节对应：</b>${prod.season_note}`;
