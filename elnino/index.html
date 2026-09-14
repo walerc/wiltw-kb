@@ -37,6 +37,18 @@ td:first-child, th:first-child { text-align:left; }
 .tab { padding:6px 14px; border:1px solid #30363d; border-radius:16px; cursor:pointer; font-size:.8rem; color:#8b949e; }
 .tab.active { background:#e0c068; color:#0d1117; font-weight:700; border-color:#e0c068; }
 .hidden { display:none; }
+.crop-meta { font-size:.8rem; color:#9da7b3; margin:4px 0 8px; }
+.crop-meta b { color:#e0c068; }
+.key-row { background:#2a1d0a; }
+.key-row td { color:#f0d9a0; }
+.key-tag { display:inline-block; padding:0 6px; border-radius:8px; font-size:.68rem; background:#e0c068; color:#0d1117; font-weight:700; }
+.crit-box { background:#1a2433; border-left:3px solid #58a6ff; padding:8px 12px; margin:8px 0; font-size:.84rem; border-radius:0 6px 6px 0; }
+.irrev-box { background:#1d2a1a; border-left:3px solid #3fb950; padding:8px 12px; margin:8px 0; font-size:.84rem; border-radius:0 6px 6px 0; }
+.irrev-box ul { margin:4px 0 0 18px; }
+.elnino-box { background:#2a1d0a; border-left:3px solid #e0c068; padding:8px 12px; margin:8px 0; font-size:.84rem; border-radius:0 6px 6px 0; }
+.link-tag { font-size:.72rem; color:#8b949e; margin-top:6px; }
+.agri-card { margin:14px 0; }
+.agri-card h3 { margin:0 0 2px; }
 </style>
 </head>
 <body>
@@ -50,6 +62,7 @@ td:first-child, th:first-child { text-align:left; }
   <span class="tab active" onclick="showSec('overview',this)">概览与结论</span>
   <span class="tab" onclick="showSec('price',this)">📈 价格口径</span>
   <span class="tab" onclick="showSec('prod',this)">🌾 产量口径</span>
+  <span class="tab" onclick="showSec('agronomy',this)">🌱 种植知识</span>
   <span class="tab" onclick="showSec('events',this)">📋 事件池</span>
 </div>
 
@@ -84,6 +97,13 @@ td:first-child, th:first-child { text-align:left; }
   <div class="note inline" id="prodDetrendedNote"></div>
   <table class="heat" id="prodDetrendedAgg"></table>
   <div id="prodDetrendedDetail"></div>
+</div>
+
+<!-- 种植知识 -->
+<div id="sec-agronomy" class="hidden">
+  <h2>🌱 种植知识 — 各品种生长阶段 / 水肥需求 / 关键期 / 不可逆损伤</h2>
+  <div class="note inline" id="agroIntro"></div>
+  <div id="agroCards"></div>
 </div>
 
 <!-- 事件池 -->
@@ -149,6 +169,35 @@ function renderEvents() {
   document.getElementById("eventsTable").innerHTML = h;
 }
 
+function renderAgronomy() {
+  const ag = DATA.agronomy;
+  if (!ag) { document.getElementById("agroCards").innerHTML = '<div class="note">无种植知识数据</div>'; return; }
+  document.getElementById("agroIntro").innerHTML = ag.intro + '<br><b>图例：</b>' + ag.legend;
+  const emoji = {P:"🌴", RU:"🌳", SR:"🍬", SB:"🫘", CT:"🧵"};
+  let h = '';
+  const codes = Object.keys(ag.commodities);
+  codes.forEach(c => {
+    const o = ag.commodities[c];
+    h += `<div class="agri-card"><h3>${emoji[c]||''} ${o.name} <span style="color:#8b949e;font-size:.75rem;font-weight:400">（${o.crop} · ${o.type}）</span></h3>`;
+    h += `<div class="crop-meta">生长周期：<b>${o.cycle}</b></div>`;
+    // 阶段表
+    h += '<table><tr><th>阶段</th><th>时期</th><th>需水</th><th>需肥</th><th>关键</th><th>不可逆影响</th></tr>';
+    o.stages.forEach(s => {
+      const cls = s.key ? ' class="key-row"' : '';
+      h += `<tr${cls}><td>${s.stage}</td><td>${s.timing}</td><td style="text-align:left">${s.water}</td><td style="text-align:left">${s.fert}</td><td>${s.key?'<span class="key-tag">关键</span>':''}</td><td style="text-align:left">${s.irrev}</td></tr>`;
+    });
+    h += '</table>';
+    // 关键阶段
+    h += `<div class="crit-box">🎯 <b>关键阶段：</b>${o.critical}</div>`;
+    // 不可逆损伤
+    h += `<div class="irrev-box">⚠️ <b>不可逆损伤 / 益处：</b><ul>${o.irreversible.map(x=>'<li>'+x+'</li>').join('')}</ul></div>`;
+    // 厄尔尼诺传导
+    h += `<div class="elnino-box">🌊 <b>厄尔尼诺传导：</b>${o.el_nino}</div>`;
+    h += `<div class="link-tag">🔗 ${o.link}</div></div>`;
+  });
+  document.getElementById("agroCards").innerHTML = h;
+}
+
 function render() {
   // 结论
   document.getElementById("conclCard").innerHTML = DATA.conclusions.map(c => `<div class="concl">${c}</div>`).join('');
@@ -167,6 +216,8 @@ function render() {
   document.getElementById("prodDetrendedNote").innerHTML = prod.detrended.note;
   heatTable(prod.detrended.agg_by_commodity, prod.windows, prod.window_labels, "prodDetrendedAgg");
   detailTable(prod.detrended.results, prod.commodities, prod.windows, prod.window_labels, "prodDetrendedDetail");
+  // 种植知识
+  renderAgronomy();
   // 事件池
   renderEvents();
 }
@@ -174,7 +225,7 @@ function render() {
 function showSec(sec, el) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   el.classList.add("active");
-  ["overview","price","prod","events"].forEach(s => {
+  ["overview","price","prod","agronomy","events"].forEach(s => {
     document.getElementById("sec-" + s).classList.toggle("hidden", s !== sec);
   });
 }
