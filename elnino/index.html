@@ -69,6 +69,7 @@ td:first-child, th:first-child { text-align:left; }
 <div class="tab-bar">
   <span class="tab active" onclick="showSec('overview',this)">概览与结论</span>
   <span class="tab" onclick="showSec('price',this)">📈 价格口径</span>
+  <span class="tab" onclick="showSec('macro',this)">🌐 宏观周期</span>
   <span class="tab" onclick="showSec('prod',this)">🌾 产量口径</span>
   <span class="tab" onclick="showSec('agronomy',this)">🌱 种植知识</span>
   <span class="tab" onclick="showSec('events',this)">📋 事件池</span>
@@ -98,6 +99,18 @@ td:first-child, th:first-child { text-align:left; }
   <table class="heat" id="usdAdjTable"></table>
   <h4>各品种 × 各事件：剔除汇率后 vs 名义（逐事件，%）</h4>
   <div id="usdDetail"></div>
+</div>
+
+<!-- 宏观周期 -->
+<div id="sec-macro" class="hidden">
+  <h2>🌐 宏观周期叠加（PMI + 原油）</h2>
+  <div class="note inline" id="macroNote"></div>
+  <h3>各事件宏观状态快照</h3>
+  <table id="macroEventTable"></table>
+  <h3>宏观顺风 / 逆风 / 混合 分组下各品种窗口均值（%）</h3>
+  <div id="macroGroupTables"></div>
+  <h3>关键洞察</h3>
+  <div id="macroInsight"></div>
 </div>
 
 <!-- 产量口径 -->
@@ -256,6 +269,57 @@ function renderUsd() {
   document.getElementById("usdDetail").innerHTML = h3;
 }
 
+function fmtPct(v) {
+  if (v === null || v === undefined) return '<span class="na">—</span>';
+  return `<span class="${v>=0?'pos':'neg'}">${v>=0?'+':''}${v.toFixed(1)}%</span>`;
+}
+
+function renderMacro() {
+  const mc = DATA.macro;
+  if (!mc) return;
+  document.getElementById("macroNote").innerHTML = `<b>口径：</b>${mc.note}`;
+  // 宏观状态快照表
+  let h = '<table><tr><th>事件</th><th>强度</th><th>PMI峰值</th><th>PMI状态</th><th>PMI走势</th><th>原油pre%</th><th>原油+6月%</th><th>宏观背景</th></tr>';
+  mc.events.forEach(e => {
+    const pmiCls = e.pmi_state === '扩张' ? 'pos' : (e.pmi_state === '收缩' ? 'neg' : '');
+    const labelCls = e.macro_label === '顺风' ? 'pos' : (e.macro_label === '逆风' ? 'neg' : '');
+    h += `<tr><td>${e.event}</td><td><span class="tag grade-${e.grade}">${e.grade}</span></td>`;
+    h += `<td>${e.pmi_peak != null ? e.pmi_peak.toFixed(1) : '—'}</td>`;
+    h += `<td class="${pmiCls}">${e.pmi_state || '—'}</td>`;
+    h += `<td>${e.pmi_trend != null ? (e.pmi_trend>=0?'+':'')+e.pmi_trend.toFixed(1) : '—'}</td>`;
+    h += `<td>${fmtPct(e.oil_pre)}</td>`;
+    h += `<td>${fmtPct(e.oil_post0_6)}</td>`;
+    h += `<td class="${labelCls}"><b>${e.macro_label}</b></td></tr>`;
+  });
+  h += '</table>';
+  document.getElementById("macroEventTable").innerHTML = h;
+  // 分组对比表
+  const labelNames = {顺风:'🌬️ 宏观顺风', 逆风:'🥶 宏观逆风', 混合:'🌗 混合'};
+  let h2 = '';
+  Object.keys(mc.agg_by_macro).forEach(g => {
+    const agg = mc.agg_by_macro[g];
+    const evIds = mc.groups[g];
+    h2 += `<h4>${labelNames[g] || g}（${evIds.join('、')}）</h4>`;
+    h2 += '<table class="heat"><tr><th>品种</th>';
+    WINDOWS.forEach(w => h2 += `<th>${WL[w]}</th>`);
+    h2 += '</tr>';
+    Object.keys(agg).forEach(c => {
+      const a = agg[c];
+      h2 += `<tr><td>${a.name}</td>`;
+      WINDOWS.forEach(w => {
+        const v = a[w];
+        if (v === null || v === undefined) h2 += '<td class="na">—</td>';
+        else h2 += `<td class="${v>=0?'pos':'neg'}">${v>=0?'+':''}${v.toFixed(1)}%</td>`;
+      });
+      h2 += '</tr>';
+    });
+    h2 += '</table>';
+  });
+  document.getElementById("macroGroupTables").innerHTML = h2;
+  // 洞察
+  document.getElementById("macroInsight").innerHTML = (mc.insight || []).map(x => `<div class="concl">${x}</div>`).join('');
+}
+
 function renderAgronomy() {
   const ag = DATA.agronomy;
   if (!ag) { document.getElementById("agroCards").innerHTML = '<div class="note">无种植知识数据</div>'; return; }
@@ -310,6 +374,8 @@ function render() {
   detailTable(DATA.price.results, DATA.price.commodities, WINDOWS, WL, "priceDetail");
   // 美元因素
   renderUsd();
+  // 宏观周期
+  renderMacro();
   // 产量 - 双口径
   const prod = DATA.production;
   document.getElementById("prodSeasonNote").innerHTML = `<b>季节对应：</b>${prod.season_note}`;
@@ -328,7 +394,7 @@ function render() {
 function showSec(sec, el) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   el.classList.add("active");
-  ["overview","price","prod","agronomy","events"].forEach(s => {
+  ["overview","price","macro","prod","agronomy","events"].forEach(s => {
     document.getElementById("sec-" + s).classList.toggle("hidden", s !== sec);
   });
 }

@@ -186,6 +186,62 @@ def usd_section(usd, price):
     return "".join(h)
 
 
+def macro_section(macro):
+    if not macro:
+        return ""
+    h = []
+    h.append(f'<div class="note">{esc(macro["note"])}</div>')
+    # 宏观状态快照表
+    h.append('<h4>各事件宏观状态快照</h4>')
+    h.append('<table><tr><th>事件</th><th>强度</th><th>PMI峰值</th><th>PMI状态</th><th>PMI走势</th><th>原油pre%</th><th>原油+6月%</th><th>宏观背景</th></tr>')
+    for e in macro["events"]:
+        pmi_cls = "pos" if e["pmi_state"] == "扩张" else ("neg" if e["pmi_state"] == "收缩" else "")
+        label_cls = "pos" if e["macro_label"] == "顺风" else ("neg" if e["macro_label"] == "逆风" else "")
+        def pct_cell(v):
+            if v is None:
+                return '<span class="na">—</span>'
+            cls = "pos" if v >= 0 else "neg"
+            return f'<span class="{cls}">{v:+.1f}%</span>'
+        h.append(f'<tr><td>{esc(e["event"])}</td><td><span class="g g-{esc(e["grade"])}">{esc(e["grade"])}</span></td>'
+                 f'<td>{e["pmi_peak"]:.1f}</td>'
+                 f'<td class="{pmi_cls}">{e["pmi_state"] or "—"}</td>'
+                 f'<td>{e["pmi_trend"]:+.1f}</td>'
+                 f'<td>{pct_cell(e["oil_pre"])}</td>'
+                 f'<td>{pct_cell(e["oil_post0_6"])}</td>'
+                 f'<td class="{label_cls}"><b>{e["macro_label"]}</b></td></tr>')
+    h.append('</table>')
+    # 分组对比表
+    label_names = {"顺风": "🌬️ 宏观顺风", "逆风": "🥶 宏观逆风", "混合": "🌗 混合"}
+    for g in ["顺风", "逆风", "混合"]:
+        if g not in macro["agg_by_macro"]:
+            continue
+        agg = macro["agg_by_macro"][g]
+        ev_ids = macro["groups"].get(g, [])
+        h.append(f'<h4>{label_names.get(g, g)}（{"、".join(ev_ids)}）</h4>')
+        h.append('<table class="heat"><tr><th>品种</th>')
+        for w in PRICE_WINDOWS:
+            h.append(f'<th>{PRICE_WL[w]}</th>')
+        h.append('</tr>')
+        for c in agg:
+            a = agg[c]
+            h.append(f'<tr><td class="rowh">{esc(a["name"])}</td>')
+            for w in PRICE_WINDOWS:
+                v = a.get(w)
+                if v is None:
+                    h.append('<td class="na">—</td>')
+                else:
+                    cls = "pos" if v >= 0 else "neg"
+                    h.append(f'<td class="{cls}">{v:+.1f}%</td>')
+            h.append('</tr>')
+        h.append('</table>')
+    # 洞察
+    h.append('<h4>关键洞察</h4><ul>')
+    for x in macro.get("insight", []):
+        h.append(f'<li>{esc(x)}</li>')
+    h.append('</ul>')
+    return "".join(h)
+
+
 def build():
     with open(JSON_PATH, encoding="utf-8") as f:
         d = json.load(f)
@@ -193,6 +249,7 @@ def build():
     prod = d["production"]
     ag = d.get("agronomy", {})
     usd = d.get("usd", {})
+    macro = d.get("macro", {})
 
     concl = "".join(f"<li>{esc(c)}</li>" for c in d["conclusions"])
 
@@ -269,7 +326,10 @@ def build():
 {detail_tables(price['results'], price['commodities'], PRICE_WINDOWS, PRICE_WL)}
 {usd_section(usd, price)}
 
-<h2 class="pagebreak">四、产量口径（iFinD EDB 年度产量，双口径对比）</h2>
+<h2 class="pagebreak">四、宏观周期叠加（PMI + 原油）</h2>
+{macro_section(macro)}
+
+<h2 class="pagebreak">五、产量口径（iFinD EDB 年度产量，双口径对比）</h2>
 <div class="note">{esc(prod['season_note'])}</div>
 <h3>口径A：前5年基线偏离（含长期扩产趋势）</h3>
 <div class="note">{esc(prod['baseline']['note'])}</div>
@@ -281,11 +341,11 @@ def build():
 {heat_table(prod['detrended']['agg_by_commodity'], prod['windows'], prod['window_labels'])}
 {detail_tables(prod['detrended']['results'], prod['commodities'], prod['windows'], prod['window_labels'])}
 
-<h2 class="pagebreak">五、种植知识 — 生长阶段 / 水肥需求 / 关键期 / 不可逆损伤</h2>
+<h2 class="pagebreak">六、种植知识 — 生长阶段 / 水肥需求 / 关键期 / 不可逆损伤</h2>
 <div class="note">{esc(ag.get('intro',''))}<br><b>图例：</b>{esc(ag.get('legend',''))}</div>
 {agronomy_cards(ag)}
 
-<h2>六、数据源说明</h2>
+<h2>七、数据源说明</h2>
 <div class="note">{esc(d['note'])}<br><b>生成时间：</b>{esc(d['generated'])} · 数据源：IMF商品价格 + CBOT大豆 + 郑棉期货 + iFinD EDB/USDA产量</div>
 </body>
 </html>"""
