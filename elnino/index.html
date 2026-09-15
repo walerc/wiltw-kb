@@ -394,18 +394,24 @@ function renderAttribution() {
   let h = '';
   Object.keys(at.commodities).forEach(c => {
     const ci = at.commodities[c];
+    const primaryW = ci.events.length ? ci.events[0].primary_window : 'post6_12';
+    const pwLabel = primaryW === 'post0_6' ? '峰值后0-6月(主)' : '峰值后0-6月';
     h += `<h4>${emoji[c]||''} ${ci.name}（${ci.prod_sources.join('、') || '⚠️无产量数据'}）</h4>`;
-    h += '<table><tr><th>事件</th><th>强度</th><th>供给冲击%</th><th>供给信号</th><th>宏观轨迹</th><th>宏观信号</th><th>价格后6-12%</th><th>价格方向</th><th>归因</th></tr>';
+    h += '<table><tr><th>事件</th><th>强度</th><th>供给冲击%</th><th>供给信号</th><th>宏观轨迹</th>' +
+         `<th>${pwLabel}%</th><th>归因(早)</th><th>峰值后6-12月%</th><th>归因(主)</th></tr>`;
     ci.events.forEach(e => {
-      const ac = attCls[e.attribution] || '';
+      const acE = attCls[e.attribution_early] || '';
+      const acL = attCls[e.attribution] || '';
+      const isEarly = e.primary_window === 'post0_6';
+      const pwCls = isEarly ? 'style="font-weight:800;color:#e0c068"' : '';
       h += `<tr><td>${e.event}</td><td><span class="tag grade-${e.grade}">${e.grade}</span></td>`;
       h += `<td>${e.prod_shock != null ? (e.prod_shock>=0?'+':'')+e.prod_shock.toFixed(1) : '<span class="na">—</span>'}</td>`;
       h += `<td>${supplyDir[e.supply_dir]}</td>`;
       h += `<td>${e.macro_traj || '—'}</td>`;
-      h += `<td>${macroDir[e.macro_dir]}</td>`;
-      h += `<td>${e.price_post612 != null ? (e.price_post612>=0?'+':'')+e.price_post612.toFixed(1)+'%' : '<span class="na">—</span>'}</td>`;
-      h += `<td>${priceDir[e.price_dir]}</td>`;
-      h += `<td class="${ac}"><b>${e.attribution}</b></td></tr>`;
+      h += `<td ${pwCls}>${e.price_post06 != null ? (e.price_post06>=0?'+':'')+e.price_post06.toFixed(1)+'%' : '<span class="na">—</span>'}</td>`;
+      h += `<td class="${acE}">${e.attribution_early || '—'}</td>`;
+      h += `<td ${isEarly ? '' : pwCls}>${e.price_post612 != null ? (e.price_post612>=0?'+':'')+e.price_post612.toFixed(1)+'%' : '<span class="na">—</span>'}</td>`;
+      h += `<td class="${acL}"><b>${e.attribution}</b></td></tr>`;
     });
     h += '</table>';
   });

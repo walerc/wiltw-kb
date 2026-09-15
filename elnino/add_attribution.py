@@ -30,6 +30,15 @@ PROD_NAMES = {
 
 THRESH = 5.0  # 供给冲击判定阈值（去趋势偏离 ±5%）
 
+# 品种主升浪窗口（生理滞后决定）：橡胶全年割胶对厄尔尼诺反应最早→post0_6；其余→post6_12
+PRIMARY_WINDOW = {
+    "RU": "post0_6",   # 橡胶主升浪在早期
+    "P": "post6_12",   # 棕榈油8-18月生理滞后，主升浪在滞后窗口
+    "SR": "post6_12",
+    "SB": "post6_12",
+    "CT": "post6_12",
+}
+
 
 def sign_dir(v, thresh=0.0):
     """返回 +1利多 / -1利空 / 0中性（供给：减产=利多）"""
@@ -127,21 +136,39 @@ def main():
             s_dir = sign_dir(prod_shock, THRESH) if prod_shock is not None else 0
             m_traj = macro_events.get(eid, {}).get("trajectory")
             m_dir = macro_dir(m_traj)
-            # 价格主窗口 = post6_12（主升浪窗口）
-            p_dir = price_dir(r.get("post6_12"))
 
-            att, att_key = attribute(s_dir, m_dir, p_dir)
+            # 双窗口价格方向 + 归因
+            p06 = r.get("post0_6")
+            p612 = r.get("post6_12")
+            p06_dir = price_dir(p06)
+            p612_dir = price_dir(p612)
+            att06, key06 = attribute(s_dir, m_dir, p06_dir)
+            att612, key612 = attribute(s_dir, m_dir, p612_dir)
+
+            # 主窗口归因（品种特定）
+            primary_w = PRIMARY_WINDOW.get(c, "post6_12")
+            if primary_w == "post0_6":
+                att, att_key, p_dir, price_primary = att06, key06, p06_dir, p06
+            else:
+                att, att_key, p_dir, price_primary = att612, key612, p612_dir, p612
 
             events_out.append({
                 "event": eid, "grade": r["grade"],
                 "price_pre": r.get("pre"),
-                "price_post612": r.get("post6_12"),
-                "prod_shock": prod_shock,          # 供给冲击（post1去趋势偏离均值）
-                "prod_sources": src_detail,         # 各产区明细
+                "price_post06": p06,            # 峰值后0-6月涨幅
+                "price_post612": p612,          # 峰值后6-12月涨幅
+                "prod_shock": prod_shock,       # 供给冲击（post1去趋势偏离均值）
+                "prod_sources": src_detail,     # 各产区明细
                 "supply_dir": s_dir,
                 "macro_traj": m_traj,
                 "macro_dir": m_dir,
+                # 双窗口归因
+                "attribution_early": att06, "attribution_early_key": key06,
+                "attribution_late": att612, "attribution_late_key": key612,
+                # 主窗口（品种特定）
+                "primary_window": primary_w,
                 "price_dir": p_dir,
+                "price_primary": price_primary,
                 "attribution": att,
                 "attribution_key": att_key,
             })
@@ -188,8 +215,9 @@ def main():
             "supply_driven": True,
             "points": [
                 "【供给端】盯泰国(ANRPC全球产胶)割胶旺季(5-1月)，厄尔尼诺干旱影响次年产量；橡胶对厄尔尼诺反应最早(pre即反应)。",
-                "【宏观】供给+宏观双敏感：启动期宏观驱动，滞后窗口供给冲击兑现。",
-                "【关键事件】2014/16逆风转顺风→post6_12 +49.7%(2016商品反弹)；1997/98顺风转逆风→-7.7%。",
+                "【主升浪窗口·早期】橡胶是唯一主升浪在峰值后0-6月的品种(+21.2% vs 6-12月+11.8%)——全年割胶、无生理滞后，供给冲击当期兑现，勿套用棕榈油的滞后逻辑。",
+                "【宏观】供给+宏观双敏感：启动期宏观驱动，早期窗口供给冲击兑现。2018/19用早期窗口归因是'供给压过宏观'(价格+34.0%涨)，用滞后窗口则误判'宏观压过供给'(价格-14.0%跌)——窗口选错会得出相反结论。",
+                "【关键事件】2014/16逆风转顺风→post0_6 +17.3%(2016商品反弹)；1997/98顺风转逆风→post0_6 -7.1%。",
             ],
         },
         {
@@ -213,10 +241,12 @@ def main():
     ]
 
     attribution["note"] = (
-        "价格走势归因拆解：把每次事件×品种的价格主升浪(post6_12)对照「供给冲击(产量去趋势偏离post1)」和"
+        "价格走势归因拆解：把每次事件×品种的价格对照「供给冲击(产量去趋势偏离post1)」和"
         "「宏观轨迹(顺风/逆风)」，判定驱动来源。供给信号=减产(去趋势<-5%)=利多/增产(>+5%)=利空；"
         "宏观信号=全程顺风·逆风转顺风=利多/全程逆风·顺风转逆风=利空。归因类型：供给+宏观共振/供给主导/"
-        "宏观主导/供给压过宏观/宏观压过供给/双重压制/多空交织。5品种产量数据齐全(白糖=印度+泰国+巴西三大产糖国)。"
+        "宏观主导/供给压过宏观/宏观压过供给/双重压制/多空交织。⚠️双窗口归因：同时展示峰值后0-6月(早期)和6-12月(滞后)两窗口，"
+        "主归因用品种特定主升浪窗口——橡胶全年割胶反应最早→post0_6，棕榈油8-18月生理滞后→post6_12，其余post6_12。"
+        "5品种产量数据齐全(白糖=印度+泰国+巴西三大产糖国)。"
     )
 
     d["attribution"] = attribution
@@ -224,15 +254,17 @@ def main():
         json.dump(d, f, ensure_ascii=False, indent=1)
 
     # 打印摘要
-    print(f"{'品种':<8}{'事件':<8}{'供给冲击':>9}{'宏观轨迹':<10}{'价格后6-12':>9}{'归因':<16}")
-    print("-" * 70)
+    print(f"{'品种':<8}{'事件':<8}{'供给冲击':>9}{'宏观轨迹':<10}{'价格0-6':>8}{'归因(早)':<14}{'价格6-12':>9}{'归因(主)':<14}")
+    print("-" * 90)
     for c, cinfo in attribution["commodities"].items():
         for e in cinfo["events"]:
             def g(x):
                 return "—" if x is None else f"{x:+.1f}"
+            mark = " *" if e["primary_window"] == "post0_6" else ""
             print(f"{c:<8}{e['event']:<8}{g(e['prod_shock']):>9}{e['macro_traj'] or '—':<10}"
-                  f"{g(e['price_post612']):>9}{e['attribution']:<16}")
-        print("-" * 70)
+                  f"{g(e['price_post06']):>8}{e['attribution_early']:<14}"
+                  f"{g(e['price_post612']):>9}{e['attribution']:<14}{mark}")
+        print("-" * 90)
     print("\n品种主导模式:", {c: v["dominant"] for c, v in attribution["commodities"].items()})
     print(f"已写入 attribution 键到 {JSON_PATH}")
 

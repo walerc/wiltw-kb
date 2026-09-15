@@ -310,8 +310,10 @@ def attribution_section(at):
     price_dir = {1: "涨", -1: "跌", 0: "平"}
 
     for c, ci in at["commodities"].items():
+        primary_w = ci["events"][0].get("primary_window", "post6_12") if ci["events"] else "post6_12"
+        pw_label = "峰值后0-6月(主)" if primary_w == "post0_6" else "峰值后0-6月"
         h.append(f'<h4>{emoji.get(c, "")} {esc(ci["name"])}（{"、".join(ci["prod_sources"]) if ci["prod_sources"] else "⚠️无产量数据"}）</h4>')
-        h.append('<table><tr><th>事件</th><th>强度</th><th>供给冲击%</th><th>供给信号</th><th>宏观轨迹</th><th>宏观信号</th><th>价格后6-12%</th><th>价格方向</th><th>归因</th></tr>')
+        h.append(f'<table><tr><th>事件</th><th>强度</th><th>供给冲击%</th><th>供给信号</th><th>宏观轨迹</th><th>{pw_label}%</th><th>归因(早)</th><th>峰值后6-12月%</th><th>归因(主)</th></tr>')
         for e in ci["events"]:
             def g(v, pct=True):
                 if v is None:
@@ -320,15 +322,16 @@ def attribution_section(at):
                     cls = "pos" if v >= 0 else "neg"
                     return f'<span class="{cls}">{v:+.1f}%</span>'
                 return f"{v:.1f}"
-            ac = att_cls.get(e["attribution"], "")
+            acE = att_cls.get(e.get("attribution_early"), "")
+            acL = att_cls.get(e["attribution"], "")
             h.append(f'<tr><td>{esc(e["event"])}</td><td><span class="g g-{esc(e["grade"])}">{esc(e["grade"])}</span></td>'
                      f'<td>{g(e["prod_shock"])}</td>'
                      f'<td>{supply_dir.get(e["supply_dir"], "—")}</td>'
                      f'<td>{esc(e["macro_traj"] or "—")}</td>'
-                     f'<td>{macro_dir.get(e["macro_dir"], "—")}</td>'
+                     f'<td>{g(e["price_post06"])}</td>'
+                     f'<td class="{acE}">{esc(e.get("attribution_early") or "—")}</td>'
                      f'<td>{g(e["price_post612"])}</td>'
-                     f'<td>{price_dir.get(e["price_dir"], "—")}</td>'
-                     f'<td class="{ac}"><b>{esc(e["attribution"])}</b></td></tr>')
+                     f'<td class="{acL}"><b>{esc(e["attribution"])}</b></td></tr>')
         h.append('</table>')
 
     # 关注要点
