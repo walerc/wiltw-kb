@@ -2,11 +2,16 @@
 """
 fetch_tracking.py — 拉取当前厄尔尼诺 + 宏观 + 5品种最新数据，生成跟踪页 tracking.json
 
-数据源：iFinD EDB（南方涛动指数SOI / ISM PMI / 布伦特原油 / IMF商品价格 / CBOT大豆 / 郑棉）
+【周度版 2026-09】
+- 品种价格(棕榈油/橡胶/白糖/豆一/棉花) + 布伦特原油：国内期货活跃合约日度数据 → 取最新交易日收盘（周度更新）
+- SOI / ISM PMI：月度（数据源本身月度发布，无法周度）
+- 涨幅口径：ytd=2026-01月末 · phase(启动期)=2026-04月末(SOI转负) · yoy=2025-08月末
+
+数据源：iFinD EDB
 输出：data/tracking.json（前端「🛰️ 实时跟踪」tab 读取）
 
 运行：cd ~/WILTW_KB/elnino && /usr/bin/python3 fetch_tracking.py
-更新频率建议：每月1次（月度数据），或厄尔尼诺关键节点（CPC发布月度诊断）时手动跑
+更新频率：建议每周1次（cron 每周一早上，拉上周五收盘）
 """
 import json, os, re, urllib.request, datetime
 
@@ -26,6 +31,21 @@ def load_token():
 
 TOKEN = load_token()
 EDB_URL = "https://api-mcp.51ifind.com:8643/ds-mcp-servers/hexin-ifind-ds-edb-mcp"
+
+# ---- 日度指标（周度更新）----
+DAILY = {
+    "palm": "期货收盘价(活跃):棕榈油",
+    "rubber": "期货收盘价(活跃):天然橡胶",
+    "sugar": "期货收盘价(活跃):白糖",
+    "soybean": "期货收盘价(活跃):黄大豆1号",
+    "cotton": "期货收盘价(活跃):棉花",
+    "oil": "期货收盘价(活跃):布伦特原油:ICE",
+}
+# ---- 月度指标（发布频率限制，月度更新）----
+MONTHLY = {
+    "soi": "南方涛动指数",
+    "pmi": "美国:ISM:制造业PMI",
+}
 
 
 def query_edb(q, timeout=120):
@@ -62,51 +82,43 @@ def query_edb(q, timeout=120):
     return find_datas(inner)
 
 
+def month_str(y, m):
+    return f"{y}年{m}月"
+
+
 def month_range(n=20):
-    """返回 (起始年月, 结束年月) 字符串，如 ('2025年1月','2026年8月')，覆盖最近 n 个月"""
+    """返回 (起始年月, 结束年月)，覆盖最近 n 个月"""
     now = datetime.date.today()
     total = now.year * 12 + (now.month - 1)
     s_total = total - (n - 1)
     sy, sm = s_total // 12, s_total % 12 + 1
-    return f"{sy}年{sm}月", f"{now.year}年{now.month}月"
+    return month_str(sy, sm), month_str(now.year, now.month)
 
 
 def fetch_series():
-    start, end = month_range(20)
-    monthly = {
-        "soi": f"南方涛动指数 {start}到{end}",
-        "pmi": f"美国:ISM:制造业PMI {start}到{end}",
-        "oil": f"商品价格:布伦特原油:当月值 {start}到{end}",
-        "palm": f"商品价格:棕榈油:当月值 {start}到{end}",
-        "rubber": f"商品价格:天然橡胶(RSS3):当月值 {start}到{end}",
-        "sugar": f"商品价格:全球糖:当月值 {start}到{end}",
-        "cotton": f"商品价格:棉花:当月值 {start}到{end}",
-    }
+    now = datetime.date.today()
+    # 日度：拉最近 ~15 个月（覆盖 yoy 锚点 2025-08）
+    d_total = now.year * 12 + (now.month - 1) - 14
+    d_start_y, d_start_m = d_total // 12, d_total % 12 + 1
+    d_start, d_end = month_str(d_start_y, d_start_m), month_str(now.year, now.month)
+    # 月度：拉最近 20 个月
+    m_start, m_end = month_range(20)
+
     series = {}
-    for k, q in monthly.items():
-        datas = query_edb(q)
+    for k, name in DAILY.items():
+        datas = query_edb(f"{name} {d_start}到{d_end}")
         if datas and isinstance(datas, list) and datas[0].get("data", {}).get("data"):
             series[k] = datas[0]["data"]["data"]
         else:
             series[k] = None
-        print(f"  {k}: {len(series[k]) if series[k] else 'EMPTY'} 点")
-
-    # 大豆 CBOT 日度 → 取月末
-    ds = query_edb(f"期货结算价(连续):CBOT大豆 {start}到{end}")
-    soy = {}
-    if ds and isinstance(ds, list):
-        for d, v in ds[0]["data"]["data"]:
-            soy[d[:7]] = v
-    series["soybean"] = [[k + "-28", v] for k, v in sorted(soy.items())]
-    print(f"  soybean: {len(series['soybean'])} 点(月末)")
-
-    # 棉花若是日度 → 取月末
-    if series["cotton"] and len(series["cotton"]) > 40:
-        cm = {}
-        for d, v in series["cotton"]:
-            cm[d[:7]] = v
-        series["cotton"] = sorted([[k + "-28", v] for k, v in cm.items()])
-
+        print(f"  [日度] {k}: {len(series[k]) if series[k] else 'EMPTY'} 点")
+    for k, name in MONTHLY.items():
+        datas = query_edb(f"{name} {m_start}到{m_end}")
+        if datas and isinstance(datas, list) and datas[0].get("data", {}).get("data"):
+            series[k] = datas[0]["data"]["data"]
+        else:
+            series[k] = None
+        print(f"  [月度] {k}: {len(series[k]) if series[k] else 'EMPTY'} 点")
     return series
 
 
@@ -124,13 +136,13 @@ EVENT = {
 }
 
 COMMODITY_META = {
-    "P":  {"name": "棕榈油", "emoji": "🌴", "unit": "美元/吨", "hist_main": 36.6, "hist_window": "峰值后6-12月",
+    "P":  {"name": "棕榈油", "emoji": "🌴", "unit": "元/吨", "hist_main": 36.6, "hist_window": "峰值后6-12月",
            "signal": "供给冲击滞后(8-18月生理滞后)，主升浪尚未启动", "view": "首选·布局"},
-    "RU": {"name": "橡胶", "emoji": "🌳", "unit": "美分/千克", "hist_main": 21.2, "hist_window": "峰值后0-6月",
+    "RU": {"name": "橡胶", "emoji": "🌳", "unit": "元/吨", "hist_main": 21.2, "hist_window": "峰值后0-6月",
            "signal": "最早反应已基本兑现，追高空间有限", "view": "次选·先行信号"},
-    "SR": {"name": "白糖", "emoji": "🍬", "unit": "美元/千克", "hist_main": 6.5, "hist_window": "各窗口温和",
-           "signal": "8月跳升，糖周期主导需谨慎", "view": "谨慎·观察糖周期"},
-    "SB": {"name": "大豆", "emoji": "🫘", "unit": "美分/蒲式耳", "hist_main": 6.9, "hist_window": "峰值后6-12月",
+    "SR": {"name": "白糖", "emoji": "🍬", "unit": "元/吨", "hist_main": 6.5, "hist_window": "各窗口温和",
+           "signal": "国内糖与全球糖脱节(进口配额)，未现启动，糖周期主导需谨慎", "view": "谨慎·观察糖周期"},
+    "SB": {"name": "大豆", "emoji": "🫘", "unit": "元/吨", "hist_main": 6.9, "hist_window": "峰值后6-12月",
            "signal": "区域性对冲，全球合计效应弱", "view": "最弱·放弃"},
     "CT": {"name": "棉花", "emoji": "🧵", "unit": "元/吨", "hist_main": 15.9, "hist_window": "峰值后6-12月",
            "signal": "美棉方向取决于具体降水模式", "view": "方向不定·放弃"},
@@ -142,7 +154,7 @@ STRATEGY = {
         "供给最确定：东南亚对厄尔尼诺最敏感，去趋势后几乎每次减产",
         "生理滞后8-18月：减产2027年才兑现，现在是布局窗口而非追高",
         "主导模式=供给+宏观共振，当前宏观顺风正好共振",
-        "主升浪post6_12 +36.6%，当前启动期仅-2.5%，空间最大",
+        "主升浪post6_12 +36.6%，当前启动期未启动，空间最大",
     ],
     "timing": [
         "现在(启动期)：不追高、不做空，轻仓试探或观望",
@@ -152,7 +164,7 @@ STRATEGY = {
     "risks": [
         "油价地缘溢价消退(US-Iran谈判可致单日-5%)→宏观顺风转弱",
         "PMI边际走弱(8月新订单56.7→53.7大幅放缓)",
-        "预期透支(橡胶已提前涨+27.6%，接近历史主升浪均值)",
+        "预期透支(橡胶已提前涨，接近历史主升浪均值)",
         "历史最危险轨迹=顺风转逆风(1997/98金融危机样本，棕榈post12_24崩-45.7%)",
     ],
 }
@@ -170,86 +182,73 @@ ANALOG_TABLE = [
 
 
 def pct(a, b):
-    """(b-a)/a*100，返回保留1位小数；a<=0 返回 None"""
     if a is None or b is None or a == 0:
         return None
     return round((b - a) / a * 100, 1)
 
 
-def get_val(series, ym_prefix):
-    """取某个年月(前缀)的值，如 get_val(series,'2026-01')"""
-    for d, v in series:
-        if d[:7] == ym_prefix:
-            return v
-    return None
-
-
-def get_month_end(series, ym):
-    """取某月的月末值（日度数据），如 get_month_end(series,'2026-08')"""
-    vals = [v for d, v in series if d[:7] == ym]
-    return vals[-1] if vals else None
+def get_month_last(series, ym):
+    """取某月最后一个交易日的值（日度数据），如 get_month_last(series,'2026-01')"""
+    vals = [(d, v) for d, v in series if d[:7] == ym and v is not None]
+    return vals[-1][1] if vals else None
 
 
 def build_tracking(series):
     s = {k: sorted(v, key=lambda x: x[0]) for k, v in series.items() if v}
 
-    # 事件状态
+    # 事件状态（SOI 月度）
     soi = s.get("soi", [])
     soi_latest = soi[-1][1] if soi else None
     soi_neg = [v for _, v in soi if v is not None and v < 0]
     soi_peak_neg = min(soi_neg) if soi_neg else None
 
-    # 宏观
+    # 宏观（PMI 月度 + 原油日度）
     pmi = s.get("pmi", [])
     oil = s.get("oil", [])
     pmi_latest = pmi[-1][1] if pmi else None
     oil_latest = oil[-1][1] if oil else None
+    oil_latest_date = oil[-1][0] if oil else None
     oil_peak = max([v for _, v in oil if v is not None]) if oil else None
 
-    # 最新完整月（月度指标的最后一个月，作为统一口径锚点）
-    latest_ym = soi[-1][0][:7] if soi else None
-
-    # 品种涨幅
+    # 品种涨幅（日度数据，锚点取月末收盘）
     commodities = {}
     code_map = {"P": "palm", "RU": "rubber", "SR": "sugar", "SB": "soybean", "CT": "cotton"}
-    daily_keys = {"soybean", "cotton"}  # 日度品种需取月末，避免取到未来/非完整月数据
     for code, skey in code_map.items():
         meta = COMMODITY_META[code]
-        series_data = s.get(skey, [])
-        if skey in daily_keys and latest_ym:
-            latest = get_month_end(series_data, latest_ym)
-        else:
-            latest = series_data[-1][1] if series_data else None
-        v_jan = get_val(series_data, "2026-01")   # 年初
-        v_apr = get_val(series_data, "2026-04")   # 启动期(SOI转负)
-        v_ago = get_val(series_data, "2025-08")   # 同比
+        sd = s.get(skey, [])
+        latest = sd[-1][1] if sd else None
+        latest_date = sd[-1][0] if sd else None
+        v_jan = get_month_last(sd, "2026-01")   # 年初
+        v_apr = get_month_last(sd, "2026-04")   # 启动期(SOI转负)
+        v_ago = get_month_last(sd, "2025-08")   # 同比
         ytd = pct(v_jan, latest)
         phase = pct(v_apr, latest)
         yoy = pct(v_ago, latest)
-        # 进度 = 启动期涨幅 / 历史主升浪均值
         progress = None
         if phase is not None and meta["hist_main"]:
             progress = round(max(phase, 0) / meta["hist_main"] * 100)
         commodities[code] = {
             "name": meta["name"], "emoji": meta["emoji"], "unit": meta["unit"],
-            "latest": latest, "ytd": ytd, "phase": phase, "yoy": yoy,
+            "latest": latest, "latest_date": latest_date,
+            "ytd": ytd, "phase": phase, "yoy": yoy,
             "hist_main": meta["hist_main"], "hist_window": meta["hist_window"],
             "progress": progress, "signal": meta["signal"], "view": meta["view"],
         }
 
     tracking = {
         "generated": datetime.date.today().strftime("%Y-%m-%d"),
+        "freq": "周度",
         "event": dict(EVENT, soi_latest=soi_latest, soi_peak_neg=soi_peak_neg,
                        soi_series=[[d[:7], v] for d, v in soi]),
         "macro": {
             "pmi_latest": pmi_latest,
             "pmi_trend": "2025下半年收缩(48)→2026转扩张(52-55)，7月55.6近四年高点，8月回落54.6",
             "pmi_direction": "逆风转顺风（复苏转向）",
-            "oil_latest": oil_latest, "oil_peak": oil_peak,
-            "oil_trend": "2025底62→2026-04峰值120.4(+94%)→回落83→反弹90.9",
-            "oil_direction": "暴涨后回落（地缘溢价消退中）",
+            "oil_latest": oil_latest, "oil_latest_date": oil_latest_date, "oil_peak": oil_peak,
+            "oil_trend": "2025底62→4月峰值120.4(+94%)→7月回落83→9月再涨109",
+            "oil_direction": "9月再度走强(+17%)，中东地缘溢价重燃",
             "trajectory": "逆风转顺风",
-            "risk": "油价地缘溢价脆弱(US-Iran谈判可致单日-5%)，PMI边际走弱(新订单56.7→53.7)",
+            "risk": "油价120→83→109剧烈震荡，地缘驱动不确定性极高；PMI新订单56.7→53.7边际走弱",
         },
         "commodities": commodities,
         "strategy": STRATEGY,
@@ -261,7 +260,6 @@ def build_tracking(series):
 def main():
     print("拉取 iFinD EDB 数据…")
     series = fetch_series()
-    # 存原始序列
     raw_out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "tracking_series.json")
     json.dump(series, open(raw_out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"已存 {raw_out}")
@@ -271,11 +269,11 @@ def main():
     out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "tracking.json")
     json.dump(tracking, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"已存 {out}")
-    print("\n=== 摘要 ===")
+    print("\n=== 摘要（周度口径）===")
     print(f"SOI: {tracking['event']['soi_latest']} (峰值负值 {tracking['event']['soi_peak_neg']})")
-    print(f"PMI: {tracking['macro']['pmi_latest']}  原油: {tracking['macro']['oil_latest']}")
+    print(f"PMI: {tracking['macro']['pmi_latest']}  原油: {tracking['macro']['oil_latest']} ({tracking['macro']['oil_latest_date']})")
     for code, c in tracking["commodities"].items():
-        print(f"{c['emoji']} {c['name']}: 最新{c['latest']} 年初至今{c['ytd']}% 启动期{c['phase']}% 进度{c['progress']}%")
+        print(f"{c['emoji']} {c['name']}: 最新{c['latest']}({c['latest_date']}) 年初至今{c['ytd']}% 启动期{c['phase']}% 进度{c['progress']}%")
 
 
 if __name__ == "__main__":

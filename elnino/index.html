@@ -367,11 +367,11 @@ function renderTracking() {
   // 宏观面板
   document.getElementById("macroGrid").innerHTML =
     statCard("ISM 制造业 PMI", mc.pmi_latest, mc.pmi_direction) +
-    statCard("布伦特原油", "$" + mc.oil_latest + "（峰值 $" + mc.oil_peak + "）", mc.oil_direction) +
+    statCard("布伦特原油", "$" + mc.oil_latest + (mc.oil_latest_date ? '<div class="na" style="font-size:.7rem">' + mc.oil_latest_date + '</div>' : ''), mc.oil_direction) +
     statCard("宏观轨迹", mc.trajectory, mc.pmi_trend);
   document.getElementById("macroRisk").innerHTML = `⚠️ <b>宏观风险：</b>${mc.risk}`;
   // 品种矩阵
-  document.getElementById("trackNote").innerHTML = `<b>口径：</b>国际价格（IMF/世界银行），涨幅截至 ${tk.generated} · 年初至今=2026-01起 · 启动期=2026-04(SOI转负)起`;
+  document.getElementById("trackNote").innerHTML = `<b>口径：</b>国内期货活跃合约（元/吨，${tk.freq || '周度'}更新），数据截至 ${tk.generated} · 年初至今=2026-01月末 · 启动期=2026-04月末(SOI转负) · 历史主升浪均值来自国际价格(IMF)统计，作目标量级参考`;
   const viewCls = {"首选·布局":"view-pick","次选·先行信号":"view-watch","谨慎·观察糖周期":"view-caution"};
   let h = '<table><tr><th>品种</th><th>最新价</th><th>年初至今</th><th>启动期</th><th>同比</th><th>历史主升浪</th><th>进度</th><th>观点</th></tr>';
   Object.keys(tk.commodities).forEach(c => {
@@ -380,7 +380,7 @@ function renderTracking() {
     const pCls = o.progress == null ? '' : (o.progress <= 30 ? 'low' : (o.progress <= 100 ? 'mid' : 'hot'));
     const pW = o.progress == null ? 0 : Math.min(o.progress, 100);
     h += `<tr><td>${o.emoji} ${o.name}</td>` +
-         `<td>${o.latest}${o.unit ? ' ' + o.unit : ''}</td>` +
+         `<td>${o.latest}${o.unit ? ' ' + o.unit : ''}${o.latest_date ? '<div class="na" style="font-size:.7rem">' + o.latest_date + '</div>' : ''}</td>` +
          `<td>${fmtPct(o.ytd)}</td>` +
          `<td>${fmtPct(o.phase)}</td>` +
          `<td>${fmtPct(o.yoy)}</td>` +
