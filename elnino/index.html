@@ -70,6 +70,7 @@ td:first-child, th:first-child { text-align:left; }
   <span class="tab active" onclick="showSec('overview',this)">概览与结论</span>
   <span class="tab" onclick="showSec('price',this)">📈 价格口径</span>
   <span class="tab" onclick="showSec('macro',this)">🌐 宏观周期</span>
+  <span class="tab" onclick="showSec('attribution',this)">🔬 供给vs宏观归因</span>
   <span class="tab" onclick="showSec('prod',this)">🌾 产量口径</span>
   <span class="tab" onclick="showSec('agronomy',this)">🌱 种植知识</span>
   <span class="tab" onclick="showSec('events',this)">📋 事件池</span>
@@ -115,6 +116,16 @@ td:first-child, th:first-child { text-align:left; }
   <div id="macroGroupTables"></div>
   <h3>关键洞察</h3>
   <div id="macroInsight"></div>
+</div>
+
+<!-- 供给vs宏观归因 -->
+<div id="sec-attribution" class="hidden">
+  <h2>🔬 供给冲击 vs 宏观/供需 归因拆解</h2>
+  <div class="note inline" id="attributionNote"></div>
+  <h3>各品种归因明细（供给冲击 × 宏观轨迹 × 价格方向）</h3>
+  <div id="attributionTables"></div>
+  <h3>各品种需着重关注的点</h3>
+  <div id="attributionFocus"></div>
 </div>
 
 <!-- 产量口径 -->
@@ -365,6 +376,50 @@ function renderMacro() {
   document.getElementById("macroInsight").innerHTML = (mc.insight || []).map(x => `<div class="concl">${x}</div>`).join('');
 }
 
+function renderAttribution() {
+  const at = DATA.attribution;
+  if (!at) return;
+  document.getElementById("attributionNote").innerHTML = `<b>口径：</b>${at.note}`;
+  // 归因标签颜色
+  const attCls = {
+    '供给+宏观共振':'pos', '供给主导':'pos', '供给压过宏观':'pos',
+    '宏观主导':'pos', '宏观压过供给':'pos',
+    '双重压制（价格反走）':'neg', '宏观背离（价格反走）':'neg', '供给背离（价格反走）':'neg',
+    '多空交织':'', '驱动待兑现':'', '信号中性':''
+  };
+  const emoji = {P:'🌴', SR:'🍬', RU:'🌳', SB:'🫘', CT:'🧵'};
+  const supplyDir = {1:'减产(利多)', '-1':'增产(利空)', 0:'中性'};
+  const macroDir = {1:'顺', '-1':'逆', 0:'—'};
+  const priceDir = {1:'涨', '-1':'跌', 0:'平'};
+  let h = '';
+  Object.keys(at.commodities).forEach(c => {
+    const ci = at.commodities[c];
+    h += `<h4>${emoji[c]||''} ${ci.name}（${ci.prod_sources.join('、') || '⚠️无产量数据'}）</h4>`;
+    h += '<table><tr><th>事件</th><th>强度</th><th>供给冲击%</th><th>供给信号</th><th>宏观轨迹</th><th>宏观信号</th><th>价格后6-12%</th><th>价格方向</th><th>归因</th></tr>';
+    ci.events.forEach(e => {
+      const ac = attCls[e.attribution] || '';
+      h += `<tr><td>${e.event}</td><td><span class="tag grade-${e.grade}">${e.grade}</span></td>`;
+      h += `<td>${e.prod_shock != null ? (e.prod_shock>=0?'+':'')+e.prod_shock.toFixed(1) : '<span class="na">—</span>'}</td>`;
+      h += `<td>${supplyDir[e.supply_dir]}</td>`;
+      h += `<td>${e.macro_traj || '—'}</td>`;
+      h += `<td>${macroDir[e.macro_dir]}</td>`;
+      h += `<td>${e.price_post612 != null ? (e.price_post612>=0?'+':'')+e.price_post612.toFixed(1)+'%' : '<span class="na">—</span>'}</td>`;
+      h += `<td>${priceDir[e.price_dir]}</td>`;
+      h += `<td class="${ac}"><b>${e.attribution}</b></td></tr>`;
+    });
+    h += '</table>';
+  });
+  document.getElementById("attributionTables").innerHTML = h;
+  // 关注要点
+  let hf = '';
+  (at.focus || []).forEach(f => {
+    hf += `<div class="agri-card"><h3>${emoji[f.commodity]||''} ${f.name}</h3><ul>`;
+    f.points.forEach(p => hf += `<li>${p}</li>`);
+    hf += '</ul></div>';
+  });
+  document.getElementById("attributionFocus").innerHTML = hf;
+}
+
 function renderAgronomy() {
   const ag = DATA.agronomy;
   if (!ag) { document.getElementById("agroCards").innerHTML = '<div class="note">无种植知识数据</div>'; return; }
@@ -421,6 +476,8 @@ function render() {
   renderUsd();
   // 宏观周期
   renderMacro();
+  // 供给vs宏观归因
+  renderAttribution();
   // 产量 - 双口径
   const prod = DATA.production;
   document.getElementById("prodSeasonNote").innerHTML = `<b>季节对应：</b>${prod.season_note}`;
@@ -439,7 +496,7 @@ function render() {
 function showSec(sec, el) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   el.classList.add("active");
-  ["overview","price","macro","prod","agronomy","events"].forEach(s => {
+  ["overview","price","macro","attribution","prod","agronomy","events"].forEach(s => {
     document.getElementById("sec-" + s).classList.toggle("hidden", s !== sec);
   });
 }

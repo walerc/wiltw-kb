@@ -292,6 +292,55 @@ def macro_section(macro):
     return "".join(h)
 
 
+def attribution_section(at):
+    if not at:
+        return ""
+    h = []
+    h.append(f'<div class="note">{esc(at["note"])}</div>')
+
+    att_cls = {
+        "供给+宏观共振": "pos", "供给主导": "pos", "供给压过宏观": "pos",
+        "宏观主导": "pos", "宏观压过供给": "pos",
+        "双重压制（价格反走）": "neg", "宏观背离（价格反走）": "neg", "供给背离（价格反走）": "neg",
+        "多空交织": "", "驱动待兑现": "", "信号中性": "",
+    }
+    emoji = {"P": "🌴", "SR": "🍬", "RU": "🌳", "SB": "🫘", "CT": "🧵"}
+    supply_dir = {1: "减产(利多)", -1: "增产(利空)", 0: "中性"}
+    macro_dir = {1: "顺", -1: "逆", 0: "—"}
+    price_dir = {1: "涨", -1: "跌", 0: "平"}
+
+    for c, ci in at["commodities"].items():
+        h.append(f'<h4>{emoji.get(c, "")} {esc(ci["name"])}（{"、".join(ci["prod_sources"]) if ci["prod_sources"] else "⚠️无产量数据"}）</h4>')
+        h.append('<table><tr><th>事件</th><th>强度</th><th>供给冲击%</th><th>供给信号</th><th>宏观轨迹</th><th>宏观信号</th><th>价格后6-12%</th><th>价格方向</th><th>归因</th></tr>')
+        for e in ci["events"]:
+            def g(v, pct=True):
+                if v is None:
+                    return '<span class="na">—</span>'
+                if pct:
+                    cls = "pos" if v >= 0 else "neg"
+                    return f'<span class="{cls}">{v:+.1f}%</span>'
+                return f"{v:.1f}"
+            ac = att_cls.get(e["attribution"], "")
+            h.append(f'<tr><td>{esc(e["event"])}</td><td><span class="g g-{esc(e["grade"])}">{esc(e["grade"])}</span></td>'
+                     f'<td>{g(e["prod_shock"])}</td>'
+                     f'<td>{supply_dir.get(e["supply_dir"], "—")}</td>'
+                     f'<td>{esc(e["macro_traj"] or "—")}</td>'
+                     f'<td>{macro_dir.get(e["macro_dir"], "—")}</td>'
+                     f'<td>{g(e["price_post612"])}</td>'
+                     f'<td>{price_dir.get(e["price_dir"], "—")}</td>'
+                     f'<td class="{ac}"><b>{esc(e["attribution"])}</b></td></tr>')
+        h.append('</table>')
+
+    # 关注要点
+    h.append('<h4>各品种需着重关注的点</h4>')
+    for f in at.get("focus", []):
+        h.append(f'<div class="agri-card"><h3>{emoji.get(f["commodity"], "")} {esc(f["name"])}</h3><ul>')
+        for p in f["points"]:
+            h.append(f'<li>{esc(p)}</li>')
+        h.append('</ul></div>')
+    return "".join(h)
+
+
 def build():
     with open(JSON_PATH, encoding="utf-8") as f:
         d = json.load(f)
@@ -300,6 +349,7 @@ def build():
     ag = d.get("agronomy", {})
     usd = d.get("usd", {})
     macro = d.get("macro", {})
+    attribution = d.get("attribution", {})
 
     concl = "".join(f"<li>{esc(c)}</li>" for c in d["conclusions"])
 
@@ -379,7 +429,10 @@ def build():
 <h2 class="pagebreak">四、宏观周期叠加（PMI + 原油）</h2>
 {macro_section(macro)}
 
-<h2 class="pagebreak">五、产量口径（iFinD EDB 年度产量，双口径对比）</h2>
+<h2 class="pagebreak">五、供给冲击 vs 宏观/供需 归因拆解</h2>
+{attribution_section(attribution)}
+
+<h2 class="pagebreak">六、产量口径（iFinD EDB 年度产量，双口径对比）</h2>
 <div class="note">{esc(prod['season_note'])}</div>
 <h3>口径A：前5年基线偏离（含长期扩产趋势）</h3>
 <div class="note">{esc(prod['baseline']['note'])}</div>
@@ -391,11 +444,11 @@ def build():
 {heat_table(prod['detrended']['agg_by_commodity'], prod['windows'], prod['window_labels'])}
 {detail_tables(prod['detrended']['results'], prod['commodities'], prod['windows'], prod['window_labels'])}
 
-<h2 class="pagebreak">六、种植知识 — 生长阶段 / 水肥需求 / 关键期 / 不可逆损伤</h2>
+<h2 class="pagebreak">七、种植知识 — 生长阶段 / 水肥需求 / 关键期 / 不可逆损伤</h2>
 <div class="note">{esc(ag.get('intro',''))}<br><b>图例：</b>{esc(ag.get('legend',''))}</div>
 {agronomy_cards(ag)}
 
-<h2>七、数据源说明</h2>
+<h2>八、数据源说明</h2>
 <div class="note">{esc(d['note'])}<br><b>生成时间：</b>{esc(d['generated'])} · 数据源：IMF商品价格 + CBOT大豆 + 郑棉期货 + iFinD EDB/USDA产量</div>
 </body>
 </html>"""
