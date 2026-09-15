@@ -176,15 +176,15 @@ EVENT = {
 }
 
 COMMODITY_META = {
-    "P":  {"name": "棕榈油", "emoji": "🌴", "unit": "元/吨", "hist_main": 36.6, "hist_window": "峰值后6-12月",
+    "P":  {"name": "棕榈油", "emoji": "🌴", "unit": "元/吨", "hist_main": 43.8, "hist_window": "峰值后0-12月",
            "signal": "供给冲击滞后(8-18月生理滞后)，主升浪尚未启动", "view": "首选·布局"},
-    "RU": {"name": "橡胶", "emoji": "🌳", "unit": "元/吨", "hist_main": 21.2, "hist_window": "峰值后0-6月",
-           "signal": "最早反应已基本兑现，追高空间有限", "view": "次选·先行信号"},
-    "SR": {"name": "白糖", "emoji": "🍬", "unit": "元/吨", "hist_main": 6.5, "hist_window": "各窗口温和",
+    "RU": {"name": "橡胶", "emoji": "🌳", "unit": "元/吨", "hist_main": 35.5, "hist_window": "峰值后0-12月",
+           "signal": "早期反应已兑现大半，且宏观逆风时历史上有负收益(1997/98 -14%)", "view": "次选·先行信号"},
+    "SR": {"name": "白糖", "emoji": "🍬", "unit": "元/吨", "hist_main": 6.3, "hist_window": "峰值后0-12月",
            "signal": "国内糖与全球糖脱节(进口配额)，未现启动，糖周期主导需谨慎", "view": "谨慎·观察糖周期"},
-    "SB": {"name": "大豆", "emoji": "🫘", "unit": "元/吨", "hist_main": 6.9, "hist_window": "峰值后6-12月",
+    "SB": {"name": "大豆", "emoji": "🫘", "unit": "元/吨", "hist_main": 9.9, "hist_window": "峰值后0-12月",
            "signal": "区域性对冲，全球合计效应弱", "view": "最弱·放弃"},
-    "CT": {"name": "棉花", "emoji": "🧵", "unit": "元/吨", "hist_main": 15.9, "hist_window": "峰值后6-12月",
+    "CT": {"name": "棉花", "emoji": "🧵", "unit": "元/吨", "hist_main": 21.2, "hist_window": "峰值后0-12月(样本仅4)",
            "signal": "美棉方向取决于具体降水模式", "view": "方向不定·放弃"},
 }
 
