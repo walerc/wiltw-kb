@@ -39,6 +39,9 @@ DAILY = {
     "sugar": "期货收盘价(活跃):白糖",
     "soybean": "期货收盘价(活跃):黄大豆1号",
     "cotton": "期货收盘价(活跃):棉花",
+    "meal": "期货收盘价(活跃):豆粕",
+    "soyoil": "期货收盘价(活跃):豆油",
+    "corn": "期货收盘价(活跃):黄玉米",
     "oil": "期货收盘价(活跃):布伦特原油:ICE",
 }
 # ---- 月度指标（发布频率限制，月度更新）----
@@ -186,10 +189,16 @@ COMMODITY_META = {
            "signal": "区域性对冲，全球合计效应弱", "view": "最弱·放弃"},
     "CT": {"name": "棉花", "emoji": "🧵", "unit": "元/吨", "hist_main": 21.2, "hist_window": "峰值后0-12月(样本仅4)",
            "signal": "美棉方向取决于具体降水模式", "view": "方向不定·放弃"},
+    "M": {"name": "豆粕", "emoji": "🥣", "unit": "元/吨", "hist_main": 4.4, "hist_window": "峰值后0-12月",
+          "signal": "压榨副产品，对厄尔尼诺最不敏感(8品种最弱)", "view": "放弃·不敏感"},
+    "Y": {"name": "豆油", "emoji": "🛢️", "unit": "元/吨", "hist_main": 24.2, "hist_window": "峰值后0-12月",
+          "signal": "油脂类·棕榈油弱化版，主升浪同样滞后(6-12月)", "view": "次选·跟随棕榈油"},
+    "C": {"name": "玉米", "emoji": "🌽", "unit": "元/吨", "hist_main": 4.0, "hist_window": "峰值后0-12月",
+          "signal": "兑现最晚(12-24月)，对厄尔尼诺不敏感", "view": "放弃·不敏感"},
 }
 
 STRATEGY = {
-    "conclusion": "主做棕榈油，橡胶作先行信号，白糖谨慎，大豆/棉花放弃",
+    "conclusion": "主做棕榈油，豆油/橡胶作跟随+先行信号，白糖谨慎，大豆/豆粕/玉米/棉花放弃",
     "why_palm": [
         "供给最确定：东南亚对厄尔尼诺最敏感，去趋势后几乎每次减产",
         "生理滞后8-18月：减产2027年才兑现，现在是布局窗口而非追高",
@@ -273,7 +282,8 @@ def build_tracking(series, noaa=None, noaa_err=None):
 
     # 品种涨幅（日度数据，锚点取月末收盘）
     commodities = {}
-    code_map = {"P": "palm", "RU": "rubber", "SR": "sugar", "SB": "soybean", "CT": "cotton"}
+    code_map = {"P": "palm", "RU": "rubber", "SR": "sugar", "SB": "soybean", "CT": "cotton",
+                "M": "meal", "Y": "soyoil", "C": "corn"}
     for code, skey in code_map.items():
         meta = COMMODITY_META[code]
         sd = s.get(skey, [])

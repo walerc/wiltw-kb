@@ -304,7 +304,7 @@ def attribution_section(at):
         "双重压制（价格反走）": "neg", "宏观背离（价格反走）": "neg", "供给背离（价格反走）": "neg",
         "多空交织": "", "驱动待兑现": "", "信号中性": "",
     }
-    emoji = {"P": "🌴", "SR": "🍬", "RU": "🌳", "SB": "🫘", "CT": "🧵"}
+    emoji = {"P": "🌴", "SR": "🍬", "RU": "🌳", "SB": "🫘", "CT": "🧵", "M": "🥣", "Y": "🛢️", "C": "🌽"}
     supply_dir = {1: "减产(利多)", -1: "增产(利空)", 0: "中性"}
     macro_dir = {1: "顺", -1: "逆", 0: "—"}
     price_dir = {1: "涨", -1: "跌", 0: "平"}
@@ -413,7 +413,7 @@ def build():
 </head>
 <body>
 <h1>🌊 厄尔尼诺事件研究 — 农产品分段窗口报告</h1>
-<div class="meta">事件池 9 次（1982–2024）· 价格口径 5 品种 + 产量口径 8 品种 · 种植知识 5 品种 · 生成时间：{esc(d['generated'])}</div>
+<div class="meta">事件池 9 次（1982–2024）· 价格口径 8 品种 + 产量口径 8 品种 · 种植知识 5 品种 · 生成时间：{esc(d['generated'])}</div>
 
 <h2>一、核心结论</h2>
 <ol>{concl}</ol>
@@ -452,7 +452,7 @@ def build():
 {agronomy_cards(ag)}
 
 <h2>八、数据源说明</h2>
-<div class="note">{esc(d['note'])}<br><b>生成时间：</b>{esc(d['generated'])} · 数据源：IMF商品价格 + CBOT大豆 + 郑棉期货 + iFinD EDB/USDA产量</div>
+<div class="note">{esc(d['note'])}<br><b>生成时间：</b>{esc(d['generated'])} · 数据源：IMF商品价格 + CBOT大豆/豆粕/豆油/玉米 + 郑棉期货 + iFinD EDB/USDA产量</div>
 </body>
 </html>"""
 

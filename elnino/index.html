@@ -90,7 +90,7 @@ td:first-child, th:first-child { text-align:left; }
 <div class="wrap">
 <header>
   <h1>🌊 厄尔尼诺事件研究</h1>
-  <p>农产品分段窗口事件研究 · 棕榈油 / 橡胶 / 白糖 / 大豆 / 棉花 · 事件池9次(1982-2024) + 分段窗口</p>
+  <p>农产品分段窗口事件研究 · 棕榈油 / 橡胶 / 白糖 / 大豆 / 棉花 / 豆粕 / 豆油 / 玉米 · 事件池9次(1982-2024) + 分段窗口</p>
 </header>
 
 <div class="tab-bar">
@@ -373,7 +373,7 @@ function renderTracking() {
   document.getElementById("macroRisk").innerHTML = `⚠️ <b>宏观风险：</b>${mc.risk}`;
   // 品种矩阵
   document.getElementById("trackNote").innerHTML = `<b>口径：</b>国内期货活跃合约（元/吨，${tk.freq || '周度'}更新），数据截至 ${tk.generated} · 年初至今=2026-01月末 · 启动期=2026-04月末(SOI转负) · 历史0-12月累计来自国际价格(IMF)统计，作目标量级参考`;
-  const viewCls = {"首选·布局":"view-pick","次选·先行信号":"view-watch","谨慎·观察糖周期":"view-caution"};
+  const viewCls = {"首选·布局":"view-pick","次选·先行信号":"view-watch","次选·跟随棕榈油":"view-watch","谨慎·观察糖周期":"view-caution","放弃·不敏感":"view-skip","最弱·放弃":"view-skip","方向不定·放弃":"view-skip"};
   let h = '<table><tr><th>品种</th><th>最新价</th><th>年初至今</th><th>启动期</th><th>同比</th><th>0-12月累计</th><th>进度</th><th>观点</th></tr>';
   Object.keys(tk.commodities).forEach(c => {
     const o = tk.commodities[c];
@@ -507,7 +507,7 @@ function renderAttribution() {
     '双重压制（价格反走）':'neg', '宏观背离（价格反走）':'neg', '供给背离（价格反走）':'neg',
     '多空交织':'', '驱动待兑现':'', '信号中性':''
   };
-  const emoji = {P:'🌴', SR:'🍬', RU:'🌳', SB:'🫘', CT:'🧵'};
+  const emoji = {P:'🌴', SR:'🍬', RU:'🌳', SB:'🫘', CT:'🧵', M:'🥣', Y:'🛢️', C:'🌽'};
   const supplyDir = {1:'减产(利多)', '-1':'增产(利空)', 0:'中性'};
   const macroDir = {1:'顺', '-1':'逆', 0:'—'};
   const priceDir = {1:'涨', '-1':'跌', 0:'平'};
