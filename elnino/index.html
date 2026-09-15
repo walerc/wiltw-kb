@@ -105,8 +105,12 @@ td:first-child, th:first-child { text-align:left; }
 <div id="sec-macro" class="hidden">
   <h2>🌐 宏观周期叠加（PMI + 原油）</h2>
   <div class="note inline" id="macroNote"></div>
-  <h3>各事件宏观状态快照</h3>
+  <h3>🧭 宏观轨迹（启动期 → 峰值后，检测转向）</h3>
+  <table id="macroTrajTable"></table>
+  <h3>各事件宏观状态快照（静态口径）</h3>
   <table id="macroEventTable"></table>
+  <h3>宏观轨迹分组下各品种窗口均值（%）</h3>
+  <div id="macroTrajGroupTables"></div>
   <h3>宏观顺风 / 逆风 / 混合 分组下各品种窗口均值（%）</h3>
   <div id="macroGroupTables"></div>
   <h3>关键洞察</h3>
@@ -278,7 +282,25 @@ function renderMacro() {
   const mc = DATA.macro;
   if (!mc) return;
   document.getElementById("macroNote").innerHTML = `<b>口径：</b>${mc.note}`;
-  // 宏观状态快照表
+  // ① 宏观轨迹表
+  let hT = '<table><tr><th>事件</th><th>强度</th><th>启动期PMI</th><th>启动期油%</th><th>启动态</th><th>→</th><th>峰后6-12PMI</th><th>峰后油%</th><th>峰后态</th><th>PMI转向</th><th>原油转向</th><th>轨迹</th></tr>';
+  const trajCls = {全程顺风:'pos', 顺风转逆风:'neg', 逆风转顺风:'pos', 全程逆风:'neg', 分化:''};
+  mc.events.forEach(e => {
+    const ph = e.phase || {};
+    const st = ph.start || {}, pt = ph['post6_12'] || {};
+    const stCls = st.state === '顺' ? 'pos' : (st.state === '逆' ? 'neg' : '');
+    const ptCls = pt.state === '顺' ? 'pos' : (pt.state === '逆' ? 'neg' : '');
+    const tCls = trajCls[e.trajectory] || '';
+    hT += `<tr><td>${e.event}</td><td><span class="tag grade-${e.grade}">${e.grade}</span></td>`;
+    hT += `<td>${st.pmi != null ? st.pmi.toFixed(1) : '—'}</td><td>${fmtPct(st.oil)}</td><td class="${stCls}"><b>${st.state || '—'}</b></td>`;
+    hT += `<td class="na">→</td>`;
+    hT += `<td>${pt.pmi != null ? pt.pmi.toFixed(1) : '—'}</td><td>${fmtPct(pt.oil)}</td><td class="${ptCls}"><b>${pt.state || '—'}</b></td>`;
+    hT += `<td>${e.pmi_cross || '—'}</td><td>${e.oil_cross || '—'}</td>`;
+    hT += `<td class="${tCls}"><b>${e.trajectory}</b></td></tr>`;
+  });
+  hT += '</table>';
+  document.getElementById("macroTrajTable").innerHTML = hT;
+  // ② 静态快照表
   let h = '<table><tr><th>事件</th><th>强度</th><th>PMI峰值</th><th>PMI状态</th><th>PMI走势</th><th>原油pre%</th><th>原油+6月%</th><th>宏观背景</th></tr>';
   mc.events.forEach(e => {
     const pmiCls = e.pmi_state === '扩张' ? 'pos' : (e.pmi_state === '收缩' ? 'neg' : '');
@@ -293,7 +315,30 @@ function renderMacro() {
   });
   h += '</table>';
   document.getElementById("macroEventTable").innerHTML = h;
-  // 分组对比表
+  // ③ 轨迹分组对比表
+  const trajNames = {全程顺风:'🌬️ 全程顺风', 顺风转逆风:'⚠️ 顺风转逆风', 逆风转顺风:'🔄 逆风转顺风', 全程逆风:'🥶 全程逆风', 分化:'🌗 分化'};
+  let hTg = '';
+  Object.keys(mc.agg_by_trajectory).forEach(g => {
+    const agg = mc.agg_by_trajectory[g];
+    const evIds = mc.trajectory_groups[g] || [];
+    hTg += `<h4>${trajNames[g] || g}（${evIds.join('、')}）</h4>`;
+    hTg += '<table class="heat"><tr><th>品种</th>';
+    WINDOWS.forEach(w => hTg += `<th>${WL[w]}</th>`);
+    hTg += '</tr>';
+    Object.keys(agg).forEach(c => {
+      const a = agg[c];
+      hTg += `<tr><td>${a.name}</td>`;
+      WINDOWS.forEach(w => {
+        const v = a[w];
+        if (v === null || v === undefined) hTg += '<td class="na">—</td>';
+        else hTg += `<td class="${v>=0?'pos':'neg'}">${v>=0?'+':''}${v.toFixed(1)}%</td>`;
+      });
+      hTg += '</tr>';
+    });
+    hTg += '</table>';
+  });
+  document.getElementById("macroTrajGroupTables").innerHTML = hTg;
+  // ④ 静态分组对比表
   const labelNames = {顺风:'🌬️ 宏观顺风', 逆风:'🥶 宏观逆风', 混合:'🌗 混合'};
   let h2 = '';
   Object.keys(mc.agg_by_macro).forEach(g => {
@@ -316,7 +361,7 @@ function renderMacro() {
     h2 += '</table>';
   });
   document.getElementById("macroGroupTables").innerHTML = h2;
-  // 洞察
+  // ⑤ 洞察
   document.getElementById("macroInsight").innerHTML = (mc.insight || []).map(x => `<div class="concl">${x}</div>`).join('');
 }
 

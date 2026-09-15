@@ -191,8 +191,33 @@ def macro_section(macro):
         return ""
     h = []
     h.append(f'<div class="note">{esc(macro["note"])}</div>')
-    # 宏观状态快照表
-    h.append('<h4>各事件宏观状态快照</h4>')
+
+    # 宏观轨迹表（转向检测）
+    h.append('<h4>🧭 宏观轨迹（启动期 → 峰值后6-12月，检测转向）</h4>')
+    h.append('<table><tr><th>事件</th><th>强度</th><th>启动期PMI</th><th>启动期油%</th><th>启动态</th><th>峰后PMI</th><th>峰后油%</th><th>峰后态</th><th>PMI转向</th><th>原油转向</th><th>轨迹</th></tr>')
+    for e in macro["events"]:
+        ph = e.get("phase", {})
+        st = ph.get("start", {}); pt = ph.get("post6_12", {})
+        def state_cell(s):
+            if not s: return '<span class="na">—</span>'
+            cls = "pos" if s == "顺" else ("neg" if s == "逆" else "")
+            return f'<span class="{cls}"><b>{s}</b></span>'
+        traj_cls = {"全程顺风": "pos", "顺风转逆风": "neg", "逆风转顺风": "pos", "全程逆风": "neg"}.get(e["trajectory"], "")
+        def f(v, is_pct=True):
+            if v is None: return '<span class="na">—</span>'
+            if is_pct:
+                cls = "pos" if v >= 0 else "neg"
+                return f'<span class="{cls}">{v:+.1f}%</span>'
+            return f"{v:.1f}"
+        h.append(f'<tr><td>{esc(e["event"])}</td><td><span class="g g-{esc(e["grade"])}">{esc(e["grade"])}</span></td>'
+                 f'<td>{f(st.get("pmi"), False)}</td><td>{f(st.get("oil"))}</td><td>{state_cell(st.get("state"))}</td>'
+                 f'<td>{f(pt.get("pmi"), False)}</td><td>{f(pt.get("oil"))}</td><td>{state_cell(pt.get("state"))}</td>'
+                 f'<td>{esc(e.get("pmi_cross") or "—")}</td><td>{esc(e.get("oil_cross") or "—")}</td>'
+                 f'<td class="{traj_cls}"><b>{esc(e["trajectory"])}</b></td></tr>')
+    h.append('</table>')
+
+    # 宏观状态快照表（静态口径）
+    h.append('<h4>各事件宏观状态快照（静态口径）</h4>')
     h.append('<table><tr><th>事件</th><th>强度</th><th>PMI峰值</th><th>PMI状态</th><th>PMI走势</th><th>原油pre%</th><th>原油+6月%</th><th>宏观背景</th></tr>')
     for e in macro["events"]:
         pmi_cls = "pos" if e["pmi_state"] == "扩张" else ("neg" if e["pmi_state"] == "收缩" else "")
@@ -210,7 +235,31 @@ def macro_section(macro):
                  f'<td>{pct_cell(e["oil_post0_6"])}</td>'
                  f'<td class="{label_cls}"><b>{e["macro_label"]}</b></td></tr>')
     h.append('</table>')
-    # 分组对比表
+
+    # 轨迹分组对比表
+    traj_names = {"全程顺风": "🌬️ 全程顺风", "顺风转逆风": "⚠️ 顺风转逆风",
+                  "逆风转顺风": "🔄 逆风转顺风", "全程逆风": "🥶 全程逆风", "分化": "🌗 分化"}
+    for g, agg in macro.get("agg_by_trajectory", {}).items():
+        ev_ids = macro.get("trajectory_groups", {}).get(g, [])
+        h.append(f'<h4>{traj_names.get(g, g)}（{"、".join(ev_ids)}）</h4>')
+        h.append('<table class="heat"><tr><th>品种</th>')
+        for w in PRICE_WINDOWS:
+            h.append(f'<th>{PRICE_WL[w]}</th>')
+        h.append('</tr>')
+        for c in agg:
+            a = agg[c]
+            h.append(f'<tr><td class="rowh">{esc(a["name"])}</td>')
+            for w in PRICE_WINDOWS:
+                v = a.get(w)
+                if v is None:
+                    h.append('<td class="na">—</td>')
+                else:
+                    cls = "pos" if v >= 0 else "neg"
+                    h.append(f'<td class="{cls}">{v:+.1f}%</td>')
+            h.append('</tr>')
+        h.append('</table>')
+
+    # 静态分组对比表
     label_names = {"顺风": "🌬️ 宏观顺风", "逆风": "🥶 宏观逆风", "混合": "🌗 混合"}
     for g in ["顺风", "逆风", "混合"]:
         if g not in macro["agg_by_macro"]:
@@ -234,6 +283,7 @@ def macro_section(macro):
                     h.append(f'<td class="{cls}">{v:+.1f}%</td>')
             h.append('</tr>')
         h.append('</table>')
+
     # 洞察
     h.append('<h4>关键洞察</h4><ul>')
     for x in macro.get("insight", []):
