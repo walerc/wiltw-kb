@@ -57,6 +57,33 @@ td:first-child, th:first-child { text-align:left; }
 .region-row { font-size:.78rem; color:#c9d1d9; margin:3px 0; }
 .region-row.en { color:#e3b341; }
 .rk { display:inline-block; color:#8b949e; font-size:.72rem; width:44px; flex-shrink:0; }
+/* ===== 实时跟踪 ===== */
+.track-banner { background:linear-gradient(135deg,#2a1d0a,#3a1d1d); border:1px solid #e0c068; border-radius:8px; padding:16px 18px; margin:10px 0; }
+.track-banner h2 { margin:0 0 6px; color:#e0c068; border:none; padding:0; font-size:1.2rem; }
+.track-status { font-size:1.02rem; color:#ffa198; font-weight:700; }
+.track-phase { display:inline-block; padding:2px 10px; border-radius:12px; font-size:.78rem; background:#3a1d1d; color:#ff7b72; font-weight:700; margin-left:8px; }
+.track-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:10px; margin:12px 0; }
+.track-stat { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:12px 14px; }
+.track-stat .k { font-size:.72rem; color:#8b949e; }
+.track-stat .v { font-size:1.18rem; font-weight:700; color:#e6edf3; margin-top:4px; }
+.track-stat .sub { font-size:.72rem; color:#8b949e; margin-top:3px; line-height:1.4; }
+.progress-wrap { background:#0d1117; border:1px solid #30363d; border-radius:10px; height:10px; overflow:hidden; margin-top:4px; }
+.progress-bar { height:100%; border-radius:10px; }
+.progress-bar.low { background:#3fb950; }
+.progress-bar.mid { background:#e3b341; }
+.progress-bar.hot { background:#ff7b72; }
+.view-pick { color:#e0c068; font-weight:800; }
+.view-watch { color:#58a6ff; font-weight:600; }
+.view-caution { color:#e3b341; font-weight:600; }
+.view-skip { color:#6e7681; }
+.soi-pos { color:#3fb950; }
+.soi-neg { color:#ff7b72; }
+.soi-chart { display:flex; align-items:flex-end; gap:3px; height:80px; padding:4px 2px; }
+.soi-bar { flex:1; min-width:6px; border-radius:2px 2px 0 0; }
+.soi-bar.pos { background:#3fb950; }
+.soi-bar.neg { background:#ff7b72; }
+.risk-box { background:#2a1d0a; border-left:3px solid #e3b341; padding:8px 12px; margin:8px 0; font-size:.84rem; border-radius:0 6px 6px 0; }
+
 </style>
 </head>
 <body>
@@ -67,7 +94,8 @@ td:first-child, th:first-child { text-align:left; }
 </header>
 
 <div class="tab-bar">
-  <span class="tab active" onclick="showSec('overview',this)">概览与结论</span>
+  <span class="tab active" onclick="showSec('tracking',this)">🛰️ 实时跟踪</span>
+  <span class="tab" onclick="showSec('overview',this)">概览与结论</span>
   <span class="tab" onclick="showSec('price',this)">📈 价格口径</span>
   <span class="tab" onclick="showSec('macro',this)">🌐 宏观周期</span>
   <span class="tab" onclick="showSec('attribution',this)">🔬 供给vs宏观归因</span>
@@ -76,8 +104,29 @@ td:first-child, th:first-child { text-align:left; }
   <span class="tab" onclick="showSec('events',this)">📋 事件池</span>
 </div>
 
+<!-- 实时跟踪 -->
+<div id="sec-tracking">
+  <div class="track-banner" id="trackBanner"></div>
+  <h2>🌊 厄尔尼诺状态（SOI 代理）</h2>
+  <div class="card">
+    <div class="soi-chart" id="soiChart"></div>
+    <div class="crop-meta">绿柱=SOI正值(拉尼娜/中性) · 红柱=SOI负值(厄尔尼诺) · 2026年4月SOI首次转负=厄尔尼诺启动</div>
+  </div>
+  <h2>🏭 宏观环境</h2>
+  <div class="track-grid" id="macroGrid"></div>
+  <div class="risk-box" id="macroRisk"></div>
+  <h2>🎯 品种信号矩阵</h2>
+  <div class="note inline" id="trackNote"></div>
+  <table id="trackTable"></table>
+  <div class="crop-meta">进度 = 启动期(峰值前)涨幅 ÷ 历史主升浪均值 · 绿=未启动空间大 · 金=部分兑现 · 红=已超历史均值(过热)</div>
+  <h2>📜 历史类比对照</h2>
+  <table id="analogTable"></table>
+  <h2>💡 投资策略</h2>
+  <div id="strategyBox"></div>
+</div>
+
 <!-- 概览 -->
-<div id="sec-overview">
+<div id="sec-overview" class="hidden">
   <h2>核心结论</h2>
   <div class="card" id="conclCard"></div>
   <div class="note" id="overviewNote"></div>
@@ -289,6 +338,76 @@ function fmtPct(v) {
   return `<span class="${v>=0?'pos':'neg'}">${v>=0?'+':''}${v.toFixed(1)}%</span>`;
 }
 
+function statCard(k, v, sub) {
+  return `<div class="track-stat"><div class="k">${k}</div><div class="v">${v}</div><div class="sub">${sub}</div></div>`;
+}
+
+function renderTracking() {
+  const tk = DATA.tracking;
+  if (!tk) { document.getElementById("trackBanner").innerHTML = '<div class="note">无跟踪数据</div>'; return; }
+  const ev = tk.event, mc = tk.macro;
+  // 状态横幅
+  document.getElementById("trackBanner").innerHTML =
+    `<h2>🛰️ ${ev.name}</h2>` +
+    `<span class="track-status">${ev.status}</span><span class="track-phase">${ev.phase}</span>` +
+    `<div style="margin-top:8px;font-size:.85rem;color:#c9d1d9;line-height:1.7">` +
+    `Niño3.4 <b>${ev.nino34}</b> · Niño3 <b>${ev.nino3}</b> · Niño1+2 <b>${ev.nino12}</b> · SOI <b class="${ev.soi_latest>=0?'soi-pos':'soi-neg'}">${ev.soi_latest}</b>（峰值负值 ${ev.soi_peak_neg}）<br>` +
+    `<span style="color:#ffa198">📈 ${ev.peak_forecast}</span><br>` +
+    `<span style="color:#e0c068">🔍 历史类比：${ev.analog}</span></div>`;
+  // SOI bar 图
+  const series = ev.soi_series || [];
+  const maxAbs = Math.max(...series.map(x => Math.abs(x[1])), 1);
+  let chart = '';
+  series.forEach(([ym, v]) => {
+    const h = Math.max(Math.abs(v) / maxAbs * 100, 4);
+    const cls = v >= 0 ? 'pos' : 'neg';
+    chart += `<div class="soi-bar ${cls}" style="height:${h}%" title="${ym}: ${v}"></div>`;
+  });
+  document.getElementById("soiChart").innerHTML = chart;
+  // 宏观面板
+  document.getElementById("macroGrid").innerHTML =
+    statCard("ISM 制造业 PMI", mc.pmi_latest, mc.pmi_direction) +
+    statCard("布伦特原油", "$" + mc.oil_latest + "（峰值 $" + mc.oil_peak + "）", mc.oil_direction) +
+    statCard("宏观轨迹", mc.trajectory, mc.pmi_trend);
+  document.getElementById("macroRisk").innerHTML = `⚠️ <b>宏观风险：</b>${mc.risk}`;
+  // 品种矩阵
+  document.getElementById("trackNote").innerHTML = `<b>口径：</b>国际价格（IMF/世界银行），涨幅截至 ${tk.generated} · 年初至今=2026-01起 · 启动期=2026-04(SOI转负)起`;
+  const viewCls = {"首选·布局":"view-pick","次选·先行信号":"view-watch","谨慎·观察糖周期":"view-caution"};
+  let h = '<table><tr><th>品种</th><th>最新价</th><th>年初至今</th><th>启动期</th><th>同比</th><th>历史主升浪</th><th>进度</th><th>观点</th></tr>';
+  Object.keys(tk.commodities).forEach(c => {
+    const o = tk.commodities[c];
+    const cls = viewCls[o.view] || 'view-skip';
+    const pCls = o.progress == null ? '' : (o.progress <= 30 ? 'low' : (o.progress <= 100 ? 'mid' : 'hot'));
+    const pW = o.progress == null ? 0 : Math.min(o.progress, 100);
+    h += `<tr><td>${o.emoji} ${o.name}</td>` +
+         `<td>${o.latest}${o.unit ? ' ' + o.unit : ''}</td>` +
+         `<td>${fmtPct(o.ytd)}</td>` +
+         `<td>${fmtPct(o.phase)}</td>` +
+         `<td>${fmtPct(o.yoy)}</td>` +
+         `<td>${o.hist_main}%<div class="na" style="font-size:.7rem">${o.hist_window}</div></td>` +
+         `<td style="min-width:80px"><div class="progress-wrap"><div class="progress-bar ${pCls}" style="width:${pW}%"></div></div>` +
+         `<div class="na" style="font-size:.7rem;margin-top:2px">${o.progress==null?'—':o.progress+'%'}</div></td>` +
+         `<td class="${cls}">${o.view}</td></tr>`;
+  });
+  h += '</table>';
+  document.getElementById("trackTable").innerHTML = h;
+  // 历史类比
+  let ah = '<table><tr><th>事件</th><th>强度</th><th>宏观</th><th>结果</th><th>与当前对照</th></tr>';
+  tk.analog_table.forEach(a => {
+    const sCls = a.strength === '超强' ? 'grade-超强' : (a.strength === '中强' ? 'grade-中强' : '');
+    ah += `<tr><td>${a.id}</td><td><span class="tag ${sCls}">${a.strength}</span></td><td>${a.macro}</td><td style="text-align:left">${a.result}</td><td style="text-align:left">${a.match}</td></tr>`;
+  });
+  ah += '</table>';
+  document.getElementById("analogTable").innerHTML = ah;
+  // 策略
+  const st = tk.strategy;
+  document.getElementById("strategyBox").innerHTML =
+    `<div class="card"><div class="track-status" style="font-size:1rem">🎯 ${st.conclusion}</div></div>` +
+    `<div class="agri-card"><h3>为什么是棕榈油</h3><ul>${st.why_palm.map(x => '<li>' + x + '</li>').join('')}</ul></div>` +
+    `<div class="agri-card"><h3>时点策略</h3><ul>${st.timing.map(x => '<li>' + x + '</li>').join('')}</ul></div>` +
+    `<div class="risk-box" style="border-left-color:#ff7b72"><b>核心风险：</b><ul style="margin:4px 0 0 18px">${st.risks.map(x => '<li>' + x + '</li>').join('')}</ul></div>`;
+}
+
 function renderMacro() {
   const mc = DATA.macro;
   if (!mc) return;
@@ -470,6 +589,8 @@ function renderAgronomy() {
 }
 
 function render() {
+  // 实时跟踪
+  renderTracking();
   // 结论
   document.getElementById("conclCard").innerHTML = DATA.conclusions.map(c => `<div class="concl">${c}</div>`).join('');
   document.getElementById("overviewNote").innerHTML = `<b>数据说明：</b>${DATA.note}`;
@@ -502,7 +623,7 @@ function render() {
 function showSec(sec, el) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   el.classList.add("active");
-  ["overview","price","macro","attribution","prod","agronomy","events"].forEach(s => {
+  ["tracking","overview","price","macro","attribution","prod","agronomy","events"].forEach(s => {
     document.getElementById("sec-" + s).classList.toggle("hidden", s !== sec);
   });
 }
@@ -511,6 +632,11 @@ fetch('data/elnino_data.json?t=' + Date.now())
   .then(r => r.json())
   .then(d => { DATA = d; render(); })
   .catch(e => document.getElementById("conclCard").innerHTML = '<div class="concl">❌ 数据加载失败: ' + e.message + '</div>');
+
+fetch('data/tracking.json?t=' + Date.now())
+  .then(r => r.json())
+  .then(t => { DATA.tracking = t; if (DATA && DATA.conclusions) renderTracking(); })
+  .catch(e => { /* tracking 加载失败不阻塞主数据 */ });
 </script>
 </body>
 </html>
