@@ -351,7 +351,8 @@ function renderTracking() {
     `<h2>🛰️ ${ev.name}</h2>` +
     `<span class="track-status">${ev.status}</span><span class="track-phase">${ev.phase}</span>` +
     `<div style="margin-top:8px;font-size:.85rem;color:#c9d1d9;line-height:1.7">` +
-    `Niño3.4 <b>${ev.nino34}</b> · Niño3 <b>${ev.nino3}</b> · Niño1+2 <b>${ev.nino12}</b> · SOI <b class="${ev.soi_latest>=0?'soi-pos':'soi-neg'}">${ev.soi_latest}</b>（峰值负值 ${ev.soi_peak_neg}）<br>` +
+    `Niño3.4 <b>${ev.nino34}</b> · Niño3 <b>${ev.nino3}</b> · Niño1+2 <b>${ev.nino12}</b> · SOI <b class="${ev.soi_latest>=0?'soi-pos':'soi-neg'}">${ev.soi_latest}</b><br>` +
+    `<span class="na" style="font-size:.72rem">Nino 周度 ${ev.nino_week || '—'} · ${ev.nino_baseline || ''} · 来源:${ev.nino_source || ''} · SOI峰值负值 ${ev.soi_peak_neg}</span><br>` +
     `<span style="color:#ffa198">📈 ${ev.peak_forecast}</span><br>` +
     `<span style="color:#e0c068">🔍 历史类比：${ev.analog}</span></div>`;
   // SOI bar 图
@@ -628,15 +629,14 @@ function showSec(sec, el) {
   });
 }
 
-fetch('data/elnino_data.json?t=' + Date.now())
-  .then(r => r.json())
-  .then(d => { DATA = d; render(); })
-  .catch(e => document.getElementById("conclCard").innerHTML = '<div class="concl">❌ 数据加载失败: ' + e.message + '</div>');
-
-fetch('data/tracking.json?t=' + Date.now())
-  .then(r => r.json())
-  .then(t => { DATA.tracking = t; if (DATA && DATA.conclusions) renderTracking(); })
-  .catch(e => { /* tracking 加载失败不阻塞主数据 */ });
+Promise.all([
+  fetch('data/elnino_data.json?t=' + Date.now()).then(r => r.json()),
+  fetch('data/tracking.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
+]).then(([d, t]) => {
+  DATA = d;
+  DATA.tracking = t;   // tracking 加载失败时为 null，renderTracking 里 !tk 显示"无跟踪数据"，不阻塞主数据
+  render();
+}).catch(e => document.getElementById("conclCard").innerHTML = '<div class="concl">❌ 数据加载失败: ' + e.message + '</div>');
 </script>
 </body>
 </html>

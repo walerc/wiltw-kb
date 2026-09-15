@@ -82,6 +82,45 @@ def query_edb(q, timeout=120):
     return find_datas(inner)
 
 
+NOAA_URL = "https://www.cpc.ncep.noaa.gov/data/indices/wksst9120.for"
+
+
+def fetch_noaa():
+    """抓取 NOAA CPC 周度 SST 指数（Nino1+2/3/3.4/4），返回 (dict{latest, series}, None) 或 (None, err)。
+
+    数据格式（Fortran 固定列，每行一周）：
+      WEEK  NINO1+2_SST NINO1+2_ANOM NINO3_SST NINO3_ANOM NINO4_SST NINO4_ANOM NINO3.4_SST NINO3.4_ANOM
+    异常值基准 = 1991-2020 固定气候基准（⚠️ 与 CPC 官方 ONI 的 30 年滑动基准绝对值不同，趋势一致）。
+    """
+    try:
+        req = urllib.request.Request(NOAA_URL, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=30) as r:
+            text = r.read().decode("ascii", "ignore")
+    except Exception as e:
+        return None, f"抓取失败: {e}"
+    lines = [l for l in text.strip().split("\n") if l.strip()]
+    if not lines:
+        return None, "空响应"
+    parsed = []
+    for l in lines:
+        f = l.split()
+        if len(f) < 9:
+            continue
+        try:
+            parsed.append({
+                "week": f[0],
+                "nino12": float(f[2]),
+                "nino3": float(f[4]),
+                "nino4": float(f[6]),
+                "nino34": float(f[8]),
+            })
+        except ValueError:
+            continue
+    if not parsed:
+        return None, "解析失败"
+    return {"latest": parsed[-1], "series": parsed[-12:]}, None
+
+
 def month_str(y, m):
     return f"{y}年{m}月"
 
@@ -124,13 +163,14 @@ def fetch_series():
 
 # ============ 静态框架结论（基于 el-nino-event-study 六层框架，定性判断） ============
 
+# CPC 官方诊断静态值（fallback：iFinD 无 Nino 指标，NOAA 抓取失败时用）
+NINO_FALLBACK = {"nino34": "+1.8°C", "nino3": "+2.5°C", "nino12": "+3.4°C",
+                 "baseline": "ONI 30年滑动基准", "source": "CPC官方诊断(手工记录)"}
+
 EVENT = {
     "name": "2026/27 超强厄尔尼诺",
     "status": "正在形成（启动期）",
     "phase": "启动期（pre）→ 峰值前",
-    "nino34": "+1.8°C",
-    "nino3": "+2.5°C",
-    "nino12": "+3.4°C",
     "peak_forecast": "2026年10-12月，CPC 75%概率超1950年以来所有事件（RONI≥+2.5°C）",
     "analog": "1982/83（超强东部型·纯供给冲击）+ 2009/10（顺风复苏）",
 }
@@ -193,7 +233,7 @@ def get_month_last(series, ym):
     return vals[-1][1] if vals else None
 
 
-def build_tracking(series):
+def build_tracking(series, noaa=None, noaa_err=None):
     s = {k: sorted(v, key=lambda x: x[0]) for k, v in series.items() if v}
 
     # 事件状态（SOI 月度）
@@ -201,6 +241,27 @@ def build_tracking(series):
     soi_latest = soi[-1][1] if soi else None
     soi_neg = [v for _, v in soi if v is not None and v < 0]
     soi_peak_neg = min(soi_neg) if soi_neg else None
+
+    # 事件 dict（含 Nino 周度值，NOAA 成功则覆盖，失败 fallback 静态）
+    event = dict(EVENT, soi_latest=soi_latest, soi_peak_neg=soi_peak_neg,
+                 soi_series=[[d[:7], v] for d, v in soi])
+    if noaa and noaa.get("latest"):
+        lat = noaa["latest"]
+        event.update({
+            "nino12": f"+{lat['nino12']:.1f}°C",
+            "nino3": f"+{lat['nino3']:.1f}°C",
+            "nino34": f"+{lat['nino34']:.1f}°C",
+            "nino4": f"+{lat['nino4']:.1f}°C",
+            "nino_week": lat["week"],
+            "nino_baseline": "1991-2020 固定基准",
+            "nino_source": "NOAA CPC 周度 SST",
+            "nino_series": [{"week": w["week"], "nino34": w["nino34"], "nino3": w["nino3"], "nino12": w["nino12"]} for w in noaa["series"]],
+        })
+    else:
+        event.update(NINO_FALLBACK)
+        event["nino_week"] = None
+        event["nino_baseline"] = NINO_FALLBACK["baseline"]
+        event["nino_source"] = NINO_FALLBACK["source"] + ("（NOAA 抓取失败）" if noaa_err else "")
 
     # 宏观（PMI 月度 + 原油日度）
     pmi = s.get("pmi", [])
@@ -238,8 +299,7 @@ def build_tracking(series):
     tracking = {
         "generated": datetime.date.today().strftime("%Y-%m-%d"),
         "freq": "周度",
-        "event": dict(EVENT, soi_latest=soi_latest, soi_peak_neg=soi_peak_neg,
-                       soi_series=[[d[:7], v] for d, v in soi]),
+        "event": event,
         "macro": {
             "pmi_latest": pmi_latest,
             "pmi_trend": "2025下半年收缩(48)→2026转扩张(52-55)，7月55.6近四年高点，8月回落54.6",
@@ -264,8 +324,16 @@ def main():
     json.dump(series, open(raw_out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"已存 {raw_out}")
 
+    print("抓取 NOAA 周度 SST…")
+    noaa, noaa_err = fetch_noaa()
+    if noaa:
+        lat = noaa["latest"]
+        print(f"  NOAA {lat['week']}: Nino1+2={lat['nino12']} Nino3={lat['nino3']} Nino3.4={lat['nino34']}")
+    else:
+        print(f"  ⚠️ NOAA 抓取失败: {noaa_err}，fallback 静态值")
+
     print("计算涨幅 + 生成 tracking.json…")
-    tracking = build_tracking(series)
+    tracking = build_tracking(series, noaa, noaa_err)
     out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "tracking.json")
     json.dump(tracking, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"已存 {out}")
