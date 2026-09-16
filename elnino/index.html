@@ -83,6 +83,43 @@ td:first-child, th:first-child { text-align:left; }
 .soi-bar.pos { background:#3fb950; }
 .soi-bar.neg { background:#ff7b72; }
 .risk-box { background:#2a1d0a; border-left:3px solid #e3b341; padding:8px 12px; margin:8px 0; font-size:.84rem; border-radius:0 6px 6px 0; }
+/* ===== 种植要素(产区降水) ===== */
+.weather-banner { background:linear-gradient(135deg,#1a2a2d,#16232e); border:1px solid #58a6ff; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:.82rem; line-height:1.7; }
+.weather-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:10px; margin:12px 0; }
+.weather-card { background:#161b22; border:1px solid #30363d; border-left:4px solid #3fb950; border-radius:8px; padding:12px 14px; }
+.weather-card.drought { border-left-color:#ff7b72; }
+.weather-card.dry { border-left-color:#d29922; }
+.weather-card.normal { border-left-color:#3fb950; }
+.weather-card.wet { border-left-color:#79c0ff; }
+.weather-card.flood { border-left-color:#58a6ff; }
+.weather-card .wc-head { font-size:.86rem; font-weight:700; color:#e6edf3; }
+.weather-card .wc-rank { font-size:.66rem; color:#79c0ff; background:#1a2a2d; border-radius:8px; padding:0 6px; margin-left:6px; font-weight:600; }
+.weather-card .wc-precip { font-size:1.28rem; font-weight:700; color:#e6edf3; margin-top:8px; }
+.weather-card .wc-precip .wc-last { font-size:.72rem; font-weight:400; color:#8b949e; margin-left:4px; }
+.weather-card .wc-last { font-size:.74rem; color:#8b949e; margin-top:2px; }
+.weather-card .wc-anom { font-size:.8rem; margin-top:4px; color:#c9d1d9; }
+.weather-card .wc-tag { display:inline-block; padding:2px 10px; border-radius:10px; font-size:.7rem; font-weight:700; margin-top:6px; }
+.wc-tag.drought { background:#3a1d1d; color:#ff7b72; }
+.wc-tag.dry { background:#2a1d0a; color:#e3b341; }
+.wc-tag.normal { background:#1d2a1a; color:#3fb950; }
+.wc-tag.wet { background:#1a2a2d; color:#79c0ff; }
+.wc-tag.flood { background:#162a3a; color:#58a6ff; }
+.weather-card .wc-signal { font-size:.72rem; color:#8b949e; margin-top:4px; }
+.weather-map { width:100%; height:520px; background:#0d1117; border:1px solid #30363d; border-radius:8px; margin:12px 0; }
+.weather-map-tip { font-size:.76rem; color:#8b949e; margin:4px 0 0; }
+/* 点击放大 modal */
+.wmodal-mask { position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:999; display:none; align-items:center; justify-content:center; }
+.wmodal-mask.show { display:flex; }
+.wmodal { background:#161b22; border:1px solid #30363d; border-radius:12px; padding:22px 24px; width:min(420px,90vw); position:relative; }
+.wmodal .wm-close { position:absolute; top:12px; right:16px; cursor:pointer; color:#8b949e; font-size:1.2rem; }
+.wmodal .wm-close:hover { color:#e6edf3; }
+.wmodal .wm-title { font-size:1.05rem; font-weight:700; color:#e6edf3; }
+.wmodal .wm-rank { font-size:.72rem; color:#79c0ff; margin-left:6px; }
+.wmodal .wm-precip { font-size:2rem; font-weight:700; color:#e6edf3; margin-top:12px; }
+.wmodal .wm-precip .u { font-size:.85rem; font-weight:400; color:#8b949e; margin-left:6px; }
+.wmodal .wm-row { font-size:.84rem; color:#c9d1d9; margin-top:8px; line-height:1.6; }
+.wmodal .wm-row b { color:#e0c068; }
+.wmodal .wm-signal { font-size:.78rem; color:#8b949e; margin-top:10px; padding-top:10px; border-top:1px dashed #30363d; }
 
 </style>
 </head>
@@ -101,6 +138,7 @@ td:first-child, th:first-child { text-align:left; }
   <span class="tab" onclick="showSec('attribution',this)">🔬 供给vs宏观归因</span>
   <span class="tab" onclick="showSec('prod',this)">🌾 产量口径</span>
   <span class="tab" onclick="showSec('agronomy',this)">🌱 种植知识</span>
+  <span class="tab" onclick="showSec('weather',this)">🌦️ 种植要素</span>
   <span class="tab" onclick="showSec('events',this)">📋 事件池</span>
 </div>
 
@@ -200,6 +238,20 @@ td:first-child, th:first-child { text-align:left; }
   <div id="agroCards"></div>
 </div>
 
+<!-- 种植要素 -->
+<div id="sec-weather" class="hidden">
+  <h2>🌦️ 种植要素 — 主产区周度降水跟踪</h2>
+  <div class="weather-banner" id="weatherBanner"></div>
+  <div class="weather-map" id="weatherMap"></div>
+  <div class="weather-map-tip" id="weatherMapTip"></div>
+  <div id="weatherGroups"></div>
+</div>
+
+<!-- 产区详情 modal -->
+<div class="wmodal-mask" id="wmodalMask" onclick="if(event.target===this)closeWModal()">
+  <div class="wmodal" id="wmodalBody"></div>
+</div>
+
 <!-- 事件池 -->
 <div id="sec-events" class="hidden">
   <h2>📋 事件池与强度分级</h2>
@@ -209,6 +261,7 @@ td:first-child, th:first-child { text-align:left; }
 <div class="note" id="footerNote"></div>
 </div>
 
+<script src="data/vendor/echarts.min.js"></script>
 <script>
 const WINDOWS = ["pre","peak_w","post0_6","post6_12","post12_24"];
 const WL = {"pre":"启动→峰值前","peak_w":"峰值±1月","post0_6":"峰值后0-6月","post6_12":"峰值后6-12月","post12_24":"峰值后12-24月"};
@@ -589,6 +642,146 @@ function renderAgronomy() {
   document.getElementById("agroCards").innerHTML = h;
 }
 
+let worldGeoLoaded = null;   // world.json 缓存
+let weatherChart = null;     // ECharts 实例
+
+function closeWModal() {
+  document.getElementById("wmodalMask").classList.remove("show");
+}
+
+function showWModal(r) {
+  const pct = r.anomaly_pct != null ? `${r.anomaly_pct>=0?'+':''}${r.anomaly_pct}%` : '—';
+  const mm = `${r.anomaly_mm>=0?'+':''}${r.anomaly_mm}mm`;
+  let sig = [];
+  if (r.heavy_rain_days > 0) sig.push(`🌧️ 暴雨${r.heavy_rain_days}天`);
+  if (r.max_dry_streak >= 3) sig.push(`🏜️ 连续无雨${r.max_dry_streak}天`);
+  const sigStr = sig.length ? sig.join(' · ') : '无显著旱涝信号';
+  document.getElementById("wmodalBody").innerHTML =
+    `<span class="wm-close" onclick="closeWModal()">✕</span>` +
+    `<div class="wm-title">${r.name_zh}<span class="wm-rank">${r.rank}</span></div>` +
+    `<div class="wm-precip">${r.precip_this} mm<span class="u">近${r.days}日累计</span></div>` +
+    `<div class="wm-row"><b>去年同期</b>：${r.precip_last} mm</div>` +
+    `<div class="wm-row"><b>距平</b>：${mm}（${pct}）</div>` +
+    `<div class="wm-row"><b>旱涝评级</b>：${r.condition}</div>` +
+    `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}</div>` +
+    `<div class="wm-signal">${sigStr} · 站点格点 ${r.valid_grid}/${r.grid_total}</div>`;
+  document.getElementById("wmodalMask").classList.add("show");
+}
+
+const LEVEL_COLOR = {drought:'#ff7b72', dry:'#d29922', normal:'#3fb950', wet:'#79c0ff', flood:'#58a6ff'};
+
+function renderWeatherMap(w) {
+  const container = document.getElementById("weatherMap");
+  const draw = (worldGeo) => {
+    if (!window.echarts) { container.innerHTML = '<div class="note">ECharts 未加载</div>'; return; }
+    echarts.registerMap('world', worldGeo);
+    if (!weatherChart) {
+      weatherChart = echarts.init(container);
+      weatherChart.on('click', function(params) {
+        if (params.componentType === 'series' && params.data && params.data.raw) {
+          showWModal(params.data.raw);
+        }
+      });
+      window.addEventListener('resize', () => { if (weatherChart) weatherChart.resize(); });
+    }
+    const data = w.regions.map(r => {
+      const sz = Math.max(7, Math.min(24, 7 + Math.abs(r.anomaly_mm) * 1.5));
+      return {
+        name: r.name_zh,
+        value: [r.center_lon, r.center_lat, r.anomaly_mm],
+        symbolSize: sz,
+        itemStyle: { color: LEVEL_COLOR[r.level] || '#3fb950', shadowBlur: 8, shadowColor: 'rgba(0,0,0,.55)' },
+        raw: r,
+      };
+    });
+    weatherChart.setOption({
+      backgroundColor: '#0d1117',
+      tooltip: {
+        trigger: 'item',
+        formatter: function(p) {
+          const r = p.data.raw;
+          const pct = r.anomaly_pct != null ? `${r.anomaly_pct>=0?'+':''}${r.anomaly_pct}%` : '—';
+          const mm = `${r.anomaly_mm>=0?'+':''}${r.anomaly_mm}mm`;
+          return `<b>${r.name_zh}</b><br>${r.country}·${r.state}<br>` +
+            `近${r.days}日降水：<b>${r.precip_this} mm</b><br>` +
+            `去年同期：${r.precip_last} mm<br>` +
+            `距平：${mm}（${pct}）<br>` +
+            `旱涝：<b>${r.condition}</b>`;
+        }
+      },
+      geo: {
+        map: 'world',
+        roam: true,
+        zoom: 1.15,
+        center: [0, 18],
+        itemStyle: { areaColor: '#161b22', borderColor: '#30363d' },
+        emphasis: { itemStyle: { areaColor: '#1d2a1a' }, label: { show: false } },
+        select: { disabled: true },
+      },
+      series: [{
+        type: 'effectScatter',
+        coordinateSystem: 'geo',
+        rippleEffect: { brushType: 'stroke', scale: 3 },
+        data: data,
+        label: { show: true, position: 'right', formatter: '{b}', color: '#c9d1d9', fontSize: 10 },
+        emphasis: { scale: 1.7 },
+      }]
+    });
+  };
+  if (worldGeoLoaded) {
+    draw(worldGeoLoaded);
+  } else {
+    fetch('data/vendor/world.json?t=' + Date.now())
+      .then(r => r.json())
+      .then(geo => { worldGeoLoaded = geo; draw(geo); })
+      .catch(() => { container.innerHTML = '<div class="note">世界地图加载失败</div>'; });
+  }
+}
+
+function renderWeather() {
+  const w = DATA.weather;
+  if (!w || !w.regions || !w.regions.length) {
+    document.getElementById("weatherBanner").innerHTML = '<div class="note">无产区降水数据（首次运行 fetch_weather.py 后生成）</div>';
+    document.getElementById("weatherMap").style.display = 'none';
+    document.getElementById("weatherGroups").innerHTML = '';
+    return;
+  }
+  const m = w.meta;
+  document.getElementById("weatherBanner").innerHTML =
+    `<b>数据源：</b>${m.data_source} · <b>窗口：</b>${m.window_start} ~ ${m.window_end}（近${m.days}日累计，滞后${m.lag_days}天）` +
+    ` · <b>基准：</b>${m.baseline} · 更新于 ${m.updated}<br>` +
+    `<span style="font-size:.76rem;color:#8b949e">偏湿=降水显著多于去年同期(洪涝风险) · 偏干=降水显著少于去年同期(干旱风险) · 滞后5天=南美站点数据完整所需</span>`;
+  document.getElementById("weatherMap").style.display = 'block';
+  document.getElementById("weatherMapTip").innerHTML = '🖱️ 悬停看详情 · 点击产区点放大数据 · 滚轮/拖拽缩放地图 · 点越大=降水异常越剧烈';
+  const emoji = {大豆:'🫘', 玉米:'🌽', 棕榈油:'🌴', 橡胶:'🌳', 白糖:'🍬', 棉花:'🧵'};
+  const groups = {};
+  w.regions.forEach(r => { (groups[r.commodity] = groups[r.commodity] || []).push(r); });
+  let h = '';
+  Object.keys(groups).forEach(c => {
+    h += `<h3>${emoji[c]||''} ${c}</h3><div class="weather-grid">`;
+    groups[c].forEach(r => {
+      const lv = r.level || 'normal';
+      const pctStr = r.anomaly_pct != null ? `${r.anomaly_pct>=0?'+':''}${r.anomaly_pct}%` : '—';
+      const mmStr = `${r.anomaly_mm>=0?'+':''}${r.anomaly_mm}mm`;
+      let sig = [];
+      if (r.heavy_rain_days > 0) sig.push(`🌧️暴雨${r.heavy_rain_days}天`);
+      if (r.max_dry_streak >= 3) sig.push(`🏜️连续无雨${r.max_dry_streak}天`);
+      const sigStr = sig.length ? sig.join(' · ') : '无显著旱涝信号';
+      h += `<div class="weather-card ${lv}" onclick="showWModal(DATA.weather.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
+        `<div class="wc-head">${r.name_zh}<span class="wc-rank">${r.rank}</span></div>` +
+        `<div class="wc-precip">${r.precip_this} mm<span class="wc-last">近${r.days}日累计</span></div>` +
+        `<div class="wc-last">去年同期 ${r.precip_last} mm</div>` +
+        `<div class="wc-anom">距平 ${mmStr}（${pctStr}）</div>` +
+        `<span class="wc-tag ${lv}">${r.condition}</span>` +
+        `<div class="wc-signal">${sigStr}</div>` +
+        `</div>`;
+    });
+    h += '</div>';
+  });
+  document.getElementById("weatherGroups").innerHTML = h;
+  renderWeatherMap(w);
+}
+
 function render() {
   // 实时跟踪
   renderTracking();
@@ -617,6 +810,8 @@ function render() {
   detailTable(prod.detrended.results, prod.commodities, prod.windows, prod.window_labels, "prodDetrendedDetail");
   // 种植知识
   renderAgronomy();
+  // 种植要素(产区降水)
+  renderWeather();
   // 事件池
   renderEvents();
 }
@@ -624,7 +819,7 @@ function render() {
 function showSec(sec, el) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   el.classList.add("active");
-  ["tracking","overview","price","macro","attribution","prod","agronomy","events"].forEach(s => {
+  ["tracking","overview","price","macro","attribution","prod","agronomy","weather","events"].forEach(s => {
     document.getElementById("sec-" + s).classList.toggle("hidden", s !== sec);
   });
 }
@@ -632,9 +827,11 @@ function showSec(sec, el) {
 Promise.all([
   fetch('data/elnino_data.json?t=' + Date.now()).then(r => r.json()),
   fetch('data/tracking.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
-]).then(([d, t]) => {
+  fetch('data/weather_regions.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
+]).then(([d, t, w]) => {
   DATA = d;
   DATA.tracking = t;   // tracking 加载失败时为 null，renderTracking 里 !tk 显示"无跟踪数据"，不阻塞主数据
+  DATA.weather = w;    // weather 加载失败时为 null，renderWeather 里 !w 显示"无产区降水数据"
   render();
 }).catch(e => document.getElementById("conclCard").innerHTML = '<div class="concl">❌ 数据加载失败: ' + e.message + '</div>');
 </script>
