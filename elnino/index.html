@@ -107,6 +107,17 @@ td:first-child, th:first-child { text-align:left; }
 .weather-card .wc-signal { font-size:.72rem; color:#8b949e; margin-top:4px; }
 .weather-map { width:100%; height:520px; background:#0d1117; border:1px solid #30363d; border-radius:8px; margin:12px 0; }
 .weather-map-tip { font-size:.76rem; color:#8b949e; margin:4px 0 0; }
+/* 视图切换 + SPI 墒情分级 */
+.weather-switch { display:flex; gap:8px; margin:12px 0 4px; }
+.weather-switch button { background:#161b22; border:1px solid #30363d; color:#8b949e; padding:6px 16px; border-radius:8px; cursor:pointer; font-size:.82rem; }
+.weather-switch button.active { background:#1a2a2d; border-color:#58a6ff; color:#e6edf3; font-weight:700; }
+.weather-card.extreme_drought { border-left-color:#ff3b30; }
+.weather-card.extreme_flood { border-left-color:#1f6feb; }
+.wc-tag.extreme_drought { background:#3a1515; color:#ff6b5e; }
+.wc-tag.extreme_flood { background:#0e2a4a; color:#58a6ff; }
+.weather-card .wc-spi { font-size:1.28rem; font-weight:700; color:#e6edf3; margin-top:8px; }
+.weather-card .wc-spi .u { font-size:.72rem; font-weight:400; color:#8b949e; margin-left:4px; }
+.weather-card .wc-scales { font-size:.72rem; color:#8b949e; margin-top:4px; }
 /* 点击放大 modal */
 .wmodal-mask { position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:999; display:none; align-items:center; justify-content:center; }
 .wmodal-mask.show { display:flex; }
@@ -240,7 +251,11 @@ td:first-child, th:first-child { text-align:left; }
 
 <!-- 种植要素 -->
 <div id="sec-weather" class="hidden">
-  <h2>🌦️ 种植要素 — 主产区周度降水跟踪</h2>
+  <h2>🌦️ 种植要素 — 主产区降水 / 墒情跟踪</h2>
+  <div class="weather-switch">
+    <button id="btnWeatherView" class="active" onclick="switchWeatherView('weather', this)">📅 短期天气（近7日）</button>
+    <button id="btnSpiView" onclick="switchWeatherView('spi', this)">💧 墒情状态（SPI 季尺度）</button>
+  </div>
   <div class="weather-banner" id="weatherBanner"></div>
   <div class="weather-map" id="weatherMap"></div>
   <div class="weather-map-tip" id="weatherMapTip"></div>
@@ -669,6 +684,22 @@ function showWModal(r) {
 }
 
 const LEVEL_COLOR = {drought:'#ff7b72', dry:'#d29922', normal:'#3fb950', wet:'#79c0ff', flood:'#58a6ff'};
+const SPI_LEVEL_COLOR = {extreme_drought:'#ff3b30', drought:'#ff7b72', dry:'#d29922', normal:'#3fb950', wet:'#79c0ff', flood:'#58a6ff', extreme_flood:'#1f6feb'};
+
+function showSpiModal(r) {
+  const f = v => (v == null ? '—' : `${v>=0?'+':''}${Number(v).toFixed(2)}`);
+  document.getElementById("wmodalBody").innerHTML =
+    `<span class="wm-close" onclick="closeWModal()">✕</span>` +
+    `<div class="wm-title">${r.name_zh}<span class="wm-rank">${r.rank}</span></div>` +
+    `<div class="wm-precip">${f(r.spi3)}<span class="u">SPI-3 季尺度</span></div>` +
+    `<div class="wm-row"><b>墒情评级</b>：${r.condition}</div>` +
+    `<div class="wm-row"><b>SPI-1</b>（月）：${f(r.spi1)} · ${r.spi1_cond}</div>` +
+    `<div class="wm-row"><b>SPI-6</b>（半年）：${f(r.spi6)} · ${r.spi6_cond}</div>` +
+    `<div class="wm-row"><b>SPI-12</b>（年）：${f(r.spi12)} · ${r.spi12_cond}</div>` +
+    `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}</div>` +
+    `<div class="wm-signal">最新完整月 ${r.latest_month} · 拟合样本 ${r.n_years} 年</div>`;
+  document.getElementById("wmodalMask").classList.add("show");
+}
 
 function renderWeatherMap(w) {
   const container = document.getElementById("weatherMap");
@@ -782,6 +813,113 @@ function renderWeather() {
   renderWeatherMap(w);
 }
 
+function renderSpiMap(s) {
+  const container = document.getElementById("weatherMap");
+  const draw = (worldGeo) => {
+    if (!window.echarts) { container.innerHTML = '<div class="note">ECharts 未加载</div>'; return; }
+    echarts.registerMap('world', worldGeo);
+    if (!weatherChart) {
+      weatherChart = echarts.init(container);
+      weatherChart.on('click', function(params) {
+        if (params.componentType === 'series' && params.data && params.data.raw) {
+          if (params.data.raw.spi3 !== undefined) showSpiModal(params.data.raw);
+          else showWModal(params.data.raw);
+        }
+      });
+      window.addEventListener('resize', () => { if (weatherChart) weatherChart.resize(); });
+    }
+    const data = s.regions.map(r => {
+      const sz = Math.max(7, Math.min(24, 7 + Math.abs(r.spi3 || 0) * 4));
+      return {
+        name: r.name_zh,
+        value: [r.center_lon, r.center_lat, r.spi3],
+        symbolSize: sz,
+        itemStyle: { color: SPI_LEVEL_COLOR[r.level] || '#3fb950', shadowBlur: 8, shadowColor: 'rgba(0,0,0,.55)' },
+        raw: r,
+      };
+    });
+    weatherChart.setOption({
+      backgroundColor: '#0d1117',
+      tooltip: {
+        trigger: 'item',
+        formatter: function(p) {
+          const r = p.data.raw;
+          const f = v => (v == null ? '—' : `${v>=0?'+':''}${Number(v).toFixed(2)}`);
+          return `<b>${r.name_zh}</b><br>${r.country}·${r.state}<br>` +
+            `SPI-3：<b>${f(r.spi3)}</b>（${r.spi3_cond}）<br>` +
+            `SPI-1：${f(r.spi1)} · SPI-6：${f(r.spi6)} · SPI-12：${f(r.spi12)}<br>` +
+            `墒情：<b>${r.condition}</b>`;
+        }
+      },
+      geo: {
+        map: 'world', roam: true, zoom: 1.15, center: [0, 18],
+        itemStyle: { areaColor: '#161b22', borderColor: '#30363d' },
+        emphasis: { itemStyle: { areaColor: '#1d2a1a' }, label: { show: false } },
+        select: { disabled: true },
+      },
+      series: [{
+        type: 'effectScatter', coordinateSystem: 'geo',
+        rippleEffect: { brushType: 'stroke', scale: 3 },
+        data: data,
+        label: { show: true, position: 'right', formatter: '{b}', color: '#c9d1d9', fontSize: 10 },
+        emphasis: { scale: 1.7 },
+      }]
+    });
+  };
+  if (worldGeoLoaded) {
+    draw(worldGeoLoaded);
+  } else {
+    fetch('data/vendor/world.json?t=' + Date.now())
+      .then(r => r.json())
+      .then(geo => { worldGeoLoaded = geo; draw(geo); })
+      .catch(() => { container.innerHTML = '<div class="note">世界地图加载失败</div>'; });
+  }
+}
+
+function renderSpi() {
+  const s = DATA.spi;
+  if (!s || !s.regions || !s.regions.length) {
+    document.getElementById("weatherBanner").innerHTML = '<div class="note">无 SPI 墒情数据（首次运行 spi_calc.py 后生成，需≥20年历史降水）</div>';
+    document.getElementById("weatherMap").style.display = 'none';
+    document.getElementById("weatherGroups").innerHTML = '';
+    return;
+  }
+  const m = s.meta;
+  document.getElementById("weatherBanner").innerHTML =
+    `<b>指标：</b>${m.indicator} · <b>主尺度：</b>SPI-${m.main_scale}（季，农业墒情） · <b>最新完整月：</b>${s.regions[0].latest_month} · 更新于 ${m.updated}<br>` +
+    `<span style="font-size:.76rem;color:#8b949e">SPI 按日历月拟合 Gamma 分布(≥20年样本)，衡量「过去N个月累积降水 vs 历史同期」——负=偏干(干旱风险)，正=偏湿(洪涝风险)。分级：≤-2极度干旱 / -2~-1.5干旱 / -1.5~-1偏干 / -1~1中性 / 1~1.5偏湿 / 1.5~2洪涝 / ≥2极度洪涝</span>`;
+  document.getElementById("weatherMap").style.display = 'block';
+  document.getElementById("weatherMapTip").innerHTML = '🖱️ 悬停看 SPI-1/3/6/12 详情 · 点击产区点放大 · 点颜色=SPI-3 墒情分级 · 点越大=偏离正常越远';
+  const emoji = {大豆:'🫘', 玉米:'🌽', 棕榈油:'🌴', 橡胶:'🌳', 白糖:'🍬', 棉花:'🧵'};
+  const groups = {};
+  s.regions.forEach(r => { (groups[r.commodity] = groups[r.commodity] || []).push(r); });
+  let h = '';
+  Object.keys(groups).forEach(c => {
+    h += `<h3>${emoji[c]||''} ${c}</h3><div class="weather-grid">`;
+    groups[c].forEach(r => {
+      const lv = r.level || 'normal';
+      const f = v => (v == null ? '—' : `${v>=0?'+':''}${Number(v).toFixed(2)}`);
+      h += `<div class="weather-card ${lv}" onclick="showSpiModal(DATA.spi.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
+        `<div class="wc-head">${r.name_zh}<span class="wc-rank">${r.rank}</span></div>` +
+        `<div class="wc-spi">${f(r.spi3)}<span class="u">SPI-3</span></div>` +
+        `<div class="wc-scales">SPI-1 ${f(r.spi1)} · SPI-6 ${f(r.spi6)} · SPI-12 ${f(r.spi12)}</div>` +
+        `<span class="wc-tag ${lv}">${r.condition}</span>` +
+        `<div class="wc-signal">最新完整月 ${r.latest_month}</div>` +
+        `</div>`;
+    });
+    h += '</div>';
+  });
+  document.getElementById("weatherGroups").innerHTML = h;
+  renderSpiMap(s);
+}
+
+function switchWeatherView(view, el) {
+  document.getElementById("btnWeatherView").classList.toggle("active", view === 'weather');
+  document.getElementById("btnSpiView").classList.toggle("active", view === 'spi');
+  if (view === 'spi') renderSpi();
+  else renderWeather();
+}
+
 function render() {
   // 实时跟踪
   renderTracking();
@@ -828,10 +966,12 @@ Promise.all([
   fetch('data/elnino_data.json?t=' + Date.now()).then(r => r.json()),
   fetch('data/tracking.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
   fetch('data/weather_regions.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
-]).then(([d, t, w]) => {
+  fetch('data/spi_regions.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
+]).then(([d, t, w, s]) => {
   DATA = d;
   DATA.tracking = t;   // tracking 加载失败时为 null，renderTracking 里 !tk 显示"无跟踪数据"，不阻塞主数据
   DATA.weather = w;    // weather 加载失败时为 null，renderWeather 里 !w 显示"无产区降水数据"
+  DATA.spi = s;        // spi 加载失败时为 null，renderSpi 里 !s 显示"无 SPI 墒情数据"
   render();
 }).catch(e => document.getElementById("conclCard").innerHTML = '<div class="concl">❌ 数据加载失败: ' + e.message + '</div>');
 </script>
