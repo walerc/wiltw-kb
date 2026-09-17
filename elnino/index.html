@@ -681,6 +681,7 @@ function showWModal(r) {
     `<div class="wm-row"><b>距平</b>：${mm}（${pct}）</div>` +
     `<div class="wm-row"><b>无雨格点占比</b>：${dryStr}${dryFlag}</div>` +
     `<div class="wm-row"><b>均值参考</b>：${r.precip_mean_this != null ? r.precip_mean_this : '—'} mm（含局地暴雨，中位数更稳健）</div>` +
+    `<div class="wm-row"><b>20年气候态</b>：均值 ${r.climate_mean != null ? r.climate_mean : '—'} mm · 今年分位 ${r.climate_percentile != null ? r.climate_percentile + '%' : '—'}（${r.climate_n_years || 0}年样本）</div>` +
     `<div class="wm-row"><b>旱涝评级</b>：${r.condition}</div>` +
     `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}</div>` +
     `<div class="wm-signal">${sigStr} · 站点格点 ${r.valid_grid}/${r.grid_total}</div>`;
@@ -802,6 +803,7 @@ function renderWeather() {
       if (r.heavy_rain_days > 0) sig.push(`🌧️暴雨${r.heavy_rain_days}天`);
       if (r.max_dry_streak >= 3) sig.push(`🏜️连续无雨${r.max_dry_streak}天`);
       if (r.dry_frac_this != null) sig.push(`无雨${Math.round(r.dry_frac_this*100)}%`);
+      if (r.climate_percentile != null) sig.push(`分位${r.climate_percentile}%`);
       const sigStr = sig.join(' · ') || '无显著旱涝信号';
       h += `<div class="weather-card ${lv}" onclick="showWModal(DATA.weather.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
         `<div class="wc-head">${r.name_zh}<span class="wc-rank">${r.rank}</span></div>` +
