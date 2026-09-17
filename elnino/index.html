@@ -671,12 +671,16 @@ function showWModal(r) {
   if (r.heavy_rain_days > 0) sig.push(`🌧️ 暴雨${r.heavy_rain_days}天`);
   if (r.max_dry_streak >= 3) sig.push(`🏜️ 连续无雨${r.max_dry_streak}天`);
   const sigStr = sig.length ? sig.join(' · ') : '无显著旱涝信号';
+  const dryStr = r.dry_frac_this != null ? `${Math.round(r.dry_frac_this*100)}%` : '—';
+  const dryFlag = r.dry_frac_this != null && r.dry_frac_this > 0.5 ? '（偏干）' : '';
   document.getElementById("wmodalBody").innerHTML =
     `<span class="wm-close" onclick="closeWModal()">✕</span>` +
     `<div class="wm-title">${r.name_zh}<span class="wm-rank">${r.rank}</span></div>` +
-    `<div class="wm-precip">${r.precip_this} mm<span class="u">近${r.days}日累计</span></div>` +
+    `<div class="wm-precip">${r.precip_this} mm<span class="u">近${r.days}日累计(中位数)</span></div>` +
     `<div class="wm-row"><b>去年同期</b>：${r.precip_last} mm</div>` +
     `<div class="wm-row"><b>距平</b>：${mm}（${pct}）</div>` +
+    `<div class="wm-row"><b>无雨格点占比</b>：${dryStr}${dryFlag}</div>` +
+    `<div class="wm-row"><b>均值参考</b>：${r.precip_mean_this != null ? r.precip_mean_this : '—'} mm（含局地暴雨，中位数更稳健）</div>` +
     `<div class="wm-row"><b>旱涝评级</b>：${r.condition}</div>` +
     `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}</div>` +
     `<div class="wm-signal">${sigStr} · 站点格点 ${r.valid_grid}/${r.grid_total}</div>`;
@@ -781,7 +785,7 @@ function renderWeather() {
   document.getElementById("weatherBanner").innerHTML =
     `<b>数据源：</b>${m.data_source} · <b>窗口：</b>${m.window_start} ~ ${m.window_end}（近${m.days}日累计，滞后${m.lag_days}天）` +
     ` · <b>基准：</b>${m.baseline} · 更新于 ${m.updated}<br>` +
-    `<span style="font-size:.76rem;color:#8b949e">偏湿=降水显著多于去年同期(洪涝风险) · 偏干=降水显著少于去年同期(干旱风险) · 滞后5天=南美站点数据完整所需</span>`;
+    `<span style="font-size:.76rem;color:#8b949e">降水用产区格点<b>中位数</b>（抗局地极端暴雨失真）· 偏湿=降水显著多于去年同期(洪涝风险) · 偏干=降水显著少于去年同期(干旱风险) · 滞后5天=南美站点数据完整所需</span>`;
   document.getElementById("weatherMap").style.display = 'block';
   document.getElementById("weatherMapTip").innerHTML = '🖱️ 悬停看详情 · 点击产区点放大数据 · 滚轮/拖拽缩放地图 · 点越大=降水异常越剧烈';
   const emoji = {大豆:'🫘', 玉米:'🌽', 棕榈油:'🌴', 橡胶:'🌳', 白糖:'🍬', 棉花:'🧵'};
@@ -797,10 +801,11 @@ function renderWeather() {
       let sig = [];
       if (r.heavy_rain_days > 0) sig.push(`🌧️暴雨${r.heavy_rain_days}天`);
       if (r.max_dry_streak >= 3) sig.push(`🏜️连续无雨${r.max_dry_streak}天`);
-      const sigStr = sig.length ? sig.join(' · ') : '无显著旱涝信号';
+      if (r.dry_frac_this != null) sig.push(`无雨${Math.round(r.dry_frac_this*100)}%`);
+      const sigStr = sig.join(' · ') || '无显著旱涝信号';
       h += `<div class="weather-card ${lv}" onclick="showWModal(DATA.weather.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
         `<div class="wc-head">${r.name_zh}<span class="wc-rank">${r.rank}</span></div>` +
-        `<div class="wc-precip">${r.precip_this} mm<span class="wc-last">近${r.days}日累计</span></div>` +
+        `<div class="wc-precip">${r.precip_this} mm<span class="wc-last">近${r.days}日(中位)</span></div>` +
         `<div class="wc-last">去年同期 ${r.precip_last} mm</div>` +
         `<div class="wc-anom">距平 ${mmStr}（${pctStr}）</div>` +
         `<span class="wc-tag ${lv}">${r.condition}</span>` +
