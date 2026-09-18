@@ -721,7 +721,8 @@ function renderWeatherMap(w) {
       window.addEventListener('resize', () => { if (weatherChart) weatherChart.resize(); });
     }
     const data = w.regions.map(r => {
-      const sz = Math.max(7, Math.min(24, 7 + Math.abs(r.anomaly_mm) * 1.5));
+      const share = r.global_share || 1;
+      const sz = Math.max(8, Math.min(30, 8 + Math.sqrt(share) * 4.5));
       return {
         name: r.name_zh,
         value: [r.center_lon, r.center_lat, r.anomaly_mm],
@@ -738,7 +739,8 @@ function renderWeatherMap(w) {
           const r = p.data.raw;
           const pct = r.anomaly_pct != null ? `${r.anomaly_pct>=0?'+':''}${r.anomaly_pct}%` : '—';
           const mm = `${r.anomaly_mm>=0?'+':''}${r.anomaly_mm}mm`;
-          return `<b>${r.name_zh}</b><br>${r.country}·${r.state}<br>` +
+          const shareStr = r.global_share != null ? ` · 全球份额 ${r.global_share}%` : '';
+          return `<b>${r.name_zh}</b><br>${r.country}·${r.state}${shareStr}<br>` +
             `近${r.days}日降水：<b>${r.precip_this} mm</b><br>` +
             `去年同期：${r.precip_last} mm<br>` +
             `距平：${mm}（${pct}）<br>` +
@@ -759,7 +761,7 @@ function renderWeatherMap(w) {
         coordinateSystem: 'geo',
         rippleEffect: { brushType: 'stroke', scale: 3 },
         data: data,
-        label: { show: true, position: 'right', formatter: '{b}', color: '#c9d1d9', fontSize: 10 },
+        label: { show: true, position: 'right', formatter: function(p){ const s = p.data.raw.global_share; return p.name + (s ? ' '+s+'%' : ''); }, color: '#c9d1d9', fontSize: 10 },
         emphasis: { scale: 1.7 },
       }]
     });
@@ -836,7 +838,8 @@ function renderSpiMap(s) {
       window.addEventListener('resize', () => { if (weatherChart) weatherChart.resize(); });
     }
     const data = s.regions.map(r => {
-      const sz = Math.max(7, Math.min(24, 7 + Math.abs(r.spi3 || 0) * 4));
+      const share = r.global_share || 1;
+      const sz = Math.max(8, Math.min(30, 8 + Math.sqrt(share) * 4.5));
       return {
         name: r.name_zh,
         value: [r.center_lon, r.center_lat, r.spi3],
@@ -852,7 +855,8 @@ function renderSpiMap(s) {
         formatter: function(p) {
           const r = p.data.raw;
           const f = v => (v == null ? '—' : `${v>=0?'+':''}${Number(v).toFixed(2)}`);
-          return `<b>${r.name_zh}</b><br>${r.country}·${r.state}<br>` +
+          const shareStr = r.global_share != null ? ` · 全球份额 ${r.global_share}%` : '';
+          return `<b>${r.name_zh}</b><br>${r.country}·${r.state}${shareStr}<br>` +
             `SPI-3：<b>${f(r.spi3)}</b>（${r.spi3_cond}）<br>` +
             `SPI-1：${f(r.spi1)} · SPI-6：${f(r.spi6)} · SPI-12：${f(r.spi12)}<br>` +
             `墒情：<b>${r.condition}</b>`;
@@ -868,7 +872,7 @@ function renderSpiMap(s) {
         type: 'effectScatter', coordinateSystem: 'geo',
         rippleEffect: { brushType: 'stroke', scale: 3 },
         data: data,
-        label: { show: true, position: 'right', formatter: '{b}', color: '#c9d1d9', fontSize: 10 },
+        label: { show: true, position: 'right', formatter: function(p){ const s = p.data.raw.global_share; return p.name + (s ? ' '+s+'%' : ''); }, color: '#c9d1d9', fontSize: 10 },
         emphasis: { scale: 1.7 },
       }]
     });

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPEI 墒情测试版（Hargreaves 蒸散）</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, "Microsoft YaHei", sans-serif; padding: 20px; }
+.wrap { max-width: 1200px; margin: 0 auto; }
+h1 { font-size: 1.3rem; color: #e6edf3; margin-bottom: 6px; }
+.sub { font-size: .78rem; color: #8b949e; margin-bottom: 14px; }
+.banner { background: linear-gradient(135deg,#1a2a2d,#16232e); border:1px solid #58a6ff; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:.82rem; line-height:1.7; color:#c9d1d9; }
+.map { width:100%; height:520px; background:#0d1117; border:1px solid #30363d; border-radius:8px; margin:12px 0; }
+.tip { font-size:.76rem; color:#8b949e; margin:4px 0 0; }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:10px; margin:12px 0; }
+h3 { color:#e6edf3; margin:16px 0 8px; font-size:1rem; }
+.card { background:#161b22; border:1px solid #30363d; border-left:4px solid #3fb950; border-radius:8px; padding:12px 14px; cursor:pointer; }
+.card.extreme_drought { border-left-color:#ff3b30; }
+.card.drought { border-left-color:#ff7b72; }
+.card.dry { border-left-color:#d29922; }
+.card.normal { border-left-color:#3fb950; }
+.card.wet { border-left-color:#79c0ff; }
+.card.flood { border-left-color:#58a6ff; }
+.card.extreme_flood { border-left-color:#1f6feb; }
+.card .head { font-size:.86rem; font-weight:700; color:#e6edf3; }
+.card .rank { font-size:.66rem; color:#79c0ff; background:#1a2a2d; border-radius:8px; padding:0 6px; margin-left:6px; font-weight:600; }
+.card .val { font-size:1.28rem; font-weight:700; color:#e6edf3; margin-top:8px; }
+.card .val .u { font-size:.72rem; font-weight:400; color:#8b949e; margin-left:4px; }
+.card .scales { font-size:.72rem; color:#8b949e; margin-top:4px; }
+.tag { display:inline-block; padding:2px 10px; border-radius:10px; font-size:.7rem; font-weight:700; margin-top:6px; }
+.tag.extreme_drought { background:#3a1515; color:#ff6b5e; }
+.tag.drought { background:#3a1d1d; color:#ff7b72; }
+.tag.dry { background:#2a1d0a; color:#e3b341; }
+.tag.normal { background:#1d2a1a; color:#3fb950; }
+.tag.wet { background:#1a2a2d; color:#79c0ff; }
+.tag.flood { background:#162a3a; color:#58a6ff; }
+.tag.extreme_flood { background:#0e2a4a; color:#58a6ff; }
+.card .sig { font-size:.72rem; color:#8b949e; margin-top:4px; }
+.mask { position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:999; display:none; align-items:center; justify-content:center; }
+.mask.show { display:flex; }
+.modal { background:#161b22; border:1px solid #30363d; border-radius:12px; padding:22px 24px; width:min(420px,90vw); position:relative; }
+.modal .x { position:absolute; top:12px; right:16px; cursor:pointer; color:#8b949e; font-size:1.2rem; }
+.modal .t { font-size:1.05rem; font-weight:700; color:#e6edf3; }
+.modal .v { font-size:2rem; font-weight:700; color:#e6edf3; margin-top:12px; }
+.modal .v .u { font-size:.85rem; font-weight:400; color:#8b949e; margin-left:6px; }
+.modal .r { font-size:.84rem; color:#c9d1d9; margin-top:8px; line-height:1.6; }
+.modal .r b { color:#e0c068; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>💧 SPEI 墒情测试版 <span class="sub">（标准化降水蒸散指数 · Hargreaves PET）</span></h1>
+  <div class="sub">⚠️ 测试版本，不影响线上 SPI 墒情。SPEI 在 SPI 基础上加入温度蒸散（水分平衡 = 降水 − 蒸散），热带高温区干旱更准。</div>
+  <div class="banner" id="banner">加载中...</div>
+  <div class="map" id="map"></div>
+  <div class="tip" id="tip"></div>
+  <div id="groups"></div>
+</div>
+<div class="mask" id="mask" onclick="if(event.target===this)closeM()">
+  <div class="modal" id="modal"></div>
+</div>
+<script src="data/vendor/echarts.min.js"></script>
+<script>
+const COLORS = {extreme_drought:'#ff3b30', drought:'#ff7b72', dry:'#d29922', normal:'#3fb950', wet:'#79c0ff', flood:'#58a6ff', extreme_flood:'#1f6feb'};
+const EMOJI = {大豆:'🫘', 玉米:'🌽', 棕榈油:'🌴', 橡胶:'🌳', 白糖:'🍬', 棉花:'🧵'};
+let DATA = null, chart = null, worldGeo = null;
+
+function f(v){ return v==null ? '—' : (v>=0?'+':'') + Number(v).toFixed(2); }
+
+function closeM(){ document.getElementById('mask').classList.remove('show'); }
+
+function showModal(r){
+  document.getElementById('modal').innerHTML =
+    `<span class="x" onclick="closeM()">✕</span>` +
+    `<div class="t">${r.name_zh}<span class="rank">${r.rank}</span></div>` +
+    `<div class="v">${f(r.spei3)}<span class="u">SPEI-3 季尺度</span></div>` +
+    `<div class="r"><b>墒情评级</b>：${r.condition}</div>` +
+    `<div class="r"><b>SPEI-1</b>（月）：${f(r.spei1)} · ${r.spei1_cond}</div>` +
+    `<div class="r"><b>SPEI-6</b>（半年）：${f(r.spei6)} · ${r.spei6_cond}</div>` +
+    `<div class="r"><b>SPEI-12</b>（年）：${f(r.spei12)} · ${r.spei12_cond}</div>` +
+    `<div class="r"><b>产区</b>：${r.country} · ${r.state}</div>` +
+    `<div class="r"><b>最新完整月</b>：${r.latest_month} · ${r.n_years}年样本</div>`;
+  document.getElementById('mask').classList.add('show');
+}
+
+function drawMap(geo){
+  if(!window.echarts){ document.getElementById('map').innerHTML='<div style="padding:20px;color:#8b949e">ECharts 未加载</div>'; return; }
+  echarts.registerMap('world', geo);
+  if(!chart){
+    chart = echarts.init(document.getElementById('map'));
+    chart.on('click', p => { if(p.componentType==='series' && p.data && p.data.raw) showModal(p.data.raw); });
+    window.addEventListener('resize', ()=>{ if(chart) chart.resize(); });
+  }
+  const data = DATA.regions.map(r => ({
+    name: r.name_zh,
+    value: [r.center_lon, r.center_lat, r.spei3],
+    symbolSize: Math.max(8, Math.min(30, 8 + Math.sqrt(r.global_share||1)*4.5)),
+    itemStyle: { color: COLORS[r.level]||'#3fb950', shadowBlur:8, shadowColor:'rgba(0,0,0,.55)' },
+    raw: r,
+  }));
+  chart.setOption({
+    backgroundColor:'#0d1117',
+    tooltip:{ trigger:'item', formatter: p => {
+      const r = p.data.raw;
+      const s = r.global_share != null ? ` · 全球份额 ${r.global_share}%` : '';
+      return `<b>${r.name_zh}</b><br>${r.country}·${r.state}${s}<br>SPEI-3：<b>${f(r.spei3)}</b>（${r.spei3_cond}）<br>SPEI-1：${f(r.spei1)} · SPEI-6：${f(r.spei6)} · SPEI-12：${f(r.spei12)}<br>墒情：<b>${r.condition}</b>`;
+    }},
+    geo:{ map:'world', roam:true, zoom:1.15, center:[0,18],
+      itemStyle:{ areaColor:'#161b22', borderColor:'#30363d' },
+      emphasis:{ itemStyle:{ areaColor:'#1d2a1a' }, label:{ show:false } },
+      select:{ disabled:true } },
+    series:[{ type:'effectScatter', coordinateSystem:'geo',
+      rippleEffect:{ brushType:'stroke', scale:3 }, data,
+      label:{ show:true, position:'right', formatter: p => { const s = p.data.raw.global_share; return p.name + (s ? ' '+s+'%' : ''); }, color:'#c9d1d9', fontSize:10 },
+      emphasis:{ scale:1.7 } }]
+  });
+}
+
+function render(){
+  const m = DATA.meta;
+  document.getElementById('banner').innerHTML =
+    `<b>指标：</b>${m.indicator} · <b>PET方法：</b>${m.pet_method} · <b>主尺度：</b>SPEI-${m.main_scale} · <b>最新月：</b>${DATA.regions[0]?.latest_month||'—'} · 更新于 ${m.updated}<br>` +
+    `<span style="font-size:.76rem;color:#8b949e">${m.note}<br>分级：≤-2极度干旱 / -2~-1.5干旱 / -1.5~-1偏干 / -1~1中性 / 1~1.5偏湿 / 1.5~2洪涝 / ≥2极度洪涝</span>`;
+  document.getElementById('tip').innerHTML = '🖱️ 悬停看 SPEI-1/3/6/12 · 点击产区点放大 · 点颜色=SPEI-3 墒情分级';
+  const groups = {};
+  DATA.regions.forEach(r => { (groups[r.commodity]=groups[r.commodity]||[]).push(r); });
+  let h = '';
+  Object.keys(groups).forEach(c => {
+    h += `<h3>${EMOJI[c]||''} ${c}</h3><div class="grid">`;
+    groups[c].forEach(r => {
+      h += `<div class="card ${r.level||'normal'}" onclick="showModal(DATA.regions.find(x=>x.id==='${r.id}'))">` +
+        `<div class="head">${r.name_zh}<span class="rank">${r.rank}</span></div>` +
+        `<div class="val">${f(r.spei3)}<span class="u">SPEI-3</span></div>` +
+        `<div class="scales">SPEI-1 ${f(r.spei1)} · SPEI-6 ${f(r.spei6)} · SPEI-12 ${f(r.spei12)}</div>` +
+        `<span class="tag ${r.level||'normal'}">${r.condition}</span>` +
+        `<div class="sig">最新完整月 ${r.latest_month}</div>` +
+        `</div>`;
+    });
+    h += '</div>';
+  });
+  document.getElementById('groups').innerHTML = h;
+  if(worldGeo) drawMap(worldGeo);
+  else fetch('data/vendor/world.json?t='+Date.now()).then(r=>r.json()).then(g=>{ worldGeo=g; drawMap(g); });
+}
+
+fetch('data/spei_regions.json?t='+Date.now())
+  .then(r => r.json())
+  .then(d => { DATA = d; render(); })
+  .catch(e => { document.getElementById('banner').innerHTML = '<div style="color:#ff7b72">❌ SPEI 数据加载失败（温度数据可能还在下载中）: ' + e.message + '</div>'; });
+</script>
+</body>
+</html>
