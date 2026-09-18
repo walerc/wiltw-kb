@@ -111,6 +111,12 @@ td:first-child, th:first-child { text-align:left; }
 .weather-switch { display:flex; gap:8px; margin:12px 0 4px; }
 .weather-switch button { background:#161b22; border:1px solid #30363d; color:#8b949e; padding:6px 16px; border-radius:8px; cursor:pointer; font-size:.82rem; }
 .weather-switch button.active { background:#1a2a2d; border-color:#58a6ff; color:#e6edf3; font-weight:700; }
+.weather-subswitch { display:flex; gap:6px; margin:6px 0 4px; align-items:center; }
+.weather-subswitch .sub-label { font-size:.78rem; color:#8b949e; margin-right:2px; }
+.weather-subswitch button { background:#161b22; border:1px solid #30363d; color:#8b949e; padding:4px 14px; border-radius:8px; cursor:pointer; font-size:.78rem; }
+.weather-subswitch button.active { background:#1a2a2d; border-color:#e0c068; color:#e0c068; font-weight:700; }
+.wmodal-chart { width:100%; height:230px; margin-top:14px; border-top:1px dashed #30363d; padding-top:12px; }
+.wmodal-chart-title { font-size:.78rem; color:#8b949e; margin-bottom:4px; }
 .weather-card.extreme_drought { border-left-color:#ff3b30; }
 .weather-card.extreme_flood { border-left-color:#1f6feb; }
 .wc-tag.extreme_drought { background:#3a1515; color:#ff6b5e; }
@@ -121,7 +127,7 @@ td:first-child, th:first-child { text-align:left; }
 /* 点击放大 modal */
 .wmodal-mask { position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:999; display:none; align-items:center; justify-content:center; }
 .wmodal-mask.show { display:flex; }
-.wmodal { background:#161b22; border:1px solid #30363d; border-radius:12px; padding:22px 24px; width:min(420px,90vw); position:relative; }
+.wmodal { background:#161b22; border:1px solid #30363d; border-radius:12px; padding:22px 24px; width:min(560px,92vw); max-height:88vh; overflow-y:auto; position:relative; }
 .wmodal .wm-close { position:absolute; top:12px; right:16px; cursor:pointer; color:#8b949e; font-size:1.2rem; }
 .wmodal .wm-close:hover { color:#e6edf3; }
 .wmodal .wm-title { font-size:1.05rem; font-weight:700; color:#e6edf3; }
@@ -254,9 +260,12 @@ td:first-child, th:first-child { text-align:left; }
   <h2>🌦️ 种植要素 — 主产区降水 / 墒情跟踪</h2>
   <div class="weather-switch">
     <button id="btnWeatherView" class="active" onclick="switchWeatherView('weather', this)">📅 短期天气（近7日）</button>
-    <button id="btnSpiView" onclick="switchWeatherView('spi', this)">💧 墒情状态（SPI 季尺度）</button>
-    <button id="btnSpiWeeklyView" onclick="switchWeatherView('spi_weekly', this)">📆 SPI 周度</button>
-    <button id="btnSpeiWeeklyView" onclick="switchWeatherView('spei_weekly', this)">🌡️ SPEI 周度</button>
+    <button id="btnMoistureView" onclick="switchWeatherView('moisture', this)">💧 墒情状态（周度）</button>
+  </div>
+  <div class="weather-subswitch" id="moistureSubSwitch" style="display:none">
+    <span class="sub-label">指标：</span>
+    <button id="btnSpiSub" onclick="switchMoisture('spi', this)">💧 SPI 纯降水</button>
+    <button id="btnSpeiSub" class="active" onclick="switchMoisture('spei', this)">🌡️ SPEI 含蒸散</button>
   </div>
   <div class="weather-banner" id="weatherBanner"></div>
   <div class="weather-map" id="weatherMap"></div>
@@ -661,6 +670,10 @@ function renderAgronomy() {
 
 let worldGeoLoaded = null;   // world.json 缓存
 let weatherChart = null;     // ECharts 实例
+let currentWeatherView = 'weather'; // 当前视图: 'weather'(短期天气) 或 'moisture'(墒情状态)
+let moistureMetric = 'spei'; // 墒情状态当前指标: 'spi' 或 'spei'
+let seriesCache = {};        // 时间序列缓存: {'spi': data, 'spei': data}
+let modalChart = null;       // 详情框时间序列折线图实例
 
 const COMMODITY_SHORT = { 大豆:'大豆', 玉米:'玉米', 棕榈油:'棕榈', 橡胶:'橡胶', 白糖:'白糖', 棉花:'棉花' };
 
@@ -715,19 +728,21 @@ function showWModal(r) {
 const LEVEL_COLOR = {drought:'#ff7b72', dry:'#d29922', normal:'#3fb950', wet:'#79c0ff', flood:'#58a6ff'};
 const SPI_LEVEL_COLOR = {extreme_drought:'#ff3b30', drought:'#ff7b72', dry:'#d29922', normal:'#3fb950', wet:'#79c0ff', flood:'#58a6ff', extreme_flood:'#1f6feb'};
 
-function showSpiModal(r) {
-  const f = v => (v == null ? '—' : `${v>=0?'+':''}${Number(v).toFixed(2)}`);
-  document.getElementById("wmodalBody").innerHTML =
-    `<span class="wm-close" onclick="closeWModal()">✕</span>` +
-    `<div class="wm-title">${r.name_zh}<span class="wm-rank">${r.rank}</span></div>` +
-    `<div class="wm-precip">${f(r.spi3)}<span class="u">SPI-3 季尺度</span></div>` +
-    `<div class="wm-row"><b>墒情评级</b>：${r.condition}</div>` +
-    `<div class="wm-row"><b>SPI-1</b>（月）：${f(r.spi1)} · ${r.spi1_cond}</div>` +
-    `<div class="wm-row"><b>SPI-6</b>（半年）：${f(r.spi6)} · ${r.spi6_cond}</div>` +
-    `<div class="wm-row"><b>SPI-12</b>（年）：${f(r.spi12)} · ${r.spi12_cond}</div>` +
-    `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}</div>` +
-    `<div class="wm-signal">最新完整月 ${r.latest_month} · 拟合样本 ${r.n_years} 年</div>`;
-  document.getElementById("wmodalMask").classList.add("show");
+function ensureWeatherChart() {
+  // 统一初始化地图实例 + 绑定一次 click 分发器。
+  // 关键：weatherChart 是单例，click 回调只绑定一次，用 currentWeatherView 动态路由，
+  // 修复"切换视图后点浮标仍触发旧视图 modal"的 bug。
+  const container = document.getElementById("weatherMap");
+  if (!weatherChart) {
+    weatherChart = echarts.init(container);
+    weatherChart.on('click', function(params) {
+      if (params.componentType === 'series' && params.data && params.data.raw) {
+        if (currentWeatherView === 'moisture') showMoistureModal(params.data.raw);
+        else showWModal(params.data.raw);
+      }
+    });
+    window.addEventListener('resize', () => { if (weatherChart) weatherChart.resize(); });
+  }
 }
 
 function renderWeatherMap(w) {
@@ -735,15 +750,7 @@ function renderWeatherMap(w) {
   const draw = (worldGeo) => {
     if (!window.echarts) { container.innerHTML = '<div class="note">ECharts 未加载</div>'; return; }
     echarts.registerMap('world', worldGeo);
-    if (!weatherChart) {
-      weatherChart = echarts.init(container);
-      weatherChart.on('click', function(params) {
-        if (params.componentType === 'series' && params.data && params.data.raw) {
-          showWModal(params.data.raw);
-        }
-      });
-      window.addEventListener('resize', () => { if (weatherChart) weatherChart.resize(); });
-    }
+    ensureWeatherChart();
     const data = groupByLocation(w.regions).map(g => {
       const r = g.main;
       const share = r.global_share || 1;
@@ -850,120 +857,13 @@ function renderWeather() {
   renderWeatherMap(w);
 }
 
-function renderSpiMap(s) {
-  const container = document.getElementById("weatherMap");
-  const draw = (worldGeo) => {
-    if (!window.echarts) { container.innerHTML = '<div class="note">ECharts 未加载</div>'; return; }
-    echarts.registerMap('world', worldGeo);
-    if (!weatherChart) {
-      weatherChart = echarts.init(container);
-      weatherChart.on('click', function(params) {
-        if (params.componentType === 'series' && params.data && params.data.raw) {
-          if (params.data.raw.spi3 !== undefined) showSpiModal(params.data.raw);
-          else showWModal(params.data.raw);
-        }
-      });
-      window.addEventListener('resize', () => { if (weatherChart) weatherChart.resize(); });
-    }
-    const data = groupByLocation(s.regions).map(g => {
-      const r = g.main;
-      const share = r.global_share || 1;
-      const sz = Math.max(8, Math.min(30, 8 + Math.sqrt(share) * 4.5));
-      return {
-        name: r.name_zh,
-        value: [r.center_lon, r.center_lat, r.spi3],
-        symbolSize: sz,
-        itemStyle: { color: SPI_LEVEL_COLOR[r.level] || '#3fb950', shadowBlur: 8, shadowColor: 'rgba(0,0,0,.55)' },
-        raw: r,
-        group: g.group,
-      };
-    });
-    weatherChart.setOption({
-      backgroundColor: '#0d1117',
-      tooltip: {
-        trigger: 'item',
-        formatter: function(p) {
-          const f = v => (v == null ? '—' : `${v>=0?'+':''}${Number(v).toFixed(2)}`);
-          const grp = p.data.group || [p.data.raw];
-          return grp.map(r => {
-            const shareStr = r.global_share != null ? ` · 全球份额 ${r.global_share}%` : '';
-            return `<b>${r.name_zh}</b>（${COMMODITY_SHORT[r.commodity]||r.commodity}${shareStr}）<br>${r.country}·${r.state}<br>` +
-              `SPI-3：<b>${f(r.spi3)}</b>（${r.spi3_cond}）<br>` +
-              `SPI-1：${f(r.spi1)} · SPI-6：${f(r.spi6)} · SPI-12：${f(r.spi12)}<br>` +
-              `墒情：<b>${r.condition}</b>`;
-          }).join('<br><br>');
-        }
-      },
-      geo: {
-        map: 'world', roam: true, zoom: 1.15, center: [0, 18],
-        itemStyle: { areaColor: '#161b22', borderColor: '#30363d' },
-        emphasis: { itemStyle: { areaColor: '#1d2a1a' }, label: { show: false } },
-        select: { disabled: true },
-      },
-      series: [{
-        type: 'effectScatter', coordinateSystem: 'geo',
-        rippleEffect: { brushType: 'stroke', scale: 3 },
-        data: data,
-        label: { show: true, position: 'right', formatter: groupLabel, color: '#c9d1d9', fontSize: 10 },
-        emphasis: { scale: 1.7 },
-      }]
-    });
-  };
-  if (worldGeoLoaded) {
-    draw(worldGeoLoaded);
-  } else {
-    fetch('data/vendor/world.json?t=' + Date.now())
-      .then(r => r.json())
-      .then(geo => { worldGeoLoaded = geo; draw(geo); })
-      .catch(() => { container.innerHTML = '<div class="note">世界地图加载失败</div>'; });
-  }
-}
-
-function renderSpi() {
-  const s = DATA.spi;
-  if (!s || !s.regions || !s.regions.length) {
-    document.getElementById("weatherBanner").innerHTML = '<div class="note">无 SPI 墒情数据（首次运行 spi_calc.py 后生成，需≥20年历史降水）</div>';
-    document.getElementById("weatherMap").style.display = 'none';
-    document.getElementById("weatherGroups").innerHTML = '';
-    return;
-  }
-  const m = s.meta;
-  document.getElementById("weatherBanner").innerHTML =
-    `<b>指标：</b>${m.indicator} · <b>主尺度：</b>SPI-${m.main_scale}（季，农业墒情） · <b>最新完整月：</b>${s.regions[0].latest_month} · 更新于 ${m.updated}<br>` +
-    `<span style="font-size:.76rem;color:#8b949e">SPI 按日历月拟合 Gamma 分布(≥20年样本)，衡量「过去N个月累积降水 vs 历史同期」——负=偏干(干旱风险)，正=偏湿(洪涝风险)。分级：≤-2极度干旱 / -2~-1.5干旱 / -1.5~-1偏干 / -1~1中性 / 1~1.5偏湿 / 1.5~2洪涝 / ≥2极度洪涝</span>`;
-  document.getElementById("weatherMap").style.display = 'block';
-  document.getElementById("weatherMapTip").innerHTML = '🖱️ 悬停看 SPI-1/3/6/12 详情 · 点击产区点放大 · 点颜色=SPI-3 墒情分级 · 点越大=偏离正常越远';
-  const emoji = {大豆:'🫘', 玉米:'🌽', 棕榈油:'🌴', 橡胶:'🌳', 白糖:'🍬', 棉花:'🧵'};
-  const groups = {};
-  s.regions.forEach(r => { (groups[r.commodity] = groups[r.commodity] || []).push(r); });
-  let h = '';
-  Object.keys(groups).forEach(c => {
-    h += `<h3>${emoji[c]||''} ${c}</h3><div class="weather-grid">`;
-    groups[c].forEach(r => {
-      const lv = r.level || 'normal';
-      const f = v => (v == null ? '—' : `${v>=0?'+':''}${Number(v).toFixed(2)}`);
-      h += `<div class="weather-card ${lv}" onclick="showSpiModal(DATA.spi.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
-        `<div class="wc-head">${r.name_zh}<span class="wc-rank">${r.rank}</span></div>` +
-        `<div class="wc-spi">${f(r.spi3)}<span class="u">SPI-3</span></div>` +
-        `<div class="wc-scales">SPI-1 ${f(r.spi1)} · SPI-6 ${f(r.spi6)} · SPI-12 ${f(r.spi12)}</div>` +
-        `<span class="wc-tag ${lv}">${r.condition}</span>` +
-        `<div class="wc-signal">最新完整月 ${r.latest_month}</div>` +
-        `</div>`;
-    });
-    h += '</div>';
-  });
-  document.getElementById("weatherGroups").innerHTML = h;
-  renderSpiMap(s);
-}
-
-// ---- 周度 SPI / SPEI 通用渲染 ----
-function renderWeeklyGeneric(data, view) {
-  // data: {meta, regions}；view: 'spi' 或 'spei'，决定字段前缀
-  const prefix = view === 'spi' ? 'spi' : 'spei';
-  const title = view === 'spi' ? 'SPI' : 'SPEI';
-  const icon = view === 'spi' ? '💧' : '🌡️';
+// ===== 墒情状态（周度 SPI / SPEI，统一四尺度：近一周/近一月/近一季/近一年）=====
+function renderMoisture() {
+  const data = moistureMetric === 'spi' ? DATA.spi_weekly : DATA.spei_weekly;
+  const title = moistureMetric === 'spi' ? 'SPI' : 'SPEI';
+  const prefix = moistureMetric;
   if (!data || !data.regions || !data.regions.length) {
-    document.getElementById("weatherBanner").innerHTML = `<div class="note">无周度 ${title} 数据（首次运行 ${view}_weekly_calc.py 后生成）</div>`;
+    document.getElementById("weatherBanner").innerHTML = `<div class="note">无周度 ${title} 数据（首次运行 ${moistureMetric}_weekly_calc.py 后生成）</div>`;
     document.getElementById("weatherMap").style.display = 'none';
     document.getElementById("weatherGroups").innerHTML = '';
     return;
@@ -972,10 +872,10 @@ function renderWeeklyGeneric(data, view) {
   const r0 = data.regions[0];
   const f = v => (v == null ? '—' : `${v>=0?'+':''}${Number(v).toFixed(2)}`);
   document.getElementById("weatherBanner").innerHTML =
-    `<b>指标：</b>${title}（周度） · <b>主尺度：</b>${title}-${m.main_scale_weeks}w（≈1月） · <b>最新完整周：</b>${r0.latest_week}（至 ${r0.latest_week_end}） · 更新于 ${m.updated}<br>` +
-    `<span style="font-size:.76rem;color:#8b949e">${title} 周度版按 ISO 周聚合，与短期降水同步到同一完整周（比月度版前进约2周）。${title}-1w=周 / 4w≈1月 / 13w≈1季 / 52w≈1年。分级：≤-2极度干旱 / -2~-1.5干旱 / -1.5~-1偏干 / -1~1中性 / 1~1.5偏湿 / 1.5~2洪涝 / ≥2极度洪涝</span>`;
+    `<b>指标：</b>${title}（周度） · <b>最新完整周：</b>${r0.latest_week}（至 ${r0.latest_week_end}） · 更新于 ${m.updated}<br>` +
+    `<span style="font-size:.76rem;color:#8b949e">${title} 周度版按 ISO 周聚合，与短期降水同步到同一完整周。四尺度：${title}-1w(近一周) / 4w(近一月) / 13w(近一季) / 52w(近一年)。${title === 'SPEI' ? 'SPEI 含潜在蒸散(PET)，热带高温区干旱更准。' : ''}分级：≤-2极度干旱 / -2~-1.5干旱 / -1.5~-1偏干 / -1~1中性 / 1~1.5偏湿 / 1.5~2洪涝 / ≥2极度洪涝</span>`;
   document.getElementById("weatherMap").style.display = 'block';
-  document.getElementById("weatherMapTip").innerHTML = `🖱️ 悬停看 ${title}-1w/4w/13w/52w 详情 · 点击产区点放大 · 点颜色=${title}-4w 墒情分级`;
+  document.getElementById("weatherMapTip").innerHTML = `🖱️ 悬停看 ${title}-1w/4w/13w/52w · 点击产区点看详情与历史曲线 · 点颜色=${title}-4w(近一月) 墒情分级`;
   const emoji = {大豆:'🫘', 玉米:'🌽', 棕榈油:'🌴', 橡胶:'🌳', 白糖:'🍬', 棉花:'🧵'};
   const groups = {};
   data.regions.forEach(r => { (groups[r.commodity] = groups[r.commodity] || []).push(r); });
@@ -984,10 +884,10 @@ function renderWeeklyGeneric(data, view) {
     h += `<h3>${emoji[c]||''} ${c}</h3><div class="weather-grid">`;
     groups[c].forEach(r => {
       const lv = r.level || 'normal';
-      h += `<div class="weather-card ${lv}" onclick="showWeeklyModal(DATA.${view}_weekly.regions.find(x=>x.id==='${r.id}'), '${title}')" style="cursor:pointer">` +
+      h += `<div class="weather-card ${lv}" onclick="showMoistureModal(DATA.${moistureMetric}_weekly.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
         `<div class="wc-head">${r.name_zh}<span class="wc-rank">${r.rank}</span></div>` +
-        `<div class="wc-spi">${f(r[prefix+'4w'])}<span class="u">${title}-4w</span></div>` +
-        `<div class="wc-scales">${title}-1w ${f(r[prefix+'1w'])} · ${title}-13w ${f(r[prefix+'13w'])} · ${title}-52w ${f(r[prefix+'52w'])}</div>` +
+        `<div class="wc-spi">${f(r[prefix+'4w'])}<span class="u">${title}-4w(近一月)</span></div>` +
+        `<div class="wc-scales">近一周 ${f(r[prefix+'1w'])} · 近一季 ${f(r[prefix+'13w'])} · 近一年 ${f(r[prefix+'52w'])}</div>` +
         `<span class="wc-tag ${lv}">${r.condition}</span>` +
         `<div class="wc-signal">最新完整周 ${r.latest_week}</div>` +
         `</div>`;
@@ -995,45 +895,18 @@ function renderWeeklyGeneric(data, view) {
     h += '</div>';
   });
   document.getElementById("weatherGroups").innerHTML = h;
-  renderWeeklyMap(data, prefix, title);
+  renderMoistureMap(data);
 }
 
-function renderSpiWeekly() { renderWeeklyGeneric(DATA.spi_weekly, 'spi'); }
-function renderSpeiWeekly() { renderWeeklyGeneric(DATA.spei_weekly, 'spei'); }
-
-function showWeeklyModal(r, title) {
-  const f = v => (v == null ? '—' : `${v>=0?'+':''}${Number(v).toFixed(2)}`);
-  const p = title === 'SPI' ? 'spi' : 'spei';
-  document.getElementById("wmodalBody").innerHTML =
-    `<span class="wm-close" onclick="closeWModal()">✕</span>` +
-    `<div class="wm-title">${r.name_zh}<span class="wm-rank">${r.rank}</span></div>` +
-    `<div class="wm-precip">${f(r[p+'4w'])}<span class="u">${title}-4w 月尺度</span></div>` +
-    `<div class="wm-row"><b>墒情评级</b>：${r.condition}</div>` +
-    `<div class="wm-row"><b>${title}-1w</b>（周）：${f(r[p+'1w'])} · ${r[p+'1w_cond']}</div>` +
-    `<div class="wm-row"><b>${title}-13w</b>（季）：${f(r[p+'13w'])} · ${r[p+'13w_cond']}</div>` +
-    `<div class="wm-row"><b>${title}-52w</b>（年）：${f(r[p+'52w'])} · ${r[p+'52w_cond']}</div>` +
-    `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}</div>` +
-    `<div class="wm-signal">最新完整周 ${r.latest_week}（至 ${r.latest_week_end}） · 拟合样本 ${r.n_years} 年</div>`;
-  document.getElementById("wmodalMask").classList.add("show");
-}
-
-function renderWeeklyMap(data, prefix, title) {
+function renderMoistureMap(data) {
+  const prefix = moistureMetric;
+  const title = moistureMetric === 'spi' ? 'SPI' : 'SPEI';
   const container = document.getElementById("weatherMap");
   const draw = (worldGeo) => {
     if (!window.echarts) { container.innerHTML = '<div class="note">ECharts 未加载</div>'; return; }
     echarts.registerMap('world', worldGeo);
-    if (!weatherChart) {
-      weatherChart = echarts.init(container);
-      weatherChart.on('click', function(params) {
-        if (params.componentType === 'series' && params.data && params.data.raw) {
-          if (params.data.raw[prefix+'4w'] !== undefined) showWeeklyModal(params.data.raw, title);
-          else if (params.data.raw.spi3 !== undefined) showSpiModal(params.data.raw);
-          else showWModal(params.data.raw);
-        }
-      });
-      window.addEventListener('resize', () => { if (weatherChart) weatherChart.resize(); });
-    }
-    const data = groupByLocation(data.regions).map(g => {
+    ensureWeatherChart();
+    const d = groupByLocation(data.regions).map(g => {
       const r = g.main;
       const share = r.global_share || 1;
       const sz = Math.max(8, Math.min(30, 8 + Math.sqrt(share) * 4.5));
@@ -1056,8 +929,8 @@ function renderWeeklyMap(data, prefix, title) {
           return grp.map(r => {
             const shareStr = r.global_share != null ? ` · 全球份额 ${r.global_share}%` : '';
             return `<b>${r.name_zh}</b>（${COMMODITY_SHORT[r.commodity]||r.commodity}${shareStr}）<br>${r.country}·${r.state}<br>` +
-              `${title}-4w：<b>${f(r[prefix+'4w'])}</b>（${r[prefix+'4w_cond']}）<br>` +
-              `${title}-1w：${f(r[prefix+'1w'])} · ${title}-13w：${f(r[prefix+'13w'])} · ${title}-52w：${f(r[prefix+'52w'])}<br>` +
+              `${title}-4w(近一月)：<b>${f(r[prefix+'4w'])}</b>（${r[prefix+'4w_cond']}）<br>` +
+              `近一周：${f(r[prefix+'1w'])} · 近一季：${f(r[prefix+'13w'])} · 近一年：${f(r[prefix+'52w'])}<br>` +
               `墒情：<b>${r.condition}</b>`;
           }).join('<br><br>');
         }
@@ -1071,31 +944,116 @@ function renderWeeklyMap(data, prefix, title) {
       series: [{
         type: 'effectScatter', coordinateSystem: 'geo',
         rippleEffect: { brushType: 'stroke', scale: 3 },
-        data: data,
+        data: d,
         label: { show: true, position: 'right', formatter: groupLabel, color: '#c9d1d9', fontSize: 10 },
         emphasis: { scale: 1.7 },
       }]
     });
   };
-  if (worldGeoLoaded) {
-    draw(worldGeoLoaded);
-  } else {
-    fetch('data/vendor/world.json?t=' + Date.now())
-      .then(r => r.json())
-      .then(geo => { worldGeoLoaded = geo; draw(geo); })
-      .catch(() => { container.innerHTML = '<div class="note">世界地图加载失败</div>'; });
-  }
+  if (worldGeoLoaded) draw(worldGeoLoaded);
+  else fetch('data/vendor/world.json?t=' + Date.now()).then(r => r.json())
+    .then(geo => { worldGeoLoaded = geo; draw(geo); })
+    .catch(() => { container.innerHTML = '<div class="note">世界地图加载失败</div>'; });
+}
+
+function showMoistureModal(r) {
+  const title = moistureMetric === 'spi' ? 'SPI' : 'SPEI';
+  const prefix = moistureMetric;
+  const f = v => (v == null ? '—' : `${v>=0?'+':''}${Number(v).toFixed(2)}`);
+  document.getElementById("wmodalBody").innerHTML =
+    `<span class="wm-close" onclick="closeWModal()">✕</span>` +
+    `<div class="wm-title">${r.name_zh}<span class="wm-rank">${r.rank}</span></div>` +
+    `<div class="wm-precip">${f(r[prefix+'4w'])}<span class="u">${title}-4w 近一月</span></div>` +
+    `<div class="wm-row"><b>墒情评级</b>：${r.condition}</div>` +
+    `<div class="wm-row"><b>${title}-1w</b>（近一周）：${f(r[prefix+'1w'])} · ${r[prefix+'1w_cond']}</div>` +
+    `<div class="wm-row"><b>${title}-13w</b>（近一季）：${f(r[prefix+'13w'])} · ${r[prefix+'13w_cond']}</div>` +
+    `<div class="wm-row"><b>${title}-52w</b>（近一年）：${f(r[prefix+'52w'])} · ${r[prefix+'52w_cond']}</div>` +
+    `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}</div>` +
+    `<div class="wm-signal">最新完整周 ${r.latest_week}（至 ${r.latest_week_end}） · 拟合样本 ${r.n_years} 年</div>` +
+    `<div class="wmodal-chart-title">📈 ${title} 指标历史走势（拖拽缩放 · 点击图例切换尺度）</div>` +
+    `<div class="wmodal-chart" id="wmodalChart"></div>`;
+  document.getElementById("wmodalMask").classList.add("show");
+  renderModalChart(r.id);
+}
+
+function renderModalChart(rid) {
+  const prefix = moistureMetric;
+  const title = moistureMetric === 'spi' ? 'SPI' : 'SPEI';
+  const draw = (sd) => {
+    const s = sd.series[rid];
+    const weeks = sd.meta.weeks;
+    if (!s || !weeks) return;
+    const el = document.getElementById("wmodalChart");
+    if (!el || !window.echarts) return;
+    if (modalChart) modalChart.dispose();
+    modalChart = echarts.init(el);
+    const scaleMeta = [
+      {key:'1w', name:'近一周', color:'#8b949e', width:1},
+      {key:'4w', name:'近一月', color:'#e0c068', width:2.5},
+      {key:'13w', name:'近一季', color:'#58a6ff', width:1.5},
+      {key:'52w', name:'近一年', color:'#3fb950', width:1.5},
+    ];
+    const series = scaleMeta.map(sc => ({
+      name: sc.name,
+      type: 'line',
+      showSymbol: false,
+      connectNulls: false,
+      data: s[prefix + sc.key],
+      lineStyle: { width: sc.width, color: sc.color },
+      itemStyle: { color: sc.color },
+      emphasis: { focus: 'series' },
+    }));
+    const n = weeks.length;
+    const startPct = n > 156 ? ((n - 156) / n * 100) : 0;
+    modalChart.setOption({
+      backgroundColor: 'transparent',
+      tooltip: {
+        trigger: 'axis',
+        backgroundColor: '#161b22', borderColor: '#30363d', textStyle: { color: '#c9d1d9', fontSize: 11 },
+        valueFormatter: v => (v == null ? '—' : `${v>=0?'+':''}${Number(v).toFixed(2)}`),
+      },
+      legend: { top: 0, textStyle: { color: '#8b949e', fontSize: 11 }, itemWidth: 14, itemHeight: 8 },
+      grid: { left: 40, right: 16, top: 30, bottom: 44 },
+      xAxis: {
+        type: 'category', data: weeks,
+        axisLine: { lineStyle: { color: '#30363d' } },
+        axisLabel: { color: '#8b949e', fontSize: 10, interval: Math.floor(n/8) },
+      },
+      yAxis: {
+        type: 'value', name: title, nameTextStyle: { color: '#8b949e', fontSize: 10 },
+        axisLine: { show: false }, axisLabel: { color: '#8b949e', fontSize: 10 },
+        splitLine: { lineStyle: { color: '#21262d' } },
+      },
+      dataZoom: [
+        { type: 'inside', start: startPct, end: 100 },
+        { type: 'slider', start: startPct, end: 100, height: 16, bottom: 8,
+          borderColor: '#30363d', backgroundColor: '#161b22', fillerColor: 'rgba(88,166,255,.15)',
+          textStyle: { color: '#8b949e', fontSize: 10 } },
+      ],
+      series: series,
+    });
+  };
+  if (seriesCache[moistureMetric]) draw(seriesCache[moistureMetric]);
+  else fetch(`data/${moistureMetric}_weekly_series.json?t=` + Date.now())
+    .then(r => r.json())
+    .then(d => { seriesCache[moistureMetric] = d; draw(d); })
+    .catch(() => { const el = document.getElementById("wmodalChart"); if (el) el.innerHTML = '<div class="note">时间序列加载失败</div>'; });
 }
 
 function switchWeatherView(view, el) {
+  currentWeatherView = view;
   document.getElementById("btnWeatherView").classList.toggle("active", view === 'weather');
-  document.getElementById("btnSpiView").classList.toggle("active", view === 'spi');
-  document.getElementById("btnSpiWeeklyView").classList.toggle("active", view === 'spi_weekly');
-  document.getElementById("btnSpeiWeeklyView").classList.toggle("active", view === 'spei_weekly');
-  if (view === 'spi') renderSpi();
-  else if (view === 'spi_weekly') renderSpiWeekly();
-  else if (view === 'spei_weekly') renderSpeiWeekly();
+  document.getElementById("btnMoistureView").classList.toggle("active", view === 'moisture');
+  document.getElementById("moistureSubSwitch").style.display = view === 'moisture' ? 'flex' : 'none';
+  if (view === 'moisture') renderMoisture();
   else renderWeather();
+}
+
+function switchMoisture(metric, el) {
+  moistureMetric = metric;
+  document.getElementById("btnSpiSub").classList.toggle("active", metric === 'spi');
+  document.getElementById("btnSpeiSub").classList.toggle("active", metric === 'spei');
+  renderMoisture();
 }
 
 function render() {
@@ -1151,7 +1109,7 @@ Promise.all([
   DATA = d;
   DATA.tracking = t;   // tracking 加载失败时为 null，renderTracking 里 !tk 显示"无跟踪数据"，不阻塞主数据
   DATA.weather = w;    // weather 加载失败时为 null，renderWeather 里 !w 显示"无产区降水数据"
-  DATA.spi = s;        // spi 加载失败时为 null，renderSpi 里 !s 显示"无 SPI 墒情数据"
+  DATA.spi = s;        // 月度 SPI（保留，暂未在前端展示）
   DATA.spi_weekly = sw;   // 周度 SPI
   DATA.spei_weekly = ew;  // 周度 SPEI
   render();
