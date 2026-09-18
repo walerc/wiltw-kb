@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SPEI 墒情测试版（Hargreaves 蒸散）</title>
+<title>SPEI 墒情测试版（Penman-Monteith 蒸散）</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: #0d1117; color: #c9d1d9; font-family: -apple-system, "Microsoft YaHei", sans-serif; padding: 20px; }
@@ -50,8 +50,8 @@ h3 { color:#e6edf3; margin:16px 0 8px; font-size:1rem; }
 </head>
 <body>
 <div class="wrap">
-  <h1>💧 SPEI 墒情测试版 <span class="sub">（标准化降水蒸散指数 · Hargreaves PET）</span></h1>
-  <div class="sub">⚠️ 测试版本，不影响线上 SPI 墒情。SPEI 在 SPI 基础上加入温度蒸散（水分平衡 = 降水 − 蒸散），热带高温区干旱更准。</div>
+  <h1>💧 SPEI 墒情测试版 <span class="sub">（标准化降水蒸散指数 · Penman-Monteith PET）</span></h1>
+  <div class="sub">⚠️ 测试版本，不影响线上 SPI 墒情。SPEI 在 SPI 基础上加入潜在蒸散（水分平衡 = 降水 − PET），PET 用 CRU Penman-Monteith（比 Hargreaves 更专业），热带高温区干旱更准。</div>
   <div class="banner" id="banner">加载中...</div>
   <div class="map" id="map"></div>
   <div class="tip" id="tip"></div>
