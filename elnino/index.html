@@ -673,6 +673,7 @@ let weatherChart = null;     // ECharts 实例
 let currentWeatherView = 'weather'; // 当前视图: 'weather'(短期天气) 或 'moisture'(墒情状态)
 let moistureMetric = 'spei'; // 墒情状态当前指标: 'spi' 或 'spei'
 let seriesCache = {};        // 时间序列缓存: {'spi': data, 'spei': data}
+let weatherSeriesCache = null; // 短期降雨时间序列缓存
 let modalChart = null;       // 详情框时间序列折线图实例
 
 const COMMODITY_SHORT = { 大豆:'大豆', 玉米:'玉米', 棕榈油:'棕榈', 橡胶:'橡胶', 白糖:'白糖', 棉花:'棉花' };
@@ -721,8 +722,11 @@ function showWModal(r) {
     `<div class="wm-row"><b>20年气候态</b>：均值 ${r.climate_mean != null ? r.climate_mean : '—'} mm · 今年分位 ${r.climate_percentile != null ? r.climate_percentile + '%' : '—'}（${r.climate_n_years || 0}年样本）</div>` +
     `<div class="wm-row"><b>旱涝评级</b>：${r.condition}</div>` +
     `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}</div>` +
-    `<div class="wm-signal">${sigStr} · 站点格点 ${r.valid_grid}/${r.grid_total}</div>`;
+    `<div class="wm-signal">${sigStr} · 站点格点 ${r.valid_grid}/${r.grid_total}</div>` +
+    `<div class="wmodal-chart-title">📈 周度累计降水历史走势（拖拽缩放 · 点击图例切换）</div>` +
+    `<div class="wmodal-chart" id="wmodalChart"></div>`;
   document.getElementById("wmodalMask").classList.add("show");
+  renderWeatherChart(r.id);
 }
 
 const LEVEL_COLOR = {drought:'#ff7b72', dry:'#d29922', normal:'#3fb950', wet:'#79c0ff', flood:'#58a6ff'};
@@ -1037,6 +1041,72 @@ function renderModalChart(rid) {
   else fetch(`data/${moistureMetric}_weekly_series.json?t=` + Date.now())
     .then(r => r.json())
     .then(d => { seriesCache[moistureMetric] = d; draw(d); })
+    .catch(() => { const el = document.getElementById("wmodalChart"); if (el) el.innerHTML = '<div class="note">时间序列加载失败</div>'; });
+}
+
+function renderWeatherChart(rid) {
+  // 短期降雨详情框折线图：周度累计降水 + 20年同期均值参考线
+  const draw = (sd) => {
+    const s = sd.series[rid];
+    const weeks = sd.meta.weeks;
+    if (!s || !weeks) return;
+    const el = document.getElementById("wmodalChart");
+    if (!el || !window.echarts) return;
+    if (modalChart) modalChart.dispose();
+    modalChart = echarts.init(el);
+    const series = [
+      {
+        name: '周度累计降水',
+        type: 'bar',
+        showSymbol: false,
+        data: s.precip,
+        itemStyle: { color: 'rgba(88,166,255,.55)' },
+        emphasis: { focus: 'series' },
+      },
+      {
+        name: '20年同期均值',
+        type: 'line',
+        showSymbol: false,
+        data: s.climate_mean,
+        lineStyle: { width: 1.5, color: '#e0c068', type: 'dashed' },
+        itemStyle: { color: '#e0c068' },
+        emphasis: { focus: 'series' },
+      },
+    ];
+    const n = weeks.length;
+    const startPct = n > 156 ? ((n - 156) / n * 100) : 0;
+    modalChart.setOption({
+      backgroundColor: 'transparent',
+      tooltip: {
+        trigger: 'axis',
+        backgroundColor: '#161b22', borderColor: '#30363d', textStyle: { color: '#c9d1d9', fontSize: 11 },
+        valueFormatter: v => (v == null ? '—' : `${Number(v).toFixed(1)} mm`),
+      },
+      legend: { top: 0, textStyle: { color: '#8b949e', fontSize: 11 }, itemWidth: 14, itemHeight: 8 },
+      grid: { left: 44, right: 16, top: 30, bottom: 44 },
+      xAxis: {
+        type: 'category', data: weeks,
+        axisLine: { lineStyle: { color: '#30363d' } },
+        axisLabel: { color: '#8b949e', fontSize: 10, interval: Math.floor(n/8) },
+      },
+      yAxis: {
+        type: 'value', name: 'mm', nameTextStyle: { color: '#8b949e', fontSize: 10 },
+        axisLine: { show: false }, axisLabel: { color: '#8b949e', fontSize: 10 },
+        splitLine: { lineStyle: { color: '#21262d' } },
+      },
+      dataZoom: [
+        { type: 'inside', start: startPct, end: 100 },
+        { type: 'slider', start: startPct, end: 100, height: 16, bottom: 8,
+          borderColor: '#30363d', backgroundColor: '#161b22', fillerColor: 'rgba(88,166,255,.15)',
+          textStyle: { color: '#8b949e', fontSize: 10 } },
+      ],
+      series: series,
+    });
+  };
+  if (weatherSeriesCache) draw(weatherSeriesCache);
+  else fetch('data/weather_series.json?t=' + Date.now())
+    .then(r => r.json())
+    .then(d => { weatherSeriesCache = d; draw(d); })
     .catch(() => { const el = document.getElementById("wmodalChart"); if (el) el.innerHTML = '<div class="note">时间序列加载失败</div>'; });
 }
 
