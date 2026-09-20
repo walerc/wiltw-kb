@@ -27,7 +27,7 @@ fetch_weather.py — 农产品主产区周度降水跟踪（NOAA CPC Unified Gau
   /usr/bin/python3 fetch_weather.py --commodity 大豆    # 只算某品种
   /usr/bin/python3 fetch_weather.py --dry-run           # 只解析本地缓存不下载
 """
-import json, os, sys, argparse, datetime, urllib.request
+import json, os, sys, argparse, datetime, urllib.request, csv
 import concurrent.futures
 
 import numpy as np
@@ -35,6 +35,7 @@ import numpy as np
 BASE = os.path.dirname(os.path.abspath(__file__))
 REGIONS_PATH = os.path.join(BASE, "data", "production_regions.json")
 OUT_PATH = os.path.join(BASE, "data", "weather_regions.json")
+HIST_PATH = os.path.join(BASE, "data", "weather_history.csv")
 CACHE_DIR = os.path.join(BASE, "data", "cpc_cache")
 
 CPC_URL = "https://ftp.cpc.ncep.noaa.gov/precip/CPC_UNI_PRCP/GAUGE_GLB/RT/{year}/PRCP_CU_GAUGE_V1.0GLB_0.50deg.lnx.{ymd}.RT"
@@ -122,7 +123,8 @@ def parse_cpc(path):
 
 # ---------- 裁剪 ----------
 def clip_region(rain, region):
-    """裁剪产区，返回 (平均降水mm/day, 有效格点数, 总格点数)。"""
+    """裁剪产区，返回 (中位数降水mm/day, 均值降水mm/day, 无雨格点占比, 有效格点数, 总格点数)。
+    v2: 主指标改中位数 median（抗局地极端暴雨拉高均值），mean 仅作参考。"""
     i0, i1 = lon_to_i(region["west"]), lon_to_i(region["east"])
     j0, j1 = lat_to_j(region["north"]), lat_to_j(region["south"])
     j_lo, j_hi = sorted([j0, j1])
@@ -130,8 +132,11 @@ def clip_region(rain, region):
     valid = sub[~np.isnan(sub)]
     total = sub.size
     if valid.size == 0:
-        return np.nan, 0, total
-    return float(np.nanmean(valid)), int(valid.size), total
+        return np.nan, np.nan, np.nan, 0, total
+    med = float(np.nanmedian(valid))
+    mean = float(np.nanmean(valid))
+    dry_frac = float(np.sum(valid < 0.1) / valid.size)  # <0.1mm/day 视为无雨
+    return med, mean, dry_frac, int(valid.size), total
 
 
 def load_regions():
@@ -140,16 +145,37 @@ def load_regions():
     return data["regions"]
 
 
+def load_climate_history():
+    """读 weather_history.csv -> {region_id: {date_str: precip_mm(median)}}。
+    历史数据可能未下载完整，函数返回能读到的部分（气候态需 ≥10 年才启用）。"""
+    hist = {}
+    if not os.path.exists(HIST_PATH):
+        return hist
+    with open(HIST_PATH, encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            rid = row.get("region_id")
+            if not rid:
+                continue
+            try:
+                v = float(row["precip_mm"])
+            except (ValueError, TypeError):
+                continue
+            hist.setdefault(rid, {})[row["date"]] = v
+    return hist
+
+
 # ---------- 旱涝信号 ----------
-def drought_flood_signals(daily_mean_series, daily_max_series):
-    """从日度序列提取旱涝信号（去年同期对比阶段起步版）。
-    daily_mean_series: 升序 [(date_str, 产区平均mm/day)] 今年近N天
-    daily_max_series:  升序 [(date_str, 产区单日最大格点mm/day)]
+def drought_flood_signals(daily_med_series, daily_max_series):
+    """从日度序列提取旱涝信号（v2: median 口径）。
+    daily_med_series: 升序 [(date_str, 产区中位数mm/day)] 今年近N天
+    daily_max_series: 升序 [(date_str, 产区单日最大格点mm/day)]
+    heavy_rain_days      用 median>20mm/day 判「广域强降雨」(半数以上格点都大)
+    heavy_rain_grid_days 用 max>80mm/day 判「局地极端暴雨」(单格点爆表)
     """
-    heavy_rain_days = sum(1 for _, v in daily_mean_series if v and v > 30)
+    heavy_rain_days = sum(1 for _, v in daily_med_series if v and v > 20)
     heavy_rain_grid_days = sum(1 for _, v in daily_max_series if v and v > 80)
     max_dry = cur = 0
-    for _, v in daily_mean_series:
+    for _, v in daily_med_series:
         if v is None or v < 1.0:
             cur += 1
             max_dry = max(max_dry, cur)
@@ -219,9 +245,10 @@ def main():
     series_this = load_series(dates_this)
     series_last = load_series(dates_last)
 
+    hist = load_climate_history()  # 20年历史同期（气候态基准，可能未下载完整）
     result = {"meta": {
         "data_source": "NOAA CPC Unified Gauge (0.5deg daily)",
-        "baseline": "去年同期",
+        "baseline": "去年同期 + 20年气候态(分位数)",
         "unit": "mm",
         "days": args.days,
         "updated": today.strftime("%Y-%m-%d"),
@@ -230,34 +257,39 @@ def main():
         "lag_days": args.lag,
         "this_days": len(series_this),
         "last_days": len(series_last),
+        "climate_years_loaded": len({d[:4] for d in hist.get(regions[0]["id"], {})}) if regions else 0,
     }, "regions": []}
 
     for r in regions:
-        acc_this = acc_last = 0.0
+        acc_this = acc_last = 0.0              # median 累计（主指标，抗局地暴雨）
+        acc_mean_this = acc_mean_last = 0.0    # mean 累计（参考，含暴雨总量）
+        dry_sum_this = dry_sum_last = 0.0
         cnt_this = cnt_last = 0
-        daily_mean = []   # 今年日度产区平均
+        daily_med = []    # 今年日度产区中位数
         daily_max = []    # 今年日度产区单格点最大
         grid_total = valid_grid = 0
         for ds, (rain, gnum) in series_this.items():
-            m, v, t = clip_region(rain, r)
+            med, mean, dry, v, t = clip_region(rain, r)
             grid_total, valid_grid = t, v
-            daily_mean.append((ds, m))
+            daily_med.append((ds, med))
             i0, i1 = lon_to_i(r["west"]), lon_to_i(r["east"])
             j0, j1 = lat_to_j(r["north"]), lat_to_j(r["south"])
             j_lo, j_hi = sorted([j0, j1])
             sub = rain[j_lo:j_hi + 1, i0:i1 + 1]
             mx = float(np.nanmax(sub)) if np.any(~np.isnan(sub)) else None
             daily_max.append((ds, mx))
-            if m == m:  # not nan
-                acc_this += m; cnt_this += 1
+            if med == med:  # not nan
+                acc_this += med; cnt_this += 1
+                acc_mean_this += mean; dry_sum_this += dry
         for ds, (rain, gnum) in series_last.items():
-            m, v, t = clip_region(rain, r)
-            if m == m:
-                acc_last += m; cnt_last += 1
+            med, mean, dry, v, t = clip_region(rain, r)
+            if med == med:
+                acc_last += med; cnt_last += 1
+                acc_mean_last += mean; dry_sum_last += dry
 
-        daily_mean.sort()
+        daily_med.sort()
         daily_max.sort()
-        signals = drought_flood_signals(daily_mean, daily_max)
+        signals = drought_flood_signals(daily_med, daily_max)
 
         # 距平：绝对差值 + 百分比(仅去年≥1mm时算，避免小分母爆炸)
         anomaly_mm = round(acc_this - acc_last, 1)
@@ -266,16 +298,45 @@ def main():
             pct = round((acc_this - acc_last) / acc_last * 100, 1)
         condition, level = classify(pct, signals["heavy_rain_days"], signals["max_dry_streak"])
 
+        # 气候态：过去历年同期7日合计(从 weather_history.csv 读，无需下载)
+        climate_vals = []
+        if hist and r["id"] in hist:
+            for y in range(2006, today.year):
+                s = 0.0
+                ok = True
+                for d in dates_this:
+                    v = hist[r["id"]].get(d.replace(year=y).strftime("%Y-%m-%d"))
+                    if v is None:
+                        ok = False
+                        break
+                    s += v
+                if ok:
+                    climate_vals.append(s)
+        climate_mean = None
+        climate_percentile = None
+        if len(climate_vals) >= 10:  # 至少10年才算气候态
+            climate_mean = round(float(np.mean(climate_vals)), 1)
+            climate_percentile = round(float(np.sum(np.array(climate_vals) < acc_this) / len(climate_vals) * 100), 1)
+
         result["regions"].append({
             "id": r["id"], "commodity": r["commodity"], "country": r["country"],
             "state": r["state"], "name_zh": r["name_zh"], "rank": r["rank"],
+            "global_share": r.get("global_share"),
             "center_lon": round((r["west"] + r["east"]) / 2, 2),
             "center_lat": round((r["north"] + r["south"]) / 2, 2),
             "days": args.days,
-            "precip_this": round(acc_this, 1),
+            "precip_this": round(acc_this, 1),          # median 累计（主）
             "precip_last": round(acc_last, 1),
+            "precip_mean_this": round(acc_mean_this, 1),  # mean 参考
+            "precip_mean_last": round(acc_mean_last, 1),
+            "dry_frac_this": round(dry_sum_this / cnt_this, 2) if cnt_this else None,
+            "dry_frac_last": round(dry_sum_last / cnt_last, 2) if cnt_last else None,
             "anomaly_mm": anomaly_mm,
             "anomaly_pct": pct,
+            "climate_mean": climate_mean,               # 20年同期气候态均值
+            "climate_anomaly_mm": round(acc_this - climate_mean, 1) if climate_mean is not None else None,
+            "climate_percentile": climate_percentile,   # 今年在20年同期分布的分位数(0-100)
+            "climate_n_years": len(climate_vals),
             "condition": condition,
             "level": level,
             "valid_grid": valid_grid, "grid_total": grid_total,
