@@ -357,6 +357,14 @@ def main():
             if pr is None:
                 continue
             cur_wsi, cur_p_etc, latest_date, monthly_labels, monthly_wsi, monthly_petc = pr
+            # 雨林区轻量补充：当前 WRSI 在历史同月分布中的百分位（高=比历史同期湿，低=比历史同期干）
+            cur_ym = latest_date[:7]  # "2026-09"
+            hist_same_month = [w for l, w in zip(monthly_labels, monthly_wsi)
+                               if l[5:7] == cur_ym[5:7] and l != cur_ym]
+            wsi_pct = None
+            if hist_same_month:
+                wsi_pct = round(sum(1 for h in hist_same_month if h <= cur_wsi)
+                                / len(hist_same_month) * 100, 0)
             cond, lv, _ = wrsi_level(cur_wsi, cur_p_etc)
             out = {
                 "id": rid, "commodity": r["commodity"], "country": r["country"],
@@ -373,6 +381,7 @@ def main():
                 "awc_mm_per_m": round(awc, 1),
                 "taw_mm": round(taw, 0),
                 "wsi": round(cur_wsi, 1),
+                "wsi_percentile": wsi_pct,
                 "p_etc_ratio": round(cur_p_etc, 2),
                 "condition": cond,
                 "level": lv,

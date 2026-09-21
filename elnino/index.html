@@ -137,6 +137,34 @@ td:first-child, th:first-child { text-align:left; }
 .weather-card .wc-spi { font-size:1.28rem; font-weight:700; color:#e6edf3; margin-top:8px; }
 .weather-card .wc-spi .u { font-size:.72rem; font-weight:400; color:#8b949e; margin-left:4px; }
 .weather-card .wc-scales { font-size:.72rem; color:#8b949e; margin-top:4px; }
+/* 灌溉区醒目标签 */
+.wc-irr { display:inline-block; background:#4a1515; color:#ff8a80; border:1px solid #ff5252; border-radius:6px; padding:1px 6px; font-size:.64rem; font-weight:700; }
+.wc-irr-row { margin-top:6px; }
+/* 历史同期分位标签 */
+.wc-pct { color:#e0c068; font-weight:600; }
+.wc-pct-dry { color:#ff7b72; }
+.wc-pct-wet { color:#79c0ff; }
+/* 需水解读 + 问答备注 折叠面板 */
+.water-guide-box, .qa-note-box { margin:14px 0; background:#161b22; border:1px solid #30363d; border-radius:8px; padding:0; }
+.water-guide-box summary, .qa-note-box summary { cursor:pointer; padding:10px 14px; font-weight:700; color:#e6edf3; font-size:.86rem; user-select:none; }
+.water-guide-box summary:hover, .qa-note-box summary:hover { color:#79c0ff; }
+.water-guide-intro { padding:0 14px 6px; font-size:.76rem; color:#8b949e; line-height:1.6; }
+.water-guide-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:10px; padding:0 14px 14px; }
+.wg-crop { background:#0d1117; border:1px solid #30363d; border-radius:8px; padding:12px; }
+.wg-crop-head { font-size:.88rem; font-weight:700; color:#e6edf3; margin-bottom:2px; }
+.wg-crop-type { font-size:.7rem; color:#8b949e; margin-bottom:8px; }
+.wg-stage { padding:5px 0; border-top:1px solid #21262d; }
+.wg-stage.key { border-left:3px solid #ff5252; padding-left:8px; }
+.wg-stage-name { font-size:.78rem; font-weight:600; color:#c9d1d9; }
+.wg-stage-name .kflag { color:#ff5252; font-size:.68rem; margin-left:4px; }
+.wg-stage-timing { font-size:.68rem; color:#8b949e; margin-left:4px; }
+.wg-stage-water { font-size:.72rem; color:#79c0ff; margin-top:1px; }
+.wg-stage-dr { font-size:.7rem; color:#ff8a80; margin-top:1px; }
+.wg-stage-fl { font-size:.7rem; color:#58a6ff; margin-top:1px; }
+.wg-critical { font-size:.72rem; color:#e0c068; margin-top:8px; padding:6px 8px; background:#1a1d12; border-radius:6px; }
+.qa-note-body { padding:0 14px 14px; font-size:.78rem; color:#c9d1d9; line-height:1.7; }
+.qa-note-body h4 { color:#79c0ff; margin:10px 0 4px; font-size:.82rem; }
+.qa-note-body b { color:#e6edf3; }
 /* 点击放大 modal */
 .wmodal-mask { position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:999; display:none; align-items:center; justify-content:center; }
 .wmodal-mask.show { display:flex; }
@@ -285,6 +313,15 @@ td:first-child, th:first-child { text-align:left; }
   <div class="weather-map" id="weatherMap"></div>
   <div class="weather-map-tip" id="weatherMapTip"></div>
   <div id="weatherGroups"></div>
+  <details class="water-guide-box" id="waterGuideBox">
+    <summary>📖 需水解读 — 各作物生育期需水与旱涝后果（点击展开，理解 WRSI 值须结合当前生育期）</summary>
+    <div class="water-guide-intro" id="waterGuideIntro"></div>
+    <div id="waterGuide"></div>
+  </details>
+  <details class="qa-note-box" id="qaNoteBox">
+    <summary>❓ 指标说明问答 — WRSI 判定标准 / 口径 / 长期极端值的解读（点击展开）</summary>
+    <div id="qaNote"></div>
+  </details>
 </div>
 
 <!-- 产区详情 modal -->
@@ -1155,16 +1192,18 @@ function renderWrsi() {
     h += `<h3>${WRSI_EMOJI[c]||''} ${c}</h3><div class="weather-grid">`;
     groups[c].forEach(r => {
       const lv = r.level || 'normal';
-      const irr = r.irrigated ? ' 🚰' : '';
+      const irrTag = r.irrigated ? '<span class="wc-irr">🚰 灌溉区·仅供参考</span>' : '';
       const prog = r.perennial ? '🔄最近90天滚动' : (r.early_season ? '🌱生长季初期' : (r.season_ongoing ? '⏳进行中' : '✅已收获'));
       const dayStr = r.perennial ? '最近90天' : `生长季第${r.season_days}天`;
       const petc = r.p_etc_ratio != null ? `P/ETc ${r.p_etc_ratio.toFixed(2)}` : 'P/ETc —';
+      const pctStr = (r.perennial && r.wsi_percentile != null) ? ` · <span class="wc-pct">同期分位${r.wsi_percentile}%</span>` : '';
       h += `<div class="weather-card ${lv}" onclick="showWrsiModal(DATA.wrsi.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
-        `<div class="wc-head">${r.name_zh}${irr}<span class="wc-rank">${r.rank}</span></div>` +
+        `<div class="wc-head">${r.name_zh}<span class="wc-rank">${r.rank}</span></div>` +
         `<div class="wc-spi">${r.wsi}<span class="u">WRSI 需水满足率%</span></div>` +
-        `<div class="wc-scales">${petc} · AWC ${r.awc_mm_per_m}mm/m · ${dayStr}</div>` +
+        `<div class="wc-scales">${petc} · AWC ${r.awc_mm_per_m}mm/m · ${dayStr}${pctStr}</div>` +
         `<span class="wc-tag ${lv}">${r.condition}</span>` +
         `<div class="wc-signal">${prog} · ${r.season}</div>` +
+        (irrTag ? `<div class="wc-irr-row">${irrTag}</div>` : '') +
         `</div>`;
     });
     h += '</div>';
@@ -1230,13 +1269,17 @@ function renderWrsiMap(data) {
 }
 
 function showWrsiModal(r) {
-  const irr = r.irrigated ? `<div class="wm-row"><b>⚠️ 灌溉区</b>：WRSI 未计入灌溉补充，值偏保守，仅作气象干旱参考</div>` : '';
+  const irr = r.irrigated ? `<div class="wm-row" style="background:#4a1515;border-left:3px solid #ff5252;padding:6px 8px;border-radius:6px;"><b>🚰 灌溉区</b>：WRSI 未计入灌溉补充（该产区水分主要来自灌溉而非降水），<b>此值仅反映气象干旱，不代表作物实际受旱</b>。请参考 SPI/SPEI 或结合灌溉情况判断。</div>` : '';
   const prog = r.perennial ? '🔄 最近90天滚动窗口（捕捉拉尼娜↔厄尔尼诺年内转变）' : (r.early_season ? '🌱 生长季初期（<30天，WRSI 参考价值有限）' : (r.season_ongoing ? '⏳ 生长季进行中' : '✅ 生长季已结束'));
+  const pctRow = (r.perennial && r.wsi_percentile != null)
+    ? `<div class="wm-row"><b>历史同期分位</b>：<b style="color:#e0c068">${r.wsi_percentile}%</b>（今年该月水分在近20年同月中的位置——高=比历史同期湿，低=比历史同期干。雨林区 WRSI 常年≈100，此分位才能看出相对变化）</div>`
+    : '';
   document.getElementById("wmodalBody").innerHTML =
     `<span class="wm-close" onclick="closeWModal()">✕</span>` +
     `<div class="wm-title">${r.name_zh}<span class="wm-rank">${r.rank}</span></div>` +
     `<div class="wm-precip">${r.wsi}<span class="u">WRSI 需水满足率%</span></div>` +
     `<div class="wm-row"><b>墒情评级</b>：${r.condition}</div>` +
+    pctRow +
     `<div class="wm-row"><b>作物</b>：${r.commodity} · ${r.crop}</div>` +
     `<div class="wm-row"><b>生长季</b>：${r.season}（${prog}）</div>` +
     `<div class="wm-row"><b>土壤 AWC</b>：${r.awc_mm_per_m} mm/m · <b>总持水 TAW</b>：${r.taw_mm} mm</div>` +
@@ -1317,6 +1360,50 @@ function renderWrsiChart(rid) {
     .catch(() => { const el = document.getElementById("wmodalChart"); if (el) el.innerHTML = '<div class="note">WRSI 时间序列加载失败</div>'; });
 }
 
+function renderWaterGuide(guide) {
+  if (!guide || !guide.crops) return;
+  document.getElementById("waterGuideIntro").innerHTML = guide._meta.usage_note || '';
+  const crops = guide.crops;
+  const order = [['soy','大豆'], ['corn','玉米'], ['sugarcane','甘蔗'], ['cotton','棉花'], ['oilpalm','油棕'], ['rubber','橡胶']];
+  let h = '<div class="water-guide-grid">';
+  for (const [key, name] of order) {
+    const c = crops[key];
+    if (!c) continue;
+    h += `<div class="wg-crop">` +
+      `<div class="wg-crop-head">${c.name}</div>` +
+      `<div class="wg-crop-type">${c.type} · ${c.cycle_days_note}</div>`;
+    for (const s of c.stages) {
+      const kcls = s.key ? ' key' : '';
+      const kflag = s.key ? '<span class="kflag">★关键期</span>' : '';
+      h += `<div class="wg-stage${kcls}">` +
+        `<div class="wg-stage-name">${s.name}${kflag}<span class="wg-stage-timing">${s.timing}</span></div>` +
+        `<div class="wg-stage-water">💧 ${s.water}</div>` +
+        (s.drought && s.drought !== '—' ? `<div class="wg-stage-dr">🌵 干旱：${s.drought}</div>` : '') +
+        (s.flood && s.flood !== '—' ? `<div class="wg-stage-fl">🌊 涝：${s.flood}</div>` : '') +
+        `</div>`;
+    }
+    h += `<div class="wg-critical">🔑 ${c.critical}</div>`;
+    h += `</div>`;
+  }
+  h += '</div>';
+  document.getElementById("waterGuide").innerHTML = h;
+}
+
+function renderQaNote() {
+  document.getElementById("qaNote").innerHTML = `<div class="qa-note-body">` +
+    `<h4>1. WRSI 判定标准是否区分作物需水规模？</h4>` +
+    `<p><b>区分了</b>。WRSI=需水满足率=实际蒸散/作物需水，其中「作物需水=Kc(作物系数)×参考蒸散」。不同作物 Kc 不同（大豆1.15、玉米1.20、甘蔗1.25、棉花1.15、棕榈/橡胶1.0），根深(0.75-1.5m)、水分消耗比(0.5-0.7)也不同。<b>但分级阈值统一</b>（≥100充足/80-100正常/60-80轻度/40-60中度/&lt;40严重），因为"满足率"本身已标准化。同一数值的减产后果因生育期而异，须结合上方「需水解读」。</p>` +
+    `<h4>2. 为什么有的作物滚动90天、有的按生长季？</h4>` +
+    `<p>多年生/宿根作物（<b>棕榈、橡胶、甘蔗</b>）没有"种植→收获"周期，用<b>滚动90天窗口</b>评估当前旱涝，可捕捉拉尼娜↔厄尔尼诺的年内转变。一年生作物（<b>大豆、玉米、棉花</b>）有明确生长季，用<b>生长季累计</b>（符合FAO标准，产量取决于整个生长季的水分）。</p>` +
+    `<h4>3. 长期100%（雨林区棕榈）合理吗？</h4>` +
+    `<p><b>技术正确但敏感度低</b>。印尼雨林区年降雨2000-3000mm，是棕榈需水的2倍，WRSI常年≈100是真实的水分过剩。代价是WRSI对雨林作物敏感度低（厄尔尼诺年也只降到82-90）。<b>补充：看「历史同期分位」</b>——哪怕WRSI=100，分位低（如5%）也说明比历史同期偏干。</p>` +
+    `<h4>4. 长期亏损（印度甘蔗、新疆棉）合理吗？</h4>` +
+    `<p><b>不合理，是灌溉区失真</b>。WRSI假设水分全来自降水，但新疆棉靠冰川融雪灌溉(年降雨&lt;100mm)、印度甘蔗靠地下水+季风灌溉。这些产区WRSI常年严重亏缺是<b>方向性错误</b>，已用🚰红标标注"仅供参考"，不代表作物实际受旱。根本解决需引入灌溉率建模(方案C)。</p>` +
+    `<h4>5. 一年生作物也要分阶段看</h4>` +
+    `<p>大豆<b>鼓粒期</b>干旱=粒重永久下降、<b>苗期</b>干旱=可逆；玉米<b>抽雄授粉期</b>缺水=秃尖缺粒不可逆；棉花<b>花铃期</b>干旱=蕾铃脱落60-70%；甘蔗<b>成熟期</b>适度干旱反而有利糖分积累。详见上方「需水解读」面板（红边=关键期）。</p>` +
+    `</div>`;
+}
+
 function switchWeatherView(view, el) {
   currentWeatherView = view;
   document.getElementById("btnWeatherView").classList.toggle("active", view === 'weather');
@@ -1365,6 +1452,9 @@ function render() {
   renderAgronomy();
   // 种植要素(产区降水)
   renderWeather();
+  // 需水解读 + 指标问答备注
+  renderWaterGuide(DATA.waterGuide);
+  renderQaNote();
   // 事件池
   renderEvents();
 }
@@ -1385,7 +1475,8 @@ Promise.all([
   fetch('data/spi_weekly_regions.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
   fetch('data/spei_weekly_regions.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
   fetch('data/wrsi_regions.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
-]).then(([d, t, w, s, sw, ew, wr]) => {
+  fetch('data/crop_water_guide.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
+]).then(([d, t, w, s, sw, ew, wr, wg]) => {
   DATA = d;
   DATA.tracking = t;   // tracking 加载失败时为 null，renderTracking 里 !tk 显示"无跟踪数据"，不阻塞主数据
   DATA.weather = w;    // weather 加载失败时为 null，renderWeather 里 !w 显示"无产区降水数据"
@@ -1393,6 +1484,7 @@ Promise.all([
   DATA.spi_weekly = sw;   // 周度 SPI
   DATA.spei_weekly = ew;  // 周度 SPEI
   DATA.wrsi = wr;         // WRSI 作物旱涝
+  DATA.waterGuide = wg;   // 需水解读
   render();
 }).catch(e => document.getElementById("conclCard").innerHTML = '<div class="concl">❌ 数据加载失败: ' + e.message + '</div>');
 </script>

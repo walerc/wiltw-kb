@@ -1,0 +1,83 @@
+{
+  "_meta": {
+    "desc": "6品种生育期需水解读——WRSI 值的作物学解读辅助。同一 WRSI 数值在不同生育期含义不同。",
+    "source": "FAO-56 作物蒸散指南 + add_agronomy.py 农学知识",
+    "usage_note": "WRSI 是'需水满足率'，分级阈值统一(≥100充足/80-100正常/60-80轻度/40-60中度/<40严重)。但同一数值的'减产后果'因生育期而异：关键生育期(红字)缺水=永久减产，非关键期缺水=可逆。成熟期适度干旱对部分作物反而有利。",
+    "updated": "2026-09-21"
+  },
+  "crops": {
+    "soy": {
+      "name": "大豆",
+      "type": "一年生",
+      "cycle_days_note": "90-150天",
+      "stages": [
+        {"name": "出苗/苗期", "timing": "播种后0-40天", "water": "需水少、耐旱(深根)", "key": false, "drought": "可逆(后续雨水可恢复)", "flood": "受涝→死苗(不可逆)"},
+        {"name": "开花结荚期", "timing": "出苗后40-80天", "water": "需水陡增(占全期60%+)", "key": true, "drought": "干旱/高温→落花落荚→荚数永久减少", "flood": "—"},
+        {"name": "鼓粒期", "timing": "花后30-40天", "water": "需水峰值，决定粒重", "key": true, "drought": "干旱→籽粒不饱满→百粒重永久下降", "flood": "—"},
+        {"name": "成熟期", "timing": "落叶-荚黄", "water": "需水减少(利于脱水)", "key": false, "drought": "—", "flood": "多雨→荚霉烂、收获困难"}
+      ],
+      "critical": "开花结荚期(定荚数) + 鼓粒期(定粒重)——产量=荚数×每荚粒数×粒重"
+    },
+    "corn": {
+      "name": "玉米",
+      "type": "一年生(C4，需水最大作物之一)",
+      "cycle_days_note": "140-178天",
+      "stages": [
+        {"name": "出苗/苗期", "timing": "播种后0-30天", "water": "需水少(约占总需水5%)", "key": false, "drought": "可逆", "flood": "受涝→死苗"},
+        {"name": "拔节期", "timing": "30-50天", "water": "需水渐增，开始敏感", "key": false, "drought": "茎秆矮小→减产", "flood": "—"},
+        {"name": "抽雄授粉期", "timing": "50-70天", "water": "需水峰值(占全期40%+)，对水分最敏感", "key": true, "drought": "授粉不良→秃尖/缺粒→穗粒数永久减少", "flood": "高温高湿→授粉受阻"},
+        {"name": "灌浆期", "timing": "70-100天", "water": "需水多，决定粒重", "key": true, "drought": "干旱→粒重下降→减产", "flood": "—"},
+        {"name": "成熟期", "timing": "100-140天", "water": "需水减少(利于脱水)", "key": false, "drought": "—", "flood": "多雨→穗腐/霉变"}
+      ],
+      "critical": "抽雄授粉期(定穗粒数) + 灌浆期(定粒重)——产量=穗粒数×粒重"
+    },
+    "sugarcane": {
+      "name": "甘蔗",
+      "type": "宿根多年生",
+      "cycle_days_note": "330-365天(宿根)",
+      "stages": [
+        {"name": "萌芽/分蘖期", "timing": "种植后1-3月", "water": "需水适中", "key": false, "drought": "分蘖减少", "flood": "—"},
+        {"name": "伸长期", "timing": "分蘖后3-8月", "water": "需水最多，决定茎秆长度与产量", "key": true, "drought": "干旱→茎秆短→产量永久损失", "flood": "—"},
+        {"name": "成熟期(糖分积累)", "timing": "采收前1-2月", "water": "需适度干旱+低温+昼夜温差大", "key": true, "drought": "适度干旱→糖分高(唯一'干旱反而有利'阶段)", "flood": "多雨→糖分低(增产不增糖)"},
+        {"name": "采收/宿根", "timing": "榨季", "water": "—", "key": false, "drought": "—", "flood": "—"}
+      ],
+      "critical": "伸长期(定产量) + 成熟期(定糖分)——注意：成熟期WRSI'严重亏缺'实为适度干旱有利糖分积累，非减产信号"
+    },
+    "cotton": {
+      "name": "棉花",
+      "type": "一年生",
+      "cycle_days_note": "153-211天",
+      "stages": [
+        {"name": "出苗/苗期", "timing": "播种后0-40天", "water": "耐旱(深根系)", "key": false, "drought": "可逆", "flood": "受涝→死苗"},
+        {"name": "蕾期", "timing": "40-60天", "water": "需水渐增", "key": true, "drought": "现蕾少→铃数受限", "flood": "—"},
+        {"name": "花铃期", "timing": "60-120天", "water": "需水峰值(占全期50-60%)", "key": true, "drought": "干旱/涝/高温→蕾铃大量脱落(脱落率60-70%)→铃数永久减少", "flood": "涝→蕾铃脱落"},
+        {"name": "吐絮期", "timing": "120-150天", "water": "需干燥(利于吐絮采收)", "key": true, "drought": "—", "flood": "多雨→烂铃(纤维霉变，品质+产量双损)"}
+      ],
+      "critical": "花铃期(定铃数×铃重=产量) + 吐絮期(定纤维品质，需干燥)"
+    },
+    "oilpalm": {
+      "name": "油棕",
+      "type": "多年生乔木 · 全年滚动开花结果",
+      "cycle_days_note": "无生长季(滚动90天窗口)",
+      "stages": [
+        {"name": "性别分化期", "timing": "收获前≈24月", "water": "对水分极敏感，干旱抑制雌花分化", "key": true, "drought": "雌花比例永久下降→2年后减产(滞后不可逆)", "flood": "—"},
+        {"name": "花期/授粉期", "timing": "收获前6-9月", "water": "需正常降雨", "key": false, "drought": "烟霾干扰授粉→空果穗", "flood": "—"},
+        {"name": "果实膨大期", "timing": "收获前3-6月", "water": "需水最多，决定果穗大小", "key": true, "drought": "果穗小、出油率低→数月后减产", "flood": "—"},
+        {"name": "采收期", "timing": "全年滚动", "water": "—", "key": false, "drought": "—", "flood": "—"}
+      ],
+      "critical": "性别分化期(收获前24月) + 果实膨大期(收获前3-6月)——注意：WRSI 对雨林区棕榈敏感度低(绝对水量充足)，减产机制更多是泥炭土火灾+滞后效应，非'缺水'本身",
+      "rainforest_note": "雨林区(年降雨2000-3000mm)WRSI常年≈100，须结合'历史同期分位'看相对变化"
+    },
+    "rubber": {
+      "name": "橡胶",
+      "type": "多年生乔木 · 割胶取乳",
+      "cycle_days_note": "无生长季(滚动90天窗口)",
+      "stages": [
+        {"name": "割胶旺产期", "timing": "雨季(常年)", "water": "雨季=高胶乳量", "key": true, "drought": "旱季延长→旺产季缩短→减产", "flood": "雨天无法割胶(胶乳被冲)"},
+        {"name": "旱季落叶期", "timing": "旱季2-3月", "water": "落叶停割(保水机制)", "key": true, "drought": "落叶提前→旺产季缩短", "flood": "—"}
+      ],
+      "critical": "割胶旺产期(雨季)——有落叶保护机制，比棕榈耐旱，短期干旱可部分恢复",
+      "rainforest_note": "雨林区WRSI常年≈100，须结合'历史同期分位'看相对变化"
+    }
+  }
+}
