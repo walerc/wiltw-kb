@@ -13,7 +13,7 @@ fetch_tracking.py — 拉取当前厄尔尼诺 + 宏观 + 5品种最新数据，
 运行：cd ~/WILTW_KB/elnino && /usr/bin/python3 fetch_tracking.py
 更新频率：建议每周1次（cron 每周一早上，拉上周五收盘）
 """
-import json, os, re, urllib.request, datetime
+import json, os, re, sys, time, urllib.request, datetime
 
 # ---- iFinD token / url ----
 DEFAULT_TOKEN = "eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIn0.XfFURXlgV6AMNQUchdjI7iVMxQF8nnHuKZnkRRmPh0Oc_siFrsK6TxFJzkEcGrxyzn9IZ4-d1Iz82N6gK0iWWe2eMU9EEj2Rrfkzd5plj0tPICC9aqBIAMKkn7CG266g1nkJ9ZpmITyEVOhTo9Pf12HAaLqbzBk5M27WWtPz-Ox5aFwXeoJnUmiDhCWDTqDbVtktHB0rsSrWqM9vPZim2VCMyS7TnIxNbAFYBzZH9rVUcGGg6UGbZtTJ4nJLKqXOS8SX9EP7A0Kz6eGeo64BdLZ6OV_gJutjIihgr5t9q6D7gOLClVtsthjBP_RX_vJ6BYrlrXpZpDRD70FwRod-Nw.5j2BOOrFWzbbxvyv.AivRYcb6hoONYxLKeCY0uAq5Rs4stywEemEBLbXIqjkG-P0UeEm7NWRyEIlp6Cyhe678ElTlBPpjvRGW9S8GoLsWFdU2IcCY-ZcA9UjXzmiw5fulnuEnX83bf5w0rDLTM0gCimaDulVg_Oz1e_53R3tht58zN3BUBOd4Bz-9ggbk4qt9AbpPMYvoX076v1CSFETgvVZqUStPUYlxVRQE32XVkxg5suRRbsWkPng8G0_ncZKkB0GSB6ag2AR7EFKIlXAe-ASvS8iDNw1IJ4NAr_0ina5h94ohybLneWwWunJGzETNCoPKdpAwt7dg7WW-VqDPbe2sahxcsPOgH49BHE_XcwG3nGJKbI3KXLYDyuV9C-LC8nCb_BUXVAY-8hwvG9e8e1Kp0LKqaSe6QvKq_QuuOK64xQ.F9pEIDvWlIZ5l1cvKiRZcQ"
@@ -51,38 +51,53 @@ MONTHLY = {
 }
 
 
-def query_edb(q, timeout=120):
+def query_edb(q, timeout=120, retries=3):
     body = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "tools/call",
                        "params": {"name": "get_edb_data", "arguments": {"query": q}}}).encode()
     req = urllib.request.Request(EDB_URL, data=body, headers={
         "Content-Type": "application/json",
         "Accept": "application/json, text/event-stream",
         "Authorization": f"Bearer {TOKEN}"})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        resp = json.loads(r.read().decode())
-    content = resp.get("result", {}).get("content", [])
-    if not content:
-        return None
-    text = content[0].get("text", "")
-    inner = json.loads(text)
+    last_err = None
+    for attempt in range(retries):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                resp = json.loads(r.read().decode())
+            content = resp.get("result", {}).get("content", [])
+            if not content:
+                last_err = "空 content"
+                continue
+            text = content[0].get("text", "")
+            inner = json.loads(text)
 
-    def find_datas(o, d=0):
-        if d > 6 or not isinstance(o, dict):
-            return None
-        if o.get("datas") is not None:
-            return o["datas"]
-        if isinstance(o.get("data"), dict):
-            return find_datas(o["data"], d + 1)
-        if isinstance(o.get("data"), str):
-            try:
-                sub = json.loads(o["data"])
-                if isinstance(sub, dict):
-                    return find_datas(sub, d + 1)
-            except Exception:
-                pass
-        return None
+            def find_datas(o, d=0):
+                if d > 6 or not isinstance(o, dict):
+                    return None
+                if o.get("datas") is not None:
+                    return o["datas"]
+                if isinstance(o.get("data"), dict):
+                    return find_datas(o["data"], d + 1)
+                if isinstance(o.get("data"), str):
+                    try:
+                        sub = json.loads(o["data"])
+                        if isinstance(sub, dict):
+                            return find_datas(sub, d + 1)
+                    except Exception:
+                        pass
+                return None
 
-    return find_datas(inner)
+            datas = find_datas(inner)
+            # 查询成功但数据为空（如 SOI 偶发返回空 datas），也视为需重试
+            if datas is None or (isinstance(datas, list) and (not datas or not datas[0].get("data", {}).get("data"))):
+                last_err = "空 datas"
+                continue
+            return datas
+        except Exception as e:
+            last_err = str(e)
+        if attempt < retries - 1:
+            time.sleep(2 * (attempt + 1))  # 2s / 4s 退避
+    print(f"    ⚠️ query_edb 重试{retries}次仍失败 [{q[:20]}...]: {last_err}", file=sys.stderr)
+    return None
 
 
 NOAA_URL = "https://www.cpc.ncep.noaa.gov/data/indices/wksst9120.for"
