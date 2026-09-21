@@ -176,7 +176,36 @@ def fetch_series():
         else:
             series[k] = None
         print(f"  [月度] {k}: {len(series[k]) if series[k] else 'EMPTY'} 点")
+    # SOI 月度数据 iFinD 偶发返回空（限流），失败时沿用上次成功值，避免 tracking.json 里 SOI 变 None
+    if not series.get("soi"):
+        prev = load_prev_soi()
+        if prev:
+            series["soi"] = prev
+            print(f"  [月度] soi: 查询失败，沿用上次缓存 {len(prev)} 点")
     return series
+
+
+def load_prev_soi():
+    """从上次生成的 tracking.json 读 SOI 序列（[[date, v], ...]），作为查询失败时的兜底。"""
+    try:
+        p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "tracking.json")
+        if not os.path.exists(p):
+            return None
+        d = json.load(open(p, encoding="utf-8"))
+        soi_series = d.get("event", {}).get("soi_series", [])
+        # 旧格式是 [[ym, v], ...]，恢复为 [[date, v], ...]（date 用月末近似，仅需排序与取值）
+        if soi_series and isinstance(soi_series[0], list):
+            out = []
+            for ym, v in soi_series:
+                if v is None:
+                    continue
+                y, m = int(ym[:4]), int(ym[5:7])
+                last_day = 31 if m in (1,3,5,7,8,10,12) else (30 if m != 2 else 28)
+                out.append([f"{y:04d}-{m:02d}-{last_day:02d}", v])
+            return out or None
+    except Exception:
+        return None
+    return None
 
 
 # ============ 静态框架结论（基于 el-nino-event-study 六层框架，定性判断） ============
