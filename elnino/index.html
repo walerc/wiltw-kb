@@ -1156,12 +1156,13 @@ function renderWrsi() {
     groups[c].forEach(r => {
       const lv = r.level || 'normal';
       const irr = r.irrigated ? ' 🚰' : '';
-      const prog = r.early_season ? '🌱生长季初期' : (r.season_ongoing ? '⏳进行中' : '✅已收获');
+      const prog = r.perennial ? '🔄最近90天滚动' : (r.early_season ? '🌱生长季初期' : (r.season_ongoing ? '⏳进行中' : '✅已收获'));
+      const dayStr = r.perennial ? '最近90天' : `生长季第${r.season_days}天`;
       const petc = r.p_etc_ratio != null ? `P/ETc ${r.p_etc_ratio.toFixed(2)}` : 'P/ETc —';
       h += `<div class="weather-card ${lv}" onclick="showWrsiModal(DATA.wrsi.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
         `<div class="wc-head">${r.name_zh}${irr}<span class="wc-rank">${r.rank}</span></div>` +
         `<div class="wc-spi">${r.wsi}<span class="u">WRSI 需水满足率%</span></div>` +
-        `<div class="wc-scales">${petc} · AWC ${r.awc_mm_per_m}mm/m · 生长季第${r.season_days}天</div>` +
+        `<div class="wc-scales">${petc} · AWC ${r.awc_mm_per_m}mm/m · ${dayStr}</div>` +
         `<span class="wc-tag ${lv}">${r.condition}</span>` +
         `<div class="wc-signal">${prog} · ${r.season}</div>` +
         `</div>`;
@@ -1230,7 +1231,7 @@ function renderWrsiMap(data) {
 
 function showWrsiModal(r) {
   const irr = r.irrigated ? `<div class="wm-row"><b>⚠️ 灌溉区</b>：WRSI 未计入灌溉补充，值偏保守，仅作气象干旱参考</div>` : '';
-  const prog = r.early_season ? '🌱 生长季初期（<30天，WRSI 参考价值有限）' : (r.season_ongoing ? '⏳ 生长季进行中' : '✅ 生长季已结束');
+  const prog = r.perennial ? '🔄 最近90天滚动窗口（捕捉拉尼娜↔厄尔尼诺年内转变）' : (r.early_season ? '🌱 生长季初期（<30天，WRSI 参考价值有限）' : (r.season_ongoing ? '⏳ 生长季进行中' : '✅ 生长季已结束'));
   document.getElementById("wmodalBody").innerHTML =
     `<span class="wm-close" onclick="closeWModal()">✕</span>` +
     `<div class="wm-title">${r.name_zh}<span class="wm-rank">${r.rank}</span></div>` +
@@ -1252,8 +1253,10 @@ function showWrsiModal(r) {
 function renderWrsiChart(rid) {
   const draw = (sd) => {
     const s = sd.series[rid];
-    const seasons = sd.meta.seasons;
-    if (!s || !seasons) return;
+    if (!s) return;
+    const labels = s.labels || sd.meta.seasons || [];
+    const isPerennial = s.type === 'perennial';
+    if (!labels.length) return;
     const el = document.getElementById("wmodalChart");
     if (!el || !window.echarts) return;
     if (modalChart) modalChart.dispose();
@@ -1261,7 +1264,7 @@ function renderWrsiChart(rid) {
     const series = [{
       name: 'WRSI 需水满足率',
       type: 'line',
-      showSymbol: true,
+      showSymbol: false,
       connectNulls: false,
       data: s.wsi,
       lineStyle: { width: 2.5, color: '#3fb950' },
@@ -1275,7 +1278,9 @@ function renderWrsiChart(rid) {
       },
       emphasis: { focus: 'series' },
     }];
-    const n = seasons.length;
+    const n = labels.length;
+    // 多年生月度序列默认聚焦近3年，一年生全序列
+    const startPct = (isPerennial && n > 36) ? ((n - 36) / n * 100) : 0;
     modalChart.setOption({
       backgroundColor: 'transparent',
       tooltip: {
@@ -1286,9 +1291,9 @@ function renderWrsiChart(rid) {
       legend: { top: 0, textStyle: { color: '#8b949e', fontSize: 11 }, itemWidth: 14, itemHeight: 8 },
       grid: { left: 44, right: 16, top: 30, bottom: 44 },
       xAxis: {
-        type: 'category', data: seasons,
+        type: 'category', data: labels,
         axisLine: { lineStyle: { color: '#30363d' } },
-        axisLabel: { color: '#8b949e', fontSize: 10, interval: Math.floor(n/12) },
+        axisLabel: { color: '#8b949e', fontSize: 10, interval: Math.floor(n/10) },
       },
       yAxis: {
         type: 'value', name: 'WRSI%', min: 0, max: 120,
@@ -1297,8 +1302,8 @@ function renderWrsiChart(rid) {
         splitLine: { lineStyle: { color: '#21262d' } },
       },
       dataZoom: [
-        { type: 'inside', start: 0, end: 100 },
-        { type: 'slider', start: 0, end: 100, height: 16, bottom: 8,
+        { type: 'inside', start: startPct, end: 100 },
+        { type: 'slider', start: startPct, end: 100, height: 16, bottom: 8,
           borderColor: '#30363d', backgroundColor: '#161b22', fillerColor: 'rgba(88,166,255,.15)',
           textStyle: { color: '#8b949e', fontSize: 10 } },
       ],

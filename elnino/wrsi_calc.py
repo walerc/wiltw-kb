@@ -225,6 +225,65 @@ def wrsi_level(wsi, p_etc_ratio):
         return "中度亏缺", "drought", False
     return "严重亏缺", "severe_drought", False
 
+# ---------- 多年生作物：滚动窗口 WRSI ----------
+def perennial_rolling(daily_p, daily_et0, kc_constant, taw, p, start, end, window_days=90):
+    """多年生作物(棕榈/橡胶)：连续日步长土壤水分平衡 + 滚动 window_days 天 WRSI。
+
+    多年生无固定生长季，用"滚动窗口"评估当前旱涝，捕捉拉尼娜↔厄尔尼诺的年内转变
+    (年初湿润 vs 现在干旱，年度累计会掩盖)。返回 (latest_wsi, latest_p_etc,
+    latest_date, monthly_labels, monthly_wsi, monthly_petc) 或 None。
+    """
+    from collections import deque
+    raw = p * taw
+    sw = 0.5 * taw
+    etc_q = deque(); eta_q = deque(); p_q = deque()
+    sum_etc = 0.0; sum_eta = 0.0; sum_p = 0.0
+    rolling_wsi = {}; rolling_petc = {}
+    d = start
+    while d <= end:
+        ds = d.isoformat()
+        p_val = daily_p.get(ds, 0.0)
+        et0_val = daily_et0.get(ds, 0.0)
+        etc = kc_constant * et0_val
+        dr = taw - sw
+        if dr <= raw:
+            ks = 1.0
+        elif dr < taw:
+            ks = (taw - dr) / (taw - raw)
+        else:
+            ks = 0.0
+        eta = ks * etc
+        sw = sw + p_val - eta
+        if sw > taw:
+            sw = taw
+        if sw < 0.0:
+            sw = 0.0
+        etc_q.append(etc); eta_q.append(eta); p_q.append(p_val)
+        sum_etc += etc; sum_eta += eta; sum_p += p_val
+        if len(etc_q) > window_days:
+            sum_etc -= etc_q.popleft()
+            sum_eta -= eta_q.popleft()
+            sum_p -= p_q.popleft()
+        if len(etc_q) == window_days and sum_etc > 0:
+            rolling_wsi[ds] = 100.0 * sum_eta / sum_etc
+            rolling_petc[ds] = sum_p / sum_etc
+        d += datetime.timedelta(days=1)
+    if not rolling_wsi:
+        return None
+    latest_date = max(rolling_wsi.keys())
+    latest_wsi = rolling_wsi[latest_date]
+    latest_petc = rolling_petc[latest_date]
+    # 月度序列（取每月最后一天的滚动值）
+    monthly = {}
+    for ds in sorted(rolling_wsi.keys()):
+        y, m, _ = (int(x) for x in ds.split("-"))
+        monthly[f"{y:04d}-{m:02d}"] = (rolling_wsi[ds], rolling_petc[ds])
+    monthly_labels = sorted(monthly.keys())
+    monthly_wsi = [round(monthly[l][0], 1) for l in monthly_labels]
+    monthly_petc = [round(monthly[l][1], 2) for l in monthly_labels]
+    return latest_wsi, latest_petc, latest_date, monthly_labels, monthly_wsi, monthly_petc
+
+
 def main():
     regions = {r["id"]: r for r in json.load(
         open(REGIONS_PATH, encoding="utf-8"))["regions"]}
@@ -285,6 +344,51 @@ def main():
         awc = soil_awc_raw[rid]["awc_mm_per_m"]
         taw = awc * cp["root_depth_m"]  # mm/m × m = mm
         p = cp["p"]
+        is_perennial = cp.get("type") == "perennial"
+        global_share = r.get("global_share")
+        rank = r.get("rank")
+
+        if is_perennial:
+            # 多年生(棕榈/橡胶)：滚动 90 天窗口，捕捉拉尼娜↔厄尔尼诺年内转变
+            pr = perennial_rolling(
+                precip_daily[rid], et0_daily[rid], cp["kc_constant"],
+                taw, p,
+                datetime.date.fromisoformat(min_date), today)
+            if pr is None:
+                continue
+            cur_wsi, cur_p_etc, latest_date, monthly_labels, monthly_wsi, monthly_petc = pr
+            cond, lv, _ = wrsi_level(cur_wsi, cur_p_etc)
+            out = {
+                "id": rid, "commodity": r["commodity"], "country": r["country"],
+                "state": r["state"], "name_zh": r["name_zh"],
+                "global_share": global_share, "rank": rank,
+                "center_lon": round((r["west"] + r["east"]) / 2, 2),
+                "center_lat": round((r["north"] + r["south"]) / 2, 2),
+                "crop": crop,
+                "season": f"最近90天(截至{latest_date})",
+                "season_ongoing": True,
+                "season_days": 90,
+                "early_season": False,
+                "irrigated": bool(cal.get("irrigated", False)),
+                "awc_mm_per_m": round(awc, 1),
+                "taw_mm": round(taw, 0),
+                "wsi": round(cur_wsi, 1),
+                "p_etc_ratio": round(cur_p_etc, 2),
+                "condition": cond,
+                "level": lv,
+                "n_seasons": len(monthly_labels),
+                "perennial": True,
+            }
+            result["regions"].append(out)
+            series_result["series"][rid] = {
+                "type": "perennial",
+                "labels": monthly_labels,
+                "wsi": monthly_wsi,
+                "p_etc_ratio": monthly_petc,
+            }
+            continue
+
+        # 一年生：生长季累计
         cycle = cal["cycle_days"]
         kc = kc_curve(cp, cycle)
 
@@ -332,6 +436,7 @@ def main():
         out = {
             "id": rid, "commodity": r["commodity"], "country": r["country"],
             "state": r["state"], "name_zh": r["name_zh"],
+            "global_share": global_share, "rank": rank,
             "center_lon": round((r["west"] + r["east"]) / 2, 2),
             "center_lat": round((r["north"] + r["south"]) / 2, 2),
             "crop": crop,
@@ -347,11 +452,14 @@ def main():
             "condition": cond,
             "level": lv,
             "n_seasons": len(yearly),
+            "perennial": False,
         }
         result["regions"].append(out)
 
         # 时间序列（对齐 season_labels）
         series_result["series"][rid] = {
+            "type": "annual",
+            "labels": season_labels,
             "wsi": [round(yearly[y][0], 1) if y in yearly else None for y in range(year_start, year_end + 1)],
             "p_etc_ratio": [round(yearly[y][1], 2) if y in yearly else None for y in range(year_start, year_end + 1)],
         }
