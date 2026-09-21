@@ -28,12 +28,14 @@
     },
     "sugarcane": {
       "name": "甘蔗",
-      "type": "annual_ratoon",
+      "type": "perennial",
+      "kc_constant": 1.0,
       "kc_ini": 0.40, "kc_mid": 1.25, "kc_end": 0.75,
       "stage_frac": [0.10, 0.30, 0.45, 0.15],
       "root_depth_m": 1.50,
       "p": 0.65,
-      "critical_stage": "伸长期(定产量) + 成熟期(定糖分，适度干旱有利)"
+      "critical_stage": "伸长期(定产量) + 成熟期(定糖分，适度干旱有利)",
+      "_note": "宿根多年生，与棕榈/橡胶同用滚动90天窗口。kc_constant=1.0为阶段Kc加权平均(0.4×0.1+0.825×0.3+1.25×0.45+1.0×0.15)"
     },
     "cotton": {
       "name": "棉花",
