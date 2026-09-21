@@ -1,0 +1,64 @@
+{
+  "_meta": {
+    "desc": "6品种作物系数 Kc 表（FAO-56 标准）+ 根深 + 水分消耗比例 p（WRSI 土壤水分平衡参数）",
+    "source": "FAO-56 (Allen et al. 1998)：Kc 标准值、表22 水分消耗比例 p、标准根深",
+    "kc_note": "Kc = 作物系数 = ETc/ET0。Kc_ini 初期、Kc_mid 中期峰值、Kc_end 收获末期。",
+    "p_note": "p = 无胁迫下可消耗的易利用水比例(RAW/TAW)。深根作物取高值。",
+    "root_note": "root_depth_m = FAO-56 标准有效根深(成熟期)，用于 TAW = AWC(mm/m) × root_depth_m。",
+    "updated": "2026-09-21"
+  },
+  "crops": {
+    "soy": {
+      "name": "大豆",
+      "type": "annual",
+      "kc_ini": 0.15, "kc_mid": 1.15, "kc_end": 0.50,
+      "stage_frac": [0.15, 0.25, 0.40, 0.20],
+      "root_depth_m": 0.75,
+      "p": 0.50,
+      "critical_stage": "开花结荚期+鼓粒期(中期后段~末期前段)，需水占全期60%+"
+    },
+    "corn": {
+      "name": "玉米",
+      "type": "annual",
+      "kc_ini": 0.30, "kc_mid": 1.20, "kc_end": 0.60,
+      "stage_frac": [0.15, 0.25, 0.40, 0.20],
+      "root_depth_m": 1.20,
+      "p": 0.55,
+      "critical_stage": "抽雄授粉期(中期)，需水峰值"
+    },
+    "sugarcane": {
+      "name": "甘蔗",
+      "type": "annual_ratoon",
+      "kc_ini": 0.40, "kc_mid": 1.25, "kc_end": 0.75,
+      "stage_frac": [0.10, 0.30, 0.45, 0.15],
+      "root_depth_m": 1.50,
+      "p": 0.65,
+      "critical_stage": "伸长期(定产量) + 成熟期(定糖分，适度干旱有利)"
+    },
+    "cotton": {
+      "name": "棉花",
+      "type": "annual",
+      "kc_ini": 0.35, "kc_mid": 1.15, "kc_end": 0.50,
+      "stage_frac": [0.15, 0.25, 0.35, 0.25],
+      "root_depth_m": 1.30,
+      "p": 0.65,
+      "critical_stage": "花铃期(需水50-60%) + 吐絮期(需干燥)"
+    },
+    "oilpalm": {
+      "name": "油棕",
+      "type": "perennial",
+      "kc_constant": 1.0,
+      "root_depth_m": 1.50,
+      "p": 0.70,
+      "critical_stage": "性别分化期(收获前24月) + 果实膨大期(收获前3-6月)，全年滚动"
+    },
+    "rubber": {
+      "name": "橡胶",
+      "type": "perennial",
+      "kc_constant": 1.0,
+      "root_depth_m": 1.50,
+      "p": 0.70,
+      "critical_stage": "割胶旺产期(雨季) + 旱季落叶期(2-3月停割)"
+    }
+  }
+}

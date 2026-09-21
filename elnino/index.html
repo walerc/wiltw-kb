@@ -121,6 +121,19 @@ td:first-child, th:first-child { text-align:left; }
 .weather-card.extreme_flood { border-left-color:#1f6feb; }
 .wc-tag.extreme_drought { background:#3a1515; color:#ff6b5e; }
 .wc-tag.extreme_flood { background:#0e2a4a; color:#58a6ff; }
+/* WRSI 分级 */
+.weather-card.severe_drought { border-left-color:#ff3b30; }
+.weather-card.mild_drought { border-left-color:#d29922; }
+.weather-card.surplus { border-left-color:#79c0ff; }
+.weather-card.waterlog { border-left-color:#1f6feb; }
+.weather-card.early_season { border-left-color:#6e7681; }
+.weather-card.na { border-left-color:#6e7681; }
+.wc-tag.severe_drought { background:#3a1515; color:#ff6b5e; }
+.wc-tag.mild_drought { background:#2a1d0a; color:#e3b341; }
+.wc-tag.surplus { background:#1a2a2d; color:#79c0ff; }
+.wc-tag.waterlog { background:#0e2a4a; color:#58a6ff; }
+.wc-tag.early_season { background:#1c2128; color:#8b949e; }
+.wc-tag.na { background:#1c2128; color:#8b949e; }
 .weather-card .wc-spi { font-size:1.28rem; font-weight:700; color:#e6edf3; margin-top:8px; }
 .weather-card .wc-spi .u { font-size:.72rem; font-weight:400; color:#8b949e; margin-left:4px; }
 .weather-card .wc-scales { font-size:.72rem; color:#8b949e; margin-top:4px; }
@@ -266,6 +279,7 @@ td:first-child, th:first-child { text-align:left; }
     <span class="sub-label">指标：</span>
     <button id="btnSpiSub" onclick="switchMoisture('spi', this)">💧 SPI 纯降水</button>
     <button id="btnSpeiSub" class="active" onclick="switchMoisture('spei', this)">🌡️ SPEI 含蒸散</button>
+    <button id="btnWrsiSub" onclick="switchMoisture('wrsi', this)">🌾 WRSI 作物旱涝</button>
   </div>
   <div class="weather-banner" id="weatherBanner"></div>
   <div class="weather-map" id="weatherMap"></div>
@@ -674,6 +688,7 @@ let currentWeatherView = 'weather'; // 当前视图: 'weather'(短期天气) 或
 let moistureMetric = 'spei'; // 墒情状态当前指标: 'spi' 或 'spei'
 let seriesCache = {};        // 时间序列缓存: {'spi': data, 'spei': data}
 let weatherSeriesCache = null; // 短期降雨时间序列缓存
+let wrsiSeriesCache = null;    // WRSI 时间序列缓存
 let modalChart = null;       // 详情框时间序列折线图实例
 
 const COMMODITY_SHORT = { 大豆:'大豆', 玉米:'玉米', 棕榈油:'棕榈', 橡胶:'橡胶', 白糖:'白糖', 棉花:'棉花' };
@@ -741,8 +756,10 @@ function ensureWeatherChart() {
     weatherChart = echarts.init(container);
     weatherChart.on('click', function(params) {
       if (params.componentType === 'series' && params.data && params.data.raw) {
-        if (currentWeatherView === 'moisture') showMoistureModal(params.data.raw);
-        else showWModal(params.data.raw);
+        if (currentWeatherView === 'moisture') {
+          if (moistureMetric === 'wrsi') showWrsiModal(params.data.raw);
+          else showMoistureModal(params.data.raw);
+        } else showWModal(params.data.raw);
       }
     });
     window.addEventListener('resize', () => { if (weatherChart) weatherChart.resize(); });
@@ -1110,6 +1127,191 @@ function renderWeatherChart(rid) {
     .catch(() => { const el = document.getElementById("wmodalChart"); if (el) el.innerHTML = '<div class="note">时间序列加载失败</div>'; });
 }
 
+// ===== WRSI 作物旱涝（FAO-56 土壤水分平衡，生长季口径）=====
+const WRSI_LEVEL_COLOR = {
+  severe_drought:'#ff3b30', drought:'#ff7b72', mild_drought:'#d29922',
+  normal:'#3fb950', surplus:'#79c0ff', waterlog:'#1f6feb', early_season:'#6e7681', na:'#6e7681'
+};
+const WRSI_EMOJI = {大豆:'🫘', 玉米:'🌽', 棕榈油:'🌴', 橡胶:'🌳', 白糖:'🍬', 棉花:'🧵'};
+
+function renderWrsi() {
+  const data = DATA.wrsi;
+  if (!data || !data.regions || !data.regions.length) {
+    document.getElementById("weatherBanner").innerHTML = '<div class="note">无 WRSI 数据（首次运行 wrsi_calc.py 后生成）</div>';
+    document.getElementById("weatherMap").style.display = 'none';
+    document.getElementById("weatherGroups").innerHTML = '';
+    return;
+  }
+  const m = data.meta;
+  document.getElementById("weatherBanner").innerHTML =
+    `<b>指标：</b>WRSI 作物需水满足率（FAO-56 土壤水分平衡） · 更新于 ${m.updated}<br>` +
+    `<span style="font-size:.76rem;color:#8b949e">WRSI=100×实际蒸散/作物需水，吃进<b>天气(降水/蒸散)+土壤(AWC可用持水量)+作物(Kc系数/物候)</b>三层，直接回答作物实际旱涝。分级：≥100充足 / 80-100正常 / 60-80轻度亏缺 / 40-60中度亏缺 / &lt;40严重亏缺。🚰=灌溉区(未计入灌溉，值偏保守仅作气象参考)。P/ETc≥2=水分过剩(涝)。</span>`;
+  document.getElementById("weatherMap").style.display = 'block';
+  document.getElementById("weatherMapTip").innerHTML = '🖱️ 悬停看 WRSI/AWC/生长季 · 点击产区点看历史生长季曲线 · 点颜色=WRSI 墒情分级';
+  const groups = {};
+  data.regions.forEach(r => { (groups[r.commodity] = groups[r.commodity] || []).push(r); });
+  let h = '';
+  Object.keys(groups).forEach(c => {
+    h += `<h3>${WRSI_EMOJI[c]||''} ${c}</h3><div class="weather-grid">`;
+    groups[c].forEach(r => {
+      const lv = r.level || 'normal';
+      const irr = r.irrigated ? ' 🚰' : '';
+      const prog = r.early_season ? '🌱生长季初期' : (r.season_ongoing ? '⏳进行中' : '✅已收获');
+      const petc = r.p_etc_ratio != null ? `P/ETc ${r.p_etc_ratio.toFixed(2)}` : 'P/ETc —';
+      h += `<div class="weather-card ${lv}" onclick="showWrsiModal(DATA.wrsi.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
+        `<div class="wc-head">${r.name_zh}${irr}<span class="wc-rank">${r.rank}</span></div>` +
+        `<div class="wc-spi">${r.wsi}<span class="u">WRSI 需水满足率%</span></div>` +
+        `<div class="wc-scales">${petc} · AWC ${r.awc_mm_per_m}mm/m · 生长季第${r.season_days}天</div>` +
+        `<span class="wc-tag ${lv}">${r.condition}</span>` +
+        `<div class="wc-signal">${prog} · ${r.season}</div>` +
+        `</div>`;
+    });
+    h += '</div>';
+  });
+  document.getElementById("weatherGroups").innerHTML = h;
+  renderWrsiMap(data);
+}
+
+function renderWrsiMap(data) {
+  const container = document.getElementById("weatherMap");
+  const draw = (worldGeo) => {
+    if (!window.echarts) { container.innerHTML = '<div class="note">ECharts 未加载</div>'; return; }
+    echarts.registerMap('world', worldGeo);
+    ensureWeatherChart();
+    const d = groupByLocation(data.regions).map(g => {
+      const r = g.main;
+      const share = r.global_share || 1;
+      const sz = Math.max(8, Math.min(30, 8 + Math.sqrt(share) * 4.5));
+      return {
+        name: r.name_zh,
+        value: [r.center_lon, r.center_lat, r.wsi],
+        symbolSize: sz,
+        itemStyle: { color: WRSI_LEVEL_COLOR[r.level] || '#3fb950', shadowBlur: 8, shadowColor: 'rgba(0,0,0,.55)' },
+        raw: r,
+        group: g.group,
+      };
+    });
+    weatherChart.setOption({
+      backgroundColor: '#0d1117',
+      tooltip: {
+        trigger: 'item',
+        formatter: function(p) {
+          const grp = p.data.group || [p.data.raw];
+          return grp.map(r => {
+            const shareStr = r.global_share != null ? ` · 全球份额 ${r.global_share}%` : '';
+            const irr = r.irrigated ? ' 🚰灌溉区' : '';
+            return `<b>${r.name_zh}</b>（${COMMODITY_SHORT[r.commodity]||r.commodity}${shareStr}）<br>${r.country}·${r.state}${irr}<br>` +
+              `WRSI 需水满足率：<b>${r.wsi}%</b><br>` +
+              `P/ETc ${r.p_etc_ratio != null ? r.p_etc_ratio.toFixed(2) : '—'} · AWC ${r.awc_mm_per_m}mm/m<br>` +
+              `墒情：<b>${r.condition}</b> · ${r.season}`;
+          }).join('<br><br>');
+        }
+      },
+      geo: {
+        map: 'world', roam: true, zoom: 1.15, center: [0, 18],
+        itemStyle: { areaColor: '#161b22', borderColor: '#30363d' },
+        emphasis: { itemStyle: { areaColor: '#1d2a1a' }, label: { show: false } },
+        select: { disabled: true },
+      },
+      series: [{
+        type: 'effectScatter', coordinateSystem: 'geo',
+        rippleEffect: { brushType: 'stroke', scale: 3 },
+        data: d,
+        label: { show: true, position: 'right', formatter: groupLabel, color: '#c9d1d9', fontSize: 10 },
+        emphasis: { scale: 1.7 },
+      }]
+    });
+  };
+  if (worldGeoLoaded) draw(worldGeoLoaded);
+  else fetch('data/vendor/world.json?t=' + Date.now()).then(r => r.json())
+    .then(geo => { worldGeoLoaded = geo; draw(geo); })
+    .catch(() => { container.innerHTML = '<div class="note">世界地图加载失败</div>'; });
+}
+
+function showWrsiModal(r) {
+  const irr = r.irrigated ? `<div class="wm-row"><b>⚠️ 灌溉区</b>：WRSI 未计入灌溉补充，值偏保守，仅作气象干旱参考</div>` : '';
+  const prog = r.early_season ? '🌱 生长季初期（<30天，WRSI 参考价值有限）' : (r.season_ongoing ? '⏳ 生长季进行中' : '✅ 生长季已结束');
+  document.getElementById("wmodalBody").innerHTML =
+    `<span class="wm-close" onclick="closeWModal()">✕</span>` +
+    `<div class="wm-title">${r.name_zh}<span class="wm-rank">${r.rank}</span></div>` +
+    `<div class="wm-precip">${r.wsi}<span class="u">WRSI 需水满足率%</span></div>` +
+    `<div class="wm-row"><b>墒情评级</b>：${r.condition}</div>` +
+    `<div class="wm-row"><b>作物</b>：${r.commodity} · ${r.crop}</div>` +
+    `<div class="wm-row"><b>生长季</b>：${r.season}（${prog}）</div>` +
+    `<div class="wm-row"><b>土壤 AWC</b>：${r.awc_mm_per_m} mm/m · <b>总持水 TAW</b>：${r.taw_mm} mm</div>` +
+    `<div class="wm-row"><b>降水/需水 P/ETc</b>：${r.p_etc_ratio != null ? r.p_etc_ratio.toFixed(2) : '—'}（≥2=水分过剩/涝）</div>` +
+    `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}</div>` +
+    irr +
+    `<div class="wm-signal">历史生长季 ${r.n_seasons} 年样本 · 数据源 ${DATA.wrsi ? DATA.wrsi.meta.data_source : ''}</div>` +
+    `<div class="wmodal-chart-title">📈 WRSI 历史生长季走势（拖拽缩放）</div>` +
+    `<div class="wmodal-chart" id="wmodalChart"></div>`;
+  document.getElementById("wmodalMask").classList.add("show");
+  renderWrsiChart(r.id);
+}
+
+function renderWrsiChart(rid) {
+  const draw = (sd) => {
+    const s = sd.series[rid];
+    const seasons = sd.meta.seasons;
+    if (!s || !seasons) return;
+    const el = document.getElementById("wmodalChart");
+    if (!el || !window.echarts) return;
+    if (modalChart) modalChart.dispose();
+    modalChart = echarts.init(el);
+    const series = [{
+      name: 'WRSI 需水满足率',
+      type: 'line',
+      showSymbol: true,
+      connectNulls: false,
+      data: s.wsi,
+      lineStyle: { width: 2.5, color: '#3fb950' },
+      itemStyle: { color: '#3fb950' },
+      markLine: {
+        silent: true, symbol: 'none',
+        lineStyle: { type: 'dashed', color: '#8b949e' },
+        data: [{ yAxis: 80, label: { formatter: '正常线80', color: '#8b949e', fontSize: 9 } },
+               { yAxis: 60, label: { formatter: '轻度亏缺60', color: '#d29922', fontSize: 9 } },
+               { yAxis: 40, label: { formatter: '中度亏缺40', color: '#ff7b72', fontSize: 9 } }],
+      },
+      emphasis: { focus: 'series' },
+    }];
+    const n = seasons.length;
+    modalChart.setOption({
+      backgroundColor: 'transparent',
+      tooltip: {
+        trigger: 'axis',
+        backgroundColor: '#161b22', borderColor: '#30363d', textStyle: { color: '#c9d1d9', fontSize: 11 },
+        valueFormatter: v => (v == null ? '—' : `${Number(v).toFixed(1)}%`),
+      },
+      legend: { top: 0, textStyle: { color: '#8b949e', fontSize: 11 }, itemWidth: 14, itemHeight: 8 },
+      grid: { left: 44, right: 16, top: 30, bottom: 44 },
+      xAxis: {
+        type: 'category', data: seasons,
+        axisLine: { lineStyle: { color: '#30363d' } },
+        axisLabel: { color: '#8b949e', fontSize: 10, interval: Math.floor(n/12) },
+      },
+      yAxis: {
+        type: 'value', name: 'WRSI%', min: 0, max: 120,
+        nameTextStyle: { color: '#8b949e', fontSize: 10 },
+        axisLine: { show: false }, axisLabel: { color: '#8b949e', fontSize: 10 },
+        splitLine: { lineStyle: { color: '#21262d' } },
+      },
+      dataZoom: [
+        { type: 'inside', start: 0, end: 100 },
+        { type: 'slider', start: 0, end: 100, height: 16, bottom: 8,
+          borderColor: '#30363d', backgroundColor: '#161b22', fillerColor: 'rgba(88,166,255,.15)',
+          textStyle: { color: '#8b949e', fontSize: 10 } },
+      ],
+      series: series,
+    });
+  };
+  if (wrsiSeriesCache) draw(wrsiSeriesCache);
+  else fetch('data/wrsi_series.json?t=' + Date.now())
+    .then(r => r.json())
+    .then(d => { wrsiSeriesCache = d; draw(d); })
+    .catch(() => { const el = document.getElementById("wmodalChart"); if (el) el.innerHTML = '<div class="note">WRSI 时间序列加载失败</div>'; });
+}
+
 function switchWeatherView(view, el) {
   currentWeatherView = view;
   document.getElementById("btnWeatherView").classList.toggle("active", view === 'weather');
@@ -1123,7 +1325,9 @@ function switchMoisture(metric, el) {
   moistureMetric = metric;
   document.getElementById("btnSpiSub").classList.toggle("active", metric === 'spi');
   document.getElementById("btnSpeiSub").classList.toggle("active", metric === 'spei');
-  renderMoisture();
+  document.getElementById("btnWrsiSub").classList.toggle("active", metric === 'wrsi');
+  if (metric === 'wrsi') renderWrsi();
+  else renderMoisture();
 }
 
 function render() {
@@ -1175,13 +1379,15 @@ Promise.all([
   fetch('data/spi_regions.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
   fetch('data/spi_weekly_regions.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
   fetch('data/spei_weekly_regions.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
-]).then(([d, t, w, s, sw, ew]) => {
+  fetch('data/wrsi_regions.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
+]).then(([d, t, w, s, sw, ew, wr]) => {
   DATA = d;
   DATA.tracking = t;   // tracking 加载失败时为 null，renderTracking 里 !tk 显示"无跟踪数据"，不阻塞主数据
   DATA.weather = w;    // weather 加载失败时为 null，renderWeather 里 !w 显示"无产区降水数据"
   DATA.spi = s;        // 月度 SPI（保留，暂未在前端展示）
   DATA.spi_weekly = sw;   // 周度 SPI
   DATA.spei_weekly = ew;  // 周度 SPEI
+  DATA.wrsi = wr;         // WRSI 作物旱涝
   render();
 }).catch(e => document.getElementById("conclCard").innerHTML = '<div class="concl">❌ 数据加载失败: ' + e.message + '</div>');
 </script>

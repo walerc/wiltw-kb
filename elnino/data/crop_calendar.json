@@ -1,0 +1,299 @@
+{
+  "_meta": {
+    "desc": "39产区作物物候日历（种植日期 + 生长季天数）。WRSI 生长季起止依据。",
+    "source": "基于 USDA Major World Crop Areas / FAO GIEWS 标准作物日历 + 产区农学知识，州级精度 ±2周",
+    "note": "planting_month/day 为种植起始；cycle_days 为生长季长度；跨年生长季(南半球)自动用 planting + cycle_days 推算收获期。多年生作物(棕榈/橡胶)用全年周期(1月1日起365天)。",
+    "critical_apply_note": "WRSI 的 Kc 曲线已在中期(需水峰值)自动加权关键生育期，无需额外物候加权。",
+    "updated": "2026-09-21",
+    "irrigated_note": "irrigated=true 的产区 WRSI 未计入灌溉补充，其值偏保守(常显示亏缺)，仅作气象干旱参考，须结合灌溉率解读。"
+  },
+  "regions": {
+    "soy_br_mt": {
+      "crop": "soy",
+      "planting_month": 9,
+      "planting_day": 15,
+      "cycle_days": 137,
+      "note": "巴西马托格罗索，雨季开始种植，1-2月收"
+    },
+    "soy_br_pr": {
+      "crop": "soy",
+      "planting_month": 10,
+      "planting_day": 1,
+      "cycle_days": 150,
+      "note": "巴拉那，10月种，2-3月收"
+    },
+    "soy_br_rs": {
+      "crop": "soy",
+      "planting_month": 11,
+      "planting_day": 1,
+      "cycle_days": 150,
+      "note": "南里奥格兰德，最南端，11月种，3-4月收"
+    },
+    "soy_us_ia": {
+      "crop": "soy",
+      "planting_month": 5,
+      "planting_day": 10,
+      "cycle_days": 153,
+      "note": "爱荷华，5月种，9-10月收"
+    },
+    "soy_us_il": {
+      "crop": "soy",
+      "planting_month": 5,
+      "planting_day": 1,
+      "cycle_days": 152,
+      "note": "伊利诺伊，5月种，9月底收"
+    },
+    "soy_us_mn": {
+      "crop": "soy",
+      "planting_month": 5,
+      "planting_day": 15,
+      "cycle_days": 143,
+      "note": "明尼苏达，5月中种，10月初收"
+    },
+    "soy_ar_ba": {
+      "crop": "soy",
+      "planting_month": 11,
+      "planting_day": 1,
+      "cycle_days": 165,
+      "note": "布宜诺斯艾利斯，11月种，4月收"
+    },
+    "soy_ar_cb": {
+      "crop": "soy",
+      "planting_month": 10,
+      "planting_day": 15,
+      "cycle_days": 166,
+      "note": "科尔多瓦，10月中种，3月底收"
+    },
+    "soy_ar_sf": {
+      "crop": "soy",
+      "planting_month": 10,
+      "planting_day": 20,
+      "cycle_days": 156,
+      "note": "圣塔菲，10月下种，3月下收"
+    },
+    "corn_us_ia": {
+      "crop": "corn",
+      "planting_month": 4,
+      "planting_day": 25,
+      "cycle_days": 173,
+      "note": "爱荷华，4月底种，10月收"
+    },
+    "corn_us_il": {
+      "crop": "corn",
+      "planting_month": 4,
+      "planting_day": 20,
+      "cycle_days": 158,
+      "note": "伊利诺伊，4月下种，9月下收"
+    },
+    "corn_us_ne": {
+      "crop": "corn",
+      "planting_month": 4,
+      "planting_day": 25,
+      "cycle_days": 178,
+      "note": "内布拉斯加，4月底种，10月下收",
+      "irrigated": true,
+      "irrigated_note": "奥加拉拉含水层灌溉玉米带"
+    },
+    "corn_cn_hlj": {
+      "crop": "corn",
+      "planting_month": 5,
+      "planting_day": 1,
+      "cycle_days": 153,
+      "note": "黑龙江春玉米，5月种，10月初收"
+    },
+    "corn_cn_jl": {
+      "crop": "corn",
+      "planting_month": 4,
+      "planting_day": 25,
+      "cycle_days": 158,
+      "note": "吉林，4月下种，9月底收"
+    },
+    "corn_br_mt": {
+      "crop": "corn",
+      "planting_month": 2,
+      "planting_day": 10,
+      "cycle_days": 140,
+      "note": "马托格罗索 safrinha 二季玉米，2月种(大豆收后)，6-7月收"
+    },
+    "sugar_br_sp": {
+      "crop": "sugarcane",
+      "planting_month": 10,
+      "planting_day": 1,
+      "cycle_days": 330,
+      "note": "巴西中南部，宿根蔗，10月雨季萌发，4-11月榨季"
+    },
+    "sugar_in_mh": {
+      "crop": "sugarcane",
+      "planting_month": 10,
+      "planting_day": 15,
+      "cycle_days": 365,
+      "note": "马哈拉施特拉 sur 甘蔗，10-11月种，6-9月季风需水",
+      "irrigated": true,
+      "irrigated_note": "补充灌溉(主要靠季风)"
+    },
+    "sugar_in_up": {
+      "crop": "sugarcane",
+      "planting_month": 2,
+      "planting_day": 15,
+      "cycle_days": 330,
+      "note": "北方邦，2-3月种，灌溉依赖",
+      "irrigated": true,
+      "irrigated_note": "恒河平原引灌依赖"
+    },
+    "cotton_us_tx_high": {
+      "crop": "cotton",
+      "planting_month": 5,
+      "planting_day": 10,
+      "cycle_days": 173,
+      "note": "德州高原，5月种，10月底收",
+      "irrigated": true,
+      "irrigated_note": "中心枢轴灌溉棉区"
+    },
+    "cotton_us_tx_south": {
+      "crop": "cotton",
+      "planting_month": 3,
+      "planting_day": 15,
+      "cycle_days": 170,
+      "note": "德州南部，3月中种，9月初收",
+      "irrigated": true,
+      "irrigated_note": "部分灌溉"
+    },
+    "cotton_cn_xj_south": {
+      "crop": "cotton",
+      "planting_month": 4,
+      "planting_day": 10,
+      "cycle_days": 173,
+      "note": "南疆，4月种，9月底收，融雪灌溉",
+      "irrigated": true,
+      "irrigated_note": "融雪灌溉(年降雨<100mm)"
+    },
+    "cotton_cn_xj_north": {
+      "crop": "cotton",
+      "planting_month": 4,
+      "planting_day": 20,
+      "cycle_days": 153,
+      "note": "北疆，4月下种，9月下收，灌溉",
+      "irrigated": true,
+      "irrigated_note": "融雪灌溉"
+    },
+    "cotton_in_gj": {
+      "crop": "cotton",
+      "planting_month": 6,
+      "planting_day": 15,
+      "cycle_days": 183,
+      "note": "古吉拉特，6月中种(季风)，12月中收"
+    },
+    "cotton_br_ba": {
+      "crop": "cotton",
+      "planting_month": 12,
+      "planting_day": 1,
+      "cycle_days": 211,
+      "note": "巴伊亚西部，12月种，6月底收(旱季采收)"
+    },
+    "palm_id_riau": {
+      "crop": "oilpalm",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，全年滚动，Kc恒定"
+    },
+    "palm_id_sumut": {
+      "crop": "oilpalm",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，全年滚动"
+    },
+    "palm_id_jambi": {
+      "crop": "oilpalm",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，全年滚动"
+    },
+    "palm_id_sumsel": {
+      "crop": "oilpalm",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，全年滚动"
+    },
+    "palm_id_kalbar": {
+      "crop": "oilpalm",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，泥炭土，火灾高发"
+    },
+    "palm_id_kalteng": {
+      "crop": "oilpalm",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，泥炭土核心"
+    },
+    "palm_id_kaltim": {
+      "crop": "oilpalm",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，全年滚动"
+    },
+    "palm_my_peninsula": {
+      "crop": "oilpalm",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，全年滚动"
+    },
+    "palm_my_sabah": {
+      "crop": "oilpalm",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，全年滚动"
+    },
+    "rubber_th_south": {
+      "crop": "rubber",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，雨季割胶，旱季落叶停割"
+    },
+    "rubber_th_ne": {
+      "crop": "rubber",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，呵叻高原"
+    },
+    "rubber_id_sumsel": {
+      "crop": "rubber",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，全年滚动"
+    },
+    "rubber_id_jambi": {
+      "crop": "rubber",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，全年滚动"
+    },
+    "rubber_id_riau": {
+      "crop": "rubber",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，全年滚动"
+    },
+    "rubber_id_sumut": {
+      "crop": "rubber",
+      "planting_month": 1,
+      "planting_day": 1,
+      "cycle_days": 365,
+      "note": "多年生，全年滚动"
+    }
+  }
+}

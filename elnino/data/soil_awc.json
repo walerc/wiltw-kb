@@ -1,0 +1,322 @@
+{
+  "_meta": {
+    "source": "HWSD v2.0 (FAO/IIASA)，栅格1km，AWC=Available Water Capacity mm/m",
+    "method": "产区bbox内所有有效像素AWC取中位数(与降水口径一致)；排除NODATA海洋/水体",
+    "note": "AWC单位mm/m；TAW=min(作物根深,土壤有效深)×AWC。AWC=0多为岩石/水体/城市。",
+    "updated": "2026-09-21"
+  },
+  "regions": {
+    "soy_br_mt": {
+      "awc_mm_per_m": 153.0,
+      "awc_mean": 135.7,
+      "awc_p25": 123.0,
+      "awc_p75": 160.0,
+      "n_pixels": 1763020,
+      "zero_frac": 0.0
+    },
+    "soy_br_pr": {
+      "awc_mm_per_m": 159.0,
+      "awc_mean": 130.8,
+      "awc_p25": 142.0,
+      "awc_p75": 160.0,
+      "n_pixels": 391171,
+      "zero_frac": 0.007
+    },
+    "soy_br_rs": {
+      "awc_mm_per_m": 159.0,
+      "awc_mean": 132.1,
+      "awc_p25": 78.0,
+      "awc_p75": 177.0,
+      "n_pixels": 659012,
+      "zero_frac": 0.015
+    },
+    "soy_us_ia": {
+      "awc_mm_per_m": 181.0,
+      "awc_mean": 176.7,
+      "awc_p25": 170.0,
+      "awc_p75": 184.0,
+      "n_pixels": 294032,
+      "zero_frac": 0.001
+    },
+    "soy_us_il": {
+      "awc_mm_per_m": 170.0,
+      "awc_mean": 165.0,
+      "awc_p25": 159.0,
+      "awc_p75": 184.0,
+      "n_pixels": 360847,
+      "zero_frac": 0.03
+    },
+    "soy_us_mn": {
+      "awc_mm_per_m": 159.0,
+      "awc_mean": 151.6,
+      "awc_p25": 139.0,
+      "awc_p75": 159.0,
+      "n_pixels": 318560,
+      "zero_frac": 0.006
+    },
+    "soy_ar_ba": {
+      "awc_mm_per_m": 163.0,
+      "awc_mean": 163.0,
+      "awc_p25": 157.0,
+      "awc_p75": 177.0,
+      "n_pixels": 430175,
+      "zero_frac": 0.017
+    },
+    "soy_ar_cb": {
+      "awc_mm_per_m": 157.0,
+      "awc_mean": 147.1,
+      "awc_p25": 153.0,
+      "awc_p75": 157.0,
+      "n_pixels": 317760,
+      "zero_frac": 0.003
+    },
+    "soy_ar_sf": {
+      "awc_mm_per_m": 177.0,
+      "awc_mean": 167.4,
+      "awc_p25": 157.0,
+      "awc_p75": 177.0,
+      "n_pixels": 296432,
+      "zero_frac": 0.003
+    },
+    "corn_us_ia": {
+      "awc_mm_per_m": 181.0,
+      "awc_mean": 176.7,
+      "awc_p25": 170.0,
+      "awc_p75": 184.0,
+      "n_pixels": 294032,
+      "zero_frac": 0.001
+    },
+    "corn_us_il": {
+      "awc_mm_per_m": 170.0,
+      "awc_mean": 165.0,
+      "awc_p25": 159.0,
+      "awc_p75": 184.0,
+      "n_pixels": 360847,
+      "zero_frac": 0.03
+    },
+    "corn_us_ne": {
+      "awc_mm_per_m": 158.0,
+      "awc_mean": 156.5,
+      "awc_p25": 152.0,
+      "awc_p75": 181.0,
+      "n_pixels": 269690,
+      "zero_frac": 0.001
+    },
+    "corn_cn_hlj": {
+      "awc_mm_per_m": 159.0,
+      "awc_mean": 149.9,
+      "awc_p25": 140.0,
+      "awc_p75": 175.0,
+      "n_pixels": 2036811,
+      "zero_frac": 0.017
+    },
+    "corn_cn_jl": {
+      "awc_mm_per_m": 161.0,
+      "awc_mean": 152.5,
+      "awc_p25": 159.0,
+      "awc_p75": 170.0,
+      "n_pixels": 728130,
+      "zero_frac": 0.02
+    },
+    "corn_br_mt": {
+      "awc_mm_per_m": 153.0,
+      "awc_mean": 135.7,
+      "awc_p25": 123.0,
+      "awc_p75": 160.0,
+      "n_pixels": 1763020,
+      "zero_frac": 0.0
+    },
+    "palm_id_riau": {
+      "awc_mm_per_m": 164.0,
+      "awc_mean": 156.3,
+      "awc_p25": 137.0,
+      "awc_p75": 205.0,
+      "n_pixels": 141290,
+      "zero_frac": 0.009
+    },
+    "palm_id_sumut": {
+      "awc_mm_per_m": 137.0,
+      "awc_mean": 114.4,
+      "awc_p25": 35.0,
+      "awc_p75": 157.0,
+      "n_pixels": 95964,
+      "zero_frac": 0.019
+    },
+    "palm_id_jambi": {
+      "awc_mm_per_m": 137.0,
+      "awc_mean": 147.7,
+      "awc_p25": 137.0,
+      "awc_p75": 173.0,
+      "n_pixels": 150268,
+      "zero_frac": 0.001
+    },
+    "palm_id_sumsel": {
+      "awc_mm_per_m": 137.0,
+      "awc_mean": 149.2,
+      "awc_p25": 120.0,
+      "awc_p75": 164.0,
+      "n_pixels": 126196,
+      "zero_frac": 0.002
+    },
+    "palm_id_kalbar": {
+      "awc_mm_per_m": 137.0,
+      "awc_mean": 123.6,
+      "awc_p25": 85.0,
+      "awc_p75": 164.0,
+      "n_pixels": 152587,
+      "zero_frac": 0.003
+    },
+    "palm_id_kalteng": {
+      "awc_mm_per_m": 137.0,
+      "awc_mean": 123.9,
+      "awc_p25": 89.0,
+      "awc_p75": 141.0,
+      "n_pixels": 302415,
+      "zero_frac": 0.001
+    },
+    "palm_id_kaltim": {
+      "awc_mm_per_m": 137.0,
+      "awc_mean": 131.0,
+      "awc_p25": 129.0,
+      "awc_p75": 137.0,
+      "n_pixels": 204310,
+      "zero_frac": 0.003
+    },
+    "palm_my_peninsula": {
+      "awc_mm_per_m": 137.0,
+      "awc_mean": 115.8,
+      "awc_p25": 33.0,
+      "awc_p75": 163.0,
+      "n_pixels": 213935,
+      "zero_frac": 0.014
+    },
+    "palm_my_sabah": {
+      "awc_mm_per_m": 137.0,
+      "awc_mean": 142.8,
+      "awc_p25": 137.0,
+      "awc_p75": 137.0,
+      "n_pixels": 423536,
+      "zero_frac": 0.001
+    },
+    "rubber_th_south": {
+      "awc_mm_per_m": 137.0,
+      "awc_mean": 106.8,
+      "awc_p25": 33.0,
+      "awc_p75": 145.0,
+      "n_pixels": 110228,
+      "zero_frac": 0.015
+    },
+    "rubber_th_ne": {
+      "awc_mm_per_m": 137.0,
+      "awc_mean": 113.0,
+      "awc_p25": 120.0,
+      "awc_p75": 145.0,
+      "n_pixels": 358693,
+      "zero_frac": 0.002
+    },
+    "rubber_id_sumsel": {
+      "awc_mm_per_m": 137.0,
+      "awc_mean": 149.2,
+      "awc_p25": 120.0,
+      "awc_p75": 164.0,
+      "n_pixels": 126196,
+      "zero_frac": 0.002
+    },
+    "rubber_id_jambi": {
+      "awc_mm_per_m": 137.0,
+      "awc_mean": 147.7,
+      "awc_p25": 137.0,
+      "awc_p75": 173.0,
+      "n_pixels": 150268,
+      "zero_frac": 0.001
+    },
+    "rubber_id_riau": {
+      "awc_mm_per_m": 164.0,
+      "awc_mean": 156.3,
+      "awc_p25": 137.0,
+      "awc_p75": 205.0,
+      "n_pixels": 141290,
+      "zero_frac": 0.009
+    },
+    "rubber_id_sumut": {
+      "awc_mm_per_m": 137.0,
+      "awc_mean": 114.4,
+      "awc_p25": 35.0,
+      "awc_p75": 157.0,
+      "n_pixels": 95964,
+      "zero_frac": 0.019
+    },
+    "sugar_br_sp": {
+      "awc_mm_per_m": 157.0,
+      "awc_mean": 135.1,
+      "awc_p25": 137.0,
+      "awc_p75": 160.0,
+      "n_pixels": 635209,
+      "zero_frac": 0.012
+    },
+    "sugar_in_mh": {
+      "awc_mm_per_m": 195.0,
+      "awc_mean": 176.5,
+      "awc_p25": 162.0,
+      "awc_p75": 195.0,
+      "n_pixels": 259685,
+      "zero_frac": 0.005
+    },
+    "sugar_in_up": {
+      "awc_mm_per_m": 150.0,
+      "awc_mean": 132.6,
+      "awc_p25": 144.0,
+      "awc_p75": 168.0,
+      "n_pixels": 705364,
+      "zero_frac": 0.08
+    },
+    "cotton_us_tx_high": {
+      "awc_mm_per_m": 146.0,
+      "awc_mean": 136.2,
+      "awc_p25": 124.0,
+      "awc_p75": 152.0,
+      "n_pixels": 203404,
+      "zero_frac": 0.003
+    },
+    "cotton_us_tx_south": {
+      "awc_mm_per_m": 170.0,
+      "awc_mean": 118.1,
+      "awc_p25": 40.0,
+      "awc_p75": 170.0,
+      "n_pixels": 153835,
+      "zero_frac": 0.025
+    },
+    "cotton_cn_xj_south": {
+      "awc_mm_per_m": 82.0,
+      "awc_mean": 85.8,
+      "awc_p25": 59.0,
+      "awc_p75": 134.0,
+      "n_pixels": 1034044,
+      "zero_frac": 0.029
+    },
+    "cotton_cn_xj_north": {
+      "awc_mm_per_m": 139.0,
+      "awc_mean": 113.7,
+      "awc_p25": 71.0,
+      "awc_p75": 162.0,
+      "n_pixels": 261364,
+      "zero_frac": 0.034
+    },
+    "cotton_in_gj": {
+      "awc_mm_per_m": 155.0,
+      "awc_mean": 138.3,
+      "awc_p25": 118.0,
+      "awc_p75": 195.0,
+      "n_pixels": 297414,
+      "zero_frac": 0.048
+    },
+    "cotton_br_ba": {
+      "awc_mm_per_m": 160.0,
+      "awc_mean": 146.7,
+      "awc_p25": 160.0,
+      "awc_p75": 160.0,
+      "n_pixels": 232324,
+      "zero_frac": 0.0
+    }
+  }
+}
