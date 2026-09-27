@@ -140,7 +140,8 @@ def fetch_noaa():
 
 
 def month_str(y, m):
-    return f"{y}年{m}月"
+    # ⚠️ 必须用数字格式 "2026-09"，中文"2026年9月"会导致 iFinD 只返回到当月15日的数据
+    return f"{y:04d}-{m:02d}"
 
 
 def month_range(n=20):
