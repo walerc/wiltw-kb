@@ -33,6 +33,45 @@ def load_regions():
     return d["regions"]
 
 
+def load_history_climo():
+    """从 weather_history.csv 加载历史同期(月-日)多年平均降水，返回 {region_id: {(m, d): mean_mm}}"""
+    import csv as csvmod
+    from collections import defaultdict
+    acc = defaultdict(lambda: defaultdict(list))
+    path = os.path.join(BASE, "data", "weather_history.csv")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as f:
+        r = csvmod.DictReader(f)
+        for row in r:
+            d = row["date"]  # YYYY-MM-DD
+            try:
+                y, m, dd = d.split("-")
+                v = float(row["precip_mm"])
+            except (ValueError, TypeError):
+                continue
+            acc[row["region_id"]][(int(m), int(dd))].append(v)
+    return {rid: {k: sum(vv) / len(vv) for k, vv in dd.items()} for rid, dd in acc.items()}
+
+
+def _md_key(ds):
+    """'YYYY-MM-DD' → (month, day)"""
+    parts = ds.split("-")
+    return (int(parts[1]), int(parts[2]))
+
+
+def sum_climo_window(climo, rid, dates, start, end):
+    """累加 [start, end) 日期对应的历史同期均值，缺失跳过；全缺失返回 None"""
+    s = 0.0
+    n = 0
+    for ds in dates[start:min(end, len(dates))]:
+        c = climo.get(rid, {}).get(_md_key(ds))
+        if c is not None:
+            s += c
+            n += 1
+    return round(s, 1) if n else None
+
+
 def fc_level(hm):
     """半月累计降水 → 偏干/正常/偏湿分级（统一 mm 口径，灌溉区降水少不代表作物受旱）"""
     if hm is None:
@@ -139,21 +178,52 @@ def main():
         for r in regions:
             region_daily[r["id"]].append((ds, region_mean(arr, lat, lon, r)))
 
+    climo = load_history_climo()
+    forecast_dates = sorted_dates[:15]  # 只取前 15 天（周度/半月口径）
+
     result = {
         "generated": datetime.date.today().strftime("%Y-%m-%d"),
         "source": "NOAA CFSv2 (daily prate, member 1)",
         "run_date": run,
         "window_note": "周度/半月口径：未来1周(1-7天)/未来第2周(8-14天)/未来半月(1-15天)累计降水(mm)",
+        "climo_note": "历史同期均值=CPC 2006-2025 同月同日多年平均降水(mm)，用于距平对比",
         "regions": [],
+        "daily": [],   # 未来15天每日预报 + 历史同期均值（柱状图数据）
     }
+
+    # === daily 数组（柱状图：预报值 vs 历史同期均值）===
+    for ds in forecast_dates:
+        md = f"{ds[5:7]}-{ds[8:10]}"
+        key = _md_key(ds)
+        per_region = {}
+        climo_per = {}
+        arr = daily_mm[ds]
+        for r in regions:
+            rid = r["id"]
+            v = region_mean(arr, lat, lon, r)
+            per_region[rid] = round(v, 1) if v is not None else None
+            c = climo.get(rid, {}).get(key)
+            climo_per[rid] = round(c, 1) if c is not None else None
+        result["daily"].append({"date": ds, "md": md, "per_region": per_region, "climo": climo_per})
+
     for r in regions:
-        vals = region_daily[r["id"]]
+        rid = r["id"]
+        vals = region_daily[rid]
         w1 = sum_window(vals, 0, 7)
         w2 = sum_window(vals, 7, 14)
         hm = sum_window(vals, 0, 15)
+        w1_climo = sum_climo_window(climo, rid, forecast_dates, 0, 7)
+        w2_climo = sum_climo_window(climo, rid, forecast_dates, 7, 14)
+        hm_climo = sum_climo_window(climo, rid, forecast_dates, 0, 15)
+        anomaly_pct = None
+        anomaly_mm = None
+        if hm is not None and hm_climo not in (None, 0):
+            anomaly_pct = round((hm - hm_climo) / hm_climo * 100, 1)
+        if hm is not None and hm_climo is not None:
+            anomaly_mm = round(hm - hm_climo, 1)
         cond, level = fc_level(hm)
         result["regions"].append({
-            "id": r["id"],
+            "id": rid,
             "commodity": r["commodity"],
             "country": r["country"],
             "state": r.get("state", ""),
@@ -162,9 +232,14 @@ def main():
             "global_share": r.get("global_share"),
             "center_lon": round((r["west"] + r["east"]) / 2, 2),
             "center_lat": round((r["north"] + r["south"]) / 2, 2),
-            "w1": w1,          # 未来1周累计 mm
-            "w2": w2,          # 未来第2周累计 mm
-            "hm": hm,          # 未来半月(15天)累计 mm
+            "w1": w1,
+            "w2": w2,
+            "hm": hm,
+            "w1_climo": w1_climo,
+            "w2_climo": w2_climo,
+            "hm_climo": hm_climo,
+            "anomaly_pct": anomaly_pct,
+            "anomaly_mm": anomaly_mm,
             "condition": cond,
             "level": level,
         })
@@ -172,11 +247,12 @@ def main():
     out = os.path.join(BASE, "data", "forecast_regions.json")
     json.dump(result, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"\n已保存 {out}")
-    print("=== 未来降水预报（核心产区累计 mm）===")
-    print(f"  {'产区':<14} {'未来1周':>8} {'未来2周':>8} {'未来半月':>8}  评级")
+    print("=== 未来降水预报（核心产区累计 mm，[距平%]=vs历史同期）===")
+    print(f"  {'产区':<14} {'未来1周':>8} {'未来2周':>8} {'未来半月':>10} {'距平%':>8}  评级")
     for r in result["regions"]:
         f = lambda v: '—' if v is None else f"{v:.1f}"
-        print(f"  {r['name']:<14} {f(r['w1']):>8} {f(r['w2']):>8} {f(r['hm']):>8}  {r['condition']}")
+        ap = '—' if r['anomaly_pct'] is None else f"{r['anomaly_pct']:+.1f}"
+        print(f"  {r['name']:<14} {f(r['w1']):>8} {f(r['w2']):>8} {f(r['hm']):>10} {ap:>8}  {r['condition']}")
 
 
 if __name__ == "__main__":

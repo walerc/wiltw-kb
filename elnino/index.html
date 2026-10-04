@@ -744,6 +744,7 @@ let moistureMetric = 'spei'; // 墒情状态当前指标: 'spi' 或 'spei'
 let seriesCache = {};        // 时间序列缓存: {'spi': data, 'spei': data}
 let weatherSeriesCache = null; // 短期降雨时间序列缓存
 let wrsiSeriesCache = null;    // WRSI 时间序列缓存
+let fireSeriesCache = null;    // 火点历史序列缓存
 let modalChart = null;       // 详情框时间序列折线图实例
 
 const COMMODITY_SHORT = { 大豆:'大豆', 玉米:'玉米', 棕榈油:'棕榈', 橡胶:'橡胶', 白糖:'白糖', 棉花:'棉花' };
@@ -1550,8 +1551,56 @@ function showFireModal(r) {
     `<div class="wm-row"><b>高置信火点</b>：${r.high_conf}</div>` +
     `<div class="wm-row"><b>火辐射功率 FRP</b>：${r.total_frp} MW</div>` +
     `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}（全球份额 ${r.global_share}%）</div>` +
-    `<div class="wm-signal">${r.note} · 数据源 ${DATA.fire.source}</div>`;
+    `<div class="wm-signal">${r.note} · 数据源 ${DATA.fire.source}</div>` +
+    `<div class="wmodal-chart-title">📊 火点历史走势（柱=每次观测火点数 · 线=累计均值）</div>` +
+    `<div class="wmodal-chart" id="wmodalChart"></div>`;
   document.getElementById("wmodalMask").classList.add("show");
+  renderFireChart(r.id);
+}
+
+function renderFireChart(rid) {
+  const el = document.getElementById("wmodalChart");
+  if (!el || !window.echarts) return;
+  const draw = (sd) => {
+    const s = sd.series[rid];
+    const dates = sd.meta.dates;
+    if (!s || !dates || !dates.length) {
+      el.innerHTML = '<div class="note">暂无历史序列（首次运行 fetch_fire.py 后开始累积）</div>';
+      return;
+    }
+    if (modalChart) modalChart.dispose();
+    modalChart = echarts.init(el);
+    const n = dates.length;
+    modalChart.setOption({
+      backgroundColor: 'transparent',
+      tooltip: {
+        trigger: 'axis',
+        backgroundColor: '#161b22', borderColor: '#30363d', textStyle: { color: '#c9d1d9', fontSize: 11 },
+        valueFormatter: v => (v == null ? '—' : v),
+      },
+      legend: { top: 0, textStyle: { color: '#8b949e', fontSize: 11 }, itemWidth: 14, itemHeight: 8 },
+      grid: { left: 50, right: 16, top: 30, bottom: 30 },
+      xAxis: {
+        type: 'category', data: dates,
+        axisLine: { lineStyle: { color: '#30363d' } },
+        axisLabel: { color: '#8b949e', fontSize: 10, interval: Math.max(0, Math.floor(n / 12)) },
+      },
+      yAxis: {
+        type: 'value', name: '火点数', nameTextStyle: { color: '#8b949e', fontSize: 10 },
+        axisLine: { show: false }, axisLabel: { color: '#8b949e', fontSize: 10 },
+        splitLine: { lineStyle: { color: '#21262d' } },
+      },
+      series: [
+        { name: '火点数', type: 'bar', data: s.fire, itemStyle: { color: 'rgba(255,123,114,.55)' }, emphasis: { focus: 'series' } },
+        { name: '累计均值', type: 'line', showSymbol: false, data: s.mean, lineStyle: { width: 1.5, color: '#e0c068', type: 'dashed' }, itemStyle: { color: '#e0c068' }, emphasis: { focus: 'series' } },
+      ],
+    });
+  };
+  if (fireSeriesCache) draw(fireSeriesCache);
+  else fetch('data/fire_series.json?t=' + Date.now())
+    .then(r => r.json())
+    .then(d => { fireSeriesCache = d; draw(d); })
+    .catch(() => { el.innerHTML = '<div class="note">火点序列加载失败</div>'; });
 }
 
 // ===== 降水预测（CFSv2 周度/半月，展示规则对齐墒情）=====
@@ -1578,10 +1627,13 @@ function renderForecast() {
     h += `<h3>${WRSI_EMOJI[c]||''} ${c}</h3><div class="weather-grid">`;
     groups[c].forEach(r => {
       const lv = r.level || 'normal';
+      const climoStr = r.hm_climo != null ? `历史同期 ${f(r.hm_climo)}` : '';
+      const anomStr = r.anomaly_mm != null ? `距平 ${r.anomaly_mm>=0?'+':''}${r.anomaly_mm}mm` : '';
       h += `<div class="weather-card ${lv}" onclick="showForecastModal(DATA.forecast.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
         `<div class="wc-head">${r.name}<span class="wc-rank">${r.rank}</span></div>` +
         `<div class="wc-spi">${f(r.hm)}<span class="u">未来半月</span></div>` +
         `<div class="wc-scales">未来1周 ${f(r.w1)} · 第2周 ${f(r.w2)}</div>` +
+        `<div class="wc-anom">${climoStr}${anomStr ? ' · ' + anomStr : ''}</div>` +
         `<span class="wc-tag ${lv}">${r.condition}</span>` +
         `<div class="wc-signal">预报初始 ${data.run_date}</div>` +
         `</div>`;
@@ -1648,16 +1700,58 @@ function renderForecastMap(data) {
 
 function showForecastModal(r) {
   const f = v => (v == null ? '—' : `${Number(v).toFixed(1)} mm`);
+  const anomRow = (r.anomaly_mm != null)
+    ? `<div class="wm-row"><b>历史同期均值</b>：${f(r.hm_climo)} · <b>距平</b>：<b style="color:${r.anomaly_mm>=0?'#3fb950':'#ff7b72'}">${r.anomaly_mm>=0?'+':''}${r.anomaly_mm}mm${r.anomaly_pct!=null?'（'+r.anomaly_pct+'%）':''}</b></div>`
+    : '';
   document.getElementById("wmodalBody").innerHTML =
     `<span class="wm-close" onclick="closeWModal()">✕</span>` +
     `<div class="wm-title">${r.name}<span class="wm-rank">${r.rank}</span></div>` +
     `<div class="wm-precip">${f(r.hm)}<span class="u">未来半月(15天)累计</span></div>` +
     `<div class="wm-row"><b>旱涝评级</b>：${r.condition}</div>` +
-    `<div class="wm-row"><b>未来1周</b>（1-7天）：${f(r.w1)}</div>` +
-    `<div class="wm-row"><b>未来第2周</b>（8-14天）：${f(r.w2)}</div>` +
+    anomRow +
+    `<div class="wm-row"><b>未来1周</b>（1-7天）：${f(r.w1)}${r.w1_climo!=null?'（同期 '+f(r.w1_climo)+'）':''}</div>` +
+    `<div class="wm-row"><b>未来第2周</b>（8-14天）：${f(r.w2)}${r.w2_climo!=null?'（同期 '+f(r.w2_climo)+'）':''}</div>` +
     `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}（全球份额 ${r.global_share}%）</div>` +
-    `<div class="wm-signal">${DATA.forecast.window_note} · 预报初始 ${DATA.forecast.run_date}</div>`;
+    `<div class="wm-signal">${DATA.forecast.window_note} · ${DATA.forecast.climo_note || ''} · 预报初始 ${DATA.forecast.run_date}</div>` +
+    `<div class="wmodal-chart-title">📊 未来15天逐日降水（柱=预报 · 虚线=历史同期均值）</div>` +
+    `<div class="wmodal-chart" id="wmodalChart"></div>`;
   document.getElementById("wmodalMask").classList.add("show");
+  renderForecastChart(r.id);
+}
+
+function renderForecastChart(rid) {
+  const fc = DATA.forecast;
+  const el = document.getElementById("wmodalChart");
+  if (!el || !window.echarts || !fc || !fc.daily || !fc.daily.length) return;
+  if (modalChart) modalChart.dispose();
+  modalChart = echarts.init(el);
+  const dates = fc.daily.map(d => d.md);
+  const fcVals = fc.daily.map(d => d.per_region ? d.per_region[rid] : null);
+  const climoVals = fc.daily.map(d => d.climo ? d.climo[rid] : null);
+  modalChart.setOption({
+    backgroundColor: 'transparent',
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: '#161b22', borderColor: '#30363d', textStyle: { color: '#c9d1d9', fontSize: 11 },
+      valueFormatter: v => (v == null ? '—' : `${Number(v).toFixed(1)} mm`),
+    },
+    legend: { top: 0, textStyle: { color: '#8b949e', fontSize: 11 }, itemWidth: 14, itemHeight: 8 },
+    grid: { left: 44, right: 16, top: 30, bottom: 30 },
+    xAxis: {
+      type: 'category', data: dates,
+      axisLine: { lineStyle: { color: '#30363d' } },
+      axisLabel: { color: '#8b949e', fontSize: 10 },
+    },
+    yAxis: {
+      type: 'value', name: 'mm', nameTextStyle: { color: '#8b949e', fontSize: 10 },
+      axisLine: { show: false }, axisLabel: { color: '#8b949e', fontSize: 10 },
+      splitLine: { lineStyle: { color: '#21262d' } },
+    },
+    series: [
+      { name: '预报降水', type: 'bar', data: fcVals, itemStyle: { color: 'rgba(88,166,255,.55)' }, emphasis: { focus: 'series' } },
+      { name: '历史同期均值', type: 'line', showSymbol: false, data: climoVals, lineStyle: { width: 1.5, color: '#e0c068', type: 'dashed' }, itemStyle: { color: '#e0c068' }, emphasis: { focus: 'series' } },
+    ],
+  });
 }
 
 function render() {

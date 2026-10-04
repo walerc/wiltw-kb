@@ -148,6 +148,22 @@ def main():
     out = os.path.join(BASE, "data", "fire_regions.json")
     json.dump(result, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"已保存 {out}\n")
+
+    # === 累积历史（供折线图 + 历史均值，FIRMS NRT 仅保留近7天，需自行累积）===
+    hist_path = os.path.join(BASE, "data", "fire_history.csv")
+    today = datetime.date.today().strftime("%Y-%m-%d")
+    if os.path.exists(hist_path):
+        lines = [l for l in open(hist_path, encoding="utf-8") if not l.startswith(today + ",")]
+        with open(hist_path, "w", encoding="utf-8") as f:
+            f.writelines(lines)
+    else:
+        with open(hist_path, "w", encoding="utf-8") as f:
+            f.write("date,region_id,fire_count,high_conf,total_frp\n")
+    with open(hist_path, "a", encoding="utf-8") as f:
+        for r in result["regions"]:
+            f.write(f"{today},{r['id']},{r['fire_count']},{r['high_conf']},{r['total_frp']}\n")
+    print(f"已追加历史记录到 {hist_path}")
+
     print("=== 各产区近 %d 天火点（按火点数降序）===" % days)
     for r in sorted(result["regions"], key=lambda x: -x["fire_count"]):
         flag = " 🔥🔥🔥" if r["fire_count"] >= 1000 else (" 🔥" if r["fire_count"] >= 100 else "")
