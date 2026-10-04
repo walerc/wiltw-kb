@@ -1,20 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""fetch_fire.py — 棕榈产区山火火点检测（NASA FIRMS VIIRS 实时火点）
+"""fetch_fire.py — 全部农产品主产区山火火点检测（NASA FIRMS VIIRS 实时火点）
 
 数据源：NASA FIRMS（Fire Information for Resource Management System）
   VIIRS_SNPP_NRT：375m 分辨率实时火点，滞后约 3 小时，可回溯 5 天（NRT 上限）
-  MODIS_NRT：1km 分辨率，Terra 退役后 Aqua 仍在
+
+覆盖范围：全部 6 品种 39 产区（大豆/玉米/棉花/棕榈/橡胶/白糖），
+  分 6 个大陆级框抓取（南美/北美/东南亚/南亚/中国新疆/中国东北），再按产区 bbox 归集。
+
+火点语义（按品种）：
+  棕榈/橡胶  → 泥炭土火灾（减产最致命传导）
+  甘蔗       → 收获前焚烧（巴西/印度常见农事，非灾害）
+  大豆/玉米/棉花 → 秸秆焚烧 / 野火（农事活动 / 局地火险）
 
 用法：
   cd ~/WILTW_KB/elnino && FIRMS_MAP_KEY=xxxx /usr/bin/python3 fetch_fire.py [--days 5]
 
 MAP_KEY 获取：https://firms.modaps.eosdis.nasa.gov/api/map_key/ （免费，需 NASA Earthdata 账号）
 
-输出：data/fire_regions.json —— 各棕榈产区近 N 天火点数 + 总火辐射功率(FRP)
-      每个产区带 commodity/rank/global_share/center_lon/center_lat + severity 分级，供前端地图/卡片渲染
+输出：data/fire_regions.json —— 各产区近 N 天火点数 + 总火辐射功率(FRP) + severity 分级
 """
-import json, os, sys, csv, io, urllib.request, datetime, argparse
+import json, os, sys, csv, io, urllib.request, datetime, argparse, time
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 
@@ -35,14 +41,20 @@ def _load_key():
 FIRMS_KEY = _load_key()
 FIRMS_URL = "https://firms.modaps.eosdis.nasa.gov/api/area/csv/{key}/VIIRS_SNPP_NRT/{bbox}/{days}"
 
-# 覆盖全部 9 个棕榈产区的大框（west,south,east,north）
-# 印尼苏门答腊(西97.5~东106) + 加里曼丹(西108.5~东119) + 马来半岛(西99.6~东104.3) + 沙巴(西109.5~东119.3)
-ALL_BBOX = "97.5,-4.7,119.3,7.4"
+# 6 个大陆级抓取框（west,south,east,north），覆盖全部 39 个产区
+FETCH_BBOXES = [
+    ("南美",   "-66,-38,-43,-7"),          # 巴西+阿根廷(大豆/玉米/棉花/白糖)
+    ("北美",   "-103.5,25.8,-87,46.5"),    # 美国(大豆/玉米/棉花)
+    ("东南亚", "97.5,-4.7,119.3,18.5"),    # 印尼/马来/泰国(棕榈/橡胶)
+    ("南亚",   "68.1,16,84.6,30.4"),       # 印度(棉花/甘蔗)
+    ("中国新疆", "75,37,88,46.5"),         # 新疆(棉花)
+    ("中国东北", "121.18,40.87,135.09,53.56"),  # 黑龙江/吉林(玉米)
+]
 
 
-def load_palm_regions():
+def load_regions():
     d = json.load(open(os.path.join(BASE, "data", "production_regions.json"), encoding="utf-8"))
-    return [r for r in d["regions"] if r["commodity"] == "棕榈油"]
+    return d["regions"]
 
 
 def fire_level(count):
@@ -56,19 +68,15 @@ def fire_level(count):
     return "低", "fire_low"
 
 
-def fetch_firepoints(days=7):
-    if not FIRMS_KEY:
-        print("❌ 未设置 FIRMS_MAP_KEY，请先注册 https://firms.modaps.eosdis.nasa.gov/api/map_key/", file=sys.stderr)
-        sys.exit(1)
-    url = FIRMS_URL.format(key=FIRMS_KEY, bbox=ALL_BBOX, days=days)
+def fetch_firepoints_bbox(bbox, days):
+    """抓取单个 bbox 的近 N 天火点，返回 dict 列表"""
+    url = FIRMS_URL.format(key=FIRMS_KEY, bbox=bbox, days=days)
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=90) as r:
+    with urllib.request.urlopen(req, timeout=180) as r:
         raw = r.read().decode()
     if "Invalid MAP_KEY" in raw or "fail" in raw.lower()[:200]:
-        print(f"❌ FIRMS API 返回错误: {raw[:200]}", file=sys.stderr)
-        sys.exit(1)
-    rows = list(csv.DictReader(io.StringIO(raw)))
-    return rows
+        raise RuntimeError(f"FIRMS API 返回错误: {raw[:200]}")
+    return list(csv.DictReader(io.StringIO(raw)))
 
 
 def in_bbox(lat, lon, r):
@@ -81,20 +89,34 @@ def main():
     args = ap.parse_args()
     days = max(1, min(args.days, 5))
 
-    print(f"拉取 FIRMS VIIRS 近 {days} 天火点（覆盖棕榈产区大框）...")
-    points = fetch_firepoints(days)
-    print(f"  大框内共 {len(points)} 个火点")
+    if not FIRMS_KEY:
+        print("❌ 未设置 FIRMS_MAP_KEY，请先注册 https://firms.modaps.eosdis.nasa.gov/api/map_key/", file=sys.stderr)
+        sys.exit(1)
 
-    regions = load_palm_regions()
+    # === 逐框抓取 + 合并 ===
+    all_points = []
+    for name, bbox in FETCH_BBOXES:
+        print(f"拉取 FIRMS 近 {days} 天火点 [{name}] bbox={bbox} ...", end=" ", flush=True)
+        try:
+            pts = fetch_firepoints_bbox(bbox, days)
+            all_points.extend(pts)
+            print(f"{len(pts)} 火点")
+        except Exception as e:
+            print(f"⚠️ 失败 {e}")
+        time.sleep(1.2)  # 避免 FIRMS 限流
+
+    print(f"合并后共 {len(all_points)} 个火点")
+
+    regions = load_regions()
     result = {
         "generated": datetime.date.today().strftime("%Y-%m-%d"),
         "days": days,
         "source": "NASA FIRMS VIIRS_SNPP_NRT (375m)",
-        "total_firepoints": len(points),
+        "total_firepoints": len(all_points),
         "regions": [],
     }
     for r in regions:
-        pts = [p for p in points if in_bbox(float(p["latitude"]), float(p["longitude"]), r)]
+        pts = [p for p in all_points if in_bbox(float(p["latitude"]), float(p["longitude"]), r)]
         frp_vals = [float(p["frp"]) for p in pts if p.get("frp")]
         # VIIRS confidence: h=high, n=nominal, l=low（高置信只统计 h）
         high = sum(1 for p in pts if p.get("confidence") in ("h", "H"))
@@ -112,7 +134,7 @@ def main():
             "fire_count": len(pts),
             "high_conf": high,
             "total_frp": round(sum(frp_vals), 1),
-            "peat_note": r.get("note", ""),
+            "note": r.get("note", ""),
             "condition": cond,
             "level": level,
         })
@@ -120,10 +142,10 @@ def main():
     out = os.path.join(BASE, "data", "fire_regions.json")
     json.dump(result, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"已保存 {out}\n")
-    print("=== 各产区近 %d 天火点 ===" % days)
-    for r in result["regions"]:
-        flag = " 🔥🔥🔥" if r["fire_count"] >= 30 else (" 🔥" if r["fire_count"] >= 10 else "")
-        print(f"  {r['name']}: {r['fire_count']} 火点 (高置信{r['high_conf']}) FRP={r['total_frp']} [{r['condition']}]{flag}")
+    print("=== 各产区近 %d 天火点（按火点数降序）===" % days)
+    for r in sorted(result["regions"], key=lambda x: -x["fire_count"]):
+        flag = " 🔥🔥🔥" if r["fire_count"] >= 1000 else (" 🔥" if r["fire_count"] >= 100 else "")
+        print(f"  {r['commodity']}·{r['name']}: {r['fire_count']} 火点 (高置信{r['high_conf']}) FRP={r['total_frp']} [{r['condition']}]{flag}")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""fetch_forecast.py — CFSv2 未来降水预报（周度/半月口径），聚合到棕榈产区
+"""fetch_forecast.py — CFSv2 未来降水预报（周度/半月口径），聚合到全部农产品主产区
 
 数据源：NOAA CFSv2（NOMADS）
   daily prate（time_grib）：未来 45 天，6 小时步长降水率 → 聚合到日
@@ -28,13 +28,13 @@ CACHE = os.path.join(BASE, "data", "cfs_cache")
 os.makedirs(CACHE, exist_ok=True)
 
 
-def load_palm_regions():
+def load_regions():
     d = json.load(open(os.path.join(BASE, "data", "production_regions.json"), encoding="utf-8"))
-    return [r for r in d["regions"] if r["commodity"] == "棕榈油"]
+    return d["regions"]
 
 
 def fc_level(hm):
-    """半月累计降水 → 偏干/正常/偏湿分级（热带产区口径）"""
+    """半月累计降水 → 偏干/正常/偏湿分级（统一 mm 口径，灌溉区降水少不代表作物受旱）"""
     if hm is None:
         return "—", "na"
     if hm < 15:
@@ -72,7 +72,13 @@ def download(url, path):
 
 def region_mean(pr, lat, lon, region):
     lat_sel = (lat >= region["south"]) & (lat <= region["north"])
-    lon_sel = (lon >= region["west"]) & (lon <= region["east"])
+    # 经度：产区 bbox 是 -180~180，CFSv2 格点是 0~360，归一化后按需处理跨 0 度
+    w = region["west"] % 360
+    e = region["east"] % 360
+    if w <= e:
+        lon_sel = (lon >= w) & (lon <= e)
+    else:
+        lon_sel = (lon >= w) | (lon <= e)
     if lat_sel.sum() == 0 or lon_sel.sum() == 0:
         return None
     sub = pr[np.ix_(lat_sel, lon_sel)]
@@ -104,7 +110,7 @@ def sum_window(vals, start, end):
 
 def main():
     run = find_latest_run()
-    regions = load_palm_regions()
+    regions = load_regions()
     print(f"CFSv2 预报初始日期: {run}")
 
     # === daily prate（未来 45 天），只取前 15 天算周度/半月 ===

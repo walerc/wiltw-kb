@@ -1462,8 +1462,8 @@ function renderFire() {
     return;
   }
   document.getElementById("weatherBanner").innerHTML =
-    `<b>数据源：</b>${data.source} · <b>窗口：</b>近 ${data.days} 天（${data.generated}）· 全框 ${data.total_firepoints} 火点<br>` +
-    `<span style="font-size:.76rem;color:#8b949e">火点数=VIIRS 375m 近${data.days}天累计 · 高置信=confidence=h · FRP=火辐射功率(MW，火强度) · 泥炭土产区火灾是棕榈减产最致命传导。分级：≥1000严重 / ≥100高 / ≥10中 / &lt;10低</span>`;
+    `<b>数据源：</b>${data.source} · <b>窗口：</b>近 ${data.days} 天（${data.generated}）· 覆盖 6 品种 39 产区，合计 ${data.total_firepoints} 火点<br>` +
+    `<span style="font-size:.76rem;color:#8b949e">火点数=VIIRS 375m 近${data.days}天累计 · 高置信=confidence=h · FRP=火辐射功率(MW，火强度)。分级：≥1000严重 / ≥100高 / ≥10中 / &lt;10低。语义：<b>棕榈/橡胶</b>=泥炭土火灾(减产致命传导) · <b>甘蔗</b>=收获前焚烧(巴西/印度正常农事) · <b>大豆/玉米/棉花</b>=秸秆焚烧/野火</span>`;
   document.getElementById("weatherMap").style.display = 'block';
   document.getElementById("weatherMapTip").innerHTML = '🖱️ 悬停看火点数/FRP · 点击产区点看详情 · 点越大=火点越多';
   const groups = {};
@@ -1478,7 +1478,7 @@ function renderFire() {
         `<div class="wc-precip">${r.fire_count}<span class="wc-last">火点(近${data.days}天)</span></div>` +
         `<div class="wc-last">高置信 ${r.high_conf} · FRP ${r.total_frp}</div>` +
         `<span class="wc-tag ${lv}">${r.condition}</span>` +
-        `<div class="wc-signal">${r.peat_note}</div>` +
+        `<div class="wc-signal">${r.note}</div>` +
         `</div>`;
     });
     h += '</div>';
@@ -1494,7 +1494,8 @@ function renderFireMap(data) {
     echarts.registerMap('world', worldGeo);
     ensureWeatherChart();
     const maxCount = Math.max(...data.regions.map(r => r.fire_count), 1);
-    const d = data.regions.map(r => {
+    const d = groupByLocation(data.regions).map(g => {
+      const r = g.main;
       const sz = Math.max(10, Math.min(34, 10 + Math.sqrt(r.fire_count / maxCount) * 24));
       return {
         name: r.name,
@@ -1502,6 +1503,7 @@ function renderFireMap(data) {
         symbolSize: sz,
         itemStyle: { color: FIRE_LEVEL_COLOR[r.level] || '#3fb950', shadowBlur: 8, shadowColor: 'rgba(0,0,0,.55)' },
         raw: r,
+        group: g.group,
       };
     });
     weatherChart.setOption({
@@ -1509,11 +1511,13 @@ function renderFireMap(data) {
       tooltip: {
         trigger: 'item',
         formatter: function(p) {
-          const r = p.data.raw;
-          return `<b>${r.name}</b>（棕榈 ${r.global_share}%）<br>${r.country}·${r.state}<br>` +
-            `火点数：<b>${r.fire_count}</b>（近${data.days}天）<br>` +
-            `高置信：${r.high_conf} · FRP：${r.total_frp} MW<br>` +
-            `风险：<b>${r.condition}</b>`;
+          const grp = p.data.group || [p.data.raw];
+          return grp.map(r => {
+            return `<b>${r.name}</b>（${COMMODITY_SHORT[r.commodity]||r.commodity} ${r.global_share}%）<br>${r.country}·${r.state}<br>` +
+              `火点数：<b>${r.fire_count}</b>（近${data.days}天）<br>` +
+              `高置信：${r.high_conf} · FRP：${r.total_frp} MW<br>` +
+              `风险：<b>${r.condition}</b>`;
+          }).join('<br><br>');
         }
       },
       geo: {
@@ -1546,7 +1550,7 @@ function showFireModal(r) {
     `<div class="wm-row"><b>高置信火点</b>：${r.high_conf}</div>` +
     `<div class="wm-row"><b>火辐射功率 FRP</b>：${r.total_frp} MW</div>` +
     `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}（全球份额 ${r.global_share}%）</div>` +
-    `<div class="wm-signal">${r.peat_note} · 数据源 ${DATA.fire.source}</div>`;
+    `<div class="wm-signal">${r.note} · 数据源 ${DATA.fire.source}</div>`;
   document.getElementById("wmodalMask").classList.add("show");
 }
 
@@ -1563,8 +1567,8 @@ function renderForecast() {
   }
   const f = v => (v == null ? '—' : `${Number(v).toFixed(1)} mm`);
   document.getElementById("weatherBanner").innerHTML =
-    `<b>指标：</b>降水预测（周度/半月） · <b>预报初始：</b>${data.run_date} · 更新于 ${data.generated}<br>` +
-    `<span style="font-size:.76rem;color:#8b949e">数据源 ${data.source}。${data.window_note}。分级：半月&lt;15mm严重偏干 / 15-30mm偏干 / 30-60mm正常 / &gt;60mm偏湿。半月口径比月度预报更可靠（CFSv2 超半月技巧下降）。</span>`;
+    `<b>指标：</b>降水预测（周度/半月） · <b>预报初始：</b>${data.run_date} · 更新于 ${data.generated} · 覆盖 6 品种<br>` +
+    `<span style="font-size:.76rem;color:#8b949e">数据源 ${data.source}。${data.window_note}。分级：半月&lt;15mm严重偏干 / 15-30mm偏干 / 30-60mm正常 / &gt;60mm偏湿。半月口径比月度预报更可靠（CFSv2 超半月技巧下降）。⚠️ 灌溉区(新疆棉/印度甘蔗等)降水少不代表作物受旱，靠灌溉补充。</span>`;
   document.getElementById("weatherMap").style.display = 'block';
   document.getElementById("weatherMapTip").innerHTML = '🖱️ 悬停看 未来1周/2周/半月累计 · 点击产区点看详情 · 点颜色=未来半月偏干分级';
   const groups = {};
@@ -1594,7 +1598,8 @@ function renderForecastMap(data) {
     if (!window.echarts) { container.innerHTML = '<div class="note">ECharts 未加载</div>'; return; }
     echarts.registerMap('world', worldGeo);
     ensureWeatherChart();
-    const d = data.regions.map(r => {
+    const d = groupByLocation(data.regions).map(g => {
+      const r = g.main;
       const share = r.global_share || 1;
       const sz = Math.max(8, Math.min(30, 8 + Math.sqrt(share) * 4.5));
       return {
@@ -1603,6 +1608,7 @@ function renderForecastMap(data) {
         symbolSize: sz,
         itemStyle: { color: FC_LEVEL_COLOR[r.level] || '#3fb950', shadowBlur: 8, shadowColor: 'rgba(0,0,0,.55)' },
         raw: r,
+        group: g.group,
       };
     });
     weatherChart.setOption({
@@ -1610,11 +1616,13 @@ function renderForecastMap(data) {
       tooltip: {
         trigger: 'item',
         formatter: function(p) {
-          const r = p.data.raw;
+          const grp = p.data.group || [p.data.raw];
           const f = v => (v == null ? '—' : `${Number(v).toFixed(1)} mm`);
-          return `<b>${r.name}</b>（棕榈 ${r.global_share}%）<br>${r.country}·${r.state}<br>` +
-            `未来半月(15天)：<b>${f(r.hm)}</b>（${r.condition}）<br>` +
-            `未来1周：${f(r.w1)} · 未来第2周：${f(r.w2)}`;
+          return grp.map(r => {
+            return `<b>${r.name}</b>（${COMMODITY_SHORT[r.commodity]||r.commodity} ${r.global_share}%）<br>${r.country}·${r.state}<br>` +
+              `未来半月(15天)：<b>${f(r.hm)}</b>（${r.condition}）<br>` +
+              `未来1周：${f(r.w1)} · 未来第2周：${f(r.w2)}`;
+          }).join('<br><br>');
         }
       },
       geo: {
