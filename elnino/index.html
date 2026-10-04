@@ -82,6 +82,12 @@ td:first-child, th:first-child { text-align:left; }
 .soi-bar { flex:1; min-width:6px; border-radius:2px 2px 0 0; }
 .soi-bar.pos { background:#3fb950; }
 .soi-bar.neg { background:#ff7b72; }
+.fire-sev td { background:#3a1515; }
+.fire-sev td:first-child { color:#ff7b72; font-weight:700; }
+.fire-hi td { background:#3a2410; }
+.fire-hi td:first-child { color:#ffa657; font-weight:600; }
+.fire-mid td { background:#332a0f; }
+.fire-mid td:first-child { color:#e3b341; }
 .risk-box { background:#2a1d0a; border-left:3px solid #e3b341; padding:8px 12px; margin:8px 0; font-size:.84rem; border-radius:0 6px 6px 0; }
 /* ===== 种植要素(产区降水) ===== */
 .weather-banner { background:linear-gradient(135deg,#1a2a2d,#16232e); border:1px solid #58a6ff; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:.82rem; line-height:1.7; }
@@ -211,6 +217,10 @@ td:first-child, th:first-child { text-align:left; }
   <h2>🏭 宏观环境</h2>
   <div class="track-grid" id="macroGrid"></div>
   <div class="risk-box" id="macroRisk"></div>
+  <h2>🔥 山火火点监测（泥炭土火灾风险）</h2>
+  <div class="note inline" id="fireNote"></div>
+  <table id="fireTable"></table>
+  <div class="crop-meta">火点=NASA FIRMS VIIRS 近5天 · FRP=火辐射功率(MW,火强度) · 泥炭土产区火灾是棕榈减产最致命传导</div>
   <h2>🎯 品种信号矩阵</h2>
   <div class="note inline" id="trackNote"></div>
   <table id="trackTable"></table>
@@ -522,6 +532,22 @@ function renderTracking() {
   });
   h += '</table>';
   document.getElementById("trackTable").innerHTML = h;
+  // 山火火点监测
+  const fire = DATA.fire;
+  if (fire && fire.regions && fire.regions.length) {
+    document.getElementById("fireNote").innerHTML = `<b>口径：</b>NASA FIRMS VIIRS 近 ${fire.days} 天火点（${fire.generated}）· 全框 ${fire.total_firepoints} 火点`;
+    const sorted = [...fire.regions].sort((a, b) => b.fire_count - a.fire_count);
+    let fh = '<table><tr><th>产区</th><th>火点数</th><th>高置信</th><th>总FRP</th><th>风险</th></tr>';
+    sorted.forEach(r => {
+      const sev = r.fire_count >= 1000 ? '严重' : (r.fire_count >= 100 ? '高' : (r.fire_count >= 10 ? '中' : '低'));
+      const rc = r.fire_count >= 1000 ? 'fire-sev' : (r.fire_count >= 100 ? 'fire-hi' : (r.fire_count >= 10 ? 'fire-mid' : ''));
+      fh += `<tr class="${rc}"><td>${r.name}</td><td>${r.fire_count}</td><td>${r.high_conf}</td><td>${r.total_frp}</td><td>${sev}</td></tr>`;
+    });
+    fh += '</table>';
+    document.getElementById("fireTable").innerHTML = fh;
+  } else {
+    document.getElementById("fireTable").innerHTML = '<tr><td class="na">火点数据未加载（首次运行 fetch_fire.py 后生成）</td></tr>';
+  }
   // 历史类比
   let ah = '<table><tr><th>事件</th><th>强度</th><th>宏观</th><th>结果</th><th>与当前对照</th></tr>';
   tk.analog_table.forEach(a => {
@@ -1476,7 +1502,8 @@ Promise.all([
   fetch('data/spei_weekly_regions.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
   fetch('data/wrsi_regions.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
   fetch('data/crop_water_guide.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
-]).then(([d, t, w, s, sw, ew, wr, wg]) => {
+  fetch('data/fire_regions.json?t=' + Date.now()).then(r => r.json()).catch(() => null),
+]).then(([d, t, w, s, sw, ew, wr, wg, fire]) => {
   DATA = d;
   DATA.tracking = t;   // tracking 加载失败时为 null，renderTracking 里 !tk 显示"无跟踪数据"，不阻塞主数据
   DATA.weather = w;    // weather 加载失败时为 null，renderWeather 里 !w 显示"无产区降水数据"
@@ -1485,6 +1512,7 @@ Promise.all([
   DATA.spei_weekly = ew;  // 周度 SPEI
   DATA.wrsi = wr;         // WRSI 作物旱涝
   DATA.waterGuide = wg;   // 需水解读
+  DATA.fire = fire;       // 山火火点监测（加载失败为 null）
   render();
 }).catch(e => document.getElementById("conclCard").innerHTML = '<div class="concl">❌ 数据加载失败: ' + e.message + '</div>');
 </script>
