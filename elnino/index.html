@@ -89,6 +89,15 @@ td:first-child, th:first-child { text-align:left; }
 .fire-mid td { background:#332a0f; }
 .fire-mid td:first-child { color:#e3b341; }
 .forecast-dry { color:#ff7b72; font-weight:700; }
+/* 火点卡片分级（种植要素-山火视图） */
+.weather-card.fire_severe { border-left-color:#ff3b30; }
+.weather-card.fire_high { border-left-color:#ff7b72; }
+.weather-card.fire_mid { border-left-color:#d29922; }
+.weather-card.fire_low { border-left-color:#3fb950; }
+.wc-tag.fire_severe { background:#3a1515; color:#ff6b5e; }
+.wc-tag.fire_high { background:#3a1d1d; color:#ff7b72; }
+.wc-tag.fire_mid { background:#2a1d0a; color:#e3b341; }
+.wc-tag.fire_low { background:#1d2a1a; color:#3fb950; }
 .risk-box { background:#2a1d0a; border-left:3px solid #e3b341; padding:8px 12px; margin:8px 0; font-size:.84rem; border-radius:0 6px 6px 0; }
 /* ===== 种植要素(产区降水) ===== */
 .weather-banner { background:linear-gradient(135deg,#1a2a2d,#16232e); border:1px solid #58a6ff; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:.82rem; line-height:1.7; }
@@ -218,14 +227,6 @@ td:first-child, th:first-child { text-align:left; }
   <h2>🏭 宏观环境</h2>
   <div class="track-grid" id="macroGrid"></div>
   <div class="risk-box" id="macroRisk"></div>
-  <h2>🔥 山火火点监测（泥炭土火灾风险）</h2>
-  <div class="note inline" id="fireNote"></div>
-  <table id="fireTable"></table>
-  <div class="crop-meta">火点=NASA FIRMS VIIRS 近5天 · FRP=火辐射功率(MW,火强度) · 泥炭土产区火灾是棕榈减产最致命传导</div>
-  <h2>🌦️ 未来降水预报（CFSv2 季节预报）</h2>
-  <div class="note inline" id="forecastNote"></div>
-  <table id="forecastTable"></table>
-  <div class="crop-meta">CFSv2 月度降水预报(mm/月) · 红字=降水偏少(<60mm，泥炭土火灾+减产风险) · 数据源 NOAA CFSv2</div>
   <h2>🎯 品种信号矩阵</h2>
   <div class="note inline" id="trackNote"></div>
   <table id="trackTable"></table>
@@ -313,10 +314,12 @@ td:first-child, th:first-child { text-align:left; }
 
 <!-- 种植要素 -->
 <div id="sec-weather" class="hidden">
-  <h2>🌦️ 种植要素 — 主产区降水 / 墒情跟踪</h2>
+  <h2>🌦️ 种植要素 — 主产区降水 / 墒情 / 火点 / 降水预测跟踪</h2>
   <div class="weather-switch">
     <button id="btnWeatherView" class="active" onclick="switchWeatherView('weather', this)">📅 短期天气（近7日）</button>
     <button id="btnMoistureView" onclick="switchWeatherView('moisture', this)">💧 墒情状态（周度）</button>
+    <button id="btnFireView" onclick="switchWeatherView('fire', this)">🔥 山火火点（近5日）</button>
+    <button id="btnForecastView" onclick="switchWeatherView('forecast', this)">🌦️ 降水预测（周度/半月）</button>
   </div>
   <div class="weather-subswitch" id="moistureSubSwitch" style="display:none">
     <span class="sub-label">指标：</span>
@@ -537,43 +540,6 @@ function renderTracking() {
   });
   h += '</table>';
   document.getElementById("trackTable").innerHTML = h;
-  // 山火火点监测
-  const fire = DATA.fire;
-  if (fire && fire.regions && fire.regions.length) {
-    document.getElementById("fireNote").innerHTML = `<b>口径：</b>NASA FIRMS VIIRS 近 ${fire.days} 天火点（${fire.generated}）· 全框 ${fire.total_firepoints} 火点`;
-    const sorted = [...fire.regions].sort((a, b) => b.fire_count - a.fire_count);
-    let fh = '<table><tr><th>产区</th><th>火点数</th><th>高置信</th><th>总FRP</th><th>风险</th></tr>';
-    sorted.forEach(r => {
-      const sev = r.fire_count >= 1000 ? '严重' : (r.fire_count >= 100 ? '高' : (r.fire_count >= 10 ? '中' : '低'));
-      const rc = r.fire_count >= 1000 ? 'fire-sev' : (r.fire_count >= 100 ? 'fire-hi' : (r.fire_count >= 10 ? 'fire-mid' : ''));
-      fh += `<tr class="${rc}"><td>${r.name}</td><td>${r.fire_count}</td><td>${r.high_conf}</td><td>${r.total_frp}</td><td>${sev}</td></tr>`;
-    });
-    fh += '</table>';
-    document.getElementById("fireTable").innerHTML = fh;
-  } else {
-    document.getElementById("fireTable").innerHTML = '<tr><td class="na">火点数据未加载（首次运行 fetch_fire.py 后生成）</td></tr>';
-  }
-  // 未来降水预报
-  const fc = DATA.forecast;
-  if (fc && fc.monthly && fc.monthly.length) {
-    document.getElementById("forecastNote").innerHTML = `<b>口径：</b>NOAA CFSv2 月度降水预报（${fc.generated} · run ${fc.run_date}）`;
-    let fch = '<table><tr><th>产区</th>';
-    fc.monthly.forEach(m => fch += `<th>${m.ym}<br><span class="na">mm/月</span></th>`);
-    fch += '</tr>';
-    fc.regions.forEach(r => {
-      fch += `<tr><td>${r.name}</td>`;
-      fc.monthly.forEach(m => {
-        const v = m.per_region[r.id];
-        const dry = (v !== null && v < 60) ? 'forecast-dry' : '';
-        fch += `<td class="${dry}">${v !== null ? v : '—'}</td>`;
-      });
-      fch += '</tr>';
-    });
-    fch += '</table>';
-    document.getElementById("forecastTable").innerHTML = fch;
-  } else {
-    document.getElementById("forecastTable").innerHTML = '<tr><td class="na">预报数据未加载（首次运行 fetch_forecast.py 后生成）</td></tr>';
-  }
   // 历史类比
   let ah = '<table><tr><th>事件</th><th>强度</th><th>宏观</th><th>结果</th><th>与当前对照</th></tr>';
   tk.analog_table.forEach(a => {
@@ -848,7 +814,13 @@ function ensureWeatherChart() {
         if (currentWeatherView === 'moisture') {
           if (moistureMetric === 'wrsi') showWrsiModal(params.data.raw);
           else showMoistureModal(params.data.raw);
-        } else showWModal(params.data.raw);
+        } else if (currentWeatherView === 'fire') {
+          showFireModal(params.data.raw);
+        } else if (currentWeatherView === 'forecast') {
+          showForecastModal(params.data.raw);
+        } else {
+          showWModal(params.data.raw);
+        }
       }
     });
     window.addEventListener('resize', () => { if (weatherChart) weatherChart.resize(); });
@@ -1460,8 +1432,12 @@ function switchWeatherView(view, el) {
   currentWeatherView = view;
   document.getElementById("btnWeatherView").classList.toggle("active", view === 'weather');
   document.getElementById("btnMoistureView").classList.toggle("active", view === 'moisture');
+  document.getElementById("btnFireView").classList.toggle("active", view === 'fire');
+  document.getElementById("btnForecastView").classList.toggle("active", view === 'forecast');
   document.getElementById("moistureSubSwitch").style.display = view === 'moisture' ? 'flex' : 'none';
   if (view === 'moisture') renderMoisture();
+  else if (view === 'fire') renderFire();
+  else if (view === 'forecast') renderForecast();
   else renderWeather();
 }
 
@@ -1472,6 +1448,208 @@ function switchMoisture(metric, el) {
   document.getElementById("btnWrsiSub").classList.toggle("active", metric === 'wrsi');
   if (metric === 'wrsi') renderWrsi();
   else renderMoisture();
+}
+
+// ===== 山火火点（NASA FIRMS，近5日，展示规则对齐短期天气）=====
+const FIRE_LEVEL_COLOR = { fire_severe:'#ff3b30', fire_high:'#ff7b72', fire_mid:'#d29922', fire_low:'#3fb950' };
+
+function renderFire() {
+  const data = DATA.fire;
+  if (!data || !data.regions || !data.regions.length) {
+    document.getElementById("weatherBanner").innerHTML = '<div class="note">无火点数据（首次运行 fetch_fire.py 后生成）</div>';
+    document.getElementById("weatherMap").style.display = 'none';
+    document.getElementById("weatherGroups").innerHTML = '';
+    return;
+  }
+  document.getElementById("weatherBanner").innerHTML =
+    `<b>数据源：</b>${data.source} · <b>窗口：</b>近 ${data.days} 天（${data.generated}）· 全框 ${data.total_firepoints} 火点<br>` +
+    `<span style="font-size:.76rem;color:#8b949e">火点数=VIIRS 375m 近${data.days}天累计 · 高置信=confidence=h · FRP=火辐射功率(MW，火强度) · 泥炭土产区火灾是棕榈减产最致命传导。分级：≥1000严重 / ≥100高 / ≥10中 / &lt;10低</span>`;
+  document.getElementById("weatherMap").style.display = 'block';
+  document.getElementById("weatherMapTip").innerHTML = '🖱️ 悬停看火点数/FRP · 点击产区点看详情 · 点越大=火点越多';
+  const groups = {};
+  data.regions.forEach(r => { (groups[r.commodity] = groups[r.commodity] || []).push(r); });
+  let h = '';
+  Object.keys(groups).forEach(c => {
+    h += `<h3>${WRSI_EMOJI[c]||''} ${c}</h3><div class="weather-grid">`;
+    groups[c].forEach(r => {
+      const lv = r.level || 'fire_low';
+      h += `<div class="weather-card ${lv}" onclick="showFireModal(DATA.fire.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
+        `<div class="wc-head">${r.name}<span class="wc-rank">${r.rank}</span></div>` +
+        `<div class="wc-precip">${r.fire_count}<span class="wc-last">火点(近${data.days}天)</span></div>` +
+        `<div class="wc-last">高置信 ${r.high_conf} · FRP ${r.total_frp}</div>` +
+        `<span class="wc-tag ${lv}">${r.condition}</span>` +
+        `<div class="wc-signal">${r.peat_note}</div>` +
+        `</div>`;
+    });
+    h += '</div>';
+  });
+  document.getElementById("weatherGroups").innerHTML = h;
+  renderFireMap(data);
+}
+
+function renderFireMap(data) {
+  const container = document.getElementById("weatherMap");
+  const draw = (worldGeo) => {
+    if (!window.echarts) { container.innerHTML = '<div class="note">ECharts 未加载</div>'; return; }
+    echarts.registerMap('world', worldGeo);
+    ensureWeatherChart();
+    const maxCount = Math.max(...data.regions.map(r => r.fire_count), 1);
+    const d = data.regions.map(r => {
+      const sz = Math.max(10, Math.min(34, 10 + Math.sqrt(r.fire_count / maxCount) * 24));
+      return {
+        name: r.name,
+        value: [r.center_lon, r.center_lat, r.fire_count],
+        symbolSize: sz,
+        itemStyle: { color: FIRE_LEVEL_COLOR[r.level] || '#3fb950', shadowBlur: 8, shadowColor: 'rgba(0,0,0,.55)' },
+        raw: r,
+      };
+    });
+    weatherChart.setOption({
+      backgroundColor: '#0d1117',
+      tooltip: {
+        trigger: 'item',
+        formatter: function(p) {
+          const r = p.data.raw;
+          return `<b>${r.name}</b>（棕榈 ${r.global_share}%）<br>${r.country}·${r.state}<br>` +
+            `火点数：<b>${r.fire_count}</b>（近${data.days}天）<br>` +
+            `高置信：${r.high_conf} · FRP：${r.total_frp} MW<br>` +
+            `风险：<b>${r.condition}</b>`;
+        }
+      },
+      geo: {
+        map: 'world', roam: true, zoom: 1.15, center: [0, 18],
+        itemStyle: { areaColor: '#161b22', borderColor: '#30363d' },
+        emphasis: { itemStyle: { areaColor: '#1d2a1a' }, label: { show: false } },
+        select: { disabled: true },
+      },
+      series: [{
+        type: 'effectScatter', coordinateSystem: 'geo',
+        rippleEffect: { brushType: 'stroke', scale: 3 },
+        data: d,
+        label: { show: true, position: 'right', formatter: groupLabel, color: '#c9d1d9', fontSize: 10 },
+        emphasis: { scale: 1.7 },
+      }]
+    });
+  };
+  if (worldGeoLoaded) draw(worldGeoLoaded);
+  else fetch('data/vendor/world.json?t=' + Date.now()).then(r => r.json())
+    .then(geo => { worldGeoLoaded = geo; draw(geo); })
+    .catch(() => { container.innerHTML = '<div class="note">世界地图加载失败</div>'; });
+}
+
+function showFireModal(r) {
+  document.getElementById("wmodalBody").innerHTML =
+    `<span class="wm-close" onclick="closeWModal()">✕</span>` +
+    `<div class="wm-title">${r.name}<span class="wm-rank">${r.rank}</span></div>` +
+    `<div class="wm-precip">${r.fire_count}<span class="u">火点(近${DATA.fire.days}天)</span></div>` +
+    `<div class="wm-row"><b>风险评级</b>：${r.condition}</div>` +
+    `<div class="wm-row"><b>高置信火点</b>：${r.high_conf}</div>` +
+    `<div class="wm-row"><b>火辐射功率 FRP</b>：${r.total_frp} MW</div>` +
+    `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}（全球份额 ${r.global_share}%）</div>` +
+    `<div class="wm-signal">${r.peat_note} · 数据源 ${DATA.fire.source}</div>`;
+  document.getElementById("wmodalMask").classList.add("show");
+}
+
+// ===== 降水预测（CFSv2 周度/半月，展示规则对齐墒情）=====
+const FC_LEVEL_COLOR = { extreme_drought:'#ff3b30', dry:'#ff7b72', normal:'#3fb950', wet:'#79c0ff' };
+
+function renderForecast() {
+  const data = DATA.forecast;
+  if (!data || !data.regions || !data.regions.length) {
+    document.getElementById("weatherBanner").innerHTML = '<div class="note">无降水预测数据（首次运行 fetch_forecast.py 后生成）</div>';
+    document.getElementById("weatherMap").style.display = 'none';
+    document.getElementById("weatherGroups").innerHTML = '';
+    return;
+  }
+  const f = v => (v == null ? '—' : `${Number(v).toFixed(1)} mm`);
+  document.getElementById("weatherBanner").innerHTML =
+    `<b>指标：</b>降水预测（周度/半月） · <b>预报初始：</b>${data.run_date} · 更新于 ${data.generated}<br>` +
+    `<span style="font-size:.76rem;color:#8b949e">数据源 ${data.source}。${data.window_note}。分级：半月&lt;15mm严重偏干 / 15-30mm偏干 / 30-60mm正常 / &gt;60mm偏湿。半月口径比月度预报更可靠（CFSv2 超半月技巧下降）。</span>`;
+  document.getElementById("weatherMap").style.display = 'block';
+  document.getElementById("weatherMapTip").innerHTML = '🖱️ 悬停看 未来1周/2周/半月累计 · 点击产区点看详情 · 点颜色=未来半月偏干分级';
+  const groups = {};
+  data.regions.forEach(r => { (groups[r.commodity] = groups[r.commodity] || []).push(r); });
+  let h = '';
+  Object.keys(groups).forEach(c => {
+    h += `<h3>${WRSI_EMOJI[c]||''} ${c}</h3><div class="weather-grid">`;
+    groups[c].forEach(r => {
+      const lv = r.level || 'normal';
+      h += `<div class="weather-card ${lv}" onclick="showForecastModal(DATA.forecast.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
+        `<div class="wc-head">${r.name}<span class="wc-rank">${r.rank}</span></div>` +
+        `<div class="wc-spi">${f(r.hm)}<span class="u">未来半月</span></div>` +
+        `<div class="wc-scales">未来1周 ${f(r.w1)} · 第2周 ${f(r.w2)}</div>` +
+        `<span class="wc-tag ${lv}">${r.condition}</span>` +
+        `<div class="wc-signal">预报初始 ${data.run_date}</div>` +
+        `</div>`;
+    });
+    h += '</div>';
+  });
+  document.getElementById("weatherGroups").innerHTML = h;
+  renderForecastMap(data);
+}
+
+function renderForecastMap(data) {
+  const container = document.getElementById("weatherMap");
+  const draw = (worldGeo) => {
+    if (!window.echarts) { container.innerHTML = '<div class="note">ECharts 未加载</div>'; return; }
+    echarts.registerMap('world', worldGeo);
+    ensureWeatherChart();
+    const d = data.regions.map(r => {
+      const share = r.global_share || 1;
+      const sz = Math.max(8, Math.min(30, 8 + Math.sqrt(share) * 4.5));
+      return {
+        name: r.name,
+        value: [r.center_lon, r.center_lat, r.hm],
+        symbolSize: sz,
+        itemStyle: { color: FC_LEVEL_COLOR[r.level] || '#3fb950', shadowBlur: 8, shadowColor: 'rgba(0,0,0,.55)' },
+        raw: r,
+      };
+    });
+    weatherChart.setOption({
+      backgroundColor: '#0d1117',
+      tooltip: {
+        trigger: 'item',
+        formatter: function(p) {
+          const r = p.data.raw;
+          const f = v => (v == null ? '—' : `${Number(v).toFixed(1)} mm`);
+          return `<b>${r.name}</b>（棕榈 ${r.global_share}%）<br>${r.country}·${r.state}<br>` +
+            `未来半月(15天)：<b>${f(r.hm)}</b>（${r.condition}）<br>` +
+            `未来1周：${f(r.w1)} · 未来第2周：${f(r.w2)}`;
+        }
+      },
+      geo: {
+        map: 'world', roam: true, zoom: 1.15, center: [0, 18],
+        itemStyle: { areaColor: '#161b22', borderColor: '#30363d' },
+        emphasis: { itemStyle: { areaColor: '#1d2a1a' }, label: { show: false } },
+        select: { disabled: true },
+      },
+      series: [{
+        type: 'effectScatter', coordinateSystem: 'geo',
+        rippleEffect: { brushType: 'stroke', scale: 3 },
+        data: d,
+        label: { show: true, position: 'right', formatter: groupLabel, color: '#c9d1d9', fontSize: 10 },
+        emphasis: { scale: 1.7 },
+      }]
+    });
+  };
+  if (worldGeoLoaded) draw(worldGeoLoaded);
+  else fetch('data/vendor/world.json?t=' + Date.now()).then(r => r.json())
+    .then(geo => { worldGeoLoaded = geo; draw(geo); })
+    .catch(() => { container.innerHTML = '<div class="note">世界地图加载失败</div>'; });
+}
+
+function showForecastModal(r) {
+  const f = v => (v == null ? '—' : `${Number(v).toFixed(1)} mm`);
+  document.getElementById("wmodalBody").innerHTML =
+    `<span class="wm-close" onclick="closeWModal()">✕</span>` +
+    `<div class="wm-title">${r.name}<span class="wm-rank">${r.rank}</span></div>` +
+    `<div class="wm-precip">${f(r.hm)}<span class="u">未来半月(15天)累计</span></div>` +
+    `<div class="wm-row"><b>旱涝评级</b>：${r.condition}</div>` +
+    `<div class="wm-row"><b>未来1周</b>（1-7天）：${f(r.w1)}</div>` +
+    `<div class="wm-row"><b>未来第2周</b>（8-14天）：${f(r.w2)}</div>` +
+    `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}（全球份额 ${r.global_share}%）</div>` +
+    `<div class="wm-signal">${DATA.forecast.window_note} · 预报初始 ${DATA.forecast.run_date}</div>`;
+  document.getElementById("wmodalMask").classList.add("show");
 }
 
 function render() {

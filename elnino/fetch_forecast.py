@@ -1,18 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""fetch_forecast.py — CFSv2 未来降水预报，聚合到棕榈产区
+"""fetch_forecast.py — CFSv2 未来降水预报（周度/半月口径），聚合到棕榈产区
 
 数据源：NOAA CFSv2（NOMADS）
   daily prate（time_grib）：未来 45 天，6 小时步长降水率 → 聚合到日
-  monthly flxf（monthly_grib）：前 2 个月月度平均降水
+
+口径说明（避免长预报失真）：
+  CFSv2 月度(monthly)预报只覆盖前2个月、且超半月后技巧大幅下降，
+  故改为「周度 + 半月」三窗口，只取日度预报的前 15 天：
+    未来1周   = 第 1-7  天累计降水(mm)
+    未来第2周 = 第 8-14 天累计降水(mm)
+    未来半月  = 第 1-15 天累计降水(mm)
 
 用法：
   cd ~/WILTW_KB/elnino && /usr/bin/python3 fetch_forecast.py
 
-输出：data/forecast_regions.json —— 各产区未来 45 天日度 + 2 个月月度降水(mm)
+输出：data/forecast_regions.json —— 各产区 w1/w2/hm 三窗口累计降水 + 偏干分级
 依赖：cfgrib + eccodes（已 pip 安装）
 """
-import json, os, sys, urllib.request, datetime, argparse, calendar
+import json, os, sys, urllib.request, datetime, argparse
 import numpy as np
 import cfgrib
 
@@ -25,6 +31,19 @@ os.makedirs(CACHE, exist_ok=True)
 def load_palm_regions():
     d = json.load(open(os.path.join(BASE, "data", "production_regions.json"), encoding="utf-8"))
     return [r for r in d["regions"] if r["commodity"] == "棕榈油"]
+
+
+def fc_level(hm):
+    """半月累计降水 → 偏干/正常/偏湿分级（热带产区口径）"""
+    if hm is None:
+        return "—", "na"
+    if hm < 15:
+        return "严重偏干", "extreme_drought"
+    if hm < 30:
+        return "偏干", "dry"
+    if hm <= 60:
+        return "正常", "normal"
+    return "偏湿", "wet"
 
 
 def find_latest_run():
@@ -71,10 +90,16 @@ def read_daily_prate(grib_path):
     return pr, lat, lon, vt
 
 
-def read_monthly_prate(grib_path):
-    ds = cfgrib.open_datasets(grib_path, backend_kwargs={"filter_by_keys": {"shortName": "prate"}})
-    d = ds[0]
-    return d["prate"].values, d["latitude"].values, d["longitude"].values
+def sum_window(vals, start, end):
+    """vals = [(date_str, mm_or_None), ...]，累加 [start, end) 区间内非 None 值"""
+    s = 0.0
+    n = 0
+    for i in range(start, min(end, len(vals))):
+        v = vals[i][1]
+        if v is not None:
+            s += v
+            n += 1
+    return round(s, 1) if n else None
 
 
 def main():
@@ -82,7 +107,7 @@ def main():
     regions = load_palm_regions()
     print(f"CFSv2 预报初始日期: {run}")
 
-    # === 1. daily prate（未来 45 天）===
+    # === daily prate（未来 45 天），只取前 15 天算周度/半月 ===
     daily_url = f"{NOMADS}/cfs.{run}/00/time_grib_01/prate.01.{run}00.daily.grb2"
     daily_path = os.path.join(CACHE, f"prate_daily_{run}.grb2")
     print("下载 daily prate（未来45天）...")
@@ -91,59 +116,61 @@ def main():
     print(f"  daily PRATE shape: {pr.shape}, 时间 {vt[0]} ~ {vt[-1]}")
 
     # 6小时时次 → 日降水：每个时次 PRATE(kg/m2/s) × 21600s = mm/6h，4个时次求和 = mm/日
-    # 先按日期分组
     dates = [np.datetime64(v).astype('datetime64[D]') for v in vt]
     uniq_dates = sorted(set(dates))
     daily_mm = {}  # {date_str: prate[lat,lon] 日降水 mm}
-    # 逐日聚合
     for ud in uniq_dates:
         idx = [i for i, dd in enumerate(dates) if dd == ud]
         day_pr = pr[idx].sum(axis=0) * 21600  # 6h时次求和 × 21600s
         daily_mm[np.datetime_as_string(ud, unit='D')] = day_pr
+    sorted_dates = sorted(daily_mm.keys())
+    print(f"  日度数据 {len(sorted_dates)} 天：{sorted_dates[0]} ~ {sorted_dates[-1]}")
 
-    # === 2. monthly flxf（前 2 个月）===
-    monthly = {}
-    today = datetime.date.today()
-    for offset in [0, 1]:  # 当前月 + 下月
-        y = today.year + (today.month + offset - 1) // 12
-        m = (today.month + offset - 1) % 12 + 1
-        ym = f"{y}{m:02d}"
-        murl = f"{NOMADS}/cfs.{run}/00/monthly_grib_01/flxf.01.{run}00.{ym}.avrg.grib.grb2"
-        mpath = os.path.join(CACHE, f"flxf_{ym}.grb2")
-        try:
-            download(murl, mpath)
-            mpr, mlat, mlon = read_monthly_prate(mpath)
-            secs = calendar.monthrange(y, m)[1] * 86400
-            monthly[f"{y}-{m:02d}"] = mpr * secs  # mm/月
-            print(f"  monthly {y}-{m:02d}: 已加载")
-        except Exception as e:
-            print(f"  monthly {y}-{m:02d}: 失败 {e}")
+    # === 逐产区日序列 → 三窗口累计 ===
+    region_daily = {r["id"]: [] for r in regions}
+    for ds in sorted_dates:
+        arr = daily_mm[ds]
+        for r in regions:
+            region_daily[r["id"]].append((ds, region_mean(arr, lat, lon, r)))
 
-    # === 3. 聚合到产区 ===
     result = {
-        "generated": today.strftime("%Y-%m-%d"),
-        "source": "NOAA CFSv2 (daily 45d + monthly 2mo, member 1)",
+        "generated": datetime.date.today().strftime("%Y-%m-%d"),
+        "source": "NOAA CFSv2 (daily prate, member 1)",
         "run_date": run,
-        "regions": [{"id": r["id"], "name": r["name_zh"], "country": r["country"]} for r in regions],
-        "daily": [],   # [{date, per_region}]
-        "monthly": [], # [{ym, per_region}]
+        "window_note": "周度/半月口径：未来1周(1-7天)/未来第2周(8-14天)/未来半月(1-15天)累计降水(mm)",
+        "regions": [],
     }
-    for ds_str in sorted(daily_mm):
-        per = {r["id"]: round(region_mean(daily_mm[ds_str], lat, lon, r), 1) for r in regions}
-        result["daily"].append({"date": ds_str, "per_region": per})
-    for ym in sorted(monthly):
-        per = {r["id"]: round(region_mean(monthly[ym], lat, lon, r), 1) for r in regions}
-        result["monthly"].append({"ym": ym, "per_region": per})
+    for r in regions:
+        vals = region_daily[r["id"]]
+        w1 = sum_window(vals, 0, 7)
+        w2 = sum_window(vals, 7, 14)
+        hm = sum_window(vals, 0, 15)
+        cond, level = fc_level(hm)
+        result["regions"].append({
+            "id": r["id"],
+            "commodity": r["commodity"],
+            "country": r["country"],
+            "state": r.get("state", ""),
+            "name": r["name_zh"],
+            "rank": r.get("rank", ""),
+            "global_share": r.get("global_share"),
+            "center_lon": round((r["west"] + r["east"]) / 2, 2),
+            "center_lat": round((r["north"] + r["south"]) / 2, 2),
+            "w1": w1,          # 未来1周累计 mm
+            "w2": w2,          # 未来第2周累计 mm
+            "hm": hm,          # 未来半月(15天)累计 mm
+            "condition": cond,
+            "level": level,
+        })
 
     out = os.path.join(BASE, "data", "forecast_regions.json")
     json.dump(result, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"\n已保存 {out}")
-    # 摘要
-    print("=== 未来月度降水预报（核心产区均值 mm/月）===")
-    for m in result["monthly"]:
-        core = [v for k, v in m["per_region"].items() if v is not None and k.startswith("palm")]
-        if core:
-            print(f"  {m['ym']}: {round(sum(core)/len(core), 1)} mm")
+    print("=== 未来降水预报（核心产区累计 mm）===")
+    print(f"  {'产区':<14} {'未来1周':>8} {'未来2周':>8} {'未来半月':>8}  评级")
+    for r in result["regions"]:
+        f = lambda v: '—' if v is None else f"{v:.1f}"
+        print(f"  {r['name']:<14} {f(r['w1']):>8} {f(r['w2']):>8} {f(r['hm']):>8}  {r['condition']}")
 
 
 if __name__ == "__main__":

@@ -12,6 +12,7 @@
 MAP_KEY 获取：https://firms.modaps.eosdis.nasa.gov/api/map_key/ （免费，需 NASA Earthdata 账号）
 
 输出：data/fire_regions.json —— 各棕榈产区近 N 天火点数 + 总火辐射功率(FRP)
+      每个产区带 commodity/rank/global_share/center_lon/center_lat + severity 分级，供前端地图/卡片渲染
 """
 import json, os, sys, csv, io, urllib.request, datetime, argparse
 
@@ -42,6 +43,17 @@ ALL_BBOX = "97.5,-4.7,119.3,7.4"
 def load_palm_regions():
     d = json.load(open(os.path.join(BASE, "data", "production_regions.json"), encoding="utf-8"))
     return [r for r in d["regions"] if r["commodity"] == "棕榈油"]
+
+
+def fire_level(count):
+    """火点严重度分级（用于卡片/地图配色）"""
+    if count >= 1000:
+        return "严重", "fire_severe"
+    if count >= 100:
+        return "高", "fire_high"
+    if count >= 10:
+        return "中", "fire_mid"
+    return "低", "fire_low"
 
 
 def fetch_firepoints(days=7):
@@ -86,12 +98,23 @@ def main():
         frp_vals = [float(p["frp"]) for p in pts if p.get("frp")]
         # VIIRS confidence: h=high, n=nominal, l=low（高置信只统计 h）
         high = sum(1 for p in pts if p.get("confidence") in ("h", "H"))
+        cond, level = fire_level(len(pts))
         result["regions"].append({
-            "id": r["id"], "name": r["name_zh"], "country": r["country"],
+            "id": r["id"],
+            "commodity": r["commodity"],
+            "country": r["country"],
+            "state": r.get("state", ""),
+            "name": r["name_zh"],
+            "rank": r.get("rank", ""),
+            "global_share": r.get("global_share"),
+            "center_lon": round((r["west"] + r["east"]) / 2, 2),
+            "center_lat": round((r["north"] + r["south"]) / 2, 2),
             "fire_count": len(pts),
             "high_conf": high,
             "total_frp": round(sum(frp_vals), 1),
             "peat_note": r.get("note", ""),
+            "condition": cond,
+            "level": level,
         })
 
     out = os.path.join(BASE, "data", "fire_regions.json")
@@ -100,7 +123,7 @@ def main():
     print("=== 各产区近 %d 天火点 ===" % days)
     for r in result["regions"]:
         flag = " 🔥🔥🔥" if r["fire_count"] >= 30 else (" 🔥" if r["fire_count"] >= 10 else "")
-        print(f"  {r['name']}: {r['fire_count']} 火点 (高置信{r['high_conf']}) FRP={r['total_frp']}{flag}")
+        print(f"  {r['name']}: {r['fire_count']} 火点 (高置信{r['high_conf']}) FRP={r['total_frp']} [{r['condition']}]{flag}")
 
 
 if __name__ == "__main__":
