@@ -57,6 +57,28 @@ def load_regions():
     return d["regions"]
 
 
+# 泥炭土产区（火灾烧根系→树木不可逆死亡）。note 关键词 + 地理补充（东南亚泥炭带）。
+# 注：产区级近似；格点级精确需叠加 PEATMAP 泥炭分布（下一步）。
+PEAT_NOTE_KEYWORDS = ("泥炭", "peat", "gambut")
+PEAT_REGION_IDS = {
+    # 印尼苏门答腊东部低地泥炭带（廖内/占碑/南苏门答腊）
+    "palm_id_riau", "palm_id_jambi", "palm_id_sumsel",
+    "rubber_id_riau", "rubber_id_jambi", "rubber_id_sumsel",
+    # 加里曼丹泥炭带（西/中加里曼丹为主，东加里曼丹沿海）
+    "palm_id_kalbar", "palm_id_kalteng", "palm_id_kaltim",
+    # 马来半岛西海岸 + 婆罗洲北部(砂拉越)泥炭
+    "palm_my_peninsula", "palm_my_sabah",
+}
+
+
+def is_peat_region(r):
+    """判断产区是否泥炭土（火灾烧根系的不可逆风险）"""
+    note = (r.get("note") or "").lower()
+    if any(k in note for k in PEAT_NOTE_KEYWORDS):
+        return True
+    return r["id"] in PEAT_REGION_IDS
+
+
 def fire_level(count):
     """火点严重度分级（用于卡片/地图配色）"""
     if count >= 1000:
@@ -141,6 +163,7 @@ def main():
             "high_conf": high,
             "total_frp": round(sum(frp_vals), 1),
             "note": r.get("note", ""),
+            "peat": is_peat_region(r),
             "condition": cond,
             "level": level,
         })

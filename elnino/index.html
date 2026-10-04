@@ -98,6 +98,9 @@ td:first-child, th:first-child { text-align:left; }
 .wc-tag.fire_high { background:#3a1d1d; color:#ff7b72; }
 .wc-tag.fire_mid { background:#2a1d0a; color:#e3b341; }
 .wc-tag.fire_low { background:#1d2a1a; color:#3fb950; }
+/* 泥炭土火点（烧根系→不可逆）醒目标签 */
+.wc-peat { display:inline-block; background:#2a1508; color:#e3b341; border:1px solid #8b5a2b; border-radius:6px; padding:1px 6px; font-size:.64rem; font-weight:700; margin-top:6px; }
+.weather-card.peat { border-left-color:#8b5a2b; box-shadow:inset 0 0 0 1px rgba(139,90,43,.25); }
 .risk-box { background:#2a1d0a; border-left:3px solid #e3b341; padding:8px 12px; margin:8px 0; font-size:.84rem; border-radius:0 6px 6px 0; }
 /* ===== 种植要素(产区降水) ===== */
 .weather-banner { background:linear-gradient(135deg,#1a2a2d,#16232e); border:1px solid #58a6ff; border-radius:8px; padding:14px 18px; margin:10px 0; font-size:.82rem; line-height:1.7; }
@@ -1464,7 +1467,7 @@ function renderFire() {
   }
   document.getElementById("weatherBanner").innerHTML =
     `<b>数据源：</b>${data.source} · <b>窗口：</b>近 ${data.days} 天（${data.generated}）· 覆盖 6 品种 39 产区，合计 ${data.total_firepoints} 火点<br>` +
-    `<span style="font-size:.76rem;color:#8b949e">火点数=VIIRS 375m 近${data.days}天累计 · 高置信=confidence=h · FRP=火辐射功率(MW，火强度)。分级：≥1000严重 / ≥100高 / ≥10中 / &lt;10低。语义：<b>棕榈/橡胶</b>=泥炭土火灾(减产致命传导) · <b>甘蔗</b>=收获前焚烧(巴西/印度正常农事) · <b>大豆/玉米/棉花</b>=秸秆焚烧/野火</span>`;
+    `<span style="font-size:.76rem;color:#8b949e">火点=卫星红外探测的<b>「正在燃烧」热信号</b>（不是"树已死"）。分级：≥1000严重 / ≥100高 / ≥10中 / &lt;10低。<b>🟫泥炭土火点</b>=烧根系→树木<b>不可逆死亡</b>（棕榈/橡胶产区泥炭带最致命）· <b>甘蔗</b>=收获前焚烧(正常农事) · <b>大豆/玉米/棉花</b>=秸秆焚烧/野火(通常烧不死成树)。FRP=火辐射功率(MW，火强度)</span>`;
   document.getElementById("weatherMap").style.display = 'block';
   document.getElementById("weatherMapTip").innerHTML = '🖱️ 悬停看火点数/FRP · 点击产区点看详情 · 点越大=火点越多';
   const groups = {};
@@ -1474,12 +1477,14 @@ function renderFire() {
     h += `<h3>${WRSI_EMOJI[c]||''} ${c}</h3><div class="weather-grid">`;
     groups[c].forEach(r => {
       const lv = r.level || 'fire_low';
-      h += `<div class="weather-card ${lv}" onclick="showFireModal(DATA.fire.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
+      const peatTag = r.peat ? '<span class="wc-peat">🟫 泥炭土·烧根系·不可逆</span>' : '';
+      h += `<div class="weather-card ${lv}${r.peat ? ' peat' : ''}" onclick="showFireModal(DATA.fire.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
         `<div class="wc-head">${r.name}<span class="wc-rank">${r.rank}</span></div>` +
         `<div class="wc-precip">${r.fire_count}<span class="wc-last">火点(近${data.days}天)</span></div>` +
         `<div class="wc-last">高置信 ${r.high_conf} · FRP ${r.total_frp}</div>` +
         `<span class="wc-tag ${lv}">${r.condition}</span>` +
         `<div class="wc-signal">${r.note}</div>` +
+        peatTag +
         `</div>`;
     });
     h += '</div>';
@@ -1543,6 +1548,9 @@ function renderFireMap(data) {
 }
 
 function showFireModal(r) {
+  const peatBox = r.peat
+    ? `<div class="wm-row" style="background:#2a1508;border-left:3px solid #8b5a2b;padding:6px 8px;border-radius:6px;"><b>🟫 泥炭土产区</b>：火点高度疑似<b>泥炭火</b>——地下闷烧数月，<b>烧毁根系→树木死亡/倒塌，不可逆</b>（泥炭层本身也不再生）。这是火点中最致命的类型。</div>`
+    : `<div class="wm-row"><b>火点性质</b>：非泥炭土产区，火点多为<b>地表火/人为焚烧</b>（开垦/翻种/秸秆），成年油棕树干耐火，通常<b>不造成树木死亡</b>。</div>`;
   document.getElementById("wmodalBody").innerHTML =
     `<span class="wm-close" onclick="closeWModal()">✕</span>` +
     `<div class="wm-title">${r.name}<span class="wm-rank">${r.rank}</span></div>` +
@@ -1550,8 +1558,9 @@ function showFireModal(r) {
     `<div class="wm-row"><b>风险评级</b>：${r.condition}</div>` +
     `<div class="wm-row"><b>高置信火点</b>：${r.high_conf}</div>` +
     `<div class="wm-row"><b>火辐射功率 FRP</b>：${r.total_frp} MW</div>` +
+    peatBox +
     `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}（全球份额 ${r.global_share}%）</div>` +
-    `<div class="wm-signal">${r.note} · 数据源 ${DATA.fire.source}</div>` +
+    `<div class="wm-signal">火点=卫星红外探测的「正在燃烧」热信号，不等于"树已死"。${r.note} · 数据源 ${DATA.fire.source}</div>` +
     `<div class="wmodal-chart-title">📊 火点历史走势（柱=每次观测火点数 · 线=累计均值）</div>` +
     `<div class="wmodal-chart" id="wmodalChart"></div>`;
   document.getElementById("wmodalMask").classList.add("show");
