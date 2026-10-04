@@ -72,11 +72,53 @@ PEAT_REGION_IDS = {
 
 
 def is_peat_region(r):
-    """判断产区是否泥炭土（火灾烧根系的不可逆风险）"""
+    """判断产区是否泥炭土（火灾烧根系的不可逆风险）——产区级近似，格点级精确见 load_peat_polygons"""
     note = (r.get("note") or "").lower()
     if any(k in note for k in PEAT_NOTE_KEYWORDS):
         return True
     return r["id"] in PEAT_REGION_IDS
+
+
+def load_peat_polygons():
+    """加载 PEATMAP 泥炭多边形（prep_peatmap.py 预处理结果），返回 shapely STRtree"""
+    p = os.path.join(BASE, "data", "peat_polygons.json")
+    if not os.path.exists(p):
+        return None
+    try:
+        from shapely.geometry import Polygon
+        from shapely.strtree import STRtree
+    except ImportError:
+        return None
+    d = json.load(open(p, encoding="utf-8"))
+    polys = []
+    for item in d.get("polys", []):
+        try:
+            g = Polygon(item["poly"])
+            if g.is_valid and not g.is_empty:
+                polys.append(g)
+        except Exception:
+            continue
+    return STRtree(polys) if polys else None
+
+
+def mark_peat_points(points, tree):
+    """对每个火点做 point-in-polygon，标记 p['is_peat']（是否落在泥炭土多边形内）"""
+    from shapely.geometry import Point
+    if tree is None:
+        for p in points:
+            p["is_peat"] = False
+        return
+    for p in points:
+        try:
+            pt = Point(float(p["longitude"]), float(p["latitude"]))
+        except (ValueError, TypeError):
+            p["is_peat"] = False
+            continue
+        p["is_peat"] = False
+        for gi in tree.query(pt):
+            if tree.geometries[gi].contains(pt):
+                p["is_peat"] = True
+                break
 
 
 def fire_level(count):
@@ -135,6 +177,17 @@ def main():
 
     print(f"合并后共 {len(all_points)} 个火点")
 
+    # === 泥炭叠加：格点级 point-in-polygon（PEATMAP）===
+    peat_tree = load_peat_polygons()
+    if peat_tree is not None:
+        mark_peat_points(all_points, peat_tree)
+        n_peat = sum(1 for p in all_points if p.get("is_peat"))
+        print(f"  其中泥炭土火点 {n_peat} 个（PEATMAP 格点级叠加）")
+    else:
+        for p in all_points:
+            p["is_peat"] = False
+        print("  ⚠️ 无 peat_polygons.json，泥炭判断仅保留产区级标注")
+
     regions = load_regions()
     result = {
         "generated": datetime.date.today().strftime("%Y-%m-%d"),
@@ -148,6 +201,7 @@ def main():
         frp_vals = [float(p["frp"]) for p in pts if p.get("frp")]
         # VIIRS confidence: h=high, n=nominal, l=low（高置信只统计 h）
         high = sum(1 for p in pts if p.get("confidence") in ("h", "H"))
+        peat_cnt = sum(1 for p in pts if p.get("is_peat"))
         cond, level = fire_level(len(pts))
         result["regions"].append({
             "id": r["id"],
@@ -160,6 +214,8 @@ def main():
             "center_lon": round((r["west"] + r["east"]) / 2, 2),
             "center_lat": round((r["north"] + r["south"]) / 2, 2),
             "fire_count": len(pts),
+            "peat_fire_count": peat_cnt,
+            "non_peat_fire_count": len(pts) - peat_cnt,
             "high_conf": high,
             "total_frp": round(sum(frp_vals), 1),
             "note": r.get("note", ""),

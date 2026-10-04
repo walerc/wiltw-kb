@@ -1478,10 +1478,13 @@ function renderFire() {
     groups[c].forEach(r => {
       const lv = r.level || 'fire_low';
       const peatTag = r.peat ? '<span class="wc-peat">🟫 泥炭土·烧根系·不可逆</span>' : '';
+      const peatStr = (r.peat_fire_count != null && r.peat_fire_count > 0)
+        ? ` · <b style="color:#e3b341">泥炭火${r.peat_fire_count}</b>`
+        : '';
       h += `<div class="weather-card ${lv}${r.peat ? ' peat' : ''}" onclick="showFireModal(DATA.fire.regions.find(x=>x.id==='${r.id}'))" style="cursor:pointer">` +
         `<div class="wc-head">${r.name}<span class="wc-rank">${r.rank}</span></div>` +
         `<div class="wc-precip">${r.fire_count}<span class="wc-last">火点(近${data.days}天)</span></div>` +
-        `<div class="wc-last">高置信 ${r.high_conf} · FRP ${r.total_frp}</div>` +
+        `<div class="wc-last">高置信 ${r.high_conf} · FRP ${r.total_frp}${peatStr}</div>` +
         `<span class="wc-tag ${lv}">${r.condition}</span>` +
         `<div class="wc-signal">${r.note}</div>` +
         peatTag +
@@ -1548,9 +1551,15 @@ function renderFireMap(data) {
 }
 
 function showFireModal(r) {
-  const peatBox = r.peat
-    ? `<div class="wm-row" style="background:#2a1508;border-left:3px solid #8b5a2b;padding:6px 8px;border-radius:6px;"><b>🟫 泥炭土产区</b>：火点高度疑似<b>泥炭火</b>——地下闷烧数月，<b>烧毁根系→树木死亡/倒塌，不可逆</b>（泥炭层本身也不再生）。这是火点中最致命的类型。</div>`
-    : `<div class="wm-row"><b>火点性质</b>：非泥炭土产区，火点多为<b>地表火/人为焚烧</b>（开垦/翻种/秸秆），成年油棕树干耐火，通常<b>不造成树木死亡</b>。</div>`;
+  let peatBox;
+  if (r.peat_fire_count != null && r.peat_fire_count > 0) {
+    const pct = r.fire_count > 0 ? Math.round(r.peat_fire_count / r.fire_count * 100) : 0;
+    peatBox = `<div class="wm-row" style="background:#2a1508;border-left:3px solid #8b5a2b;padding:6px 8px;border-radius:6px;"><b>🟫 泥炭火 ${r.peat_fire_count} 个</b>（占 ${pct}%）——地下闷烧数月，<b>烧毁根系→树木死亡/倒塌，不可逆</b>（泥炭层本身也不再生）。其余 ${r.non_peat_fire_count} 个为普通火（地表/焚烧，不伤成树）。</div>`;
+  } else if (r.peat) {
+    peatBox = `<div class="wm-row"><b>🟫 泥炭土产区</b>：当前无泥炭火点（火点均为地表/焚烧，不烧根系，非不可逆）。</div>`;
+  } else {
+    peatBox = `<div class="wm-row"><b>火点性质</b>：非泥炭土产区，火点多为<b>地表火/人为焚烧</b>（开垦/翻种/秸秆），成年油棕树干耐火，通常<b>不造成树木死亡</b>。</div>`;
+  }
   document.getElementById("wmodalBody").innerHTML =
     `<span class="wm-close" onclick="closeWModal()">✕</span>` +
     `<div class="wm-title">${r.name}<span class="wm-rank">${r.rank}</span></div>` +
