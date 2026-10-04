@@ -95,6 +95,7 @@ def main():
 
     # === 逐框抓取 + 合并 ===
     all_points = []
+    failed = []
     for name, bbox in FETCH_BBOXES:
         print(f"拉取 FIRMS 近 {days} 天火点 [{name}] bbox={bbox} ...", end=" ", flush=True)
         try:
@@ -103,7 +104,12 @@ def main():
             print(f"{len(pts)} 火点")
         except Exception as e:
             print(f"⚠️ 失败 {e}")
+            failed.append(name)
         time.sleep(1.2)  # 避免 FIRMS 限流
+
+    if failed:
+        print(f"❌ 以下框抓取失败: {failed}，本次不生成数据（保留旧数据，避免不完整覆盖）", file=sys.stderr)
+        sys.exit(1)
 
     print(f"合并后共 {len(all_points)} 个火点")
 
