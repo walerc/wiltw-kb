@@ -765,11 +765,12 @@ function groupByLocation(regions) {
     return { main: sorted[0], group: sorted };
   });
 }
-// 合并点的 label 文本：地名 + 各品种份额（按份额降序）
+// 合并点的 label 文本：地名 + 评级（与点颜色一一对应；品种/份额见 tooltip 与点大小）
 function groupLabel(p) {
   const g = p.data.group || [p.data.raw];
-  const parts = g.map(r => `${COMMODITY_SHORT[r.commodity] || r.commodity}${r.global_share}%`);
-  return p.name + ' ' + parts.join('·');
+  const main = g[0] || p.data.raw;
+  const cond = main && main.condition ? main.condition : '';
+  return cond ? (p.name + ' ' + cond) : p.name;
 }
 
 function closeWModal() {
