@@ -13,7 +13,8 @@ fetch_tracking.py — 拉取当前厄尔尼诺 + 宏观 + 5品种最新数据，
 运行：cd ~/WILTW_KB/elnino && /usr/bin/python3 fetch_tracking.py
 更新频率：建议每周1次（cron 每周一早上，拉上周五收盘）
 """
-import json, os, re, sys, time, urllib.request, datetime
+import json, os, re, sys, time, urllib.request, datetime, warnings
+warnings.filterwarnings("ignore")
 
 # ---- iFinD token / url ----
 DEFAULT_TOKEN = "eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIn0.XfFURXlgV6AMNQUchdjI7iVMxQF8nnHuKZnkRRmPh0Oc_siFrsK6TxFJzkEcGrxyzn9IZ4-d1Iz82N6gK0iWWe2eMU9EEj2Rrfkzd5plj0tPICC9aqBIAMKkn7CG266g1nkJ9ZpmITyEVOhTo9Pf12HAaLqbzBk5M27WWtPz-Ox5aFwXeoJnUmiDhCWDTqDbVtktHB0rsSrWqM9vPZim2VCMyS7TnIxNbAFYBzZH9rVUcGGg6UGbZtTJ4nJLKqXOS8SX9EP7A0Kz6eGeo64BdLZ6OV_gJutjIihgr5t9q6D7gOLClVtsthjBP_RX_vJ6BYrlrXpZpDRD70FwRod-Nw.5j2BOOrFWzbbxvyv.AivRYcb6hoONYxLKeCY0uAq5Rs4stywEemEBLbXIqjkG-P0UeEm7NWRyEIlp6Cyhe678ElTlBPpjvRGW9S8GoLsWFdU2IcCY-ZcA9UjXzmiw5fulnuEnX83bf5w0rDLTM0gCimaDulVg_Oz1e_53R3tht58zN3BUBOd4Bz-9ggbk4qt9AbpPMYvoX076v1CSFETgvVZqUStPUYlxVRQE32XVkxg5suRRbsWkPng8G0_ncZKkB0GSB6ag2AR7EFKIlXAe-ASvS8iDNw1IJ4NAr_0ina5h94ohybLneWwWunJGzETNCoPKdpAwt7dg7WW-VqDPbe2sahxcsPOgH49BHE_XcwG3nGJKbI3KXLYDyuV9C-LC8nCb_BUXVAY-8hwvG9e8e1Kp0LKqaSe6QvKq_QuuOK64xQ.F9pEIDvWlIZ5l1cvKiRZcQ"
@@ -48,6 +49,16 @@ DAILY = {
 MONTHLY = {
     "soi": "南方涛动指数",
     "pmi": "美国:ISM:制造业PMI",
+}
+
+# ---- 国内期货品种 → akshare 新浪连续合约代码（0 后缀 = 主力连续拼接）----
+# ⚠️ 2026-10-05：iFinD「期货收盘价(活跃/连续)」现仅返最近 60 条（实测所有时间范围格式均 60 条），
+# 导致年初(2026-01)/启动期(2026-04)/同比(2025-08)锚点全部丢失 → 进度/涨幅全 None。
+# 改用 akshare futures_zh_daily_sina 拿完整历史日线（2005 起，覆盖全部锚点）。
+# oil(布伦特原油:ICE) 为外盘，akshare 无对应连续合约，保留 iFinD（前端仅用最新值，不用峰值）。
+AKSHARE_MAP = {
+    "palm": "P0", "rubber": "RU0", "sugar": "SR0", "soybean": "A0",
+    "cotton": "CF0", "meal": "M0", "soyoil": "Y0", "corn": "C0",
 }
 
 
@@ -98,6 +109,29 @@ def query_edb(q, timeout=120, retries=3):
             time.sleep(2 * (attempt + 1))  # 2s / 4s 退避
     print(f"    ⚠️ query_edb 重试{retries}次仍失败 [{q[:20]}...]: {last_err}", file=sys.stderr)
     return None
+
+
+def fetch_akshare_daily(code, timeout=90):
+    """akshare 新浪连续合约日线 → [[date_str, close], ...]（date 升序）。失败返回 None。"""
+    try:
+        import akshare as ak
+        df = ak.futures_zh_daily_sina(symbol=code)
+        if df is None or len(df) == 0:
+            return None
+        out = []
+        for _, row in df.iterrows():
+            d = str(row.get("date", ""))
+            v = row.get("close")
+            if d and v is not None:
+                try:
+                    out.append([d, float(v)])
+                except (ValueError, TypeError):
+                    continue
+        out.sort(key=lambda x: x[0])
+        return out or None
+    except Exception as e:
+        print(f"    ⚠️ akshare {code} 失败: {e}", file=sys.stderr)
+        return None
 
 
 NOAA_URL = "https://www.cpc.ncep.noaa.gov/data/indices/wksst9120.for"
@@ -164,12 +198,19 @@ def fetch_series():
 
     series = {}
     for k, name in DAILY.items():
-        datas = query_edb(f"{name} {d_start}到{d_end}")
-        if datas and isinstance(datas, list) and datas[0].get("data", {}).get("data"):
-            series[k] = datas[0]["data"]["data"]
-        else:
-            series[k] = None
-        print(f"  [日度] {k}: {len(series[k]) if series[k] else 'EMPTY'} 点")
+        data = None
+        src = "iFinD"
+        # 国内期货品种：优先 akshare 完整历史（iFinD 现仅返 60 条，锚点丢失 → 进度全 None）
+        if k in AKSHARE_MAP:
+            data = fetch_akshare_daily(AKSHARE_MAP[k])
+            if data:
+                src = "akshare"
+        if data is None:
+            datas = query_edb(f"{name} {d_start}到{d_end}")
+            if datas and isinstance(datas, list) and datas[0].get("data", {}).get("data"):
+                data = datas[0]["data"]["data"]
+        series[k] = data
+        print(f"  [日度] {k}: {len(series[k]) if series[k] else 'EMPTY'} 点 ({src})")
     for k, name in MONTHLY.items():
         datas = query_edb(f"{name} {m_start}到{m_end}")
         if datas and isinstance(datas, list) and datas[0].get("data", {}).get("data"):
