@@ -71,7 +71,7 @@ def download_date(d, cache_dir=CACHE_DIR, retries=3):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     for attempt in range(retries):
         try:
-            with urllib.request.urlopen(req, timeout=600) as r:
+            with urllib.request.urlopen(req, timeout=30) as r:
                 data = r.read()
             if len(data) == EXPECT_SIZE:
                 with open(path, "wb") as f:
@@ -84,6 +84,19 @@ def download_date(d, cache_dir=CACHE_DIR, retries=3):
     raise RuntimeError(f"{d} 下载失败(重试{retries}次)")
 
 
+def probe_cpc(timeout=15):
+    """快速探测 CPC 是否可达（取 RT 滞后约6天、应已发布的日期试读开头1KB）。"""
+    d = datetime.date.today() - datetime.timedelta(days=6)
+    url = CPC_URL.format(year=d.year, ymd=d.strftime("%Y%m%d"))
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            r.read(1024)
+        return True
+    except Exception:
+        return False
+
+
 def download_many(dates, cache_dir=CACHE_DIR, max_workers=4):
     """并发下载缺失的文件（每个文件独立校验完整性+重试）。"""
     todo = []
@@ -92,6 +105,10 @@ def download_many(dates, cache_dir=CACHE_DIR, max_workers=4):
         if not (os.path.exists(path) and os.path.getsize(path) == EXPECT_SIZE):
             todo.append(d)
     if not todo:
+        return
+    # 探活：CPC 不可达时快速跳过，避免 600s×3 重试拖垮 cron（2026-10-05 CPC ftp 曾整体不可达）
+    if not probe_cpc():
+        print(f"⚠️ CPC 数据源不可达(探活超时)，跳过 {len(todo)} 个文件下载（用缓存继续）", file=sys.stderr)
         return
     print(f"  并发下载 {len(todo)} 个文件 (max_workers={max_workers}) ...", file=sys.stderr)
     ok = fail = 0
