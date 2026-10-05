@@ -798,7 +798,7 @@ function showWModal(r) {
     `<div class="wm-row"><b>旱涝评级</b>：${r.condition}</div>` +
     `<div class="wm-row"><b>产区</b>：${r.country} · ${r.state}</div>` +
     `<div class="wm-signal">${sigStr} · 站点格点 ${r.valid_grid}/${r.grid_total}</div>` +
-    `<div class="wmodal-chart-title">📈 周度累计降水历史走势（拖拽缩放 · 点击图例切换）</div>` +
+    `<div class="wmodal-chart-title">📈 周度累计降水历史走势（拖拽缩放 · 点击图例切换 · <b style="color:#58a6ff">最后亮蓝柱=当前近7日</b>，与卡片一致）</div>` +
     `<div class="wmodal-chart" id="wmodalChart"></div>`;
   document.getElementById("wmodalMask").classList.add("show");
   renderWeatherChart(r.id);
@@ -1137,13 +1137,19 @@ function renderWeatherChart(rid) {
     if (!el || !window.echarts) return;
     if (modalChart) modalChart.dispose();
     modalChart = echarts.init(el);
+    const n = weeks.length;
+    // 末尾「近7日」点高亮（亮蓝），与卡片窗口对齐
+    const precipData = s.precip.map((v, i) => {
+      const isRecent = (i === n - 1) && (weeks[i] || '').indexOf('近7日') === 0;
+      return isRecent ? { value: v, itemStyle: { color: '#58a6ff', borderColor: '#e6edf3', borderWidth: 1 } } : v;
+    });
     const series = [
       {
         name: '周度累计降水',
         type: 'bar',
         showSymbol: false,
-        data: s.precip,
-        itemStyle: { color: 'rgba(88,166,255,.55)' },
+        data: precipData,
+        itemStyle: { color: 'rgba(88,166,255,.5)' },
         emphasis: { focus: 'series' },
       },
       {
@@ -1156,7 +1162,6 @@ function renderWeatherChart(rid) {
         emphasis: { focus: 'series' },
       },
     ];
-    const n = weeks.length;
     const startPct = n > 156 ? ((n - 156) / n * 100) : 0;
     modalChart.setOption({
       backgroundColor: 'transparent',
@@ -1170,7 +1175,11 @@ function renderWeatherChart(rid) {
       xAxis: {
         type: 'category', data: weeks,
         axisLine: { lineStyle: { color: '#30363d' } },
-        axisLabel: { color: '#8b949e', fontSize: 10, interval: Math.floor(n/8) },
+        axisLabel: {
+          color: '#8b949e', fontSize: 10,
+          interval: (idx, val) => (val && val.indexOf('近7日') === 0) ? true : (idx % Math.floor(n/8) === 0),
+          formatter: v => (v && v.indexOf('近7日') === 0) ? '近7日' : v,
+        },
       },
       yAxis: {
         type: 'value', name: 'mm', nameTextStyle: { color: '#8b949e', fontSize: 10 },
