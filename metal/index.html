@@ -6,6 +6,7 @@
 <meta name="robots" content="noindex">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>🥇 金属投资框架 — 金银铜铝锡</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.65; }
@@ -51,6 +52,14 @@ tr:hover td { background: #1a2028; }
 .note { color: #6e7681; font-size: 0.78rem; margin-top: 1rem; }
 .update-time { float: right; color: #8b949e; font-size: 0.78rem; }
 .sig-count { font-size: 0.8rem; color: #8b949e; margin: 0.3rem 0 0.8rem; }
+/* 浮标窗（hover 显示证据链图表） */
+#chartFloat { display: none; position: fixed; z-index: 1000; width: 460px; max-width: 92vw; background: #161b22; border: 1px solid #30363d; border-radius: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); padding: 0.8rem; pointer-events: none; }
+#chartFloat .ft-title { color: #e6edf3; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem; }
+#chartFloat .ft-note { color: #8b949e; font-size: 0.72rem; margin-bottom: 0.4rem; line-height: 1.5; }
+#chartFloat .ft-chart { width: 100%; height: 240px; }
+tr.has-hist { cursor: pointer; }
+tr.has-hist:hover td { background: #1c2430; }
+tr.has-hist .hist-badge { color: #58a6ff; font-size: 0.72rem; margin-left: 0.3rem; cursor: help; }
 </style>
 </head>
 <body>
@@ -178,6 +187,13 @@ tr:hover td { background: #1a2028; }
   <div class="note">⚠️ L0 及部分 L1/L2 因子为手动维护（标注在信号矩阵）；价格/库存/PMI/利率为实时拉取。数据源：AKShare + investing.com + WGC + 周金涛《涛动周期论》。</div>
 </div>
 
+<!-- 浮标窗：hover 信号显示证据链图表 -->
+<div id="chartFloat">
+  <div class="ft-title" id="ftTitle"></div>
+  <div class="ft-note" id="ftNote"></div>
+  <div class="ft-chart" id="ftChart"></div>
+</div>
+
 <script>
 function dirClass(d) {
   if (d.indexOf('利多') === 0 || d.indexOf('偏强') === 0) return 'up';
@@ -189,6 +205,40 @@ function dirLabel(d) {
   if (d.indexOf('利空') === 0 || d.indexOf('偏弱') === 0) return '🟢 ' + d;
   return '⚪ ' + d;
 }
+// 浮标窗：hover 信号显示证据链图表（ECharts）
+let __chart = null;
+function showChartFloat(i, e) {
+  const s = window.__signals && window.__signals[i];
+  if (!s || !s.history) return;
+  const f = document.getElementById('chartFloat');
+  document.getElementById('ftTitle').textContent = s.indicator + '（单位：' + (s.history.unit||'') + '）';
+  document.getElementById('ftNote').textContent = s.history.note || '';
+  f.style.display = 'block';
+  moveChartFloat(e);
+  if (typeof echarts === 'undefined') return;
+  if (!__chart) __chart = echarts.init(document.getElementById('ftChart'));
+  const isBar = s.indicator.indexOf('购金') >= 0;
+  const color = isBar ? '#e0c068' : '#58a6ff';
+  __chart.setOption({
+    backgroundColor: 'transparent',
+    grid: { left: 55, right: 18, top: 18, bottom: 28 },
+    xAxis: { type: 'category', data: s.history.labels, axisLabel: { color: '#8b949e', fontSize: 10 }, axisLine: { lineStyle: { color: '#30363d' } } },
+    yAxis: { type: 'value', axisLabel: { color: '#8b949e', fontSize: 10 }, splitLine: { lineStyle: { color: '#21262d' } } },
+    tooltip: { trigger: 'axis', backgroundColor: '#1f242c', borderColor: '#30363d', textStyle: { color: '#c9d1d9', fontSize: 11 } },
+    series: [{ type: isBar ? 'bar' : 'line', data: s.history.values, itemStyle: { color: color }, lineStyle: { color: color }, areaStyle: isBar ? undefined : { color: 'rgba(88,166,255,0.08)' }, barMaxWidth: 32, smooth: !isBar }],
+  }, true);
+  __chart.resize();
+}
+function moveChartFloat(e) {
+  const f = document.getElementById('chartFloat');
+  const x = Math.min(e.clientX + 16, window.innerWidth - 480);
+  const y = Math.min(e.clientY + 16, window.innerHeight - 320);
+  f.style.left = x + 'px';
+  f.style.top = y + 'px';
+}
+function hideChartFloat() {
+  document.getElementById('chartFloat').style.display = 'none';
+}
 fetch('data.json?t=' + Date.now())
   .then(r => r.json())
   .then(d => {
@@ -196,16 +246,25 @@ fetch('data.json?t=' + Date.now())
     // 信号矩阵
     const layerNames = {L0:'康波', L1:'金融', L2:'经济', L3:'基本面', L4:'技术面'};
     let pos=0, neg=0, neu=0;
-    document.getElementById('sigBody').innerHTML = d.signals.map(s => {
+    window.__signals = d.signals;
+    document.getElementById('sigBody').innerHTML = d.signals.map((s, i) => {
       const c = dirClass(s.direction);
       if (c==='up') pos++; else if (c==='down') neg++; else neu++;
-      return '<tr><td><span class="layer-tag '+s.layer+'">'+s.layer+'</span></td>'
-        + '<td>'+s.indicator+'</td>'
+      const hasHist = s.history && s.history.values && s.history.values.length > 0;
+      return '<tr class="'+(hasHist?'has-hist':'')+'" data-i="'+i+'">'
+        + '<td><span class="layer-tag '+s.layer+'">'+s.layer+'</span></td>'
+        + '<td>'+s.indicator+(hasHist?'<span class="hist-badge">📈</span>':'')+'</td>'
         + '<td style="font-size:0.8rem">'+s.value+'</td>'
         + '<td class="'+c+'">'+dirLabel(s.direction)+'</td>'
         + '<td style="font-size:0.78rem;color:#8b949e">'+s.rule+'</td></tr>';
     }).join('');
-    document.getElementById('sigCount').textContent = '共 '+d.signals.length+' 个信号：🔴利多/偏强 '+pos+' · 🟢利空/偏弱 '+neg+' · ⚪中性 '+neu+'。';
+    document.getElementById('sigCount').textContent = '共 '+d.signals.length+' 个信号：🔴利多/偏强 '+pos+' · 🟢利空/偏弱 '+neg+' · ⚪中性 '+neu+'。带 📈 的信号悬停可查看证据链图表。';
+    // 绑定 hover 浮标事件
+    document.querySelectorAll('#sigBody tr.has-hist').forEach(tr => {
+      tr.addEventListener('mouseenter', e => showChartFloat(parseInt(tr.dataset.i), e));
+      tr.addEventListener('mousemove', moveChartFloat);
+      tr.addEventListener('mouseleave', hideChartFloat);
+    });
     // 品种表
     let mt = '<thead><tr><th>品种</th><th>最新价</th><th>日涨跌</th><th>YTD</th><th>库存</th><th>MA20</th><th>RSI</th></tr></thead><tbody>';
     d.metals.forEach(m => {
