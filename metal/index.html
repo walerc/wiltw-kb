@@ -8,134 +8,251 @@
 <title>🥇 金属投资框架 — 金银铜铝锡</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.6; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.65; }
 .wrap { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.2rem; }
 h1 { font-size: 1.5rem; color: #e6edf3; margin-bottom: 0.3rem; }
-h2 { font-size: 1.15rem; color: #e6edf3; margin: 1.8rem 0 0.8rem; padding-left: 0.6rem; border-left: 4px solid #e0c068; }
+h2 { font-size: 1.15rem; color: #e6edf3; margin: 2rem 0 0.8rem; padding-left: 0.6rem; border-left: 4px solid #e0c068; }
+h3 { font-size: 0.95rem; color: #e6edf3; margin: 1rem 0 0.4rem; }
 .sub { color: #8b949e; font-size: 0.82rem; }
 .card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 1.1rem 1.3rem; margin: 0.8rem 0; }
 .badge { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
-.up { color: #ff5050; } .down { color: #00c864; }
-.conclusion { background: linear-gradient(135deg, #3a2f0e, #2a1f08); border: 1px solid #c9a840; border-radius: 10px; padding: 1.2rem 1.4rem; margin: 1rem 0; }
-.conclusion b { color: #e0c068; }
-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 0.5rem 0; }
+.up { color: #ff5050; } .down { color: #00c864; } .neu { color: #8b949e; }
+table { width: 100%; border-collapse: collapse; font-size: 0.83rem; margin: 0.5rem 0; }
 th { background: #1f242c; color: #8b949e; text-align: left; padding: 0.55rem 0.7rem; font-weight: 600; border-bottom: 2px solid #30363d; }
-td { padding: 0.55rem 0.7rem; border-bottom: 1px solid #21262d; }
-tr:hover td { background: #161b22; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-@media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+td { padding: 0.55rem 0.7rem; border-bottom: 1px solid #21262d; vertical-align: top; }
+tr:hover td { background: #1a2028; }
 .kv { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px dashed #21262d; font-size: 0.85rem; }
 .kv .k { color: #8b949e; }
 .kv .v { color: #e6edf3; font-weight: 500; }
-.layer-tag { display: inline-block; background: #1f6feb33; color: #58a6ff; padding: 0.15rem 0.6rem; border-radius: 4px; font-size: 0.72rem; margin-right: 0.4rem; }
+.layer-tag { display: inline-block; padding: 0.12rem 0.55rem; border-radius: 4px; font-size: 0.7rem; margin-right: 0.3rem; font-weight: 600; }
+.L0 { background: #6f42c133; color: #bc8cff; }
+.L1 { background: #1f6feb33; color: #58a6ff; }
+.L2 { background: #f0b42922; color: #d29922; }
+.L3 { background: #00c86422; color: #3fb950; }
+.L4 { background: #ff505022; color: #ff7b72; }
+/* 推理链 */
+.chain-step { border-left: 3px solid #30363d; padding: 0.7rem 1rem; margin: 0.7rem 0; background: #0d1117; border-radius: 0 6px 6px 0; }
+.chain-step .evid { color: #8b949e; font-size: 0.82rem; }
+.chain-step .logic { color: #c9d1d9; font-size: 0.85rem; margin: 0.3rem 0; }
+.chain-step .logic b { color: #e0c068; }
+.chain-step .judge { font-size: 0.85rem; }
+.judge-tag { display: inline-block; padding: 0.1rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+.judge-up { background: #ff505022; color: #ff5050; }
+.judge-down { background: #00c86422; color: #00c864; }
+.judge-neu { background: #30363d; color: #8b949e; }
+/* 跟踪闭环 */
+.track-box { border: 1px solid #30363d; border-radius: 8px; padding: 0.9rem 1rem; margin: 0.8rem 0; background: #0d1117; }
+.track-box h4 { color: #e6edf3; font-size: 0.9rem; margin-bottom: 0.5rem; }
+.track-row { font-size: 0.82rem; padding: 0.25rem 0; }
+.track-row .lbl { color: #8b949e; display: inline-block; width: 5.5em; }
+.verify { color: #ff5050; } .falsify { color: #00c864; }
+.conclusion { background: linear-gradient(135deg, #3a2f0e, #2a1f08); border: 1px solid #c9a840; border-radius: 10px; padding: 1.2rem 1.4rem; margin: 1rem 0; }
+.conclusion b { color: #e0c068; }
 .note { color: #6e7681; font-size: 0.78rem; margin-top: 1rem; }
 .update-time { float: right; color: #8b949e; font-size: 0.78rem; }
-a { color: #58a6ff; }
+.sig-count { font-size: 0.8rem; color: #8b949e; margin: 0.3rem 0 0.8rem; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>🥇 金属投资框架 <span class="update-time" id="updTime"></span></h1>
-  <div class="sub">金银铜铝锡 · 康波周期多因子分层追踪模型 · 数据每日 15:40 自动更新</div>
+  <div class="sub">金银铜铝锡 · 康波周期多因子模型 · 含推理链 + 信号矩阵 + 决策跟踪闭环 · 数据每日 15:40 自动更新</div>
 
+  <!-- ============ 一、当前结论 ============ -->
   <div class="conclusion" id="conclusion">
-    <b>核心结论</b>：康波回升期（2026-2035）→ 工业金属（铜/铝/锡）超配，贵金属（金/银）回调后可再布局。
-    资产轮动从"贵金属"转向"工业金属"。<span id="conclDetail"></span>
+    <b>当前结论</b>：康波回升期（2026-2035）→ <span class="up">工业金属（铜/铝/锡）超配</span>，贵金属（金/银）<span class="neu">中性偏多（回调后布局）</span>。<br>
+    <span style="font-size:0.85rem">品种强弱排序：<b class="up">铜</b> &gt; <b class="up">锡</b> &gt; <b class="neu">铝</b> &gt; <b class="neu">黄金</b> &gt; <b class="neu">白银</b>（白银弹性最大但波动风险最高）。</span>
+    <div id="conclDetail" style="margin-top:0.5rem;font-size:0.85rem"></div>
   </div>
 
-  <h2>🔵 L0 康波周期定位（定方向）</h2>
-  <div class="card" id="kondratieff">加载中...</div>
+  <!-- ============ 二、推理链 ============ -->
+  <h2>🧠 推理链：如何得出这个结论</h2>
+  <div class="sub">五层递进推导（康波→金融→经济→基本面→技术面），每层标注【证据】→【逻辑】→【判断】。证据=事实数据，逻辑=推理规则，判断=本层结论。</div>
 
-  <h2>💰 L1 金融因素（定弹性）</h2>
-  <div class="card" id="financial">加载中...</div>
-
-  <h2>🏭 L2 经济因素（定节奏）</h2>
-  <div class="card" id="economic">加载中...</div>
-
-  <h2>📊 L3 品种基本面 + L4 技术面（定强弱与买卖点）</h2>
-  <div class="card">
-    <div id="metalsTable">加载中...</div>
-    <div class="note">🟢=价格在 MA20 上方（偏强）｜🔴=下方（偏弱）。红涨绿跌。</div>
+  <div class="chain-step">
+    <h3><span class="layer-tag L0">L0</span>康波周期定位（定方向）</h3>
+    <div class="evid">【证据】康德拉季耶夫长波 50-60 年一轮；第五次康波（1991-2025，信息技术）萧条期 2015-2025。</div>
+    <div class="logic">【逻辑】萧条期→资本避险涌向贵金属（黄金/CPI 突破 45 年趋势线已兑现）；<b>回升期→风险偏好回升 + 工业需求启动，资产从贵金属轮动到工业金属</b>。</div>
+    <div class="judge">【判断】2026 = 第六次回升期起点 → <span class="judge-tag judge-up">工业金属超配</span> <span class="judge-tag judge-down">贵金属回调</span>（⚠️ 这是最大假设，若周期划分错误则全盘皆错）</div>
   </div>
 
-  <h2>🎯 关键位（突破提醒阈值）</h2>
-  <div class="card" id="keyLevels">加载中...</div>
+  <div class="chain-step">
+    <h3><span class="layer-tag L1">L1</span>金融因素（定弹性）</h3>
+    <div class="evid">【证据】美国10Y 5.22%（名义利率高）、美元指数 102.35（偏强）、央行购金创新高、财政赤字高位。</div>
+    <div class="logic">【逻辑】吉布森悖论：<b>实际利率 = 持有黄金的机会成本</b>，实际利率走高→黄金承压；美元偏强→压制所有美元计价商品；央行购金→黄金长期买盘（对冲实际利率压力）。</div>
+    <div class="judge">【判断】金融层 <span class="judge-tag judge-down">短期压制黄金与商品</span>，但央行购金 + 美元长期下行是黄金的长期支撑。</div>
+  </div>
 
-  <h2>🧭 分析方法论</h2>
+  <div class="chain-step">
+    <h3><span class="layer-tag L2">L2</span>经济因素（定节奏）</h3>
+    <div class="evid">【证据】中国官方制造业 PMI 50.1（扩张）、美国 ISM 制造业 PMI 48.7（收缩）。</div>
+    <div class="logic">【逻辑】中国扩张→工业金属需求有支撑；美国收缩→全球需求承压，<b>但若持续收缩或触发美联储降息→反过来利多贵金属</b>（双刃剑）。</div>
+    <div class="judge">【判断】经济层 <span class="judge-tag judge-up">利多工业金属</span>（中美分化，中国是工业金属最大需求国）。</div>
+  </div>
+
+  <div class="chain-step">
+    <h3><span class="layer-tag L3">L3</span>品种基本面（定强弱）</h3>
+    <div class="evid">【证据】铜库存 -2325吨（去库）、铝 -3467吨（去库）、锡 +168吨（累库）、白银 -461（去库）。</div>
+    <div class="logic">【逻辑】<b>去库 = 供需偏紧 = 利多</b>；累库 = 供应宽松 = 利空。铜铝去库反映回升期工业需求正在启动。</div>
+    <div class="judge">【判断】<span class="judge-tag judge-up">铜铝偏强</span> <span class="judge-tag judge-down">锡短期压力</span>（但锡的供给扰动——佤邦/印尼/刚果金——是中期支撑，累库不改中期逻辑）。</div>
+  </div>
+
+  <div class="chain-step">
+    <h3><span class="layer-tag L4">L4</span>技术面（定买卖点）</h3>
+    <div class="evid">【证据】铜价在 MA20 上方，黄金/白银/铝/锡在 MA20 下方。</div>
+    <div class="logic">【逻辑】价格 &gt; MA20 偏强（多头），&lt; MA20 偏弱（空头/整理）。</div>
+    <div class="judge">【判断】<span class="judge-tag judge-up">铜趋势最强</span>，其余四品种短期偏弱，等待企稳。</div>
+  </div>
+
+  <div class="card" style="background:#1a2028">
+    <b style="color:#e0c068">五层聚合</b>：L0 定方向（工业金属）→ L1 定弹性（贵金属被压制）→ L2 定节奏（中国需求支撑）→ L3 定强弱（铜铝去库最强）→ L4 定买卖点（铜已启动，其余待企稳）。
+    <b>综合：工业金属超配（铜领涨），贵金属回调后布局。</b>
+  </div>
+
+  <!-- ============ 三、信号矩阵 ============ -->
+  <h2>📡 信号矩阵：每个信号的规则 + 当前值 + 方向</h2>
+  <div class="sub" id="sigCount">加载中...</div>
   <div class="card">
-    <p style="font-size:0.85rem">
+    <table id="sigTable">
+      <thead><tr><th style="width:90px">层级</th><th>指标</th><th>当前值</th><th style="width:120px">方向</th><th>判断规则</th></tr></thead>
+      <tbody id="sigBody"><tr><td colspan="5">加载中...</td></tr></tbody>
+    </table>
+    <div class="note">🔴 利多/偏强（红）｜🟢 利空/偏弱（绿）｜⚪ 中性。方向由"当前值 + 判断规则"自动计算，规则变化会翻转方向。</div>
+  </div>
+
+  <!-- ============ 四、决策跟踪闭环 ============ -->
+  <h2>🔄 决策跟踪闭环：结论如何被验证 / 证伪</h2>
+  <div class="sub">结论不是终点。每个结论都标注【关键假设】【验证信号】【证伪信号】【翻转条件】，据此持续跟踪、动态修正。</div>
+
+  <div class="track-box">
+    <h4>🎯 结论 A：工业金属（铜/铝/锡）超配</h4>
+    <div class="track-row"><span class="lbl">关键假设</span>① 康波回升期判断正确 ② AI/电网需求兑现 ③ 中国 PMI 维持扩张</div>
+    <div class="track-row"><span class="lbl">验证信号</span><span class="verify">铜铝持续去库、云厂商季度资本开支上修、中国 PMI &gt; 50、美元跌破 100</span></div>
+    <div class="track-row"><span class="lbl">证伪信号</span><span class="falsify">铜铝转累库、AI 资本开支下修、中国 PMI &lt; 49、美元突破 105</span></div>
+    <div class="track-row"><span class="lbl">跟踪频率</span>库存日度 · PMI 月度 · 资本开支季度 · 美元日度</div>
+    <div class="track-row"><span class="lbl">翻转条件</span><b>证伪信号 ≥2 个同时出现</b> → 结论从"超配"降级为"中性"</div>
+  </div>
+
+  <div class="track-box">
+    <h4>🎯 结论 B：贵金属（金/银）回调后布局</h4>
+    <div class="track-row"><span class="lbl">关键假设</span>① 央行购金持续 ② 美元长期下行 ③ 实际利率不持续走高</div>
+    <div class="track-row"><span class="lbl">验证信号</span><span class="verify">央行购金创新高、美元跌破 100、实际利率转负（&lt;0%）、美国 ISM 持续收缩触发降息</span></div>
+    <div class="track-row"><span class="lbl">证伪信号</span><span class="falsify">央行停止购金、实际利率持续 &gt;2%、美元突破 110</span></div>
+    <div class="track-row"><span class="lbl">跟踪频率</span>实际利率日度 · 央行购金季度 · 美元日度</div>
+    <div class="track-row"><span class="lbl">翻转条件</span><b>实际利率 &gt;2% 且美元 &gt;105 持续</b> → 推迟布局（贵金属转为观望）</div>
+  </div>
+
+  <div class="track-box">
+    <h4>🎯 结论 C：品种排序 铜 &gt; 锡 &gt; 铝</h4>
+    <div class="track-row"><span class="lbl">关键假设</span>铜：2030 供应见顶 + AI/电网双引擎；锡：供给扰动延续；铝：中国产能上限维持</div>
+    <div class="track-row"><span class="lbl">验证信号</span><span class="verify">铜 TC 加工费走低、锡缅甸进口/印尼出口收紧、铝价站稳 23000</span></div>
+    <div class="track-row"><span class="lbl">证伪信号</span><span class="falsify">佤邦真复产 + 印尼放量（锡转弱）、铝产能上限放开</span></div>
+    <div class="track-row"><span class="lbl">跟踪频率</span>月度（进出口/产量数据）</div>
+  </div>
+
+  <!-- ============ 五、实时数据 ============ -->
+  <h2>📊 实时数据快照</h2>
+  <div class="card">
+    <h3>L3+L4 品种面板</h3>
+    <table id="metalsTable"><tbody><tr><td>加载中...</td></tr></tbody></table>
+    <h3>🎯 关键位（突破提醒阈值）</h3>
+    <table id="keyLevels"><tbody><tr><td>加载中...</td></tr></tbody></table>
+  </div>
+
+  <h2>💰 L1 金融因素 / 🏭 L2 经济因素</h2>
+  <div class="card">
+    <div id="financial">加载中...</div>
+    <div id="economic" style="margin-top:0.6rem"></div>
+  </div>
+
+  <h2>🧭 方法论</h2>
+  <div class="card">
+    <p style="font-size:0.83rem">
       <b style="color:#e0c068">六步双轨框架</b>：康波定位 → 基本面全景（用途/产地/冶炼/交通/地缘/天气）→ 供需平衡测算 → AI 叙事检验 → 技术面 → 综合研判。<br><br>
       <b style="color:#e0c068">AI 叙事检验四步法</b>：① 成本占比（&lt;0.5% 定性为"情绪放大器"而非物理瓶颈）② 增量测算 ③ 供需对比 ④ 证伪路径。<br><br>
       <b style="color:#e0c068">周金涛康波</b>：四周期嵌套（康波60年定方向→库兹涅茨20年→朱格拉9-11年定节奏→基钦3-4年定买卖点）。吉布森悖论：金价与实际利率负相关。<br><br>
-      详见 skill <code>commodity-deep-analysis</code> 及分析报告（锡报告、康波框架文档）。
+      详见 skill <code>commodity-deep-analysis</code>。
     </p>
   </div>
 
-  <div class="note">⚠️ L0 及部分 L1/L2 因子为手动维护；价格/库存/PMI/利率为实时拉取。数据源：AKShare + investing.com + WGC + 周金涛《涛动周期论》。</div>
+  <div class="note">⚠️ L0 及部分 L1/L2 因子为手动维护（标注在信号矩阵）；价格/库存/PMI/利率为实时拉取。数据源：AKShare + investing.com + WGC + 周金涛《涛动周期论》。</div>
 </div>
 
 <script>
+function dirClass(d) {
+  if (/利多|偏强/.test(d)) return 'up';
+  if (/利空|偏弱/.test(d)) return 'down';
+  return 'neu';
+}
+function dirLabel(d) {
+  if (/利多|偏强/.test(d)) return '🔴 ' + d;
+  if (/利空|偏弱/.test(d)) return '🟢 ' + d;
+  return '⚪ ' + d;
+}
 fetch('data.json?t=' + Date.now())
   .then(r => r.json())
   .then(d => {
     document.getElementById('updTime').textContent = '更新 ' + d.date;
-    // L0
-    document.getElementById('kondratieff').innerHTML = Object.entries(d.kondratieff).map(([k,v]) =>
-      '<div class="kv"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>').join('');
-    // L1 金融
-    let f = '';
-    if (d.macro && d.macro.us10y != null) {
-      f += '<div class="kv"><span class="k">美国10Y国债收益率</span><span class="v">'+d.macro.us10y.toFixed(2)+'%</span></div>';
-      f += '<div class="kv"><span class="k">中国10Y国债收益率</span><span class="v">'+d.macro.cn10y.toFixed(2)+'%</span></div>';
-    }
-    if (d.macro && d.macro.usdcny != null) {
-      f += '<div class="kv"><span class="k">美元兑人民币中间价</span><span class="v">'+d.macro.usdcny.toFixed(4)+'</span></div>';
-    }
-    Object.entries(d.financial).forEach(([k,v]) => {
-      f += '<div class="kv"><span class="k">'+k+'</span><span class="v">'+v['值']+' <span style="color:#6e7681;font-size:0.72rem">['+v['源']+']</span></span></div>';
-    });
-    document.getElementById('financial').innerHTML = f;
-    // L2 经济
-    let e = '';
-    if (d.macro && d.macro.cn_pmi != null) {
-      e += '<div class="kv"><span class="k">中国官方制造业PMI</span><span class="v">'+d.macro.cn_pmi.toFixed(1)+' '+ (d.macro.cn_pmi>=50?'🟢扩张':'🔴收缩') +'</span></div>';
-    }
-    if (d.macro && d.macro.us_ism != null) {
-      e += '<div class="kv"><span class="k">美国ISM制造业PMI</span><span class="v">'+d.macro.us_ism.toFixed(1)+' '+ (d.macro.us_ism>=50?'🟢扩张':'🔴收缩') +'</span></div>';
-    }
-    Object.entries(d.economic).forEach(([k,v]) => {
-      if (k !== '制造业PMI') e += '<div class="kv"><span class="k">'+k+'</span><span class="v">'+v['值']+' <span style="color:#6e7681;font-size:0.72rem">['+v['源']+']</span></span></div>';
-    });
-    document.getElementById('economic').innerHTML = e;
-    // L3+L4 品种表
-    let mt = '<table><tr><th>品种</th><th>最新价</th><th>日涨跌</th><th>YTD</th><th>库存</th><th>MA20</th><th>RSI</th></tr>';
+    // 信号矩阵
+    const layerNames = {L0:'康波', L1:'金融', L2:'经济', L3:'基本面', L4:'技术面'};
+    let pos=0, neg=0, neu=0;
+    document.getElementById('sigBody').innerHTML = d.signals.map(s => {
+      const c = dirClass(s.direction);
+      if (c==='up') pos++; else if (c==='down') neg++; else neu++;
+      return '<tr><td><span class="layer-tag '+s.layer+'">'+s.layer+'</span></td>'
+        + '<td>'+s.indicator+'</td>'
+        + '<td style="font-size:0.8rem">'+s.value+'</td>'
+        + '<td class="'+c+'">'+dirLabel(s.direction)+'</td>'
+        + '<td style="font-size:0.78rem;color:#8b949e">'+s.rule+'</td></tr>';
+    }).join('');
+    document.getElementById('sigCount').textContent = '共 '+d.signals.length+' 个信号：🔴利多/偏强 '+pos+' · 🟢利空/偏弱 '+neg+' · ⚪中性 '+neu+'。';
+    // 品种表
+    let mt = '<thead><tr><th>品种</th><th>最新价</th><th>日涨跌</th><th>YTD</th><th>库存</th><th>MA20</th><th>RSI</th></tr></thead><tbody>';
     d.metals.forEach(m => {
       if (m.error) { mt += '<tr><td>'+m.name+'</td><td colspan=6>获取失败</td></tr>'; return; }
-      const up = m.chg_day >= 0;
       const maUp = m.price > m.ma20;
       mt += '<tr><td><b>'+m.name+'</b></td><td>'+m.price.toLocaleString()+' '+m.unit+'</td>'
-        + '<td class="'+(up?'up':'down')+'">'+(m.chg_day>0?'+':'')+m.chg_day.toFixed(2)+'%</td>'
+        + '<td class="'+(m.chg_day>=0?'up':'down')+'">'+(m.chg_day>0?'+':'')+m.chg_day.toFixed(2)+'%</td>'
         + '<td class="'+(m.chg_ytd>=0?'up':'down')+'">'+(m.chg_ytd>0?'+':'')+m.chg_ytd.toFixed(1)+'%</td>'
         + '<td>'+(m.inventory||'—')+'</td>'
         + '<td>'+m.ma20.toLocaleString()+(maUp?' 🟢':' 🔴')+'</td>'
         + '<td>'+m.rsi.toFixed(0)+'</td></tr>';
     });
-    mt += '</table>';
+    mt += '</tbody>';
     document.getElementById('metalsTable').innerHTML = mt;
     // 关键位
-    let kl = '<table><tr><th>品种</th><th>阻力位（上破看多）</th><th>支撑位（下破转弱）</th><th>现价</th></tr>';
+    let kl = '<thead><tr><th>品种</th><th>阻力位（上破看多）</th><th>支撑位（下破转弱）</th><th>现价</th></tr></thead><tbody>';
     d.metals.forEach(m => {
       if (m.res == null) return;
       kl += '<tr><td>'+m.name+'</td><td class="up">'+m.res.toLocaleString()+'</td><td class="down">'+m.sup.toLocaleString()+'</td><td>'+m.price.toLocaleString()+'</td></tr>';
     });
-    kl += '</table>';
+    kl += '</tbody>';
     document.getElementById('keyLevels').innerHTML = kl;
-    // 结论补充
+    // 金融 + 经济
+    let f = '';
+    if (d.macro && d.macro.us10y != null) {
+      f += '<div class="kv"><span class="k">美国10Y国债收益率</span><span class="v">'+d.macro.us10y.toFixed(2)+'%</span></div>';
+      f += '<div class="kv"><span class="k">中国10Y国债收益率</span><span class="v">'+d.macro.cn10y.toFixed(2)+'%</span></div>';
+      f += '<div class="kv"><span class="k">实际利率(10Y-CPI'+d.assumptions.cpi_yoy+'%)</span><span class="v">≈'+(d.macro.us10y-d.assumptions.cpi_yoy).toFixed(1)+'%</span></div>';
+    }
+    if (d.macro && d.macro.usdcny != null) {
+      f += '<div class="kv"><span class="k">美元兑人民币中间价</span><span class="v">'+d.macro.usdcny.toFixed(4)+'</span></div>';
+    }
+    Object.entries(d.financial).forEach(([k,v]) => {
+      f += '<div class="kv"><span class="k">'+k+'</span><span class="v">'+v['值']+'</span></div>';
+    });
+    document.getElementById('financial').innerHTML = f;
+    let e = '';
+    if (d.macro && d.macro.cn_pmi != null) e += '<div class="kv"><span class="k">中国制造业PMI</span><span class="v">'+d.macro.cn_pmi.toFixed(1)+' '+(d.macro.cn_pmi>=50?'🟢扩张':'🔴收缩')+'</span></div>';
+    if (d.macro && d.macro.us_ism != null) e += '<div class="kv"><span class="k">美国ISM制造业PMI</span><span class="v">'+d.macro.us_ism.toFixed(1)+' '+(d.macro.us_ism>=50?'🟢扩张':'🔴收缩')+'</span></div>';
+    Object.entries(d.economic).forEach(([k,v]) => { if (k!=='制造业PMI') e += '<div class="kv"><span class="k">'+k+'</span><span class="v">'+v['值']+'</span></div>'; });
+    document.getElementById('economic').innerHTML = e;
+    // 结论补充（突破提醒）
     if (d.alerts && d.alerts.length) {
-      document.getElementById('conclDetail').innerHTML = '<br><span style="color:#ff5050">⚠️ ' + d.alerts.join('；') + '</span>';
+      document.getElementById('conclDetail').innerHTML = '<span style="color:#ff5050">⚠️ ' + d.alerts.join('；') + '</span>';
     }
   })
-  .catch(err => { document.getElementById('metalsTable').innerHTML = '<div class="note">❌ 数据加载失败：'+err.message+'</div>'; });
+  .catch(err => { document.getElementById('sigBody').innerHTML = '<tr><td colspan=5>❌ 数据加载失败：'+err.message+'</td></tr>'; });
 </script>
 </body>
 </html>

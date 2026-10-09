@@ -50,10 +50,14 @@
    "利多": "工业金属"
   }
  },
+ "assumptions": {
+  "cpi_yoy": 3.5,
+  "dxy": 102.35
+ },
  "macro": {
   "us10y": 5.22,
   "cn10y": 1.69,
-  "usdcny": 6.74,
+  "usdcny": 6.73,
   "cn_pmi": 50.1,
   "cn_pmi_month": "2026年09月份",
   "us_ism": 48.7
@@ -128,6 +132,152 @@
    "res": 439750,
    "sup": 389420,
    "date": "2026-10-08"
+  }
+ ],
+ "signals": [
+  {
+   "layer": "L0",
+   "indicator": "康波周期阶段",
+   "value": "第六次回升期起点(2026-2035)",
+   "rule": "萧条期贵金属避险强 → 回升期工业金属启动、贵金属回调",
+   "direction": "利多工业金属",
+   "target": "工业金属/贵金属"
+  },
+  {
+   "layer": "L1",
+   "indicator": "实际利率(10Y-CPI)",
+   "value": "5.22% - CPI3.5% ≈ 1.7%",
+   "rule": "吉布森悖论：实际利率>2%利空黄金，<0%利多黄金",
+   "direction": "中性",
+   "target": "黄金"
+  },
+  {
+   "layer": "L1",
+   "indicator": "美元指数DXY",
+   "value": "102.35(偏强)",
+   "rule": ">105利空商品，<100利多商品",
+   "direction": "利空商品",
+   "target": "所有商品"
+  },
+  {
+   "layer": "L1",
+   "indicator": "央行购金",
+   "value": "持续创新高",
+   "rule": "货币体系重构，价格不敏感长期买盘",
+   "direction": "利多黄金",
+   "target": "黄金"
+  },
+  {
+   "layer": "L1",
+   "indicator": "美国财政赤字",
+   "value": "高位扩张",
+   "rule": "通胀稀释债务，硬资产受益",
+   "direction": "利多硬资产",
+   "target": "硬资产"
+  },
+  {
+   "layer": "L2",
+   "indicator": "中国制造业PMI",
+   "value": "50.1",
+   "rule": ">50扩张利多工业金属，<49收缩",
+   "direction": "利多工业金属",
+   "target": "工业金属"
+  },
+  {
+   "layer": "L2",
+   "indicator": "美国ISM制造业PMI",
+   "value": "48.7",
+   "rule": ">50扩张，<50收缩(但<50或触发降息→利多贵金属)",
+   "direction": "利空工业金属(或触发降息利多贵金属)",
+   "target": "工业金属/贵金属"
+  },
+  {
+   "layer": "L2",
+   "indicator": "库存周期(基钦)",
+   "value": "低位待补库",
+   "rule": "补库周期利多工业金属",
+   "direction": "利多工业金属",
+   "target": "工业金属"
+  },
+  {
+   "layer": "L3",
+   "indicator": "黄金库存",
+   "value": "116028千克(+0)",
+   "rule": "去库利多，累库利空",
+   "direction": "中性",
+   "target": "黄金"
+  },
+  {
+   "layer": "L3",
+   "indicator": "白银库存",
+   "value": "1490404千克(-461)",
+   "rule": "去库利多，累库利空",
+   "direction": "利多",
+   "target": "白银"
+  },
+  {
+   "layer": "L3",
+   "indicator": "铜库存",
+   "value": "7686吨(-2325)",
+   "rule": "去库利多，累库利空",
+   "direction": "利多",
+   "target": "铜"
+  },
+  {
+   "layer": "L3",
+   "indicator": "铝库存",
+   "value": "118396吨(-3467)",
+   "rule": "去库利多，累库利空",
+   "direction": "利多",
+   "target": "铝"
+  },
+  {
+   "layer": "L3",
+   "indicator": "锡库存",
+   "value": "4326吨(+168)",
+   "rule": "去库利多，累库利空",
+   "direction": "利空",
+   "target": "锡"
+  },
+  {
+   "layer": "L4",
+   "indicator": "黄金趋势(MA20)",
+   "value": "893 vs MA20 937",
+   "rule": "价格>MA20偏强，<MA20偏弱",
+   "direction": "偏弱",
+   "target": "黄金"
+  },
+  {
+   "layer": "L4",
+   "indicator": "白银趋势(MA20)",
+   "value": "14,412 vs MA20 15,724",
+   "rule": "价格>MA20偏强，<MA20偏弱",
+   "direction": "偏弱",
+   "target": "白银"
+  },
+  {
+   "layer": "L4",
+   "indicator": "铜趋势(MA20)",
+   "value": "110,260 vs MA20 109,556",
+   "rule": "价格>MA20偏强，<MA20偏弱",
+   "direction": "偏强",
+   "target": "铜"
+  },
+  {
+   "layer": "L4",
+   "indicator": "铝趋势(MA20)",
+   "value": "23,385 vs MA20 24,191",
+   "rule": "价格>MA20偏强，<MA20偏弱",
+   "direction": "偏弱",
+   "target": "铝"
+  },
+  {
+   "layer": "L4",
+   "indicator": "锡趋势(MA20)",
+   "value": "398,930 vs MA20 409,682",
+   "rule": "价格>MA20偏强，<MA20偏弱",
+   "direction": "偏弱",
+   "target": "锡"
   }
  ],
  "alerts": []
