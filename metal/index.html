@@ -180,13 +180,13 @@ tr:hover td { background: #1a2028; }
 
 <script>
 function dirClass(d) {
-  if (/利多|偏强/.test(d)) return 'up';
-  if (/利空|偏弱/.test(d)) return 'down';
+  if (d.indexOf('利多') === 0 || d.indexOf('偏强') === 0) return 'up';
+  if (d.indexOf('利空') === 0 || d.indexOf('偏弱') === 0) return 'down';
   return 'neu';
 }
 function dirLabel(d) {
-  if (/利多|偏强/.test(d)) return '🔴 ' + d;
-  if (/利空|偏弱/.test(d)) return '🟢 ' + d;
+  if (d.indexOf('利多') === 0 || d.indexOf('偏强') === 0) return '🔴 ' + d;
+  if (d.indexOf('利空') === 0 || d.indexOf('偏弱') === 0) return '🟢 ' + d;
   return '⚪ ' + d;
 }
 fetch('data.json?t=' + Date.now())
