@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>🥇 金属投资框架 — 金银铜铝锡</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.6; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.2rem; }
+h1 { font-size: 1.5rem; color: #e6edf3; margin-bottom: 0.3rem; }
+h2 { font-size: 1.15rem; color: #e6edf3; margin: 1.8rem 0 0.8rem; padding-left: 0.6rem; border-left: 4px solid #e0c068; }
+.sub { color: #8b949e; font-size: 0.82rem; }
+.card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 1.1rem 1.3rem; margin: 0.8rem 0; }
+.badge { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+.up { color: #ff5050; } .down { color: #00c864; }
+.conclusion { background: linear-gradient(135deg, #3a2f0e, #2a1f08); border: 1px solid #c9a840; border-radius: 10px; padding: 1.2rem 1.4rem; margin: 1rem 0; }
+.conclusion b { color: #e0c068; }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 0.5rem 0; }
+th { background: #1f242c; color: #8b949e; text-align: left; padding: 0.55rem 0.7rem; font-weight: 600; border-bottom: 2px solid #30363d; }
+td { padding: 0.55rem 0.7rem; border-bottom: 1px solid #21262d; }
+tr:hover td { background: #161b22; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+@media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+.kv { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px dashed #21262d; font-size: 0.85rem; }
+.kv .k { color: #8b949e; }
+.kv .v { color: #e6edf3; font-weight: 500; }
+.layer-tag { display: inline-block; background: #1f6feb33; color: #58a6ff; padding: 0.15rem 0.6rem; border-radius: 4px; font-size: 0.72rem; margin-right: 0.4rem; }
+.note { color: #6e7681; font-size: 0.78rem; margin-top: 1rem; }
+.update-time { float: right; color: #8b949e; font-size: 0.78rem; }
+a { color: #58a6ff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🥇 金属投资框架 <span class="update-time" id="updTime"></span></h1>
+  <div class="sub">金银铜铝锡 · 康波周期多因子分层追踪模型 · 数据每日 15:40 自动更新</div>
+
+  <div class="conclusion" id="conclusion">
+    <b>核心结论</b>：康波回升期（2026-2035）→ 工业金属（铜/铝/锡）超配，贵金属（金/银）回调后可再布局。
+    资产轮动从"贵金属"转向"工业金属"。<span id="conclDetail"></span>
+  </div>
+
+  <h2>🔵 L0 康波周期定位（定方向）</h2>
+  <div class="card" id="kondratieff">加载中...</div>
+
+  <h2>💰 L1 金融因素（定弹性）</h2>
+  <div class="card" id="financial">加载中...</div>
+
+  <h2>🏭 L2 经济因素（定节奏）</h2>
+  <div class="card" id="economic">加载中...</div>
+
+  <h2>📊 L3 品种基本面 + L4 技术面（定强弱与买卖点）</h2>
+  <div class="card">
+    <div id="metalsTable">加载中...</div>
+    <div class="note">🟢=价格在 MA20 上方（偏强）｜🔴=下方（偏弱）。红涨绿跌。</div>
+  </div>
+
+  <h2>🎯 关键位（突破提醒阈值）</h2>
+  <div class="card" id="keyLevels">加载中...</div>
+
+  <h2>🧭 分析方法论</h2>
+  <div class="card">
+    <p style="font-size:0.85rem">
+      <b style="color:#e0c068">六步双轨框架</b>：康波定位 → 基本面全景（用途/产地/冶炼/交通/地缘/天气）→ 供需平衡测算 → AI 叙事检验 → 技术面 → 综合研判。<br><br>
+      <b style="color:#e0c068">AI 叙事检验四步法</b>：① 成本占比（&lt;0.5% 定性为"情绪放大器"而非物理瓶颈）② 增量测算 ③ 供需对比 ④ 证伪路径。<br><br>
+      <b style="color:#e0c068">周金涛康波</b>：四周期嵌套（康波60年定方向→库兹涅茨20年→朱格拉9-11年定节奏→基钦3-4年定买卖点）。吉布森悖论：金价与实际利率负相关。<br><br>
+      详见 skill <code>commodity-deep-analysis</code> 及分析报告（锡报告、康波框架文档）。
+    </p>
+  </div>
+
+  <div class="note">⚠️ L0 及部分 L1/L2 因子为手动维护；价格/库存/PMI/利率为实时拉取。数据源：AKShare + investing.com + WGC + 周金涛《涛动周期论》。</div>
+</div>
+
+<script>
+fetch('data.json?t=' + Date.now())
+  .then(r => r.json())
+  .then(d => {
+    document.getElementById('updTime').textContent = '更新 ' + d.date;
+    // L0
+    document.getElementById('kondratieff').innerHTML = Object.entries(d.kondratieff).map(([k,v]) =>
+      '<div class="kv"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>').join('');
+    // L1 金融
+    let f = '';
+    if (d.macro && d.macro.us10y != null) {
+      f += '<div class="kv"><span class="k">美国10Y国债收益率</span><span class="v">'+d.macro.us10y.toFixed(2)+'%</span></div>';
+      f += '<div class="kv"><span class="k">中国10Y国债收益率</span><span class="v">'+d.macro.cn10y.toFixed(2)+'%</span></div>';
+    }
+    if (d.macro && d.macro.usdcny != null) {
+      f += '<div class="kv"><span class="k">美元兑人民币中间价</span><span class="v">'+d.macro.usdcny.toFixed(4)+'</span></div>';
+    }
+    Object.entries(d.financial).forEach(([k,v]) => {
+      f += '<div class="kv"><span class="k">'+k+'</span><span class="v">'+v['值']+' <span style="color:#6e7681;font-size:0.72rem">['+v['源']+']</span></span></div>';
+    });
+    document.getElementById('financial').innerHTML = f;
+    // L2 经济
+    let e = '';
+    if (d.macro && d.macro.cn_pmi != null) {
+      e += '<div class="kv"><span class="k">中国官方制造业PMI</span><span class="v">'+d.macro.cn_pmi.toFixed(1)+' '+ (d.macro.cn_pmi>=50?'🟢扩张':'🔴收缩') +'</span></div>';
+    }
+    if (d.macro && d.macro.us_ism != null) {
+      e += '<div class="kv"><span class="k">美国ISM制造业PMI</span><span class="v">'+d.macro.us_ism.toFixed(1)+' '+ (d.macro.us_ism>=50?'🟢扩张':'🔴收缩') +'</span></div>';
+    }
+    Object.entries(d.economic).forEach(([k,v]) => {
+      if (k !== '制造业PMI') e += '<div class="kv"><span class="k">'+k+'</span><span class="v">'+v['值']+' <span style="color:#6e7681;font-size:0.72rem">['+v['源']+']</span></span></div>';
+    });
+    document.getElementById('economic').innerHTML = e;
+    // L3+L4 品种表
+    let mt = '<table><tr><th>品种</th><th>最新价</th><th>日涨跌</th><th>YTD</th><th>库存</th><th>MA20</th><th>RSI</th></tr>';
+    d.metals.forEach(m => {
+      if (m.error) { mt += '<tr><td>'+m.name+'</td><td colspan=6>获取失败</td></tr>'; return; }
+      const up = m.chg_day >= 0;
+      const maUp = m.price > m.ma20;
+      mt += '<tr><td><b>'+m.name+'</b></td><td>'+m.price.toLocaleString()+' '+m.unit+'</td>'
+        + '<td class="'+(up?'up':'down')+'">'+(m.chg_day>0?'+':'')+m.chg_day.toFixed(2)+'%</td>'
+        + '<td class="'+(m.chg_ytd>=0?'up':'down')+'">'+(m.chg_ytd>0?'+':'')+m.chg_ytd.toFixed(1)+'%</td>'
+        + '<td>'+(m.inventory||'—')+'</td>'
+        + '<td>'+m.ma20.toLocaleString()+(maUp?' 🟢':' 🔴')+'</td>'
+        + '<td>'+m.rsi.toFixed(0)+'</td></tr>';
+    });
+    mt += '</table>';
+    document.getElementById('metalsTable').innerHTML = mt;
+    // 关键位
+    let kl = '<table><tr><th>品种</th><th>阻力位（上破看多）</th><th>支撑位（下破转弱）</th><th>现价</th></tr>';
+    d.metals.forEach(m => {
+      if (m.res == null) return;
+      kl += '<tr><td>'+m.name+'</td><td class="up">'+m.res.toLocaleString()+'</td><td class="down">'+m.sup.toLocaleString()+'</td><td>'+m.price.toLocaleString()+'</td></tr>';
+    });
+    kl += '</table>';
+    document.getElementById('keyLevels').innerHTML = kl;
+    // 结论补充
+    if (d.alerts && d.alerts.length) {
+      document.getElementById('conclDetail').innerHTML = '<br><span style="color:#ff5050">⚠️ ' + d.alerts.join('；') + '</span>';
+    }
+  })
+  .catch(err => { document.getElementById('metalsTable').innerHTML = '<div class="note">❌ 数据加载失败：'+err.message+'</div>'; });
+</script>
+</body>
+</html>
