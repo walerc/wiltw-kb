@@ -60,6 +60,13 @@ tr:hover td { background: #1a2028; }
 tr.has-hist { cursor: pointer; }
 tr.has-hist:hover td { background: #1c2430; }
 tr.has-hist .hist-badge { color: #58a6ff; font-size: 0.72rem; margin-left: 0.3rem; cursor: help; }
+/* 因素×品种 关联分析 */
+.ov-tab { display: inline-block; padding: 0.3rem 0.8rem; border: 1px solid #30363d; border-radius: 14px; font-size: 0.75rem; color: #8b949e; cursor: pointer; transition: all .15s; }
+.ov-tab:hover { border-color: #58a6ff; color: #58a6ff; }
+.ov-tab.active { background: #58a6ff; color: #0d1117; font-weight: 700; border-color: #58a6ff; }
+.fa-insight { padding: 0.3rem 0; font-size: 0.84rem; color: #c9d1d9; border-bottom: 1px dashed #21262d; }
+.fa-insight:last-child { border-bottom: none; }
+.fa-insight b { color: #e0c068; }
 </style>
 </head>
 <body>
@@ -74,7 +81,32 @@ tr.has-hist .hist-badge { color: #58a6ff; font-size: 0.72rem; margin-left: 0.3re
     <div id="conclDetail" style="margin-top:0.5rem;font-size:0.85rem"></div>
   </div>
 
-  <!-- ============ 二、推理链 ============ -->
+  <!-- ============ 二、因素×品种 历史关联分析 ============ -->
+  <h2>🔗 因素×品种 历史关联（历史数据验证）</h2>
+  <div class="sub" id="faSub">加载中...</div>
+
+  <div class="card" style="background:#1a2028">
+    <b style="color:#e0c068">📌 历史验证结论</b>（基于 2005-2026 月度数据，因素月变化 vs 品种月收益）
+    <div id="faInsights" style="margin-top:0.5rem"></div>
+  </div>
+
+  <h3>🎯 因素敏感度矩阵 <span style="font-size:0.75rem;color:#8b949e;font-weight:400">（红=正相关 · 绿=负相关，数值=月变化相关系数）</span></h3>
+  <div class="card">
+    <div id="corrHeat" style="width:100%;height:280px"></div>
+    <div class="note">相关系数基于「因素月变化 vs 品种月收益」，已剔除长期共同趋势的伪相关。|r| 越大，该因素对该品种的边际影响越强。</div>
+  </div>
+
+  <h3>📈 因素 vs 品种 历史走势叠加（双轴）</h3>
+  <div class="card">
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px" id="overlayTabs"></div>
+    <div id="overlayChart" style="width:100%;height:360px"></div>
+    <div id="overlayNote" style="font-size:0.8rem;color:#8b949e;margin-top:6px;line-height:1.6"></div>
+  </div>
+
+  <h3>🧪 历史情景回测 <span style="font-size:0.75rem;color:#8b949e;font-weight:400">（因素处于不同区间时，各品种月均涨跌幅%）</span></h3>
+  <div class="card" id="scenarioBox">加载中...</div>
+
+  <!-- ============ 三、推理链 ============ -->
   <h2>🧠 推理链：如何得出这个结论</h2>
   <div class="sub">五层递进推导（康波→金融→经济→基本面→技术面），每层标注【证据】→【逻辑】→【判断】。证据=事实数据，逻辑=推理规则，判断=本层结论。</div>
 
@@ -330,6 +362,111 @@ fetch('data.json?t=' + Date.now())
     }
   })
   .catch(err => { document.getElementById('sigBody').innerHTML = '<tr><td colspan=5>❌ 数据加载失败：'+err.message+'</td></tr>'; });
+
+/* ============ 因素×品种 历史关联分析 ============ */
+fetch('factor_analysis.json?t=' + Date.now())
+  .then(r => r.json())
+  .then(fa => renderFactorAnalysis(fa))
+  .catch(err => { document.getElementById('faSub').textContent = '❌ 关联分析数据加载失败：' + err.message; });
+
+function renderFactorAnalysis(fa) {
+  document.getElementById('faSub').textContent = '数据截至 ' + fa.date + ' · 基于 2005-2026 月度数据 · 相关矩阵=因素月变化 vs 品种月收益（剔除共同趋势伪相关）。';
+  // 1. 历史验证结论
+  document.getElementById('faInsights').innerHTML = (fa.insights || []).map(x => '<div class="fa-insight">· ' + x + '</div>').join('');
+  // 2. 敏感度矩阵热力图
+  renderHeatmap(fa);
+  // 3. 叠加图
+  renderOverlay(fa);
+  // 4. 情景回测
+  renderScenarios(fa);
+}
+
+function renderHeatmap(fa) {
+  var data = [];
+  for (var i = 0; i < fa.factors.length; i++) {
+    for (var j = 0; j < fa.metals.length; j++) {
+      var v = fa.corr_matrix[i][j];
+      data.push([j, i, v == null ? null : v]);
+    }
+  }
+  var chart = echarts.init(document.getElementById('corrHeat'));
+  chart.setOption({
+    backgroundColor: 'transparent',
+    tooltip: {
+      formatter: function(p) {
+        if (p.value[2] == null) return fa.factors[p.value[1]] + ' × ' + fa.metals[p.value[0]] + '<br>样本不足';
+        return fa.factors[p.value[1]] + ' × ' + fa.metals[p.value[0]] + '<br>月变化相关系数: ' + p.value[2].toFixed(2);
+      }
+    },
+    grid: { left: 140, right: 20, top: 10, bottom: 40 },
+    xAxis: { type: 'category', data: fa.metals, axisLabel: { color: '#8b949e', fontSize: 12 }, axisLine: { lineStyle: { color: '#30363d' } } },
+    yAxis: { type: 'category', data: fa.factors, axisLabel: { color: '#8b949e', fontSize: 11 }, axisLine: { lineStyle: { color: '#30363d' } } },
+    visualMap: {
+      min: -0.4, max: 0.4, calculable: true, orient: 'horizontal', left: 'center', bottom: 0,
+      inRange: { color: ['#00c864', '#1c2430', '#ff5050'] }, textStyle: { color: '#8b949e' }
+    },
+    series: [{
+      type: 'heatmap', data: data,
+      label: { show: true, formatter: function(p) { return p.value[2] == null ? '—' : p.value[2].toFixed(2); }, color: '#e6edf3', fontSize: 11 },
+      itemStyle: { borderColor: '#0d1117', borderWidth: 3, borderRadius: 4 }
+    }]
+  });
+}
+
+function renderOverlay(fa) {
+  window.__overlay = fa.overlay || [];
+  if (!window.__overlay.length) { document.getElementById('overlayTabs').innerHTML = '<span style="color:#8b949e;font-size:0.8rem">无叠加图数据</span>'; return; }
+  document.getElementById('overlayTabs').innerHTML = window.__overlay.map(function(o, i) {
+    return '<span class="ov-tab' + (i === 0 ? ' active' : '') + '" onclick="showOverlay(' + i + ')">' + o.factor.split('(')[0] + ' × ' + o.metal + '</span>';
+  }).join('');
+  showOverlay(0);
+}
+
+function showOverlay(i) {
+  var o = window.__overlay[i];
+  if (!o) return;
+  document.querySelectorAll('#overlayTabs .ov-tab').forEach(function(el, idx) { el.classList.toggle('active', idx === i); });
+  document.getElementById('overlayNote').innerHTML = '💡 ' + o.note + '<br>月变化相关系数：<b style="color:' + (o.corr != null && o.corr < 0 ? '#00c864' : '#ff5050') + '">' + (o.corr == null ? '—' : o.corr.toFixed(2)) + '</b>（负=反向联动，正=同向联动）';
+  var chart = echarts.getInstanceByDom(document.getElementById('overlayChart')) || echarts.init(document.getElementById('overlayChart'));
+  chart.setOption({
+    backgroundColor: 'transparent',
+    tooltip: { trigger: 'axis', backgroundColor: '#1f242c', borderColor: '#30363d', textStyle: { color: '#c9d1d9', fontSize: 11 } },
+    legend: { data: [o.factor, o.metal + '价'], textStyle: { color: '#8b949e', fontSize: 11 }, top: 0 },
+    grid: { left: 62, right: 62, top: 34, bottom: 30 },
+    xAxis: { type: 'category', data: o.labels, axisLabel: { color: '#8b949e', fontSize: 9, interval: Math.floor(o.labels.length / 8) }, axisLine: { lineStyle: { color: '#30363d' } } },
+    yAxis: [
+      { type: 'value', name: o.factor_unit, nameTextStyle: { color: '#58a6ff' }, axisLabel: { color: '#58a6ff', fontSize: 10 }, splitLine: { lineStyle: { color: '#21262d' } } },
+      { type: 'value', name: o.metal_unit, nameTextStyle: { color: '#e0c068' }, axisLabel: { color: '#e0c068', fontSize: 10 }, splitLine: { show: false } }
+    ],
+    series: [
+      { name: o.factor, type: 'line', data: o.factor_values, yAxisIndex: 0, lineStyle: { color: '#58a6ff', width: 2 }, itemStyle: { color: '#58a6ff' }, symbol: 'none', smooth: true },
+      { name: o.metal + '价', type: 'line', data: o.metal_values, yAxisIndex: 1, lineStyle: { color: '#e0c068', width: 2 }, itemStyle: { color: '#e0c068' }, symbol: 'none', smooth: true }
+    ]
+  }, true);
+  chart.resize();
+}
+
+function renderScenarios(fa) {
+  var html = '';
+  (fa.scenarios || []).forEach(function(sc) {
+    if (!sc.bins || sc.bins.length === 0) return;
+    html += '<h4 style="color:#e6edf3;font-size:0.9rem;margin:0.9rem 0 0.4rem">' + sc.factor + '</h4>';
+    html += '<table><thead><tr><th style="text-align:left">区间</th><th>月数</th>';
+    fa.metals.forEach(function(m) { html += '<th>' + m + '</th>'; });
+    html += '</tr></thead><tbody>';
+    sc.bins.forEach(function(b) {
+      html += '<tr><td style="text-align:left">' + b.label + '</td><td>' + b.months + '</td>';
+      fa.metals.forEach(function(m) {
+        var v = b[m];
+        html += '<td class="' + (v == null ? 'neu' : (v >= 0 ? 'up' : 'down')) + '">' + (v == null ? '—' : (v > 0 ? '+' : '') + v.toFixed(2) + '%') + '</td>';
+      });
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+  });
+  html += '<div class="note">月均涨跌幅=该区间内品种月度收益率均值。红色=正收益，绿色=负收益。历史统计反映相关关系，非因果承诺；不同区间的样本期不同（如美元 &gt;110 区间集中在 2022-2026 贵金属牛市），解读需结合区间背景。</div>';
+  document.getElementById('scenarioBox').innerHTML = html;
+}
 </script>
 </body>
 </html>
