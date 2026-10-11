@@ -77,11 +77,46 @@ tr.has-hist .hist-badge { color: #58a6ff; font-size: 0.72rem; margin-left: 0.3re
   <!-- ============ 一、当前结论 ============ -->
   <div class="conclusion" id="conclusion">
     <b>当前结论</b>：康波回升期（2026-2035）→ <span class="up">工业金属（铜/铝/锡）超配</span>，贵金属（金/银）<span class="neu">中性偏多（回调后布局）</span>。<br>
-    <span style="font-size:0.85rem">品种强弱排序：<b class="up">铜</b> &gt; <b class="up">锡</b> &gt; <b class="neu">铝</b> &gt; <b class="neu">黄金</b> &gt; <b class="neu">白银</b>（白银弹性最大但波动风险最高）。</span>
+    <span style="font-size:0.85rem"><b>确定性排序</b>（供需证据强度）：<b class="up">铜</b> &gt; <b class="up">铝</b> &gt; <b class="up">锡</b> &gt; 白银 &gt; 黄金；<b>弹性排序</b>（潜在涨幅）：白银 &gt; 锡 &gt; 铜 &gt; 铝 &gt; 黄金。</span><br>
+    <span style="font-size:0.85rem">目标价（中性档）：铜 <b class="up">12.5万</b>（+13%）· 锡 <b class="up">45万</b>（+15%）· 铝 <b class="up">2.5万</b>（+6.5%）· 白银 <b class="up">1.7万</b>（+15.5%）· 黄金 <b class="neu">950</b>（+4.6%）。</span>
     <div id="conclDetail" style="margin-top:0.5rem;font-size:0.85rem"></div>
   </div>
 
-  <!-- ============ 二、因素×品种 历史关联分析 ============ -->
+  <!-- ============ 二、康波尺度验证 ============ -->
+  <h2>📅 康波周期尺度验证（65 年数据）</h2>
+  <div class="sub" id="kvSub">加载中...</div>
+  <div class="card" id="kvConclusions" style="background:#1a2028"></div>
+  <h3>各康波阶段金属年化收益（%）</h3>
+  <div class="card">
+    <table id="kvTable"><tbody><tr><td>加载中...</td></tr></tbody></table>
+    <div class="note">数据源：世界银行 Pink Sheet 月度价格（1960-2024）+ 康波阶段划分（周金涛/范杜因标准）。红=正收益、绿=负收益。「超额」=贵金属年化 − 工业金属年化，正值=贵金属跑赢。</div>
+  </div>
+  <h3>铜金比：工业需求 vs 避险需求的晴雨表（1960-2024）</h3>
+  <div class="card">
+    <div id="kvRatioChart" style="width:100%;height:300px"></div>
+    <div class="note">铜金比 = 铜价(美元/吨) ÷ 金价(美元/盎司)。萧条期走低(避险买金)、回升/繁荣期走高(工业需求启动)。1960s 高值受布雷顿森林金价管制(35美元/盎司)影响失真，重点看 1973 年布雷顿森林解体后的区间。</div>
+  </div>
+
+  <!-- ============ 三、目标价与幅度对比 ============ -->
+  <h2>🎯 目标价与幅度对比</h2>
+  <div class="sub">基于康波定位 + 供需格局 + capex 周期推导。三档目标：悲观 / 中性 / 乐观。</div>
+  <div class="card">
+    <table id="targetTable"><tbody><tr><td>加载中...</td></tr></tbody></table>
+    <div id="rankingBox" style="margin-top:0.9rem"></div>
+    <div class="note">目标价为区间估算，非精确预测；依据见「基本面体系」与「康波验证」。排序分两个维度：确定性（供需证据强度）与弹性（潜在涨幅）。</div>
+  </div>
+
+  <!-- ============ 四、基本面体系 ============ -->
+  <h2>🏗️ 基本面体系：capex 周期 + 供需格局</h2>
+  <div class="card">
+    <h3>⛏️ 资本开支(capex)周期 → 供给传导链</h3>
+    <div id="capexChain"></div>
+    <div id="capexImplication" style="margin-top:0.6rem;padding:0.8rem;background:#0d1117;border-left:3px solid #e0c068;border-radius:0 6px 6px 0;font-size:0.85rem"></div>
+  </div>
+  <h3>各品种供给 / 需求 / 成本</h3>
+  <div class="card" id="supplyDemand"></div>
+
+  <!-- ============ 五、因素×品种 历史关联分析 ============ -->
   <h2>🔗 因素×品种 历史关联（历史数据验证）</h2>
   <div class="sub" id="faSub">加载中...</div>
 
@@ -466,6 +501,97 @@ function renderScenarios(fa) {
   });
   html += '<div class="note">月均涨跌幅=该区间内品种月度收益率均值。红色=正收益，绿色=负收益。历史统计反映相关关系，非因果承诺；不同区间的样本期不同（如美元 &gt;110 区间集中在 2022-2026 贵金属牛市），解读需结合区间背景。</div>';
   document.getElementById('scenarioBox').innerHTML = html;
+}
+
+/* ============ 康波尺度验证 ============ */
+fetch('kondratieff_validation.json?t=' + Date.now())
+  .then(r => r.json())
+  .then(kv => renderKondratieff(kv))
+  .catch(err => { document.getElementById('kvSub').textContent = '❌ 康波验证数据加载失败：' + err.message; });
+
+function renderKondratieff(kv) {
+  document.getElementById('kvSub').textContent = '数据范围 ' + kv.data_range + ' · 覆盖第四康波(衰退/萧条/回升) + 第五康波(繁荣/衰退/萧条) 共 6 个阶段。';
+  // 结论
+  document.getElementById('kvConclusions').innerHTML = '<b style="color:#e0c068">📌 康波验证结论</b><div style="margin-top:0.5rem">' + (kv.conclusions || []).map(c => '<div class="fa-insight">· ' + c + '</div>').join('') + '</div>';
+  // 阶段表
+  var metals = ['黄金', '白银', '铜', '铝', '锡', '镍'];
+  var html = '<thead><tr><th style="text-align:left">康波阶段</th><th style="text-align:left">阶段属性</th>';
+  metals.forEach(function(m) { html += '<th>' + m + '</th>'; });
+  html += '<th>贵金属</th><th>工业金属</th><th>超额</th></tr></thead><tbody>';
+  kv.phases.forEach(function(p) {
+    html += '<tr><td style="text-align:left">' + p.name.replace('康波-', '康波·') + '</td><td style="text-align:left;color:#8b949e">' + p.kind + ' ' + p.years + '年</td>';
+    metals.forEach(function(m) {
+      var v = p[m + '_ann'];
+      html += '<td class="' + (v == null ? 'neu' : (v >= 0 ? 'up' : 'down')) + '">' + (v == null ? '—' : (v > 0 ? '+' : '') + v.toFixed(1) + '%') + '</td>';
+    });
+    html += '<td class="' + (p.precious_ann >= 0 ? 'up' : 'down') + '">' + (p.precious_ann > 0 ? '+' : '') + p.precious_ann.toFixed(1) + '%</td>';
+    html += '<td class="' + (p.industrial_ann >= 0 ? 'up' : 'down') + '">' + (p.industrial_ann > 0 ? '+' : '') + p.industrial_ann.toFixed(1) + '%</td>';
+    html += '<td class="' + (p.premium >= 0 ? 'up' : 'down') + '"><b>' + (p.premium > 0 ? '+' : '') + p.premium.toFixed(1) + '</b></td>';
+    html += '</tr>';
+  });
+  html += '</tbody>';
+  document.getElementById('kvTable').innerHTML = html;
+  // 铜金比图
+  var cg = kv.copper_gold_ratio;
+  var chart = echarts.init(document.getElementById('kvRatioChart'));
+  chart.setOption({
+    backgroundColor: 'transparent',
+    tooltip: { trigger: 'axis', backgroundColor: '#1f242c', borderColor: '#30363d', textStyle: { color: '#c9d1d9', fontSize: 11 } },
+    grid: { left: 55, right: 20, top: 20, bottom: 30 },
+    xAxis: { type: 'category', data: cg.labels, axisLabel: { color: '#8b949e', fontSize: 9, interval: Math.floor(cg.labels.length / 10) }, axisLine: { lineStyle: { color: '#30363d' } } },
+    yAxis: { type: 'value', name: '铜金比', nameTextStyle: { color: '#8b949e' }, axisLabel: { color: '#8b949e', fontSize: 10 }, splitLine: { lineStyle: { color: '#21262d' } } },
+    series: [{ type: 'line', data: cg.values, lineStyle: { color: '#e0c068', width: 1.5 }, itemStyle: { color: '#e0c068' }, symbol: 'none', areaStyle: { color: 'rgba(224,192,104,0.06)' } }]
+  });
+}
+
+/* ============ 基本面 + 目标价 ============ */
+fetch('metal_fundamentals.json?t=' + Date.now())
+  .then(r => r.json())
+  .then(mf => renderFundamentals(mf))
+  .catch(err => { document.getElementById('capexChain').innerHTML = '❌ 基本面数据加载失败：' + err.message; });
+
+function renderFundamentals(mf) {
+  // capex 链
+  var cc = mf.capex_cycle;
+  var chainHtml = (cc.chain || []).map(function(s, i) {
+    return '<div class="chain-step" style="margin:0.5rem 0"><span style="color:#58a6ff;font-size:0.8rem">' + (i + 1) + '. ' + s.stage + '</span><div style="color:#c9d1d9;font-size:0.85rem;margin-top:0.2rem">' + s.value + '</div><div style="color:#6e7681;font-size:0.72rem">' + s.source + '</div></div>';
+  }).join('');
+  document.getElementById('capexChain').innerHTML = chainHtml;
+  document.getElementById('capexImplication').innerHTML = '<b style="color:#e0c068">传导结论：</b>' + cc.implication + '<br><span style="color:#00c864">✔ 利多：</span>' + cc.pros + '<br><span style="color:#ff5050">✘ 风险：</span>' + cc.cons;
+  // 供需卡片
+  var sd = mf.supply_demand;
+  var sdHtml = '';
+  Object.keys(sd).forEach(function(m) {
+    var d = sd[m];
+    sdHtml += '<div class="track-box"><h4>' + m + ' <span style="font-weight:400;font-size:0.78rem;color:#e0c068">' + d.signal + '</span></h4>';
+    sdHtml += '<div class="track-row"><span class="lbl">供给</span>' + d.supply + '</div>';
+    sdHtml += '<div class="track-row"><span class="lbl">需求</span>' + d.demand + '</div>';
+    sdHtml += '<div class="track-row"><span class="lbl">成本</span>' + d.cost + '</div>';
+    sdHtml += '<div class="track-row"><span class="lbl">capex</span>' + d.capex + '</div>';
+    sdHtml += '</div>';
+  });
+  document.getElementById('supplyDemand').innerHTML = sdHtml;
+  // 目标价表
+  var tHtml = '<thead><tr><th style="text-align:left">品种</th><th>当前价</th><th>悲观</th><th>中性</th><th>乐观</th><th>中性涨幅</th><th>乐观涨幅</th><th>确定性</th><th>弹性</th></tr></thead><tbody>';
+  mf.targets.forEach(function(t) {
+    tHtml += '<tr><td style="text-align:left"><b>' + t.metal + '</b></td>'
+      + '<td>' + t.current.toLocaleString() + ' ' + t.unit + '</td>'
+      + '<td class="down">' + t.bear.toLocaleString() + '</td>'
+      + '<td class="up"><b>' + t.base.toLocaleString() + '</b></td>'
+      + '<td class="up">' + t.bull.toLocaleString() + '</td>'
+      + '<td class="up">' + t.upside_base + '</td>'
+      + '<td class="up">' + t.upside_bull + '</td>'
+      + '<td>#' + t.rank_confidence + '</td>'
+      + '<td>#' + t.rank_elasticity + '</td></tr>';
+  });
+  tHtml += '</tbody>';
+  document.getElementById('targetTable').innerHTML = tHtml;
+  // 排序
+  var rk = mf.ranking;
+  document.getElementById('rankingBox').innerHTML =
+    '<div class="kv"><span class="k">确定性排序（供需证据强度）</span><span class="v">' + rk['确定性排序'] + '</span></div>'
+    + '<div class="kv"><span class="k">弹性排序（潜在涨幅）</span><span class="v">' + rk['弹性排序'] + '</span></div>'
+    + '<div style="margin-top:0.6rem;padding:0.7rem;background:#3a2f0e;border:1px solid #c9a840;border-radius:8px;font-size:0.85rem"><b style="color:#e0c068">综合建议：</b>' + rk['综合建议'] + '</div>';
 }
 </script>
 </body>
