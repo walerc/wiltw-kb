@@ -36,6 +36,19 @@ tr:hover td { background: #1a2028; }
 .term-back { color: #ff5050; font-weight: 600; }
 .term-cont { color: #00c864; font-weight: 600; }
 .term-flat { color: #8b949e; }
+.slow-click { cursor: pointer; border-bottom: 1px dashed #8b949e; }
+.slow-click:hover { background: #1a2028; }
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.72); z-index: 999; display: flex; align-items: center; justify-content: center; }
+.modal-content { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 1.2rem 1.5rem; max-width: 540px; width: 92%; max-height: 84vh; overflow-y: auto; }
+.modal-close { float: right; cursor: pointer; font-size: 1.5rem; line-height: 1; color: #8b949e; }
+.modal-close:hover { color: #e6edf3; }
+.modal-content h3 { color: #e0c068; font-size: 1rem; margin-bottom: 0.8rem; }
+.modal-content h4 { color: #e6edf3; font-size: 0.86rem; margin: 0.9rem 0 0.3rem; }
+.modal-content p { font-size: 0.8rem; line-height: 1.6; color: #c9d1d9; margin: 0.3rem 0; }
+.modal-content .kv { display: inline-block; margin-right: 0.5rem; font-size: 0.8rem; }
+.modal-content .kv b { color: #e6edf3; }
+.modal-content .dim { color: #8b949e; font-size: 0.76rem; }
+.modal-content .interp { background: #1a2028; border-left: 3px solid #d29922; padding: 0.5rem 0.7rem; border-radius: 4px; margin-top: 0.6rem; font-size: 0.8rem; line-height: 1.6; color: #d29922; }
 .stage { color: #9da7b3; }
 .driver { color: #8b949e; font-size: 0.75rem; line-height: 1.4; }
 .sum-card { display: inline-block; vertical-align: top; width: 32%; margin-right: 1%; background: #1a2028; border: 1px solid #30363d; border-radius: 8px; padding: 0.8rem 1rem; }
@@ -81,7 +94,7 @@ tr:hover td { background: #1a2028; }
           <tr><td>量仓·仓</td><td class="formula">(今日持仓 ÷ 5个交易日前持仓 − 1) × 100%</td><td><span class="red">正=增仓</span>（资金进场）/ <span class="green">负=减仓</span>（资金离场）</td></tr>
           <tr><td>量仓·四象限</td><td>近5日<b>价格涨跌</b> × 近5日<b>持仓增减</b></td><td>涨+增仓=<span class="red">多头进攻</span>（新多进场）· 跌+增仓=<span class="green">空头进攻</span>（新空进场）· 涨+减仓=<span class="amber">空头回补</span>（虚涨）· 跌+减仓=<span class="amber">多头离场</span></td></tr>
           <tr><td>临界慢化·波动</td><td class="formula">近20日年化波动率 ÷ 近252日年化波动率</td><td>&lt;0.7 = <span class="amber">压缩</span>（波动收窄、蓄势待变）· &gt;1.5 = <span class="red">放大</span>（变盘进行中）· 0.7~1.5 = 正常</td></tr>
-          <tr><td>临界慢化·AR1</td><td>近60日收盘价（去趋势）的一阶自回归系数，衡量"价格惯性 / 系统恢复力"</td><td>越接近1 = 惯性越强、恢复越慢 = 越接近临界跃迁；<span class="amber">≥0.95 高亮</span>（变盘预警）</td></tr>
+          <tr><td>临界慢化·AR1</td><td>近60日收盘价（去趋势）的一阶自回归系数，衡量"价格惯性 / 系统恢复力"。含四维：<b>历史分位</b>(当前AR1在自身历史序列的百分位，≥80高位/≤20低位)、<b>变动趋势</b>(近4点vs前4点，Δ>+0.03上升=逼近临界 / Δ<−0.03回落=相变已启动)、<b>协同相位</b>(AR1×波动：临界逼近/相变进行中/蓄势/事件驱动/稳定)、<b>偏度</b>(60日收益率，右偏=多动能/左偏=空动能)</td><td>越接近1 = 惯性越强、恢复越慢 = 越接近临界跃迁；<span class="amber">≥0.95 高亮</span>。⚠️ 只看绝对值会误判（不同品种基线不同，须看分位）；<span class="amber">点击单元格查看详解 + AR1趋势图</span></td></tr>
           <tr><td>期限结构</td><td class="formula">(主力合约价 − 次主力合约价) ÷ 次主力价 × 100%</td><td><span class="red">正=Backwardation</span>（现货升水、现货紧张）· <span class="green">负=Contango</span>（期货升水、供过于求）· |值|≤0.5%=平坦；农产品跨季价差含季节性</td></tr>
           <tr><td>量仓印证</td><td>「方向(做多/做空)」vs「持仓20日变化 + 四象限」的自动对照</td><td><span class="green">✅印证</span>=资金行为支持方向 · <span class="red">⚠️背离</span>=资金离场或反向风险 · <span class="amber">⏳观察</span>=中性待确认</td></tr>
           <tr><td>期限信号</td><td>「方向」vs「期限结构」的自动对照（仅极端 |升贴水|&gt;3% 触发）</td><td><span class="green">✅</span>=结构印证方向 · <span class="red">⚠️</span>=结构反向风险 · <span class="amber">⏳</span>=待观察（如贴水可选远月）</td></tr>
@@ -92,6 +105,13 @@ tr:hover td { background: #1a2028; }
       </table>
     </details>
     方法论：涌现视角五洞见——尺度分离(什么尺度看什么信号) · 临界相变(极端分位=相变标记) · 时滞传导(当下观察≠当下兑现) · 不可还原(因子加总≠结论) · 反馈环+肥尾(趋势跟随vs逆向，留相变后路)。
+  </div>
+</div>
+
+<div id="slowModal" class="modal" style="display:none" onclick="if(event.target===this)closeSlowModal()">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeSlowModal()">×</span>
+    <div id="slowModalBody"></div>
   </div>
 </div>
 
@@ -124,13 +144,14 @@ function emergeCell(c) {
   return html;
 }
 function critSlow(c) {
-  var parts = [];
-  var vs = c.vol_state;
-  if (vs === '压缩') parts.push('<span class="vol-squeeze">压缩</span>');
-  else if (vs === '放大') parts.push('<span class="vol-expand">放大</span>');
-  else parts.push('<span class="neu">' + (vs || '—') + '</span>');
-  if (c.ar1 != null) parts.push('<span class="' + (c.ar1 >= 0.95 ? 'ar1-hot' : 'neu') + '">AR1=' + c.ar1 + '</span>');
-  return parts.join('<br>');
+  var phase = c.slow_phase;
+  var phaseColor = phase === '相变进行中' ? '#ff7b72' : (phase === '临界逼近' ? '#d29922' : (phase === '蓄势' ? '#d29922' : (phase === '事件驱动' ? '#ff7b72' : '#8b949e')));
+  var html = '<span class="slow-click" title="点击查看临界慢化详解" onclick="showSlowModal(\'' + c.name + '\')">';
+  if (phase) html += '<span style="color:' + phaseColor + ';font-weight:600">' + phase + '</span><br>';
+  if (c.ar1 != null) html += '<span class="' + (c.ar1 >= 0.95 ? 'ar1-hot' : 'neu') + '">AR1=' + c.ar1 + '</span>';
+  if (c.ar1_pct != null) html += '<span class="neu" style="font-size:0.68rem"> ' + c.ar1_pct + '%分位</span>';
+  html += '</span>';
+  return html;
 }
 function termCell(c) {
   if (c.term_spread_pct == null) return '<span class="neu">—</span>';
@@ -141,9 +162,11 @@ function termCell(c) {
   return html;
 }
 
+var SCAN_DATA = null;
 fetch('emergence_scan.json?t=' + Date.now())
   .then(r => r.json())
   .then(d => {
+    SCAN_DATA = d;
     document.getElementById('updTime').textContent = '更新 ' + d.date;
     renderSummary(d.summary);
     renderSectors(d.commodities);
@@ -202,6 +225,79 @@ function renderSectors(list) {
     html += '</tbody></table></div>';
   });
   document.getElementById('sectors').innerHTML = html;
+}
+
+function ar1Sparkline(hist) {
+  if (!hist || hist.length < 2) return '';
+  var w = 460, h = 64, pad = 5;
+  var min = Math.min.apply(null, hist), max = Math.max.apply(null, hist);
+  var range = (max - min) || 1;
+  var pts = [];
+  for (var i = 0; i < hist.length; i++) {
+    var x = pad + i * (w - 2 * pad) / (hist.length - 1);
+    var y = h - pad - (hist[i] - min) / range * (h - 2 * pad);
+    pts.push(x.toFixed(1) + ',' + y.toFixed(1));
+  }
+  var y95 = h - pad - (0.95 - min) / range * (h - 2 * pad);
+  var html = '<svg width="100%" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">';
+  if (y95 >= pad && y95 <= h - pad) html += '<line x1="' + pad + '" y1="' + y95.toFixed(1) + '" x2="' + (w - pad) + '" y2="' + y95.toFixed(1) + '" stroke="#d29922" stroke-dasharray="4,3" stroke-width="1"/>';
+  html += '<polyline points="' + pts.join(' ') + '" fill="none" stroke="#58a6ff" stroke-width="1.6"/>';
+  html += '</svg>';
+  return html;
+}
+
+function closeSlowModal() {
+  document.getElementById('slowModal').style.display = 'none';
+}
+
+function showSlowModal(name) {
+  if (!SCAN_DATA) return;
+  var c = null;
+  for (var i = 0; i < SCAN_DATA.commodities.length; i++) {
+    if (SCAN_DATA.commodities[i].name === name) { c = SCAN_DATA.commodities[i]; break; }
+  }
+  if (!c) return;
+
+  var phase = c.slow_phase || '—';
+  var phaseColor = phase === '相变进行中' ? '#ff7b72' : (phase === '临界逼近' || phase === '蓄势' ? '#d29922' : (phase === '事件驱动' ? '#ff7b72' : '#8b949e'));
+  var trend = c.ar1_trend || '—';
+  var trendColor = (trend.indexOf('上升') >= 0) ? '#ff7b72' : (trend.indexOf('回落') >= 0 ? '#00c864' : '#8b949e');
+
+  var interp = [];
+  if (phase === '相变进行中') interp.push('高AR1 + 波动放大 = 临界慢化双信号齐亮，相变已启动、趋势正在展开（顺势持有或准备离场）');
+  else if (phase === '临界逼近') interp.push('AR1 高但波动尚未放大，恢复力已衰弱但变盘未启动，处于"逼近临界"状态（等波动放大或方向确认）');
+  else if (phase === '蓄势') interp.push('AR1 高 + 波动压缩 = "暴风雨前的宁静"，蓄势待变，可能酝酿剧烈方向选择');
+  else if (phase === '事件驱动') interp.push('波动放大但 AR1 不高 = 事件驱动型波动，非临界慢化，持续性可能差');
+  else interp.push('未现临界慢化信号，系统恢复力正常');
+  if (trend.indexOf('上升') >= 0) interp.push('AR1 趋势上行，惯性在增强——仍在逼近临界');
+  else if (trend.indexOf('回落') >= 0) interp.push('AR1 趋势回落，惯性在减弱——可能已过临界、相变已启动');
+  if (c.ar1_pct != null) {
+    if (c.ar1_pct >= 80) interp.push('当前 AR1 处历史 ' + c.ar1_pct + '% 高位，异常程度高');
+    else if (c.ar1_pct <= 20) interp.push('当前 AR1 处历史 ' + c.ar1_pct + '% 低位，恢复力反而偏强');
+    else interp.push('当前 AR1 处历史 ' + c.ar1_pct + '% 分位，属正常范围');
+  }
+  if (c.skew_label) {
+    if (c.skew_label.indexOf('右偏') >= 0) interp.push('偏度右偏，近期大涨幅占主导（偏多动能）');
+    else if (c.skew_label.indexOf('左偏') >= 0) interp.push('偏度左偏，近期大跌幅占主导（偏空动能）');
+  }
+
+  var html = '<h3>' + c.name + ' · 临界慢化详解</h3>';
+  html += '<p><span class="kv"><b>AR1(60日):</b> ' + (c.ar1 != null ? c.ar1 : '—') + '</span>'
+    + '<span class="kv"><b>历史分位:</b> ' + (c.ar1_pct != null ? c.ar1_pct + '%' : '—') + '</span></p>';
+  html += '<p><span class="kv"><b>变动趋势:</b> <span style="color:' + trendColor + '">' + trend + '</span></span>'
+    + '<span class="kv"><b>Δ:</b> ' + (c.ar1_delta != null ? (c.ar1_delta > 0 ? '+' : '') + c.ar1_delta : '—') + '</span></p>';
+  html += '<p><span class="kv"><b>协同相位:</b> <span style="color:' + phaseColor + '">' + phase + '</span></span></p>';
+  html += '<p><span class="kv"><b>偏度(60日):</b> ' + (c.skew != null ? c.skew : '—') + ' ' + (c.skew_label || '') + '</span></p>';
+  html += '<p><span class="kv"><b>波动状态:</b> ' + (c.vol_state || '—') + '（比值 ' + (c.vol_ratio != null ? c.vol_ratio : '—') + '）</span></p>';
+
+  html += '<h4>AR1 历史趋势（近200日 · 虚线=0.95 阈值）</h4>';
+  html += ar1Sparkline(c.ar1_hist);
+  html += '<div class="dim">AR1 越接近 1 = 日间惯性越强、系统恢复力越弱、越接近临界跃迁。上升=逼近临界；回落=相变可能已启动。</div>';
+
+  html += '<div class="interp">' + interp.map(function(s) { return '· ' + s; }).join('<br>') + '</div>';
+
+  document.getElementById('slowModalBody').innerHTML = html;
+  document.getElementById('slowModal').style.display = 'flex';
 }
 </script>
 </body>
