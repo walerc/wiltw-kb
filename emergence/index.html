@@ -101,6 +101,7 @@ tr:hover td { background: #1a2028; }
           <tr><td>跃迁得分</td><td>量化"接近跃迁(相变)"的程度，0-100。四维各25分：<b>位置极端度</b>=|分位−50|÷50×25；<b>资金活跃度</b>=量比放量(40%)+持仓20日变化(60%)；<b>结构失衡度</b>=|升贴水|÷3%×25；<b>临界接近度</b>=AR1(最高15)+波动压缩/放大(10)</td><td><span class="red">≥60 高</span>(接近跃迁、警惕变盘) · <span class="amber">40-60 中</span> · <span class="green">&lt;40 低</span>。列内小字=位/资/构/临四分项</td></tr>
           <tr><td>方向信号</td><td>量化方向信号，−100~+100（中长期口径）。<b>趋势</b>(±40)=MA20/MA60双均线组合；<b>资金</b>(±30)=持仓20日变化÷25%×30；<b>动量</b>(±30)=60日动量÷15%×30</td><td><span class="red">≥+15 偏多</span> · −15~+15 中性 · <span class="green">≤−15 偏空</span>（≥40强多/≤−40强空）。列内小字=技术+分数+标签</td></tr>
           <tr><td>方向</td><td>基本面涌现建议（中长期，有供需/成本/周期研究支撑）</td><td>做多 / 做空 / 观望 / 等回调 / 等右侧 等。与下方"方向信号"(技术面)对照：✅量化印证 / ⚠️背离 / ⏳技术回调中</td></tr>
+          <tr><td>操作建议</td><td>把方向+量仓+一致性翻译成动作，围绕"趋势中继回调管理"自动生成：<b>暂离避险</b>(资金撤退+破位) / <b>减仓观察</b>(资金离场) / <b>持有观察企稳可回补</b>(健康回调) / <b>持有回调加仓</b>(资金进场+回调) / <b>持有顺势</b>(技术印证) / 左侧试探/等右侧/等回调/区间高抛低吸</td><td>方向列内 📌 彩色标签（红=减仓避险/金=加仓/绿=持有），<span class="amber">点击弹出操作详解</span>（依据+动作+风险线）</td></tr>
         </tbody>
       </table>
     </details>
@@ -218,7 +219,7 @@ function renderSectors(list) {
         + '<td class="stage">' + (c.scale || '') + '</td>'
         + '<td class="stage">' + (c.stage || '') + '</td>'
         + '<td>' + emergeCell(c) + '</td>'
-        + '<td>' + dirBadge(c.dir) + (c.dir_score != null ? '<br><span class="' + (c.dir_score >= 15 ? 'up' : (c.dir_score <= -15 ? 'down' : 'neu')) + '" style="font-size:0.68rem">技术' + (c.dir_score > 0 ? '+' : '') + c.dir_score + ' ' + (c.dir_label || '') + '</span>' : '') + '</td>'
+        + '<td>' + dirBadge(c.dir) + (c.dir_score != null ? '<br><span class="' + (c.dir_score >= 15 ? 'up' : (c.dir_score <= -15 ? 'down' : 'neu')) + '" style="font-size:0.68rem">技术' + (c.dir_score > 0 ? '+' : '') + c.dir_score + ' ' + (c.dir_label || '') + '</span>' : '') + actionBadge(c) + '</td>'
         + '<td class="driver">' + (c.driver || '') + (c.note ? '<br><span style="color:#d29922">' + c.note + '</span>' : '') + (c.flow_confirm ? '<br><span style="color:' + (c.flow_confirm.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.flow_confirm.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.flow_confirm + '</span>' : '') + (c.term_signal ? '<br><span style="color:' + (c.term_signal.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.term_signal.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.term_signal + '</span>' : '') + (c.dir_consistency ? '<br><span style="color:' + (c.dir_consistency.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.dir_consistency.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.dir_consistency + '</span>' : '') + '</td>'
         + '</tr>';
     });
@@ -296,6 +297,38 @@ function showSlowModal(name) {
 
   html += '<div class="interp">' + interp.map(function(s) { return '· ' + s; }).join('<br>') + '</div>';
 
+  document.getElementById('slowModalBody').innerHTML = html;
+  document.getElementById('slowModal').style.display = 'flex';
+}
+
+function actionBadge(c) {
+  if (!c.action_advice || c.action_advice === '观望') return '';
+  var a = c.action_advice;
+  var color;
+  if (a.indexOf('暂离') >= 0 || a.indexOf('减仓') >= 0) color = '#ff7b72';
+  else if (a.indexOf('加仓') >= 0 || a.indexOf('回补') >= 0) color = '#d29922';
+  else if (a.indexOf('持有') >= 0 || a.indexOf('顺势') >= 0) color = '#3fb950';
+  else color = '#8b949e';
+  return '<br><span class="slow-click" style="color:' + color + ';font-weight:600" title="点击查看操作建议详解" onclick="showActionModal(\'' + c.name + '\')">📌 ' + a + '</span>';
+}
+
+function showActionModal(name) {
+  if (!SCAN_DATA) return;
+  var c = null;
+  for (var i = 0; i < SCAN_DATA.commodities.length; i++) {
+    if (SCAN_DATA.commodities[i].name === name) { c = SCAN_DATA.commodities[i]; break; }
+  }
+  if (!c) return;
+  var detail = c.action_detail || [];
+  var html = '<h3>' + c.name + ' · 操作建议详解</h3>';
+  html += '<p style="font-size:0.95rem"><b style="color:#e0c068">建议：' + c.action_advice + '</b></p>';
+  html += '<p><span class="kv"><b>方向:</b> ' + (c.dir || '—') + '</span>'
+    + '<span class="kv"><b>量仓:</b> ' + (c.flow_confirm || c.flow_quad || '—') + '</span></p>';
+  html += '<p><span class="kv"><b>一致性:</b> ' + (c.dir_consistency || '—') + '</span>'
+    + '<span class="kv"><b>持仓20日:</b> ' + (c.hold_chg_20 != null ? (c.hold_chg_20 > 0 ? '+' : '') + c.hold_chg_20 + '%' : '—') + '</span></p>';
+  html += '<h4>细化解释</h4>';
+  html += '<div class="interp">' + detail.map(function(s) { return '· ' + s; }).join('<br>') + '</div>';
+  html += '<div class="dim" style="margin-top:0.8rem">以上为基于当前量化信号的操作框架建议，非投资指令。实际仓位须结合自身风险承受能力与资金管理。</div>';
   document.getElementById('slowModalBody').innerHTML = html;
   document.getElementById('slowModal').style.display = 'flex';
 }

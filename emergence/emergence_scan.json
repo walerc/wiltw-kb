@@ -78,7 +78,12 @@
    "d_fund": 30,
    "d_mom": 5.2,
    "dir_label": "中性",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "持有，回调加仓",
+   "action_detail": [
+    "资金进场(持仓20日+52.2%)支持做多",
+    "动作：持有，回调中分批加仓"
+   ]
   },
   {
    "sym": "AG0",
@@ -157,7 +162,11 @@
    "d_fund": 30,
    "d_mom": 1.4,
    "dir_label": "中性",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "观望",
+   "action_detail": [
+    "无明确驱动，观望等待信号"
+   ]
   },
   {
    "sym": "CU0",
@@ -236,7 +245,13 @@
    "d_fund": -29.4,
    "d_mom": 10.6,
    "dir_label": "偏多",
-   "dir_consistency": "✅量化印证"
+   "dir_consistency": "✅量化印证",
+   "action_advice": "减仓观察",
+   "action_detail": [
+    "资金正在离场(持仓20日-24.5%)，但趋势尚未破位",
+    "动作：减仓锁定利润，观察回调是否止跌",
+    "若进一步跌破MA60且资金持续撤，升级为暂离"
+   ]
   },
   {
    "sym": "AL0",
@@ -315,7 +330,13 @@
    "d_fund": -13.0,
    "d_mom": 0.2,
    "dir_label": "强空",
-   "dir_consistency": "⏳技术回调中"
+   "dir_consistency": "⏳技术回调中",
+   "action_advice": "持有观察，企稳可回补",
+   "action_detail": [
+    "技术面偏空但资金未撤(持仓20日-10.8%) = 健康回调",
+    "动作：持有底仓，回调到位(未破关键位)可回补",
+    "风险线：跌破MA60 且资金开始撤退，则转为暂离"
+   ]
   },
   {
    "sym": "ZN0",
@@ -394,7 +415,11 @@
    "d_fund": -30,
    "d_mom": 6.0,
    "dir_label": "强空",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "观望",
+   "action_detail": [
+    "无明确驱动，观望等待信号"
+   ]
   },
   {
    "sym": "NI0",
@@ -473,7 +498,11 @@
    "d_fund": 30,
    "d_mom": -26.6,
    "dir_label": "偏空",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "观望",
+   "action_detail": [
+    "无明确驱动，观望等待信号"
+   ]
   },
   {
    "sym": "SN0",
@@ -552,7 +581,13 @@
    "d_fund": -18.2,
    "d_mom": -17.4,
    "dir_label": "强空",
-   "dir_consistency": "⚠️资金+技术双背离"
+   "dir_consistency": "⚠️资金+技术双背离",
+   "action_advice": "暂离避险",
+   "action_detail": [
+    "资金撤退(持仓20日-15.2%) + 技术破位 = 回调可能演变成反转",
+    "动作：先减仓/清仓避险，不赌反转",
+    "回补条件：趋势逻辑未变 + 重新站上MA20 + 持仓止跌回升，再回补"
+   ]
   },
   {
    "sym": "AO0",
@@ -631,7 +666,11 @@
    "d_fund": 30,
    "d_mom": -4.4,
    "dir_label": "中性",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "观望",
+   "action_detail": [
+    "无明确驱动，观望等待信号"
+   ]
   },
   {
    "sym": "RB0",
@@ -710,7 +749,13 @@
    "d_fund": 10.8,
    "d_mom": -2.6,
    "dir_label": "偏空",
-   "dir_consistency": "⏳技术回调中"
+   "dir_consistency": "⏳技术回调中",
+   "action_advice": "持有，回调可加仓",
+   "action_detail": [
+    "资金进场(持仓20日+9.0%) + 技术回调 = 健康洗盘，最佳回补窗口",
+    "动作：持有底仓，回调到位分批加仓",
+    "风险线：跌破MA60 或资金转为撤离，则停止加仓"
+   ]
   },
   {
    "sym": "HC0",
@@ -789,7 +834,11 @@
    "d_fund": 16.6,
    "d_mom": -5.0,
    "dir_label": "偏空",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "观望",
+   "action_detail": [
+    "无明确驱动，观望等待信号"
+   ]
   },
   {
    "sym": "I0",
@@ -868,7 +917,12 @@
    "d_fund": 5.2,
    "d_mom": -23.0,
    "dir_label": "强空",
-   "dir_consistency": "✅量化印证"
+   "dir_consistency": "✅量化印证",
+   "action_advice": "持有空单/顺势",
+   "action_detail": [
+    "技术面印证做空方向，持有空单",
+    "风险线：空头回补(放量减仓上涨)，则离场"
+   ]
   },
   {
    "sym": "JM0",
@@ -947,7 +1001,12 @@
    "d_fund": -23.5,
    "d_mom": 30,
    "dir_label": "中性",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "持有空单，等确认",
+   "action_detail": [
+    "做空方向明确，等待顶部确认",
+    "动作：持有空单，跌破关键位可加仓"
+   ]
   },
   {
    "sym": "J0",
@@ -1026,7 +1085,12 @@
    "d_fund": -24.8,
    "d_mom": 11.6,
    "dir_label": "强空",
-   "dir_consistency": "✅量化印证"
+   "dir_consistency": "✅量化印证",
+   "action_advice": "持有空单/顺势",
+   "action_detail": [
+    "技术面印证做空方向，持有空单",
+    "风险线：空头回补(放量减仓上涨)，则离场"
+   ]
   },
   {
    "sym": "SC0",
@@ -1105,7 +1169,11 @@
    "d_fund": -5.3,
    "d_mom": 30,
    "dir_label": "中性",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "观望，双向波动",
+   "action_detail": [
+    "双向高波动，方向不明，观望等待"
+   ]
   },
   {
    "sym": "TA0",
@@ -1184,7 +1252,12 @@
    "d_fund": -1.2,
    "d_mom": 26.2,
    "dir_label": "强多",
-   "dir_consistency": "✅量化印证"
+   "dir_consistency": "✅量化印证",
+   "action_advice": "持有/顺势",
+   "action_detail": [
+    "技术面印证做多方向，趋势健康",
+    "动作：持有，回调即为加仓机会，分批加仓"
+   ]
   },
   {
    "sym": "MA0",
@@ -1263,7 +1336,11 @@
    "d_fund": 30,
    "d_mom": 30,
    "dir_label": "强多",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "多头减仓避险",
+   "action_detail": [
+    "空头在进攻，持多者应减仓避险"
+   ]
   },
   {
    "sym": "FG0",
@@ -1342,7 +1419,12 @@
    "d_fund": 30,
    "d_mom": -15.0,
    "dir_label": "偏空",
-   "dir_consistency": "⏳技术回调中"
+   "dir_consistency": "⏳技术回调中",
+   "action_advice": "左侧轻仓试探",
+   "action_detail": [
+    "左侧埋伏阶段，逆势轻仓试探建仓",
+    "动作：轻仓试探，等右侧确认(站稳/放量)再加仓"
+   ]
   },
   {
    "sym": "SA0",
@@ -1421,7 +1503,11 @@
    "d_fund": 6.7,
    "d_mom": -18.4,
    "dir_label": "强空",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "观望",
+   "action_detail": [
+    "无明确驱动，观望等待信号"
+   ]
   },
   {
    "sym": "RU0",
@@ -1500,7 +1586,12 @@
    "d_fund": -9.6,
    "d_mom": 30,
    "dir_label": "强多",
-   "dir_consistency": "✅量化印证"
+   "dir_consistency": "✅量化印证",
+   "action_advice": "持有/顺势",
+   "action_detail": [
+    "技术面印证做多方向，趋势健康",
+    "动作：持有，回调即为加仓机会，分批加仓"
+   ]
   },
   {
    "sym": "M0",
@@ -1579,7 +1670,13 @@
    "d_fund": -19.9,
    "d_mom": 14.0,
    "dir_label": "偏空",
-   "dir_consistency": "⚠️资金+技术双背离"
+   "dir_consistency": "⚠️资金+技术双背离",
+   "action_advice": "暂离避险",
+   "action_detail": [
+    "资金撤退(持仓20日-16.6%) + 技术破位 = 回调可能演变成反转",
+    "动作：先减仓/清仓避险，不赌反转",
+    "回补条件：趋势逻辑未变 + 重新站上MA20 + 持仓止跌回升，再回补"
+   ]
   },
   {
    "sym": "Y0",
@@ -1658,7 +1755,13 @@
    "d_fund": -27.1,
    "d_mom": 6.4,
    "dir_label": "偏空",
-   "dir_consistency": "⚠️资金+技术双背离"
+   "dir_consistency": "⚠️资金+技术双背离",
+   "action_advice": "暂离避险",
+   "action_detail": [
+    "资金撤退(持仓20日-22.6%) + 技术破位 = 回调可能演变成反转",
+    "动作：先减仓/清仓避险，不赌反转",
+    "回补条件：趋势逻辑未变 + 重新站上MA20 + 持仓止跌回升，再回补"
+   ]
   },
   {
    "sym": "P0",
@@ -1737,7 +1840,13 @@
    "d_fund": 3.6,
    "d_mom": 5.0,
    "dir_label": "偏空",
-   "dir_consistency": "⏳技术回调中"
+   "dir_consistency": "⏳技术回调中",
+   "action_advice": "持有，回调分批加仓",
+   "action_detail": [
+    "首选做多 + 技术回调 + 资金未撤 = 布局窗口",
+    "动作：持有底仓，回调中分批加仓",
+    "风险线：跌破MA60 或资金转为撤离，则停止加仓"
+   ]
   },
   {
    "sym": "SR0",
@@ -1816,7 +1925,11 @@
    "d_fund": -20.4,
    "d_mom": 9.6,
    "dir_label": "偏多",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "观望",
+   "action_detail": [
+    "无明确驱动，观望等待信号"
+   ]
   },
   {
    "sym": "CF0",
@@ -1895,7 +2008,11 @@
    "d_fund": 14.5,
    "d_mom": -2.6,
    "dir_label": "偏空",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "观望",
+   "action_detail": [
+    "无明确驱动，观望等待信号"
+   ]
   },
   {
    "sym": "C0",
@@ -1974,7 +2091,11 @@
    "d_fund": -8.8,
    "d_mom": -8.6,
    "dir_label": "中性",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "观望",
+   "action_detail": [
+    "无明确驱动，观望等待信号"
+   ]
   },
   {
    "sym": "LH0",
@@ -2053,7 +2174,11 @@
    "d_fund": -28.3,
    "d_mom": -24.0,
    "dir_label": "强空",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "观望",
+   "action_detail": [
+    "无明确驱动，观望等待信号"
+   ]
   },
   {
    "sym": "LC0",
@@ -2132,7 +2257,12 @@
    "d_fund": 4.9,
    "d_mom": -30,
    "dir_label": "强空",
-   "dir_consistency": "⏳技术回调中"
+   "dir_consistency": "⏳技术回调中",
+   "action_advice": "等右侧确认",
+   "action_detail": [
+    "方向看多但需右侧信号",
+    "触发：站稳均线/放量突破，再进场"
+   ]
   },
   {
    "sym": "SI0",
@@ -2211,7 +2341,11 @@
    "d_fund": -30,
    "d_mom": 11.6,
    "dir_label": "偏多",
-   "dir_consistency": ""
+   "dir_consistency": "",
+   "action_advice": "区间高抛低吸",
+   "action_detail": [
+    "区间震荡，高抛低吸，不追单边"
+   ]
   }
  ],
  "summary": {
