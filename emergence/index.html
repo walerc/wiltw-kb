@@ -85,8 +85,9 @@ tr:hover td { background: #1a2028; }
           <tr><td>期限结构</td><td class="formula">(主力合约价 − 次主力合约价) ÷ 次主力价 × 100%</td><td><span class="red">正=Backwardation</span>（现货升水、现货紧张）· <span class="green">负=Contango</span>（期货升水、供过于求）· |值|≤0.5%=平坦；农产品跨季价差含季节性</td></tr>
           <tr><td>量仓印证</td><td>「方向(做多/做空)」vs「持仓20日变化 + 四象限」的自动对照</td><td><span class="green">✅印证</span>=资金行为支持方向 · <span class="red">⚠️背离</span>=资金离场或反向风险 · <span class="amber">⏳观察</span>=中性待确认</td></tr>
           <tr><td>期限信号</td><td>「方向」vs「期限结构」的自动对照（仅极端 |升贴水|&gt;3% 触发）</td><td><span class="green">✅</span>=结构印证方向 · <span class="red">⚠️</span>=结构反向风险 · <span class="amber">⏳</span>=待观察（如贴水可选远月）</td></tr>
-          <tr><td>临界度</td><td>综合位置+波动+资金，对"逼近相变"程度的主观评级</td><td><span class="red">高</span>=脆弱、警惕双向暴动 · <span class="amber">中</span> · <span class="green">低</span></td></tr>
-          <tr><td>方向</td><td>基本面 + 五维量化综合的涌现状态建议</td><td>做多 / 做空 / 观望 / 等回调 / 等右侧 等</td></tr>
+          <tr><td>跃迁得分</td><td>量化"接近跃迁(相变)"的程度，0-100。四维各25分：<b>位置极端度</b>=|分位−50|÷50×25；<b>资金活跃度</b>=量比放量(40%)+持仓20日变化(60%)；<b>结构失衡度</b>=|升贴水|÷3%×25；<b>临界接近度</b>=AR1(最高15)+波动压缩/放大(10)</td><td><span class="red">≥60 高</span>(接近跃迁、警惕变盘) · <span class="amber">40-60 中</span> · <span class="green">&lt;40 低</span>。列内小字=位/资/构/临四分项</td></tr>
+          <tr><td>方向信号</td><td>量化方向信号，−100~+100（中长期口径）。<b>趋势</b>(±40)=MA20/MA60双均线组合；<b>资金</b>(±30)=持仓20日变化÷25%×30；<b>动量</b>(±30)=60日动量÷15%×30</td><td><span class="red">≥+15 偏多</span> · −15~+15 中性 · <span class="green">≤−15 偏空</span>（≥40强多/≤−40强空）。列内小字=技术+分数+标签</td></tr>
+          <tr><td>方向</td><td>基本面涌现建议（中长期，有供需/成本/周期研究支撑）</td><td>做多 / 做空 / 观望 / 等回调 / 等右侧 等。与下方"方向信号"(技术面)对照：✅量化印证 / ⚠️背离 / ⏳技术回调中</td></tr>
         </tbody>
       </table>
     </details>
@@ -114,6 +115,13 @@ function flowBadge(q) {
   if (!q || q === '观望') return '<span class="badge dir-wait">观望</span>';
   var cls = { '多头进攻': 'flow-long', '空头进攻': 'flow-short', '空头回补': 'flow-cover', '多头离场': 'flow-exit' }[q] || 'dir-wait';
   return '<span class="badge ' + cls + '">' + q + '</span>';
+}
+function emergeCell(c) {
+  if (c.emerge_score == null) return '<span class="neu">—</span>';
+  var color = c.emerge_score >= 60 ? '#ff5050' : (c.emerge_score >= 40 ? '#d29922' : '#6e7681');
+  var html = '<span style="color:' + color + ';font-weight:700;font-size:1.05rem">' + c.emerge_score + '</span>';
+  html += '<br><span class="neu" style="font-size:0.66rem">位' + (c.e_pos != null ? c.e_pos : '—') + ' 资' + (c.e_flow != null ? c.e_flow : '—') + ' 构' + (c.e_struct != null ? c.e_struct : '—') + ' 临' + (c.e_crit != null ? c.e_crit : '—') + '</span>';
+  return html;
 }
 function critSlow(c) {
   var parts = [];
@@ -169,7 +177,7 @@ function renderSectors(list) {
     html += '<h2>' + sec + '</h2><div class="card"><table><thead><tr>'
       + '<th>品种</th><th>最新价</th><th>3年分位</th><th>MA</th><th>20d动量</th><th>YTD</th>'
       + '<th>量仓</th><th>临界慢化</th><th>期限结构</th>'
-      + '<th>尺度周期</th><th>涌现阶段</th><th>临界</th><th>方向</th><th>驱动逻辑</th></tr></thead><tbody>';
+      + '<th>尺度周期</th><th>涌现阶段</th><th>跃迁得分</th><th>方向</th><th>驱动逻辑</th></tr></thead><tbody>';
     items.forEach(function(c) {
       if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=13 class="neu">获取失败</td></tr>'; return; }
       var ma = (c.above_ma20 ? '↑' : '↓') + (c.above_ma60 ? '↑' : '↓');
@@ -186,9 +194,9 @@ function renderSectors(list) {
         + '<td>' + termCell(c) + '</td>'
         + '<td class="stage">' + (c.scale || '') + '</td>'
         + '<td class="stage">' + (c.stage || '') + '</td>'
-        + '<td>' + critBadge(c.crit) + '</td>'
-        + '<td>' + dirBadge(c.dir) + '</td>'
-        + '<td class="driver">' + (c.driver || '') + (c.note ? '<br><span style="color:#d29922">' + c.note + '</span>' : '') + (c.flow_confirm ? '<br><span style="color:' + (c.flow_confirm.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.flow_confirm.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.flow_confirm + '</span>' : '') + (c.term_signal ? '<br><span style="color:' + (c.term_signal.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.term_signal.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.term_signal + '</span>' : '') + '</td>'
+        + '<td>' + emergeCell(c) + '</td>'
+        + '<td>' + dirBadge(c.dir) + (c.dir_score != null ? '<br><span class="' + (c.dir_score >= 15 ? 'up' : (c.dir_score <= -15 ? 'down' : 'neu')) + '" style="font-size:0.68rem">技术' + (c.dir_score > 0 ? '+' : '') + c.dir_score + ' ' + (c.dir_label || '') + '</span>' : '') + '</td>'
+        + '<td class="driver">' + (c.driver || '') + (c.note ? '<br><span style="color:#d29922">' + c.note + '</span>' : '') + (c.flow_confirm ? '<br><span style="color:' + (c.flow_confirm.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.flow_confirm.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.flow_confirm + '</span>' : '') + (c.term_signal ? '<br><span style="color:' + (c.term_signal.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.term_signal.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.term_signal + '</span>' : '') + (c.dir_consistency ? '<br><span style="color:' + (c.dir_consistency.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.dir_consistency.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.dir_consistency + '</span>' : '') + '</td>'
         + '</tr>';
     });
     html += '</tbody></table></div>';
