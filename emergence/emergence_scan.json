@@ -13,6 +13,10 @@
    "pctile_all": 68.4,
    "ma20": 920.3979999999999,
    "ma60": 931.6616666666666,
+   "ma5": 900.9200000000001,
+   "ma10": 902.0380000000001,
+   "recent_high_20": 951.38,
+   "recent_low_20": 893.12,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -5.8,
@@ -56,7 +60,7 @@
     0.952,
     0.939
    ],
-   "term_spread_pct": -0.27,
+   "term_spread_pct": -0.26,
    "term_structure": "平坦",
    "main_contract": "AU2612",
    "second_contract": "AU2702",
@@ -68,10 +72,10 @@
    "note": "波动率压缩0.58=脆弱，回调到位再布局",
    "flow_confirm": "✅资金进场(持仓+52.2%)",
    "term_signal": "",
-   "emerge_score": 45.1,
+   "emerge_score": 45.0,
    "e_pos": 3.2,
    "e_flow": 19.2,
-   "e_struct": 2.3,
+   "e_struct": 2.2,
    "e_crit": 20.4,
    "dir_score": -4.8,
    "d_trend": -40,
@@ -83,6 +87,18 @@
    "action_detail": [
     "资金进场(持仓20日+52.2%)支持做多",
     "动作：持有，回调中分批加仓"
+   ],
+   "drv_type": "金融因素",
+   "drv_dir": "多空交织",
+   "drv_strength": "中",
+   "drv_lag": "即时",
+   "drv_stage": "累积中",
+   "emergence_phase": "蓄势",
+   "position_plan": [
+    "基准仓位：40-60%（持有，回调加仓 · 相位 蓄势）",
+    "加仓：回调至 893（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "减仓：反弹至 951（20日高点）放量滞涨 → 减 1/3 仓",
+    "止损：跌破 MA60(932) → 清仓离场"
    ]
   },
   {
@@ -97,6 +113,10 @@
    "pctile_all": 39.7,
    "ma20": 15184.45,
    "ma60": 15392.533333333333,
+   "ma5": 14307.4,
+   "ma10": 14547.9,
+   "recent_high_20": 16304.0,
+   "recent_low_20": 13660.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -14.6,
@@ -140,7 +160,7 @@
     0.917,
     0.906
    ],
-   "term_spread_pct": -0.26,
+   "term_spread_pct": -0.24,
    "term_structure": "平坦",
    "main_contract": "AG2612",
    "second_contract": "AG2702",
@@ -152,10 +172,10 @@
    "note": "",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 48.1,
+   "emerge_score": 47.9,
    "e_pos": 8.4,
    "e_flow": 19.6,
-   "e_struct": 2.2,
+   "e_struct": 2.0,
    "e_crit": 17.9,
    "dir_score": -8.6,
    "d_trend": -40,
@@ -166,6 +186,15 @@
    "action_advice": "观望",
    "action_detail": [
     "无明确驱动，观望等待信号"
+   ],
+   "drv_type": "金融因素",
+   "drv_dir": "中性",
+   "drv_strength": "弱",
+   "drv_lag": "即时",
+   "drv_stage": "累积中",
+   "emergence_phase": "蓄势",
+   "position_plan": [
+    "观望品种，暂无仓位计划"
    ]
   },
   {
@@ -180,6 +209,10 @@
    "pctile_all": 97.4,
    "ma20": 109612.0,
    "ma60": 108151.5,
+   "ma5": 110300.0,
+   "ma10": 110056.0,
+   "recent_high_20": 111320.0,
+   "recent_low_20": 107030.0,
    "above_ma20": true,
    "above_ma60": true,
    "mom_20d": -2.1,
@@ -223,7 +256,7 @@
     0.939,
     0.928
    ],
-   "term_spread_pct": 0.64,
+   "term_spread_pct": 0.6,
    "term_structure": "Backwardation",
    "main_contract": "CU2611",
    "second_contract": "CU2612",
@@ -235,10 +268,10 @@
    "note": "分位95%历史高位+持仓20日-24.5%多头获利离场=回调进行中，符合等回调",
    "flow_confirm": "⚠️资金离场(持仓-24.5%)",
    "term_signal": "",
-   "emerge_score": 53.3,
+   "emerge_score": 53.0,
    "e_pos": 22.5,
    "e_flow": 18.0,
-   "e_struct": 5.3,
+   "e_struct": 5.0,
    "e_crit": 7.4,
    "dir_score": 21.2,
    "d_trend": 40,
@@ -251,6 +284,18 @@
     "资金正在离场(持仓20日-24.5%)，但趋势尚未破位",
     "动作：减仓锁定利润，观察回调是否止跌",
     "若进一步跌破MA60且资金持续撤，升级为暂离"
+   ],
+   "drv_type": "产能周期",
+   "drv_dir": "利多",
+   "drv_strength": "强",
+   "drv_lag": "24-36月(供给2028-29)",
+   "drv_stage": "已触发",
+   "emergence_phase": "跃迁中",
+   "position_plan": [
+    "基准仓位：10-30%（减仓观察 · 相位 跃迁中）",
+    "加仓：回调至 107030（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "减仓：反弹至 111320（20日高点）放量滞涨 → 减 1/3 仓",
+    "止损：跌破 MA60(108152) → 清仓离场"
    ]
   },
   {
@@ -265,6 +310,10 @@
    "pctile_all": 85.1,
    "ma20": 23854.25,
    "ma60": 23832.583333333332,
+   "ma5": 23276.0,
+   "ma10": 23503.5,
+   "recent_high_20": 24400.0,
+   "recent_low_20": 23040.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -5.0,
@@ -308,7 +357,7 @@
     0.949,
     0.952
    ],
-   "term_spread_pct": -1.5,
+   "term_spread_pct": -1.59,
    "term_structure": "Contango",
    "main_contract": "AL2612",
    "second_contract": "AL2611",
@@ -320,10 +369,10 @@
    "note": "波动率压缩0.62，回调到位可布局",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 50.6,
+   "emerge_score": 51.3,
    "e_pos": 8.8,
    "e_flow": 9.1,
-   "e_struct": 12.5,
+   "e_struct": 13.2,
    "e_crit": 20.2,
    "dir_score": -52.8,
    "d_trend": -40,
@@ -336,6 +385,18 @@
     "技术面偏空但资金未撤(持仓20日-10.8%) = 健康回调",
     "动作：持有底仓，回调到位(未破关键位)可回补",
     "风险线：跌破MA60 且资金开始撤退，则转为暂离"
+   ],
+   "drv_type": "产能周期",
+   "drv_dir": "利多",
+   "drv_strength": "中",
+   "drv_lag": "即时(天花板已定)",
+   "drv_stage": "已触发",
+   "emergence_phase": "逼近临界",
+   "position_plan": [
+    "基准仓位：30-50%（持有观察，企稳可回补 · 相位 逼近临界）",
+    "加仓：回调至 23040（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "减仓：反弹至 24400（20日高点）放量滞涨 → 减 1/3 仓",
+    "止损：跌破 MA60(23833) → 清仓离场"
    ]
   },
   {
@@ -350,6 +411,10 @@
    "pctile_all": 64.4,
    "ma20": 26243.5,
    "ma60": 25910.416666666668,
+   "ma5": 25675.0,
+   "ma10": 25987.5,
+   "recent_high_20": 26805.0,
+   "recent_low_20": 25425.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -7.4,
@@ -393,7 +458,7 @@
     0.963,
     0.949
    ],
-   "term_spread_pct": 0.02,
+   "term_spread_pct": -0.02,
    "term_structure": "平坦",
    "main_contract": "ZN2612",
    "second_contract": "ZN2611",
@@ -419,6 +484,15 @@
    "action_advice": "观望",
    "action_detail": [
     "无明确驱动，观望等待信号"
+   ],
+   "drv_type": "库存周期",
+   "drv_dir": "中性",
+   "drv_strength": "弱",
+   "drv_lag": "即时",
+   "drv_stage": "累积中",
+   "emergence_phase": "驱动累积",
+   "position_plan": [
+    "观望品种，暂无仓位计划"
    ]
   },
   {
@@ -433,6 +507,10 @@
    "pctile_all": 24.8,
    "ma20": 121857.0,
    "ma60": 126925.33333333333,
+   "ma5": 117184.0,
+   "ma10": 119279.0,
+   "recent_high_20": 126080.0,
+   "recent_low_20": 115240.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -10.2,
@@ -476,7 +554,7 @@
     0.702,
     0.82
    ],
-   "term_spread_pct": 0.16,
+   "term_spread_pct": 0.15,
    "term_structure": "平坦",
    "main_contract": "NI2612",
    "second_contract": "NI2611",
@@ -488,10 +566,10 @@
    "note": "波动率压缩0.60，警惕底部相变",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 60.2,
+   "emerge_score": 60.1,
    "e_pos": 22.5,
    "e_flow": 15.0,
-   "e_struct": 1.3,
+   "e_struct": 1.2,
    "e_crit": 21.4,
    "dir_score": -36.6,
    "d_trend": -40,
@@ -502,6 +580,15 @@
    "action_advice": "观望",
    "action_detail": [
     "无明确驱动，观望等待信号"
+   ],
+   "drv_type": "供给过剩",
+   "drv_dir": "利空",
+   "drv_strength": "中",
+   "drv_lag": "即时",
+   "drv_stage": "已触发",
+   "emergence_phase": "跃迁中",
+   "position_plan": [
+    "观望品种，暂无仓位计划"
    ]
   },
   {
@@ -516,6 +603,10 @@
    "pctile_all": 82.5,
    "ma20": 399569.5,
    "ma60": 414773.5,
+   "ma5": 384184.0,
+   "ma10": 393941.0,
+   "recent_high_20": 412790.0,
+   "recent_low_20": 373260.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -11.5,
@@ -559,7 +650,7 @@
     0.856,
     0.819
    ],
-   "term_spread_pct": 0.58,
+   "term_spread_pct": 0.53,
    "term_structure": "Backwardation",
    "main_contract": "SN2611",
    "second_contract": "SN2612",
@@ -571,10 +662,10 @@
    "note": "⚠️放量(1.51)减仓(8%)多头离场+波动率压缩，警惕继续回调",
    "flow_confirm": "⚠️资金离场(持仓-15.2%)",
    "term_signal": "",
-   "emerge_score": 47.7,
+   "emerge_score": 47.3,
    "e_pos": 10.2,
    "e_flow": 15.0,
-   "e_struct": 4.8,
+   "e_struct": 4.4,
    "e_crit": 17.6,
    "dir_score": -75.6,
    "d_trend": -40,
@@ -587,6 +678,18 @@
     "资金撤退(持仓20日-15.2%) + 技术破位 = 回调可能演变成反转",
     "动作：先减仓/清仓避险，不赌反转",
     "回补条件：趋势逻辑未变 + 重新站上MA20 + 持仓止跌回升，再回补"
+   ],
+   "drv_type": "供给冲击",
+   "drv_dir": "利多",
+   "drv_strength": "中",
+   "drv_lag": "0-6月",
+   "drv_stage": "已触发",
+   "emergence_phase": "逼近临界",
+   "position_plan": [
+    "基准仓位：0-10%（避险）（暂离避险 · 相位 逼近临界）",
+    "加仓：回调至 373260（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "减仓：反弹至 412790（20日高点）放量滞涨 → 减 1/3 仓",
+    "止损：跌破 MA60(414774) → 清仓离场"
    ]
   },
   {
@@ -601,6 +704,10 @@
    "pctile_all": 5.4,
    "ma20": 2679.25,
    "ma60": 2689.75,
+   "ma5": 2633.8,
+   "ma10": 2662.5,
+   "recent_high_20": 2737.0,
+   "recent_low_20": 2584.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -4.6,
@@ -644,7 +751,7 @@
     0.847,
     0.751
    ],
-   "term_spread_pct": -0.49,
+   "term_spread_pct": -0.38,
    "term_structure": "平坦",
    "main_contract": "AO2701",
    "second_contract": "AO2702",
@@ -656,10 +763,10 @@
    "note": "",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 45.7,
+   "emerge_score": 44.8,
    "e_pos": 22.3,
    "e_flow": 19.3,
-   "e_struct": 4.1,
+   "e_struct": 3.2,
    "e_crit": 0,
    "dir_score": -14.4,
    "d_trend": -40,
@@ -670,6 +777,15 @@
    "action_advice": "观望",
    "action_detail": [
     "无明确驱动，观望等待信号"
+   ],
+   "drv_type": "供给过剩",
+   "drv_dir": "利空",
+   "drv_strength": "中",
+   "drv_lag": "即时",
+   "drv_stage": "已触发",
+   "emergence_phase": "跃迁中",
+   "position_plan": [
+    "观望品种，暂无仓位计划"
    ]
   },
   {
@@ -684,6 +800,10 @@
    "pctile_all": 31.9,
    "ma20": 3099.0,
    "ma60": 3079.366666666667,
+   "ma5": 3079.4,
+   "ma10": 3086.1,
+   "recent_high_20": 3126.0,
+   "recent_low_20": 3061.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -2.3,
@@ -727,7 +847,7 @@
     0.926,
     0.928
    ],
-   "term_spread_pct": -0.07,
+   "term_spread_pct": -0.13,
    "term_structure": "平坦",
    "main_contract": "RB2701",
    "second_contract": "RB2703",
@@ -739,10 +859,10 @@
    "note": "被动去库，等需求拐点",
    "flow_confirm": "✅资金进场(持仓+9.0%)",
    "term_signal": "",
-   "emerge_score": 34.1,
+   "emerge_score": 34.6,
    "e_pos": 18.6,
    "e_flow": 5.4,
-   "e_struct": 0.6,
+   "e_struct": 1.1,
    "e_crit": 9.6,
    "dir_score": -31.8,
    "d_trend": -40,
@@ -755,6 +875,18 @@
     "资金进场(持仓20日+9.0%) + 技术回调 = 健康洗盘，最佳回补窗口",
     "动作：持有底仓，回调到位分批加仓",
     "风险线：跌破MA60 或资金转为撤离，则停止加仓"
+   ],
+   "drv_type": "政策+库存",
+   "drv_dir": "多空交织",
+   "drv_strength": "中",
+   "drv_lag": "3-6月(减产去库)",
+   "drv_stage": "累积中",
+   "emergence_phase": "驱动累积",
+   "position_plan": [
+    "基准仓位：40-60%（持有，回调可加仓 · 相位 驱动累积）",
+    "加仓：回调至 3061（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "减仓：反弹至 3126（20日高点）放量滞涨 → 减 1/3 仓",
+    "止损：跌破 MA60(3079) → 清仓离场"
    ]
   },
   {
@@ -769,6 +901,10 @@
    "pctile_all": 31.1,
    "ma20": 3281.95,
    "ma60": 3293.6,
+   "ma5": 3246.0,
+   "ma10": 3255.9,
+   "recent_high_20": 3325.0,
+   "recent_low_20": 3237.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -3.7,
@@ -812,7 +948,7 @@
     0.936,
     0.933
    ],
-   "term_spread_pct": -0.34,
+   "term_spread_pct": -0.25,
    "term_structure": "平坦",
    "main_contract": "HC2701",
    "second_contract": "HC2703",
@@ -824,10 +960,10 @@
    "note": "卷螺价差收窄，板材韧性消耗",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 38.2,
+   "emerge_score": 37.5,
    "e_pos": 16.4,
    "e_flow": 8.3,
-   "e_struct": 2.8,
+   "e_struct": 2.1,
    "e_crit": 10.6,
    "dir_score": -28.4,
    "d_trend": -40,
@@ -838,6 +974,15 @@
    "action_advice": "观望",
    "action_detail": [
     "无明确驱动，观望等待信号"
+   ],
+   "drv_type": "需求周期",
+   "drv_dir": "中性",
+   "drv_strength": "弱",
+   "drv_lag": "即时",
+   "drv_stage": "累积中",
+   "emergence_phase": "驱动累积",
+   "position_plan": [
+    "观望品种，暂无仓位计划"
    ]
   },
   {
@@ -852,6 +997,10 @@
    "pctile_all": 36.9,
    "ma20": 698.35,
    "ma60": 714.9083333333333,
+   "ma5": 675.6,
+   "ma10": 684.95,
+   "recent_high_20": 718.0,
+   "recent_low_20": 671.5,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -7.9,
@@ -895,7 +1044,7 @@
     0.897,
     0.912
    ],
-   "term_spread_pct": 1.19,
+   "term_spread_pct": 1.11,
    "term_structure": "Backwardation",
    "main_contract": "I2701",
    "second_contract": "I2705",
@@ -907,10 +1056,10 @@
    "note": "总量过剩+高品结构性紧缺并存",
    "flow_confirm": "✅量价印证",
    "term_signal": "",
-   "emerge_score": 46.8,
+   "emerge_score": 46.2,
    "e_pos": 23.1,
    "e_flow": 4.5,
-   "e_struct": 9.9,
+   "e_struct": 9.3,
    "e_crit": 9.4,
    "dir_score": -57.8,
    "d_trend": -40,
@@ -922,6 +1071,18 @@
    "action_detail": [
     "技术面印证做空方向，持有空单",
     "风险线：空头回补(放量减仓上涨)，则离场"
+   ],
+   "drv_type": "库存周期",
+   "drv_dir": "利空",
+   "drv_strength": "中",
+   "drv_lag": "即时",
+   "drv_stage": "已触发",
+   "emergence_phase": "跃迁中",
+   "position_plan": [
+    "基准仓位：50-80%（持有空单/顺势 · 相位 跃迁中）",
+    "加空：反弹至 685（MA10/20日高点）滞涨 → 加空 1/4 仓",
+    "减空：跌至 672（20日低点）止跌 → 减空 1/3 仓",
+    "止损：突破 MA60(715) → 空单离场"
    ]
   },
   {
@@ -936,6 +1097,10 @@
    "pctile_all": 29.5,
    "ma20": 1525.05,
    "ma60": 1472.2333333333333,
+   "ma5": 1526.7,
+   "ma10": 1500.35,
+   "recent_high_20": 1616.0,
+   "recent_low_20": 1448.0,
    "above_ma20": false,
    "above_ma60": true,
    "mom_20d": -10.1,
@@ -979,7 +1144,7 @@
     0.979,
     0.973
    ],
-   "term_spread_pct": 6.08,
+   "term_spread_pct": 6.29,
    "term_structure": "Backwardation",
    "main_contract": "JM2701",
    "second_contract": "JM2705",
@@ -990,7 +1155,7 @@
    "driver": "5月矿难8月暴涨45%→9/18保供政策逆转，保供+蒙煤通关+需求负反馈三杀",
    "note": "⚠️近月升水7%现货仍紧(含冬季季节性)，做空最大反向风险",
    "flow_confirm": "⏳多空同撤(趋势收尾)",
-   "term_signal": "⚠️近月升水6.08%(反向风险)",
+   "term_signal": "⚠️近月升水6.29%(反向风险)",
    "emerge_score": 52.4,
    "e_pos": 1.2,
    "e_flow": 13.2,
@@ -1006,6 +1171,18 @@
    "action_detail": [
     "做空方向明确，等待顶部确认",
     "动作：持有空单，跌破关键位可加仓"
+   ],
+   "drv_type": "供给冲击+政策",
+   "drv_dir": "利空",
+   "drv_strength": "强",
+   "drv_lag": "即时",
+   "drv_stage": "反转中",
+   "emergence_phase": "跃迁中(反向)",
+   "position_plan": [
+    "基准仓位：30-60%（持有空单，等确认 · 相位 跃迁中(反向)）",
+    "加空：反弹至 1500（MA10/20日高点）滞涨 → 加空 1/4 仓",
+    "减空：跌至 1448（20日低点）止跌 → 减空 1/3 仓",
+    "止损：突破 MA60(1472) → 空单离场"
    ]
   },
   {
@@ -1020,6 +1197,10 @@
    "pctile_all": 36.0,
    "ma20": 1998.65,
    "ma60": 1984.1333333333334,
+   "ma5": 2001.4,
+   "ma10": 1983.3,
+   "recent_high_20": 2062.5,
+   "recent_low_20": 1942.5,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -7.7,
@@ -1063,8 +1244,8 @@
     0.966,
     0.964
    ],
-   "term_spread_pct": -0.39,
-   "term_structure": "平坦",
+   "term_spread_pct": -0.73,
+   "term_structure": "Contango",
    "main_contract": "J2701",
    "second_contract": "J2611",
    "scale": "成本驱动",
@@ -1075,10 +1256,10 @@
    "note": "",
    "flow_confirm": "⏳多空同撤(趋势收尾)",
    "term_signal": "",
-   "emerge_score": 30.4,
+   "emerge_score": 33.2,
    "e_pos": 1.6,
    "e_flow": 13.3,
-   "e_struct": 3.2,
+   "e_struct": 6.1,
    "e_crit": 12.2,
    "dir_score": -53.2,
    "d_trend": -40,
@@ -1090,6 +1271,18 @@
    "action_detail": [
     "技术面印证做空方向，持有空单",
     "风险线：空头回补(放量减仓上涨)，则离场"
+   ],
+   "drv_type": "成本驱动",
+   "drv_dir": "利空",
+   "drv_strength": "中",
+   "drv_lag": "即时",
+   "drv_stage": "反转中",
+   "emergence_phase": "跃迁中(反向)",
+   "position_plan": [
+    "基准仓位：50-80%（持有空单/顺势 · 相位 跃迁中(反向)）",
+    "加空：反弹至 1983（MA10/20日高点）滞涨 → 加空 1/4 仓",
+    "减空：跌至 1942（20日低点）止跌 → 减空 1/3 仓",
+    "止损：突破 MA60(1984) → 空单离场"
    ]
   },
   {
@@ -1104,6 +1297,10 @@
    "pctile_all": 72.4,
    "ma20": 752.69,
    "ma60": 642.5550000000001,
+   "ma5": 727.3,
+   "ma10": 727.93,
+   "recent_high_20": 904.7,
+   "recent_low_20": 688.1,
    "above_ma20": false,
    "above_ma60": true,
    "mom_20d": -7.4,
@@ -1147,7 +1344,7 @@
     0.974,
     0.963
    ],
-   "term_spread_pct": 0.78,
+   "term_spread_pct": 0.71,
    "term_structure": "Backwardation",
    "main_contract": "SC2612",
    "second_contract": "SC2701",
@@ -1159,10 +1356,10 @@
    "note": "谈判突破则溢价快速崩塌",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 26.4,
+   "emerge_score": 25.8,
    "e_pos": 5.2,
    "e_flow": 2.6,
-   "e_struct": 6.5,
+   "e_struct": 5.9,
    "e_crit": 12.0,
    "dir_score": 14.7,
    "d_trend": -10,
@@ -1173,6 +1370,15 @@
    "action_advice": "观望，双向波动",
    "action_detail": [
     "双向高波动，方向不明，观望等待"
+   ],
+   "drv_type": "地缘+库存",
+   "drv_dir": "多空交织",
+   "drv_strength": "中",
+   "drv_lag": "即时",
+   "drv_stage": "已触发",
+   "emergence_phase": "逼近临界",
+   "position_plan": [
+    "观望品种，暂无仓位计划"
    ]
   },
   {
@@ -1187,6 +1393,10 @@
    "pctile_all": 36.9,
    "ma20": 6418.5,
    "ma60": 6016.966666666666,
+   "ma5": 6541.2,
+   "ma10": 6511.0,
+   "recent_high_20": 6830.0,
+   "recent_low_20": 6120.0,
    "above_ma20": true,
    "above_ma60": true,
    "mom_20d": 3.8,
@@ -1230,7 +1440,7 @@
     0.907,
     0.897
    ],
-   "term_spread_pct": 2.74,
+   "term_spread_pct": 2.77,
    "term_structure": "Backwardation",
    "main_contract": "TA2701",
    "second_contract": "TA2703",
@@ -1242,10 +1452,10 @@
    "note": "下半年PX投产下移成本中枢",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 46.5,
+   "emerge_score": 46.8,
    "e_pos": 14.0,
    "e_flow": 0.6,
-   "e_struct": 22.8,
+   "e_struct": 23.1,
    "e_crit": 9.1,
    "dir_score": 65.0,
    "d_trend": 40,
@@ -1257,6 +1467,18 @@
    "action_detail": [
     "技术面印证做多方向，趋势健康",
     "动作：持有，回调即为加仓机会，分批加仓"
+   ],
+   "drv_type": "产能+成本",
+   "drv_dir": "利多",
+   "drv_strength": "中",
+   "drv_lag": "6-12月",
+   "drv_stage": "已触发",
+   "emergence_phase": "跃迁中",
+   "position_plan": [
+    "基准仓位：50-80%（持有/顺势 · 相位 跃迁中）",
+    "加仓：回调至 6120（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "减仓：反弹至 6830（20日高点）放量滞涨 → 减 1/3 仓",
+    "止损：跌破 MA60(6017) → 清仓离场"
    ]
   },
   {
@@ -1271,6 +1493,10 @@
    "pctile_all": 65.5,
    "ma20": 3060.9,
    "ma60": 2897.0333333333333,
+   "ma5": 3217.6,
+   "ma10": 3149.2,
+   "recent_high_20": 3338.0,
+   "recent_low_20": 2833.0,
    "above_ma20": true,
    "above_ma60": true,
    "mom_20d": -6.9,
@@ -1314,7 +1540,7 @@
     0.948,
     0.932
    ],
-   "term_spread_pct": -2.3,
+   "term_spread_pct": -2.27,
    "term_structure": "Contango",
    "main_contract": "MA2701",
    "second_contract": "MA2612",
@@ -1326,10 +1552,10 @@
    "note": "⚠️量仓背离：高位放量(1.62)+增仓(6.7%)但空头进攻=空头高位建仓，多头谨慎",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 64.3,
+   "emerge_score": 64.1,
    "e_pos": 13.4,
    "e_flow": 21.8,
-   "e_struct": 19.2,
+   "e_struct": 18.9,
    "e_crit": 10.0,
    "dir_score": 100,
    "d_trend": 40,
@@ -1340,6 +1566,15 @@
    "action_advice": "多头减仓避险",
    "action_detail": [
     "空头在进攻，持多者应减仓避险"
+   ],
+   "drv_type": "供给冲击",
+   "drv_dir": "利多",
+   "drv_strength": "强",
+   "drv_lag": "即时",
+   "drv_stage": "已触发",
+   "emergence_phase": "跃迁中",
+   "position_plan": [
+    "观望品种，暂无仓位计划"
    ]
   },
   {
@@ -1354,6 +1589,10 @@
    "pctile_all": 2.3,
    "ma20": 896.45,
    "ma60": 906.8666666666667,
+   "ma5": 856.8,
+   "ma10": 870.4,
+   "recent_high_20": 973.0,
+   "recent_low_20": 853.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -10.9,
@@ -1397,7 +1636,7 @@
     0.915,
     0.887
    ],
-   "term_spread_pct": -1.61,
+   "term_spread_pct": -1.49,
    "term_structure": "Contango",
    "main_contract": "FG2701",
    "second_contract": "FG2703",
@@ -1409,10 +1648,10 @@
    "note": "低位放量增仓(20日+27%)=底部换手蓄势，印证左侧埋伏",
    "flow_confirm": "✅资金进场(持仓+27.0%)",
    "term_signal": "",
-   "emerge_score": 60.8,
+   "emerge_score": 59.8,
    "e_pos": 24.8,
    "e_flow": 15.0,
-   "e_struct": 13.4,
+   "e_struct": 12.4,
    "e_crit": 7.6,
    "dir_score": -25.0,
    "d_trend": -40,
@@ -1424,6 +1663,18 @@
    "action_detail": [
     "左侧埋伏阶段，逆势轻仓试探建仓",
     "动作：轻仓试探，等右侧确认(站稳/放量)再加仓"
+   ],
+   "drv_type": "产能出清",
+   "drv_dir": "利多(潜在)",
+   "drv_strength": "中",
+   "drv_lag": "3-6月(冷修)",
+   "drv_stage": "累积中",
+   "emergence_phase": "驱动累积",
+   "position_plan": [
+    "基准仓位：10-20%（试探）（左侧轻仓试探 · 相位 驱动累积）",
+    "加仓：回调至 853（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "减仓：反弹至 973（20日高点）放量滞涨 → 减 1/3 仓",
+    "止损：跌破 MA60(907) → 清仓离场"
    ]
   },
   {
@@ -1438,6 +1689,10 @@
    "pctile_all": 0.8,
    "ma20": 997.65,
    "ma60": 1006.7666666666667,
+   "ma5": 952.2,
+   "ma10": 978.6,
+   "recent_high_20": 1065.0,
+   "recent_low_20": 932.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -12.7,
@@ -1481,7 +1736,7 @@
     0.937,
     0.918
    ],
-   "term_spread_pct": -3.36,
+   "term_spread_pct": -3.35,
    "term_structure": "Contango",
    "main_contract": "SA2701",
    "second_contract": "SA2703",
@@ -1492,7 +1747,7 @@
    "driver": "天然碱释放+地产竣工-23.7%，跌破现金成本但出清三要素未确认",
    "note": "贴水3.15%供过于求，最便宜但最不接近跃迁",
    "flow_confirm": "",
-   "term_signal": "贴水-3.36%",
+   "term_signal": "贴水-3.35%",
    "emerge_score": 62.5,
    "e_pos": 24.4,
    "e_flow": 3.8,
@@ -1507,6 +1762,15 @@
    "action_advice": "观望",
    "action_detail": [
     "无明确驱动，观望等待信号"
+   ],
+   "drv_type": "产能过剩",
+   "drv_dir": "利空",
+   "drv_strength": "中",
+   "drv_lag": "6-12月(出清)",
+   "drv_stage": "累积中",
+   "emergence_phase": "驱动累积",
+   "position_plan": [
+    "观望品种，暂无仓位计划"
    ]
   },
   {
@@ -1521,6 +1785,10 @@
    "pctile_all": 32.2,
    "ma20": 19497.75,
    "ma60": 18417.5,
+   "ma5": 20119.0,
+   "ma10": 19976.5,
+   "recent_high_20": 20645.0,
+   "recent_low_20": 18670.0,
    "above_ma20": true,
    "above_ma60": true,
    "mom_20d": 2.0,
@@ -1564,7 +1832,7 @@
     0.976,
     0.968
    ],
-   "term_spread_pct": 0.0,
+   "term_spread_pct": -0.03,
    "term_structure": "平坦",
    "main_contract": "RU2701",
    "second_contract": "RU2705",
@@ -1576,10 +1844,10 @@
    "note": "⚠️高位减仓(13.6%)多头离场，警惕回调",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 39.0,
+   "emerge_score": 39.3,
    "e_pos": 19.6,
    "e_flow": 6.6,
-   "e_struct": 0,
+   "e_struct": 0.2,
    "e_crit": 12.7,
    "dir_score": 60.4,
    "d_trend": 40,
@@ -1591,6 +1859,18 @@
    "action_detail": [
     "技术面印证做多方向，趋势健康",
     "动作：持有，回调即为加仓机会，分批加仓"
+   ],
+   "drv_type": "供给冲击",
+   "drv_dir": "利多",
+   "drv_strength": "中",
+   "drv_lag": "8-18月",
+   "drv_stage": "已触发",
+   "emergence_phase": "跃迁中",
+   "position_plan": [
+    "基准仓位：50-80%（持有/顺势 · 相位 跃迁中）",
+    "加仓：回调至 18670（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "减仓：反弹至 20645（20日高点）放量滞涨 → 减 1/3 仓",
+    "止损：跌破 MA60(18418) → 清仓离场"
    ]
   },
   {
@@ -1605,6 +1885,10 @@
    "pctile_all": 49.7,
    "ma20": 3385.45,
    "ma60": 3277.366666666667,
+   "ma5": 3342.8,
+   "ma10": 3357.6,
+   "recent_high_20": 3479.0,
+   "recent_low_20": 3281.0,
    "above_ma20": false,
    "above_ma60": true,
    "mom_20d": -3.6,
@@ -1648,7 +1932,7 @@
     0.974,
     0.961
    ],
-   "term_spread_pct": 12.41,
+   "term_spread_pct": 12.38,
    "term_structure": "Backwardation",
    "main_contract": "M2701",
    "second_contract": "M2705",
@@ -1659,7 +1943,7 @@
    "driver": "厄尔尼诺减产时滞8-18月未兑现",
    "note": "期限结构极端升水12%(M2701vs2705)=近月极紧，最强做多印证",
    "flow_confirm": "⚠️资金离场(持仓-16.6%)",
-   "term_signal": "✅近月升水12.41%",
+   "term_signal": "✅近月升水12.38%",
    "emerge_score": 50.6,
    "e_pos": 2.3,
    "e_flow": 11.2,
@@ -1676,6 +1960,18 @@
     "资金撤退(持仓20日-16.6%) + 技术破位 = 回调可能演变成反转",
     "动作：先减仓/清仓避险，不赌反转",
     "回补条件：趋势逻辑未变 + 重新站上MA20 + 持仓止跌回升，再回补"
+   ],
+   "drv_type": "供给冲击",
+   "drv_dir": "利多",
+   "drv_strength": "中",
+   "drv_lag": "8-18月",
+   "drv_stage": "累积中",
+   "emergence_phase": "逼近临界",
+   "position_plan": [
+    "基准仓位：0-10%（避险）（暂离避险 · 相位 逼近临界）",
+    "加仓：回调至 3281（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "减仓：反弹至 3479（20日高点）放量滞涨 → 减 1/3 仓",
+    "止损：跌破 MA60(3277) → 清仓离场"
    ]
   },
   {
@@ -1690,6 +1986,10 @@
    "pctile_all": 42.0,
    "ma20": 8941.9,
    "ma60": 8777.75,
+   "ma5": 8928.2,
+   "ma10": 8927.6,
+   "recent_high_20": 9036.0,
+   "recent_low_20": 8844.0,
    "above_ma20": false,
    "above_ma60": true,
    "mom_20d": -2.4,
@@ -1733,7 +2033,7 @@
     0.974,
     0.971
    ],
-   "term_spread_pct": 1.64,
+   "term_spread_pct": 1.66,
    "term_structure": "Backwardation",
    "main_contract": "Y2701",
    "second_contract": "Y2705",
@@ -1745,10 +2045,10 @@
    "note": "⚠️高位减仓(20日-22.6%)，等企稳",
    "flow_confirm": "⚠️资金离场(持仓-22.6%)",
    "term_signal": "",
-   "emerge_score": 58.7,
+   "emerge_score": 58.9,
    "e_pos": 16.7,
    "e_flow": 15.8,
-   "e_struct": 13.7,
+   "e_struct": 13.8,
    "e_crit": 12.5,
    "dir_score": -30.7,
    "d_trend": -10,
@@ -1761,6 +2061,18 @@
     "资金撤退(持仓20日-22.6%) + 技术破位 = 回调可能演变成反转",
     "动作：先减仓/清仓避险，不赌反转",
     "回补条件：趋势逻辑未变 + 重新站上MA20 + 持仓止跌回升，再回补"
+   ],
+   "drv_type": "油脂周期",
+   "drv_dir": "利多",
+   "drv_strength": "弱",
+   "drv_lag": "8-18月",
+   "drv_stage": "累积中",
+   "emergence_phase": "逼近临界",
+   "position_plan": [
+    "基准仓位：0-10%（避险）（暂离避险 · 相位 逼近临界）",
+    "加仓：回调至 8844（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "减仓：反弹至 9036（20日高点）放量滞涨 → 减 1/3 仓",
+    "止损：跌破 MA60(8778) → 清仓离场"
    ]
   },
   {
@@ -1775,6 +2087,10 @@
    "pctile_all": 62.7,
    "ma20": 9750.95,
    "ma60": 9777.7,
+   "ma5": 9592.4,
+   "ma10": 9589.0,
+   "recent_high_20": 10095.0,
+   "recent_low_20": 9446.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -6.8,
@@ -1818,7 +2134,7 @@
     0.968,
     0.951
    ],
-   "term_spread_pct": -5.56,
+   "term_spread_pct": -5.63,
    "term_structure": "Contango",
    "main_contract": "P2701",
    "second_contract": "P2705",
@@ -1829,7 +2145,7 @@
    "driver": "厄尔尼诺供给冲击8-18月时滞，2027才兑现，当前是布局窗口",
    "note": "⭐首选·Contango贴水5.6%=时滞印证(近月供给足/远月减产预期)，做多应选远月P2705",
    "flow_confirm": "⏳短线空压(回调中)",
-   "term_signal": "⏳贴水-5.56%(或选远月)",
+   "term_signal": "⏳贴水-5.63%(或选远月)",
    "emerge_score": 51.8,
    "e_pos": 11.4,
    "e_flow": 4.2,
@@ -1846,6 +2162,18 @@
     "首选做多 + 技术回调 + 资金未撤 = 布局窗口",
     "动作：持有底仓，回调中分批加仓",
     "风险线：跌破MA60 或资金转为撤离，则停止加仓"
+   ],
+   "drv_type": "供给冲击",
+   "drv_dir": "利多",
+   "drv_strength": "强",
+   "drv_lag": "8-18月(2027兑现)",
+   "drv_stage": "累积中",
+   "emergence_phase": "驱动累积",
+   "position_plan": [
+    "基准仓位：40-60%（持有，回调分批加仓 · 相位 驱动累积）",
+    "加仓：回调至 9446（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "减仓：反弹至 10095（20日高点）放量滞涨 → 减 1/3 仓",
+    "止损：跌破 MA60(9778) → 清仓离场"
    ]
   },
   {
@@ -1860,6 +2188,10 @@
    "pctile_all": 54.9,
    "ma20": 5398.4,
    "ma60": 5318.233333333334,
+   "ma5": 5457.0,
+   "ma10": 5430.8,
+   "recent_high_20": 5521.0,
+   "recent_low_20": 5322.0,
    "above_ma20": true,
    "above_ma60": true,
    "mom_20d": -0.8,
@@ -1903,7 +2235,7 @@
     0.959,
     0.958
    ],
-   "term_spread_pct": -1.5,
+   "term_spread_pct": -1.48,
    "term_structure": "Contango",
    "main_contract": "SR2701",
    "second_contract": "SR2705",
@@ -1915,10 +2247,10 @@
    "note": "",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 51.9,
+   "emerge_score": 51.8,
    "e_pos": 16.4,
    "e_flow": 11.2,
-   "e_struct": 12.5,
+   "e_struct": 12.3,
    "e_crit": 11.8,
    "dir_score": 29.2,
    "d_trend": 40,
@@ -1929,6 +2261,15 @@
    "action_advice": "观望",
    "action_detail": [
     "无明确驱动，观望等待信号"
+   ],
+   "drv_type": "糖周期",
+   "drv_dir": "中性",
+   "drv_strength": "弱",
+   "drv_lag": "即时",
+   "drv_stage": "累积中",
+   "emergence_phase": "蓄势",
+   "position_plan": [
+    "观望品种，暂无仓位计划"
    ]
   },
   {
@@ -1943,6 +2284,10 @@
    "pctile_all": 24.2,
    "ma20": 15893.5,
    "ma60": 16273.833333333334,
+   "ma5": 15875.0,
+   "ma10": 15827.0,
+   "recent_high_20": 16380.0,
+   "recent_low_20": 15615.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -4.2,
@@ -1986,7 +2331,7 @@
     0.952,
     0.957
    ],
-   "term_spread_pct": 1.38,
+   "term_spread_pct": 1.35,
    "term_structure": "Backwardation",
    "main_contract": "CF2701",
    "second_contract": "CF2705",
@@ -1998,10 +2343,10 @@
    "note": "",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 38.3,
+   "emerge_score": 38.0,
    "e_pos": 7.0,
    "e_flow": 7.3,
-   "e_struct": 11.5,
+   "e_struct": 11.2,
    "e_crit": 12.4,
    "dir_score": -28.1,
    "d_trend": -40,
@@ -2012,6 +2357,15 @@
    "action_advice": "观望",
    "action_detail": [
     "无明确驱动，观望等待信号"
+   ],
+   "drv_type": "供给冲击(天气)",
+   "drv_dir": "中性",
+   "drv_strength": "弱",
+   "drv_lag": "3-6月",
+   "drv_stage": "累积中",
+   "emergence_phase": "蓄势",
+   "position_plan": [
+    "观望品种，暂无仓位计划"
    ]
   },
   {
@@ -2026,6 +2380,10 @@
    "pctile_all": 55.9,
    "ma20": 2193.3,
    "ma60": 2243.0833333333335,
+   "ma5": 2200.8,
+   "ma10": 2187.4,
+   "recent_high_20": 2255.0,
+   "recent_low_20": 2154.0,
    "above_ma20": true,
    "above_ma60": false,
    "mom_20d": -2.5,
@@ -2069,7 +2427,7 @@
     0.911,
     0.947
    ],
-   "term_spread_pct": -1.31,
+   "term_spread_pct": -1.36,
    "term_structure": "Contango",
    "main_contract": "C2701",
    "second_contract": "C2703",
@@ -2081,10 +2439,10 @@
    "note": "",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 41.9,
+   "emerge_score": 42.3,
    "e_pos": 14.9,
    "e_flow": 5.5,
-   "e_struct": 10.9,
+   "e_struct": 11.3,
    "e_crit": 10.6,
    "dir_score": -7.4,
    "d_trend": 10,
@@ -2095,6 +2453,15 @@
    "action_advice": "观望",
    "action_detail": [
     "无明确驱动，观望等待信号"
+   ],
+   "drv_type": "库存周期",
+   "drv_dir": "中性",
+   "drv_strength": "弱",
+   "drv_lag": "即时",
+   "drv_stage": "累积中",
+   "emergence_phase": "驱动累积",
+   "position_plan": [
+    "观望品种，暂无仓位计划"
    ]
   },
   {
@@ -2109,6 +2476,10 @@
    "pctile_all": 7.1,
    "ma20": 10880.25,
    "ma60": 11470.083333333334,
+   "ma5": 10572.0,
+   "ma10": 10671.0,
+   "recent_high_20": 11475.0,
+   "recent_low_20": 10295.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -9.3,
@@ -2178,6 +2549,15 @@
    "action_advice": "观望",
    "action_detail": [
     "无明确驱动，观望等待信号"
+   ],
+   "drv_type": "猪周期",
+   "drv_dir": "中性",
+   "drv_strength": "弱",
+   "drv_lag": "6-12月",
+   "drv_stage": "累积中(底部)",
+   "emergence_phase": "驱动累积",
+   "position_plan": [
+    "观望品种，暂无仓位计划"
    ]
   },
   {
@@ -2192,6 +2572,10 @@
    "pctile_all": 21.9,
    "ma20": 119952.0,
    "ma60": 138578.33333333334,
+   "ma5": 101568.0,
+   "ma10": 109838.0,
+   "recent_high_20": 134820.0,
+   "recent_low_20": 96320.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_20d": -31.8,
@@ -2235,7 +2619,7 @@
     0.927,
     0.953
    ],
-   "term_spread_pct": 1.86,
+   "term_spread_pct": 1.95,
    "term_structure": "Backwardation",
    "main_contract": "LC2701",
    "second_contract": "LC2705",
@@ -2247,10 +2631,10 @@
    "note": "低位放量(1.42)+AR1=0.968极高=临界恐慌底确认，等止跌/减仓信号",
    "flow_confirm": "⏳短线空压(回调中)",
    "term_signal": "",
-   "emerge_score": 47.9,
+   "emerge_score": 48.7,
    "e_pos": 12.2,
    "e_flow": 7.6,
-   "e_struct": 15.5,
+   "e_struct": 16.2,
    "e_crit": 12.6,
    "dir_score": -65.1,
    "d_trend": -40,
@@ -2262,6 +2646,16 @@
    "action_detail": [
     "方向看多但需右侧信号",
     "触发：站稳均线/放量突破，再进场"
+   ],
+   "drv_type": "供给过剩出清",
+   "drv_dir": "利空",
+   "drv_strength": "强",
+   "drv_lag": "6-12月(出清)",
+   "drv_stage": "已触发",
+   "emergence_phase": "跃迁中",
+   "position_plan": [
+    "基准仓位：0-10%（等信号）（等右侧确认 · 相位 跃迁中）",
+    "等待进场信号：站稳 MA20 或放量突破后，再按节奏建仓"
    ]
   },
   {
@@ -2276,6 +2670,10 @@
    "pctile_all": 16.0,
    "ma20": 8554.25,
    "ma60": 8562.416666666666,
+   "ma5": 8696.0,
+   "ma10": 8619.5,
+   "recent_high_20": 8925.0,
+   "recent_low_20": 8410.0,
    "above_ma20": true,
    "above_ma60": true,
    "mom_20d": 2.1,
@@ -2319,7 +2717,7 @@
     0.932,
     0.933
    ],
-   "term_spread_pct": 2.66,
+   "term_spread_pct": 2.73,
    "term_structure": "Backwardation",
    "main_contract": "SI2612",
    "second_contract": "SI2611",
@@ -2331,10 +2729,10 @@
    "note": "多晶硅2027仍负增长",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 57.6,
+   "emerge_score": 58.2,
    "e_pos": 13.4,
    "e_flow": 15.0,
-   "e_struct": 22.2,
+   "e_struct": 22.8,
    "e_crit": 7.1,
    "dir_score": 21.6,
    "d_trend": 40,
@@ -2345,6 +2743,15 @@
    "action_advice": "区间高抛低吸",
    "action_detail": [
     "区间震荡，高抛低吸，不追单边"
+   ],
+   "drv_type": "产能过剩",
+   "drv_dir": "中性",
+   "drv_strength": "弱",
+   "drv_lag": "即时",
+   "drv_stage": "累积中",
+   "emergence_phase": "驱动累积",
+   "position_plan": [
+    "观望品种，暂无仓位计划"
    ]
   }
  ],

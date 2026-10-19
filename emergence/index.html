@@ -98,10 +98,11 @@ tr:hover td { background: #1a2028; }
           <tr><td>期限结构</td><td class="formula">(主力合约价 − 次主力合约价) ÷ 次主力价 × 100%</td><td><span class="red">正=Backwardation</span>（现货升水、现货紧张）· <span class="green">负=Contango</span>（期货升水、供过于求）· |值|≤0.5%=平坦；农产品跨季价差含季节性</td></tr>
           <tr><td>量仓印证</td><td>「方向(做多/做空)」vs「持仓20日变化 + 四象限」的自动对照</td><td><span class="green">✅印证</span>=资金行为支持方向 · <span class="red">⚠️背离</span>=资金离场或反向风险 · <span class="amber">⏳观察</span>=中性待确认</td></tr>
           <tr><td>期限信号</td><td>「方向」vs「期限结构」的自动对照（仅极端 |升贴水|&gt;3% 触发）</td><td><span class="green">✅</span>=结构印证方向 · <span class="red">⚠️</span>=结构反向风险 · <span class="amber">⏳</span>=待观察（如贴水可选远月）</td></tr>
-          <tr><td>跃迁得分</td><td>量化"接近跃迁(相变)"的程度，0-100。四维各25分：<b>位置极端度</b>=|分位−50|÷50×25；<b>资金活跃度</b>=量比放量(40%)+持仓20日变化(60%)；<b>结构失衡度</b>=|升贴水|÷3%×25；<b>临界接近度</b>=AR1(最高15)+波动压缩/放大(10)</td><td><span class="red">≥60 高</span>(接近跃迁、警惕变盘) · <span class="amber">40-60 中</span> · <span class="green">&lt;40 低</span>。列内小字=位/资/构/临四分项</td></tr>
+          <tr><td>涌现相位</td><td>相空间状态机（驱动=因 + 技术=果，替代线性加总，回归"不可还原"）：<b>驱动累积</b>(驱动累积未触发) / <b>逼近临界</b>(有明确方向+临界信号) / <b>跃迁中</b>(驱动已触发+技术确认) / <b>新稳态</b>(驱动已兑现) / <b>蓄势</b>(方向未定+波动异常)</td><td>跃迁中=顺势 · 逼近临界=等信号 · 驱动累积=埋伏布局 · 蓄势=方向待定。列内小字=驱动类型·强度 + <span class="amber">时滞</span>(驱动→兑现的时间)</td></tr>
           <tr><td>方向信号</td><td>量化方向信号，−100~+100（中长期口径）。<b>趋势</b>(±40)=MA20/MA60双均线组合；<b>资金</b>(±30)=持仓20日变化÷25%×30；<b>动量</b>(±30)=60日动量÷15%×30</td><td><span class="red">≥+15 偏多</span> · −15~+15 中性 · <span class="green">≤−15 偏空</span>（≥40强多/≤−40强空）。列内小字=技术+分数+标签</td></tr>
           <tr><td>方向</td><td>基本面涌现建议（中长期，有供需/成本/周期研究支撑）</td><td>做多 / 做空 / 观望 / 等回调 / 等右侧 等。与下方"方向信号"(技术面)对照：✅量化印证 / ⚠️背离 / ⏳技术回调中</td></tr>
           <tr><td>操作建议</td><td>把方向+量仓+一致性翻译成动作，围绕"趋势中继回调管理"自动生成：<b>暂离避险</b>(资金撤退+破位) / <b>减仓观察</b>(资金离场) / <b>持有观察企稳可回补</b>(健康回调) / <b>持有回调加仓</b>(资金进场+回调) / <b>持有顺势</b>(技术印证) / 左侧试探/等右侧/等回调/区间高抛低吸</td><td>方向列内 📌 彩色标签（红=减仓避险/金=加仓/绿=持有），<span class="amber">点击弹出操作详解</span>（依据+动作+风险线）</td></tr>
+          <tr><td>仓位管理</td><td>基于操作建议定<b>基准仓位区间</b> + 短线均线(MA10/20)与20日高低点定<b>加减仓节奏</b>：回调至短线支撑缩量企稳→加1/4仓 / 反弹至20日高点放量滞涨→减1/3仓 / 跌破MA60→清仓</td><td>点击 📌 操作建议弹窗内"仓位管理"section（基准仓位+加仓点+减仓点+止损位）</td></tr>
         </tbody>
       </table>
     </details>
@@ -142,6 +143,14 @@ function emergeCell(c) {
   var color = c.emerge_score >= 60 ? '#ff5050' : (c.emerge_score >= 40 ? '#d29922' : '#6e7681');
   var html = '<span style="color:' + color + ';font-weight:700;font-size:1.05rem">' + c.emerge_score + '</span>';
   html += '<br><span class="neu" style="font-size:0.66rem">位' + (c.e_pos != null ? c.e_pos : '—') + ' 资' + (c.e_flow != null ? c.e_flow : '—') + ' 构' + (c.e_struct != null ? c.e_struct : '—') + ' 临' + (c.e_crit != null ? c.e_crit : '—') + '</span>';
+  return html;
+}
+function phaseCell(c) {
+  var phase = c.emergence_phase || '—';
+  var color = { '跃迁中': '#ff5050', '跃迁中(反向)': '#00c864', '逼近临界': '#d29922', '驱动累积': '#58a6ff', '新稳态': '#8b949e', '蓄势': '#d29922' }[phase] || '#8b949e';
+  var html = '<span style="color:' + color + ';font-weight:700">' + phase + '</span>';
+  if (c.drv_type) html += '<br><span class="neu" style="font-size:0.66rem">' + c.drv_type + '·' + (c.drv_strength || '') + '</span>';
+  if (c.drv_lag && c.drv_lag !== '即时') html += '<br><span class="amber" style="font-size:0.66rem">时滞' + c.drv_lag + '</span>';
   return html;
 }
 function critSlow(c) {
@@ -201,7 +210,7 @@ function renderSectors(list) {
     html += '<h2>' + sec + '</h2><div class="card"><table><thead><tr>'
       + '<th>品种</th><th>最新价</th><th>3年分位</th><th>MA</th><th>20d动量</th><th>YTD</th>'
       + '<th>量仓</th><th>临界慢化</th><th>期限结构</th>'
-      + '<th>尺度周期</th><th>涌现阶段</th><th>跃迁得分</th><th>方向</th><th>驱动逻辑</th></tr></thead><tbody>';
+      + '<th>尺度周期</th><th>涌现阶段</th><th>涌现相位</th><th>方向</th><th>驱动逻辑</th></tr></thead><tbody>';
     items.forEach(function(c) {
       if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=13 class="neu">获取失败</td></tr>'; return; }
       var ma = (c.above_ma20 ? '↑' : '↓') + (c.above_ma60 ? '↑' : '↓');
@@ -218,7 +227,7 @@ function renderSectors(list) {
         + '<td>' + termCell(c) + '</td>'
         + '<td class="stage">' + (c.scale || '') + '</td>'
         + '<td class="stage">' + (c.stage || '') + '</td>'
-        + '<td>' + emergeCell(c) + '</td>'
+        + '<td>' + phaseCell(c) + '</td>'
         + '<td>' + dirBadge(c.dir) + (c.dir_score != null ? '<br><span class="' + (c.dir_score >= 15 ? 'up' : (c.dir_score <= -15 ? 'down' : 'neu')) + '" style="font-size:0.68rem">技术' + (c.dir_score > 0 ? '+' : '') + c.dir_score + ' ' + (c.dir_label || '') + '</span>' : '') + actionBadge(c) + '</td>'
         + '<td class="driver">' + (c.driver || '') + (c.note ? '<br><span style="color:#d29922">' + c.note + '</span>' : '') + (c.flow_confirm ? '<br><span style="color:' + (c.flow_confirm.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.flow_confirm.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.flow_confirm + '</span>' : '') + (c.term_signal ? '<br><span style="color:' + (c.term_signal.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.term_signal.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.term_signal + '</span>' : '') + (c.dir_consistency ? '<br><span style="color:' + (c.dir_consistency.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.dir_consistency.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.dir_consistency + '</span>' : '') + '</td>'
         + '</tr>';
@@ -322,12 +331,26 @@ function showActionModal(name) {
   var detail = c.action_detail || [];
   var html = '<h3>' + c.name + ' · 操作建议详解</h3>';
   html += '<p style="font-size:0.95rem"><b style="color:#e0c068">建议：' + c.action_advice + '</b></p>';
+  // 涌现内核：相位 + 驱动层（因）+ 时滞
+  if (c.emergence_phase) {
+    html += '<p><span class="kv"><b>涌现相位:</b> ' + c.emergence_phase + '</span>'
+      + '<span class="kv"><b>驱动:</b> ' + (c.drv_type || '—') + '/' + (c.drv_dir || '—') + '</span></p>';
+    html += '<p><span class="kv"><b>驱动强度:</b> ' + (c.drv_strength || '—') + '</span>'
+      + '<span class="kv"><b>时滞:</b> ' + (c.drv_lag || '—') + '</span>'
+      + '<span class="kv"><b>阶段:</b> ' + (c.drv_stage || '—') + '</span></p>';
+  }
   html += '<p><span class="kv"><b>方向:</b> ' + (c.dir || '—') + '</span>'
     + '<span class="kv"><b>量仓:</b> ' + (c.flow_confirm || c.flow_quad || '—') + '</span></p>';
   html += '<p><span class="kv"><b>一致性:</b> ' + (c.dir_consistency || '—') + '</span>'
     + '<span class="kv"><b>持仓20日:</b> ' + (c.hold_chg_20 != null ? (c.hold_chg_20 > 0 ? '+' : '') + c.hold_chg_20 + '%' : '—') + '</span></p>';
   html += '<h4>细化解释</h4>';
   html += '<div class="interp">' + detail.map(function(s) { return '· ' + s; }).join('<br>') + '</div>';
+  // 仓位管理（更小尺度加减仓）
+  var plan = c.position_plan || [];
+  if (plan.length) {
+    html += '<h4>仓位管理（更小尺度加减仓）</h4>';
+    html += '<div class="interp" style="border-left-color:#3fb950;color:#c9d1d9">' + plan.map(function(s) { return '· ' + s; }).join('<br>') + '</div>';
+  }
   html += '<div class="dim" style="margin-top:0.8rem">以上为基于当前量化信号的操作框架建议，非投资指令。实际仓位须结合自身风险承受能力与资金管理。</div>';
   document.getElementById('slowModalBody').innerHTML = html;
   document.getElementById('slowModal').style.display = 'flex';
