@@ -134,6 +134,52 @@ def fetch_akshare_daily(code, timeout=90):
         return None
 
 
+def fetch_akshare_foreign(code, timeout=90):
+    """akshare 外盘期货日线（futures_foreign_hist）→ [[date_str, close], ...]。失败返回 None。"""
+    try:
+        import akshare as ak
+        df = ak.futures_foreign_hist(symbol=code)
+        if df is None or len(df) == 0:
+            return None
+        out = []
+        for _, row in df.iterrows():
+            d = str(row.get("date", ""))[:10]
+            v = row.get("close")
+            if d and v is not None:
+                try:
+                    out.append([d, float(v)])
+                except (ValueError, TypeError):
+                    continue
+        out.sort(key=lambda x: x[0])
+        return out or None
+    except Exception as e:
+        print(f"    ⚠️ akshare 外盘 {code} 失败: {e}", file=sys.stderr)
+        return None
+
+
+def fetch_akshare_pmi():
+    """akshare 美国ISM制造业PMI 月度 → [[date_str, value], ...]。失败返回 None。"""
+    try:
+        import akshare as ak
+        df = ak.macro_usa_ism_pmi()
+        if df is None or len(df) == 0:
+            return None
+        out = []
+        for _, row in df.iterrows():
+            d = str(row.get("日期", ""))[:10]
+            v = row.get("今值")
+            if d and v is not None and v == v:  # 排除 NaN
+                try:
+                    out.append([d, float(v)])
+                except (ValueError, TypeError):
+                    continue
+        out.sort(key=lambda x: x[0])
+        return out or None
+    except Exception as e:
+        print(f"    ⚠️ akshare PMI 失败: {e}", file=sys.stderr)
+        return None
+
+
 NOAA_URL = "https://www.cpc.ncep.noaa.gov/data/indices/wksst9120.for"
 
 
@@ -205,6 +251,11 @@ def fetch_series():
             data = fetch_akshare_daily(AKSHARE_MAP[k])
             if data:
                 src = "akshare"
+        elif k == "oil":
+            # 布伦特原油：iFinD「期货收盘价(活跃):布伦特原油:ICE」已失效，改用 akshare 外盘 OIL
+            data = fetch_akshare_foreign("OIL")
+            if data:
+                src = "akshare"
         if data is None:
             datas = query_edb(f"{name} {d_start}到{d_end}")
             if datas and isinstance(datas, list) and datas[0].get("data", {}).get("data"):
@@ -212,6 +263,13 @@ def fetch_series():
         series[k] = data
         print(f"  [日度] {k}: {len(series[k]) if series[k] else 'EMPTY'} 点 ({src})")
     for k, name in MONTHLY.items():
+        if k == "pmi":
+            # ISM PMI：iFinD「美国:ISM:制造业PMI」已失效，改用 akshare macro_usa_ism_pmi
+            data = fetch_akshare_pmi()
+            if data:
+                series[k] = data
+                print(f"  [月度] {k}: {len(series[k])} 点 (akshare)")
+                continue
         datas = query_edb(f"{name} {m_start}到{m_end}")
         if datas and isinstance(datas, list) and datas[0].get("data", {}).get("data"):
             series[k] = datas[0]["data"]["data"]
