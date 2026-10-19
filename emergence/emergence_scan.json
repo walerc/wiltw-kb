@@ -28,13 +28,18 @@
    "hold_chg_20": 52.2,
    "flow_quad": "多头离场",
    "ar1": 0.939,
+   "term_spread_pct": -0.26,
+   "term_structure": "平坦",
+   "main_contract": "AU2612",
+   "second_contract": "AU2702",
    "scale": "康波/金融",
    "stage": "均值回归(回调)",
    "crit": "中",
    "dir": "观望偏多",
    "driver": "利率升+美元强逆风 vs 央行购金+ETF资金流创纪录托底；回升期相对跑输",
    "note": "波动率压缩0.58=脆弱，回调到位再布局",
-   "flow_confirm": "✅资金进场(持仓+52.2%)"
+   "flow_confirm": "✅资金进场(持仓+52.2%)",
+   "term_signal": ""
   },
   {
    "sym": "AG0",
@@ -63,13 +68,18 @@
    "hold_chg_20": 49.4,
    "flow_quad": "多头离场",
    "ar1": 0.906,
+   "term_spread_pct": -0.26,
+   "term_structure": "平坦",
+   "main_contract": "AG2612",
+   "second_contract": "AG2702",
    "scale": "康波/金融",
    "stage": "深度回调",
    "crit": "中",
    "dir": "观望",
    "driver": "金银比高位有修复空间，弹性大但需等企稳",
    "note": "",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   },
   {
    "sym": "CU0",
@@ -98,13 +108,18 @@
    "hold_chg_20": -24.5,
    "flow_quad": "多头离场",
    "ar1": 0.899,
+   "term_spread_pct": 0.65,
+   "term_structure": "Backwardation",
+   "main_contract": "CU2611",
+   "second_contract": "CU2612",
    "scale": "朱格拉capex",
    "stage": "趋势中段偏末端",
    "crit": "高",
    "dir": "做多(等回调)",
    "driver": "康波回升领涨+TC归零+capex滞后(供给2028-29才见顶)",
    "note": "分位95%历史高位+持仓20日-24.5%多头获利离场=回调进行中，符合等回调",
-   "flow_confirm": "⚠️资金离场(持仓-24.5%)"
+   "flow_confirm": "⚠️资金离场(持仓-24.5%)",
+   "term_signal": ""
   },
   {
    "sym": "AL0",
@@ -133,13 +148,18 @@
    "hold_chg_20": -10.8,
    "flow_quad": "多头离场",
    "ar1": 0.936,
+   "term_spread_pct": -1.46,
+   "term_structure": "Contango",
+   "main_contract": "AL2612",
+   "second_contract": "AL2611",
    "scale": "政策/产能",
    "stage": "趋势中继(回调)",
    "crit": "中",
    "dir": "做多",
    "driver": "4500万吨天花板+99.5%满产=供给无弹性",
    "note": "波动率压缩0.62，回调到位可布局",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   },
   {
    "sym": "ZN0",
@@ -168,13 +188,18 @@
    "hold_chg_20": -28.5,
    "flow_quad": "多头离场",
    "ar1": 0.949,
+   "term_spread_pct": -0.06,
+   "term_structure": "平坦",
+   "main_contract": "ZN2612",
+   "second_contract": "ZN2611",
    "scale": "基钦库存",
    "stage": "回调",
    "crit": "低",
    "dir": "观望",
    "driver": "库存周期震荡，无明确驱动",
    "note": "",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   },
   {
    "sym": "NI0",
@@ -203,13 +228,18 @@
    "hold_chg_20": 39.0,
    "flow_quad": "空头进攻",
    "ar1": 0.952,
+   "term_spread_pct": 0.19,
+   "term_structure": "平坦",
+   "main_contract": "NI2612",
+   "second_contract": "NI2611",
    "scale": "供给过剩",
    "stage": "下跌末端",
    "crit": "中",
    "dir": "观望",
    "driver": "印尼供给过剩，分位5%极低",
    "note": "波动率压缩0.60，警惕底部相变",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   },
   {
    "sym": "SN0",
@@ -238,13 +268,18 @@
    "hold_chg_20": -15.2,
    "flow_quad": "多头离场",
    "ar1": 0.902,
+   "term_spread_pct": 0.56,
+   "term_structure": "Backwardation",
+   "main_contract": "SN2611",
+   "second_contract": "SN2612",
    "scale": "供给冲击",
    "stage": "趋势中继(回调)",
    "crit": "中",
    "dir": "做多",
    "driver": "佤邦/印尼/刚果供给扰动+AI焊接需求",
    "note": "⚠️放量(1.51)减仓(8%)多头离场+波动率压缩，警惕继续回调",
-   "flow_confirm": "⚠️资金离场(持仓-15.2%)"
+   "flow_confirm": "⚠️资金离场(持仓-15.2%)",
+   "term_signal": ""
   },
   {
    "sym": "AO0",
@@ -273,13 +308,18 @@
    "hold_chg_20": 46.7,
    "flow_quad": "空头进攻",
    "ar1": 0.782,
+   "term_spread_pct": -0.64,
+   "term_structure": "Contango",
+   "main_contract": "AO2701",
+   "second_contract": "AO2702",
    "scale": "供给过剩",
    "stage": "下跌末端",
    "crit": "低",
    "dir": "观望",
    "driver": "氧化铝过剩，分位5.4%历史低位",
    "note": "",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   },
   {
    "sym": "RB0",
@@ -308,13 +348,18 @@
    "hold_chg_20": 9.0,
    "flow_quad": "空头进攻",
    "ar1": 0.928,
+   "term_spread_pct": -0.1,
+   "term_structure": "平坦",
+   "main_contract": "RB2701",
+   "second_contract": "RB2703",
    "scale": "地产/库存",
    "stage": "低位筑底(潜伏)",
    "crit": "中低",
    "dir": "观望(潜在做多)",
    "driver": "深度亏损(盈利率6.9%)倒逼减产去库+反内卷托底，但地产新开工-25%压制",
    "note": "被动去库，等需求拐点",
-   "flow_confirm": "✅资金进场(持仓+9.0%)"
+   "flow_confirm": "✅资金进场(持仓+9.0%)",
+   "term_signal": ""
   },
   {
    "sym": "HC0",
@@ -343,13 +388,18 @@
    "hold_chg_20": 13.8,
    "flow_quad": "空头进攻",
    "ar1": 0.942,
+   "term_spread_pct": -0.28,
+   "term_structure": "平坦",
+   "main_contract": "HC2701",
+   "second_contract": "HC2703",
    "scale": "制造业周期",
    "stage": "低位震荡",
    "crit": "低",
    "dir": "观望",
    "driver": "制造业韧性(表需302万吨)vs社库+18.7%去库慢",
    "note": "卷螺价差收窄，板材韧性消耗",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   },
   {
    "sym": "I0",
@@ -378,13 +428,18 @@
    "hold_chg_20": 4.3,
    "flow_quad": "空头进攻",
    "ar1": 0.925,
+   "term_spread_pct": 1.11,
+   "term_structure": "Backwardation",
+   "main_contract": "I2701",
+   "second_contract": "I2705",
    "scale": "海外矿山/库存",
    "stage": "下跌末端",
    "crit": "中高",
    "dir": "观望偏空(等658破位)",
    "driver": "港口库存1.79亿吨历史新高+钢厂亏损减产，但已1%分位",
    "note": "总量过剩+高品结构性紧缺并存",
-   "flow_confirm": "✅量价印证"
+   "flow_confirm": "✅量价印证",
+   "term_signal": ""
   },
   {
    "sym": "JM0",
@@ -413,13 +468,18 @@
    "hold_chg_20": -19.6,
    "flow_quad": "多头离场",
    "ar1": 0.973,
+   "term_spread_pct": 7.0,
+   "term_structure": "Backwardation",
+   "main_contract": "JM2701",
+   "second_contract": "JM2705",
    "scale": "供给冲击/政策",
    "stage": "相变后顶部构筑",
    "crit": "高",
    "dir": "做空(等顶部确认)",
    "driver": "5月矿难8月暴涨45%→9/18保供政策逆转，保供+蒙煤通关+需求负反馈三杀",
-   "note": "口岸140万吨极低库存是最大反向风险",
-   "flow_confirm": "⏳多空同撤(趋势收尾)"
+   "note": "⚠️近月升水7%现货仍紧(含冬季季节性)，做空最大反向风险",
+   "flow_confirm": "⏳多空同撤(趋势收尾)",
+   "term_signal": "⚠️近月升水7.0%(反向风险)"
   },
   {
    "sym": "J0",
@@ -448,13 +508,18 @@
    "hold_chg_20": -20.7,
    "flow_quad": "多头离场",
    "ar1": 0.963,
+   "term_spread_pct": -0.36,
+   "term_structure": "平坦",
+   "main_contract": "J2701",
+   "second_contract": "J2611",
    "scale": "成本驱动",
    "stage": "跟随焦煤顶部",
    "crit": "中高",
    "dir": "做空(跟随焦煤)",
    "driver": "纯成本跟随焦煤，焦企亏损，无独立驱动",
    "note": "",
-   "flow_confirm": "⏳多空同撤(趋势收尾)"
+   "flow_confirm": "⏳多空同撤(趋势收尾)",
+   "term_signal": ""
   },
   {
    "sym": "SC0",
@@ -483,13 +548,18 @@
    "hold_chg_20": -4.4,
    "flow_quad": "空头进攻",
    "ar1": 0.96,
+   "term_spread_pct": 0.91,
+   "term_structure": "Backwardation",
+   "main_contract": "SC2612",
+   "second_contract": "SC2701",
    "scale": "地缘/库存",
    "stage": "高位宽幅震荡",
    "crit": "高(双向)",
    "dir": "观望(双向高波动)",
    "driver": "中东地缘溢价+OECD库存2003年来最低托底，但需求被反复下修",
    "note": "谈判突破则溢价快速崩塌",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   },
   {
    "sym": "TA0",
@@ -518,13 +588,18 @@
    "hold_chg_20": -1.0,
    "flow_quad": "多头离场",
    "ar1": 0.921,
+   "term_spread_pct": 2.71,
+   "term_structure": "Backwardation",
+   "main_contract": "TA2701",
+   "second_contract": "TA2703",
    "scale": "成本/产能",
    "stage": "趋势中继",
    "crit": "中",
    "dir": "观望偏多",
    "driver": "2026供给零新增+PX偏紧成本传导",
    "note": "下半年PX投产下移成本中枢",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   },
   {
    "sym": "MA0",
@@ -553,13 +628,18 @@
    "hold_chg_20": 50.8,
    "flow_quad": "空头进攻",
    "ar1": 0.933,
+   "term_spread_pct": -2.2,
+   "term_structure": "Contango",
+   "main_contract": "MA2701",
+   "second_contract": "MA2612",
    "scale": "供给冲击/地缘",
    "stage": "逼空后段",
    "crit": "高(反向)",
    "dir": "观望(警惕空头)",
    "driver": "伊朗产能瘫痪+港口库存30.5万吨历史新低，逼空进行中",
    "note": "⚠️量仓背离：高位放量(1.62)+增仓(6.7%)但空头进攻=空头高位建仓，多头谨慎",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   },
   {
    "sym": "FG0",
@@ -588,13 +668,18 @@
    "hold_chg_20": 27.0,
    "flow_quad": "空头进攻",
    "ar1": 0.902,
+   "term_spread_pct": -1.83,
+   "term_structure": "Contango",
+   "main_contract": "FG2701",
+   "second_contract": "FG2703",
    "scale": "产能/地产竣工",
    "stage": "低位筑底(相变临界)",
    "crit": "中高",
    "dir": "观望偏多(左侧埋伏)",
    "driver": "全路线深度亏损逼近煤制气冷修阈值，供给出清一触即发",
    "note": "低位放量增仓(20日+27%)=底部换手蓄势，印证左侧埋伏",
-   "flow_confirm": "✅资金进场(持仓+27.0%)"
+   "flow_confirm": "✅资金进场(持仓+27.0%)",
+   "term_signal": ""
   },
   {
    "sym": "SA0",
@@ -623,13 +708,18 @@
    "hold_chg_20": 5.6,
    "flow_quad": "空头进攻",
    "ar1": 0.924,
+   "term_spread_pct": -3.15,
+   "term_structure": "Contango",
+   "main_contract": "SA2701",
+   "second_contract": "SA2703",
    "scale": "产能过剩/地产",
    "stage": "潜伏期(磨底)",
    "crit": "中",
    "dir": "观望",
    "driver": "天然碱释放+地产竣工-23.7%，跌破现金成本但出清三要素未确认",
-   "note": "最便宜但最不接近跃迁",
-   "flow_confirm": ""
+   "note": "贴水3.15%供过于求，最便宜但最不接近跃迁",
+   "flow_confirm": "",
+   "term_signal": "贴水-3.15%"
   },
   {
    "sym": "RU0",
@@ -658,13 +748,18 @@
    "hold_chg_20": -8.0,
    "flow_quad": "多头离场",
    "ar1": 0.97,
+   "term_spread_pct": 0.03,
+   "term_structure": "平坦",
+   "main_contract": "RU2701",
+   "second_contract": "RU2705",
    "scale": "厄尔尼诺/供给",
    "stage": "趋势中段",
    "crit": "中",
    "dir": "做多",
    "driver": "厄尔尼诺+供给，YTD+26%但分位89%高位",
    "note": "⚠️高位减仓(13.6%)多头离场，警惕回调",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   },
   {
    "sym": "M0",
@@ -693,13 +788,18 @@
    "hold_chg_20": -16.6,
    "flow_quad": "多头离场",
    "ar1": 0.961,
+   "term_spread_pct": 12.06,
+   "term_structure": "Backwardation",
+   "main_contract": "M2701",
+   "second_contract": "M2705",
    "scale": "厄尔尼诺/供给",
    "stage": "趋势中继",
    "crit": "中",
    "dir": "做多",
    "driver": "厄尔尼诺减产时滞8-18月未兑现",
-   "note": "",
-   "flow_confirm": "⚠️资金离场(持仓-16.6%)"
+   "note": "期限结构极端升水12%(M2701vs2705)=近月极紧，最强做多印证",
+   "flow_confirm": "⚠️资金离场(持仓-16.6%)",
+   "term_signal": "✅近月升水12.06%"
   },
   {
    "sym": "Y0",
@@ -728,13 +828,18 @@
    "hold_chg_20": -22.6,
    "flow_quad": "多头离场",
    "ar1": 0.967,
+   "term_spread_pct": 1.61,
+   "term_structure": "Backwardation",
+   "main_contract": "Y2701",
+   "second_contract": "Y2705",
    "scale": "油脂周期",
    "stage": "趋势中段",
    "crit": "中",
    "dir": "做多",
    "driver": "跟随棕榈油，分位83%高位",
    "note": "⚠️高位减仓(20日-22.6%)，等企稳",
-   "flow_confirm": "⚠️资金离场(持仓-22.6%)"
+   "flow_confirm": "⚠️资金离场(持仓-22.6%)",
+   "term_signal": ""
   },
   {
    "sym": "P0",
@@ -763,13 +868,18 @@
    "hold_chg_20": 3.0,
    "flow_quad": "空头进攻",
    "ar1": 0.949,
+   "term_spread_pct": -5.64,
+   "term_structure": "Contango",
+   "main_contract": "P2701",
+   "second_contract": "P2705",
    "scale": "厄尔尼诺/供给",
    "stage": "趋势中继(主升浪未启动)",
    "crit": "中",
    "dir": "做多(首选)",
    "driver": "厄尔尼诺供给冲击8-18月时滞，2027才兑现，当前是布局窗口",
-   "note": "⭐首选·回调中持仓仍增(20日+3%)=资金未撤，布局窗口确认",
-   "flow_confirm": "⏳短线空压(回调中)"
+   "note": "⭐首选·Contango贴水5.6%=时滞印证(近月供给足/远月减产预期)，做多应选远月P2705",
+   "flow_confirm": "⏳短线空压(回调中)",
+   "term_signal": "⏳贴水-5.64%(或选远月)"
   },
   {
    "sym": "SR0",
@@ -798,13 +908,18 @@
    "hold_chg_20": -17.0,
    "flow_quad": "多头离场",
    "ar1": 0.958,
+   "term_spread_pct": -1.46,
+   "term_structure": "Contango",
+   "main_contract": "SR2701",
+   "second_contract": "SR2705",
    "scale": "糖周期",
    "stage": "低位企稳",
    "crit": "低",
    "dir": "观望",
    "driver": "分位17%低位企稳，糖周期主导需谨慎",
    "note": "",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   },
   {
    "sym": "CF0",
@@ -833,13 +948,18 @@
    "hold_chg_20": 12.1,
    "flow_quad": "多头进攻",
    "ar1": 0.966,
+   "term_spread_pct": 1.38,
+   "term_structure": "Backwardation",
+   "main_contract": "CF2701",
+   "second_contract": "CF2705",
    "scale": "种植周期",
    "stage": "中位震荡",
    "crit": "低",
    "dir": "观望",
    "driver": "美棉方向取决于降水模式",
    "note": "",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   },
   {
    "sym": "C0",
@@ -868,13 +988,18 @@
    "hold_chg_20": -7.3,
    "flow_quad": "多头进攻",
    "ar1": 0.941,
+   "term_spread_pct": 1.3,
+   "term_structure": "Backwardation",
+   "main_contract": "C2701",
+   "second_contract": "C2611",
    "scale": "种植周期",
    "stage": "低位企稳",
    "crit": "低",
    "dir": "观望",
    "driver": "分位20%低位企稳",
    "note": "",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   },
   {
    "sym": "LH0",
@@ -903,13 +1028,18 @@
    "hold_chg_20": -23.6,
    "flow_quad": "空头进攻",
    "ar1": 0.941,
+   "term_spread_pct": 1.08,
+   "term_structure": "Backwardation",
+   "main_contract": "LH2701",
+   "second_contract": "LH2703",
    "scale": "猪周期",
    "stage": "下跌末端",
    "crit": "低",
    "dir": "观望",
    "driver": "分位14%低位，猪周期底部",
    "note": "",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   },
   {
    "sym": "LC0",
@@ -938,13 +1068,18 @@
    "hold_chg_20": 4.1,
    "flow_quad": "空头进攻",
    "ar1": 0.968,
+   "term_spread_pct": 2.5,
+   "term_structure": "Backwardation",
+   "main_contract": "LC2701",
+   "second_contract": "LC2705",
    "scale": "供给过剩出清",
    "stage": "下跌加速(恐慌底)",
    "crit": "高",
    "dir": "观望偏多(等右侧)",
    "driver": "旺季证伪+矿端增量，逼近9万成本线恐慌杀跌",
    "note": "低位放量(1.42)+AR1=0.968极高=临界恐慌底确认，等止跌/减仓信号",
-   "flow_confirm": "⏳短线空压(回调中)"
+   "flow_confirm": "⏳短线空压(回调中)",
+   "term_signal": ""
   },
   {
    "sym": "SI0",
@@ -973,13 +1108,18 @@
    "hold_chg_20": -44.5,
    "flow_quad": "空头回补",
    "ar1": 0.895,
+   "term_spread_pct": 2.35,
+   "term_structure": "Backwardation",
+   "main_contract": "SI2612",
+   "second_contract": "SI2611",
    "scale": "产能过剩出清",
    "stage": "低位筑底区间",
    "crit": "中",
    "dir": "观望(区间)",
    "driver": "成本锁下沿(8500)+81万吨库存锁上沿，无催化剂",
    "note": "多晶硅2027仍负增长",
-   "flow_confirm": ""
+   "flow_confirm": "",
+   "term_signal": ""
   }
  ],
  "summary": {
@@ -998,7 +1138,7 @@
   ],
   "alerts": [
    "铜(分位95%历史高位+持仓20日-24.5%多头获利离场=回调进行中，符合等回调)",
-   "焦煤(口岸140万吨极低库存是最大反向风险)",
+   "焦煤(⚠️近月升水7%现货仍紧(含冬季季节性)，做空最大反向风险)",
    "原油(谈判突破则溢价快速崩塌)",
    "甲醇(⚠️量仓背离：高位放量(1.62)+增仓(6.7%)但空头进攻=空头高位建仓，多头谨慎)",
    "碳酸锂(低位放量(1.42)+AR1=0.968极高=临界恐慌底确认，等止跌/减仓信号)"

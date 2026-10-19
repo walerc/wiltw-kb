@@ -33,6 +33,9 @@ tr:hover td { background: #1a2028; }
 .ar1-hot { color: #d29922; font-weight: 700; }
 .vol-squeeze { color: #d29922; font-weight: 700; }
 .vol-expand { color: #ff7b72; font-weight: 700; }
+.term-back { color: #ff5050; font-weight: 600; }
+.term-cont { color: #00c864; font-weight: 600; }
+.term-flat { color: #8b949e; }
 .stage { color: #9da7b3; }
 .driver { color: #8b949e; font-size: 0.75rem; line-height: 1.4; }
 .sum-card { display: inline-block; vertical-align: top; width: 32%; margin-right: 1%; background: #1a2028; border: 1px solid #30363d; border-radius: 8px; padding: 0.8rem 1rem; }
@@ -55,7 +58,7 @@ tr:hover td { background: #1a2028; }
   <div id="sectors"></div>
 
   <div class="note">
-    字段说明：<b>分位</b>=当前价在近3年历史区间的百分位（≥80高位/≤20低位）；<b>MA</b>=价格在 MA20/MA60 上(↑)下(↓)方；<b>量仓</b>=量价配合四象限+量比+5日持仓变化（多头进攻=放量增仓涨/空头进攻=放量增仓跌/空头回补=虚涨/多头离场=减仓跌）；<b>临界慢化</b>=波动率状态+AR(1)自相关系数（AR1≥0.95=恢复力弱、逼近跃迁）；<b>临界度</b>=逼近相变的程度（高=脆弱，警惕双向暴动）；<b>方向</b>=涌现状态下的做多/做空/观望建议。<br>
+    字段说明：<b>分位</b>=当前价在近3年历史区间的百分位（≥80高位/≤20低位）；<b>MA</b>=价格在 MA20/MA60 上(↑)下(↓)方；<b>量仓</b>=量价配合四象限+量比+5日持仓变化（多头进攻=放量增仓涨/空头进攻=放量增仓跌/空头回补=虚涨/多头离场=减仓跌）；<b>临界慢化</b>=波动率状态+AR(1)自相关系数（AR1≥0.95=恢复力弱、逼近跃迁）；<b>期限结构</b>=主力vs次主力合约升水率（正=Backwardation现货紧张，负=Contango供过于求，注意农产品含季节性）；<b>临界度</b>=逼近相变的程度（高=脆弱，警惕双向暴动）；<b>方向</b>=涌现状态下的做多/做空/观望建议。<br>
     方法论：涌现视角五洞见——尺度分离(什么尺度看什么信号) · 临界相变(极端分位=相变标记) · 时滞传导(当下观察≠当下兑现) · 不可还原(因子加总≠结论) · 反馈环+肥尾(趋势跟随vs逆向，留相变后路)。
   </div>
 </div>
@@ -89,6 +92,14 @@ function critSlow(c) {
   else parts.push('<span class="neu">' + (vs || '—') + '</span>');
   if (c.ar1 != null) parts.push('<span class="' + (c.ar1 >= 0.95 ? 'ar1-hot' : 'neu') + '">AR1=' + c.ar1 + '</span>');
   return parts.join('<br>');
+}
+function termCell(c) {
+  if (c.term_spread_pct == null) return '<span class="neu">—</span>';
+  var cls = c.term_structure === 'Backwardation' ? 'term-back' : (c.term_structure === 'Contango' ? 'term-cont' : 'term-flat');
+  var sign = c.term_spread_pct > 0 ? '+' : '';
+  var html = '<span class="' + cls + '">' + sign + c.term_spread_pct + '%</span>';
+  if (c.main_contract) html += '<br><span class="neu" style="font-size:0.68rem">' + c.main_contract + '/' + c.second_contract + '</span>';
+  return html;
 }
 
 fetch('emergence_scan.json?t=' + Date.now())
@@ -126,10 +137,10 @@ function renderSectors(list) {
     if (!items.length) return;
     html += '<h2>' + sec + '</h2><div class="card"><table><thead><tr>'
       + '<th>品种</th><th>最新价</th><th>3年分位</th><th>MA</th><th>20d动量</th><th>YTD</th>'
-      + '<th>量仓</th><th>临界慢化</th>'
+      + '<th>量仓</th><th>临界慢化</th><th>期限结构</th>'
       + '<th>尺度周期</th><th>涌现阶段</th><th>临界</th><th>方向</th><th>驱动逻辑</th></tr></thead><tbody>';
     items.forEach(function(c) {
-      if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=12 class="neu">获取失败</td></tr>'; return; }
+      if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=13 class="neu">获取失败</td></tr>'; return; }
       var ma = (c.above_ma20 ? '↑' : '↓') + (c.above_ma60 ? '↑' : '↓');
       var flow = flowBadge(c.flow_quad) + '<br><span class="neu" style="font-size:0.7rem">量比' + (c.volume_ratio != null ? c.volume_ratio : '—') + ' 仓' + (c.hold_chg_5 != null ? (c.hold_chg_5 > 0 ? '+' : '') + c.hold_chg_5 + '%' : '—') + '</span>';
       html += '<tr>'
@@ -141,11 +152,12 @@ function renderSectors(list) {
         + '<td class="' + (c.ytd >= 0 ? 'up' : 'down') + '">' + (c.ytd != null ? (c.ytd > 0 ? '+' : '') + c.ytd + '%' : '—') + '</td>'
         + '<td>' + flow + '</td>'
         + '<td>' + critSlow(c) + '</td>'
+        + '<td>' + termCell(c) + '</td>'
         + '<td class="stage">' + (c.scale || '') + '</td>'
         + '<td class="stage">' + (c.stage || '') + '</td>'
         + '<td>' + critBadge(c.crit) + '</td>'
         + '<td>' + dirBadge(c.dir) + '</td>'
-        + '<td class="driver">' + (c.driver || '') + (c.note ? '<br><span style="color:#d29922">' + c.note + '</span>' : '') + (c.flow_confirm ? '<br><span style="color:' + (c.flow_confirm.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.flow_confirm.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.flow_confirm + '</span>' : '') + '</td>'
+        + '<td class="driver">' + (c.driver || '') + (c.note ? '<br><span style="color:#d29922">' + c.note + '</span>' : '') + (c.flow_confirm ? '<br><span style="color:' + (c.flow_confirm.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.flow_confirm.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.flow_confirm + '</span>' : '') + (c.term_signal ? '<br><span style="color:' + (c.term_signal.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.term_signal.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.term_signal + '</span>' : '') + '</td>'
         + '</tr>';
     });
     html += '</tbody></table></div>';

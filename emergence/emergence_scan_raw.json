@@ -29,7 +29,11 @@
    "hold_chg_5": -2.4,
    "hold_chg_20": 52.2,
    "flow_quad": "多头离场",
-   "ar1": 0.939
+   "ar1": 0.939,
+   "term_spread_pct": -0.26,
+   "term_structure": "平坦",
+   "main_contract": "AU2612",
+   "second_contract": "AU2702"
   },
   {
    "sym": "AG0",
@@ -57,7 +61,11 @@
    "hold_chg_5": -2.6,
    "hold_chg_20": 49.4,
    "flow_quad": "多头离场",
-   "ar1": 0.906
+   "ar1": 0.906,
+   "term_spread_pct": -0.26,
+   "term_structure": "平坦",
+   "main_contract": "AG2612",
+   "second_contract": "AG2702"
   },
   {
    "sym": "CU0",
@@ -85,7 +93,11 @@
    "hold_chg_5": -7.9,
    "hold_chg_20": -24.5,
    "flow_quad": "多头离场",
-   "ar1": 0.899
+   "ar1": 0.899,
+   "term_spread_pct": 0.65,
+   "term_structure": "Backwardation",
+   "main_contract": "CU2611",
+   "second_contract": "CU2612"
   },
   {
    "sym": "AL0",
@@ -113,7 +125,11 @@
    "hold_chg_5": -18.2,
    "hold_chg_20": -10.8,
    "flow_quad": "多头离场",
-   "ar1": 0.936
+   "ar1": 0.936,
+   "term_spread_pct": -1.46,
+   "term_structure": "Contango",
+   "main_contract": "AL2612",
+   "second_contract": "AL2611"
   },
   {
    "sym": "ZN0",
@@ -141,7 +157,11 @@
    "hold_chg_5": -2.3,
    "hold_chg_20": -28.5,
    "flow_quad": "多头离场",
-   "ar1": 0.949
+   "ar1": 0.949,
+   "term_spread_pct": -0.06,
+   "term_structure": "平坦",
+   "main_contract": "ZN2612",
+   "second_contract": "ZN2611"
   },
   {
    "sym": "NI0",
@@ -169,7 +189,11 @@
    "hold_chg_5": 11.9,
    "hold_chg_20": 39.0,
    "flow_quad": "空头进攻",
-   "ar1": 0.952
+   "ar1": 0.952,
+   "term_spread_pct": 0.19,
+   "term_structure": "平坦",
+   "main_contract": "NI2612",
+   "second_contract": "NI2611"
   },
   {
    "sym": "SN0",
@@ -197,7 +221,11 @@
    "hold_chg_5": -8.1,
    "hold_chg_20": -15.2,
    "flow_quad": "多头离场",
-   "ar1": 0.902
+   "ar1": 0.902,
+   "term_spread_pct": 0.56,
+   "term_structure": "Backwardation",
+   "main_contract": "SN2611",
+   "second_contract": "SN2612"
   },
   {
    "sym": "AO0",
@@ -225,7 +253,11 @@
    "hold_chg_5": 30.8,
    "hold_chg_20": 46.7,
    "flow_quad": "空头进攻",
-   "ar1": 0.782
+   "ar1": 0.782,
+   "term_spread_pct": -0.64,
+   "term_structure": "Contango",
+   "main_contract": "AO2701",
+   "second_contract": "AO2702"
   },
   {
    "sym": "RB0",
@@ -253,7 +285,11 @@
    "hold_chg_5": 4.0,
    "hold_chg_20": 9.0,
    "flow_quad": "空头进攻",
-   "ar1": 0.928
+   "ar1": 0.928,
+   "term_spread_pct": -0.1,
+   "term_structure": "平坦",
+   "main_contract": "RB2701",
+   "second_contract": "RB2703"
   },
   {
    "sym": "HC0",
@@ -281,7 +317,11 @@
    "hold_chg_5": 6.9,
    "hold_chg_20": 13.8,
    "flow_quad": "空头进攻",
-   "ar1": 0.942
+   "ar1": 0.942,
+   "term_spread_pct": -0.28,
+   "term_structure": "平坦",
+   "main_contract": "HC2701",
+   "second_contract": "HC2703"
   },
   {
    "sym": "I0",
@@ -309,7 +349,11 @@
    "hold_chg_5": 3.4,
    "hold_chg_20": 4.3,
    "flow_quad": "空头进攻",
-   "ar1": 0.925
+   "ar1": 0.925,
+   "term_spread_pct": 1.11,
+   "term_structure": "Backwardation",
+   "main_contract": "I2701",
+   "second_contract": "I2705"
   },
   {
    "sym": "JM0",
@@ -337,7 +381,11 @@
    "hold_chg_5": -0.8,
    "hold_chg_20": -19.6,
    "flow_quad": "多头离场",
-   "ar1": 0.973
+   "ar1": 0.973,
+   "term_spread_pct": 7.0,
+   "term_structure": "Backwardation",
+   "main_contract": "JM2701",
+   "second_contract": "JM2705"
   },
   {
    "sym": "J0",
@@ -365,7 +413,11 @@
    "hold_chg_5": -1.8,
    "hold_chg_20": -20.7,
    "flow_quad": "多头离场",
-   "ar1": 0.963
+   "ar1": 0.963,
+   "term_spread_pct": -0.36,
+   "term_structure": "平坦",
+   "main_contract": "J2701",
+   "second_contract": "J2611"
   },
   {
    "sym": "SC0",
@@ -393,7 +445,11 @@
    "hold_chg_5": 39.3,
    "hold_chg_20": -4.4,
    "flow_quad": "空头进攻",
-   "ar1": 0.96
+   "ar1": 0.96,
+   "term_spread_pct": 0.91,
+   "term_structure": "Backwardation",
+   "main_contract": "SC2612",
+   "second_contract": "SC2701"
   },
   {
    "sym": "TA0",
@@ -421,7 +477,11 @@
    "hold_chg_5": -3.4,
    "hold_chg_20": -1.0,
    "flow_quad": "多头离场",
-   "ar1": 0.921
+   "ar1": 0.921,
+   "term_spread_pct": 2.71,
+   "term_structure": "Backwardation",
+   "main_contract": "TA2701",
+   "second_contract": "TA2703"
   },
   {
    "sym": "MA0",
@@ -449,7 +509,11 @@
    "hold_chg_5": 6.7,
    "hold_chg_20": 50.8,
    "flow_quad": "空头进攻",
-   "ar1": 0.933
+   "ar1": 0.933,
+   "term_spread_pct": -2.2,
+   "term_structure": "Contango",
+   "main_contract": "MA2701",
+   "second_contract": "MA2612"
   },
   {
    "sym": "FG0",
@@ -477,7 +541,11 @@
    "hold_chg_5": 8.4,
    "hold_chg_20": 27.0,
    "flow_quad": "空头进攻",
-   "ar1": 0.902
+   "ar1": 0.902,
+   "term_spread_pct": -1.83,
+   "term_structure": "Contango",
+   "main_contract": "FG2701",
+   "second_contract": "FG2703"
   },
   {
    "sym": "SA0",
@@ -505,7 +573,11 @@
    "hold_chg_5": 15.3,
    "hold_chg_20": 5.6,
    "flow_quad": "空头进攻",
-   "ar1": 0.924
+   "ar1": 0.924,
+   "term_spread_pct": -3.15,
+   "term_structure": "Contango",
+   "main_contract": "SA2701",
+   "second_contract": "SA2703"
   },
   {
    "sym": "RU0",
@@ -533,7 +605,11 @@
    "hold_chg_5": -13.6,
    "hold_chg_20": -8.0,
    "flow_quad": "多头离场",
-   "ar1": 0.97
+   "ar1": 0.97,
+   "term_spread_pct": 0.03,
+   "term_structure": "平坦",
+   "main_contract": "RU2701",
+   "second_contract": "RU2705"
   },
   {
    "sym": "M0",
@@ -561,7 +637,11 @@
    "hold_chg_5": -6.6,
    "hold_chg_20": -16.6,
    "flow_quad": "多头离场",
-   "ar1": 0.961
+   "ar1": 0.961,
+   "term_spread_pct": 12.06,
+   "term_structure": "Backwardation",
+   "main_contract": "M2701",
+   "second_contract": "M2705"
   },
   {
    "sym": "Y0",
@@ -589,7 +669,11 @@
    "hold_chg_5": -10.0,
    "hold_chg_20": -22.6,
    "flow_quad": "多头离场",
-   "ar1": 0.967
+   "ar1": 0.967,
+   "term_spread_pct": 1.61,
+   "term_structure": "Backwardation",
+   "main_contract": "Y2701",
+   "second_contract": "Y2705"
   },
   {
    "sym": "P0",
@@ -617,7 +701,11 @@
    "hold_chg_5": 3.6,
    "hold_chg_20": 3.0,
    "flow_quad": "空头进攻",
-   "ar1": 0.949
+   "ar1": 0.949,
+   "term_spread_pct": -5.64,
+   "term_structure": "Contango",
+   "main_contract": "P2701",
+   "second_contract": "P2705"
   },
   {
    "sym": "SR0",
@@ -645,7 +733,11 @@
    "hold_chg_5": -1.2,
    "hold_chg_20": -17.0,
    "flow_quad": "多头离场",
-   "ar1": 0.958
+   "ar1": 0.958,
+   "term_spread_pct": -1.46,
+   "term_structure": "Contango",
+   "main_contract": "SR2701",
+   "second_contract": "SR2705"
   },
   {
    "sym": "CF0",
@@ -673,7 +765,11 @@
    "hold_chg_5": 6.0,
    "hold_chg_20": 12.1,
    "flow_quad": "多头进攻",
-   "ar1": 0.966
+   "ar1": 0.966,
+   "term_spread_pct": 1.38,
+   "term_structure": "Backwardation",
+   "main_contract": "CF2701",
+   "second_contract": "CF2705"
   },
   {
    "sym": "C0",
@@ -701,7 +797,11 @@
    "hold_chg_5": 16.5,
    "hold_chg_20": -7.3,
    "flow_quad": "多头进攻",
-   "ar1": 0.941
+   "ar1": 0.941,
+   "term_spread_pct": 1.3,
+   "term_structure": "Backwardation",
+   "main_contract": "C2701",
+   "second_contract": "C2611"
   },
   {
    "sym": "LH0",
@@ -729,7 +829,11 @@
    "hold_chg_5": 24.5,
    "hold_chg_20": -23.6,
    "flow_quad": "空头进攻",
-   "ar1": 0.941
+   "ar1": 0.941,
+   "term_spread_pct": 1.08,
+   "term_structure": "Backwardation",
+   "main_contract": "LH2701",
+   "second_contract": "LH2703"
   },
   {
    "sym": "LC0",
@@ -757,7 +861,11 @@
    "hold_chg_5": 0.9,
    "hold_chg_20": 4.1,
    "flow_quad": "空头进攻",
-   "ar1": 0.968
+   "ar1": 0.968,
+   "term_spread_pct": 2.5,
+   "term_structure": "Backwardation",
+   "main_contract": "LC2701",
+   "second_contract": "LC2705"
   },
   {
    "sym": "SI0",
@@ -785,7 +893,11 @@
    "hold_chg_5": -18.4,
    "hold_chg_20": -44.5,
    "flow_quad": "空头回补",
-   "ar1": 0.895
+   "ar1": 0.895,
+   "term_spread_pct": 2.35,
+   "term_structure": "Backwardation",
+   "main_contract": "SI2612",
+   "second_contract": "SI2611"
   }
  ]
 }
