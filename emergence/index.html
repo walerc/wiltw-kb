@@ -103,7 +103,7 @@ tr:hover td { background: #1a2028; }
           <tr><td>方向</td><td>基本面涌现建议（中长期，有供需/成本/周期研究支撑）</td><td>做多 / 做空 / 观望 / 等回调 / 等右侧 等。与下方"方向信号"(技术面)对照：✅量化印证 / ⚠️背离 / ⏳技术回调中</td></tr>
           <tr><td>操作建议</td><td>把方向+量仓+一致性翻译成动作，围绕"趋势中继回调管理"自动生成：<b>暂离避险</b>(资金撤退+破位) / <b>减仓观察</b>(资金离场) / <b>持有观察企稳可回补</b>(健康回调) / <b>持有回调加仓</b>(资金进场+回调) / <b>持有顺势</b>(技术印证) / 左侧试探/等右侧/等回调/区间高抛低吸</td><td>方向列内 📌 彩色标签（红=减仓避险/金=加仓/绿=持有），<span class="amber">点击弹出操作详解</span>（依据+动作+风险线）</td></tr>
           <tr><td>仓位管理</td><td>四层：<b>基准仓位</b>(以操作建议定) + <b>波动调节</b>(VIX类比：波动率历史分位≥80%降仓/≤20%升仓) + <b>IV-RV背离</b>(隐含波动率vs已实现波动率，见下行) + <b>小时线时机</b>(60分钟线量价：缩量企稳=加仓成熟/放量走弱=时机未到) + <b>加减仓节奏</b>(MA10/20与20日高低点：回调至支撑缩量企稳→加1/4仓 / 反弹至高点放量滞涨→减1/3仓 / 跌破MA60→清仓)</td><td>点击 📌 操作建议弹窗内"仓位管理"section（基准仓位+波动调节+IV-RV背离+小时线时机+加仓点+减仓点+止损位）</td></tr>
-          <tr><td>IV-RV背离</td><td class="formula">IV(平值期权隐含波动率) − RV(20日年化已实现波动率) = 波动率风险溢价；另对比 IV 近10日变化方向 vs 价格近10日方向</td><td><span class="red">IV大幅溢价RV(≥10pp)</span>=期权定价过高不确定性、情绪过度，警惕反转 · <span class="amber">涨时IV降</span>=多头动能衰竭(顶背离) · <span class="amber">跌时IV降</span>=恐慌消退(底背离) · <span class="green">IV大幅低于RV(≤−10pp)</span>=波动低估。⚠️大商所(豆粕/棕榈油/焦煤/焦炭/铁矿石/玉米/生猪/豆油)无期权IV数据</td></tr>
+          <tr><td>IV-RV背离</td><td class="formula">IV(平值期权隐含波动率) vs RV(20日年化已实现波动率)。核心：IV=预测+风险溢价(非纯预测)，故IV&gt;RV是常态，须看 <b>RV历史分位 × VRP(IV−RV)</b> 四象限；方差溢价=(IV/100)²−(RV/100)²</td><td><span class="red">RV历史高位(≥80分位)+IV未跟随(VRP≤2pp)</span>=波动均值回归/跳跃驱动→行情极值区，顶/底由价格位置+动量方向定 · <span class="amber">涨时IV降</span>=顶背离(动能衰竭) · <span class="amber">跌时IV降</span>=底背离(恐慌消退) · <span class="amber">RV低位+IV溢价</span>=蓄势待变盘 · <span class="green">IV大幅低于RV</span>=波动低估。⚠️大商所(豆粕/棕榈油/焦煤/焦炭/铁矿石/玉米/生猪/豆油)无期权IV数据</td></tr>
         </tbody>
       </table>
     </details>
@@ -178,7 +178,8 @@ function ivRvCell(c) {
   var label = v.label || 'IV-RV正常';
   var color = label.indexOf('⚠️') >= 0 ? '#ff7b72' : (label === 'IV溢价偏高' || label === 'IV低估' ? '#d29922' : '#8b949e');
   var html = 'IV <b>' + v.iv_atm + '%</b>';
-  html += '<br><span class="neu" style="font-size:0.68rem">RV ' + v.rv + '% · ' + (v.vrp >= 0 ? '+' : '') + v.vrp + 'pp</span>';
+  var rvColor = (v.rv_pctile != null) ? (v.rv_pctile >= 80 ? '#ff7b72' : (v.rv_pctile <= 20 ? '#3fb950' : '#9da7b3')) : '#9da7b3';
+  html += '<br><span class="neu" style="font-size:0.68rem">RV ' + v.rv + '% <span style="color:' + rvColor + '">(' + (v.rv_pctile != null ? v.rv_pctile + '%分位' : '—') + ')</span> · ' + (v.vrp >= 0 ? '+' : '') + v.vrp + 'pp</span>';
   if (label !== 'IV-RV正常') html += '<br><span style="color:' + color + ';font-weight:600;font-size:0.7rem">' + label + '</span>';
   return html;
 }
