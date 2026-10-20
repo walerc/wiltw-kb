@@ -103,6 +103,7 @@ tr:hover td { background: #1a2028; }
           <tr><td>方向</td><td>基本面涌现建议（中长期，有供需/成本/周期研究支撑）</td><td>做多 / 做空 / 观望 / 等回调 / 等右侧 等。与下方"方向信号"(技术面)对照：✅量化印证 / ⚠️背离 / ⏳技术回调中</td></tr>
           <tr><td>操作建议</td><td>把方向+量仓+一致性翻译成动作，围绕"趋势中继回调管理"自动生成：<b>暂离避险</b>(资金撤退+破位) / <b>减仓观察</b>(资金离场) / <b>持有观察企稳可回补</b>(健康回调) / <b>持有回调加仓</b>(资金进场+回调) / <b>持有顺势</b>(技术印证) / 左侧试探/等右侧/等回调/区间高抛低吸</td><td>方向列内 📌 彩色标签（红=减仓避险/金=加仓/绿=持有），<span class="amber">点击弹出操作详解</span>（依据+动作+风险线）</td></tr>
           <tr><td>仓位管理</td><td>四层：<b>基准仓位</b>(以操作建议定) + <b>波动调节</b>(VIX类比：波动率历史分位≥80%降仓/≤20%升仓) + <b>IV-RV背离</b>(隐含波动率vs已实现波动率，见下行) + <b>小时线时机</b>(60分钟线量价：缩量企稳=加仓成熟/放量走弱=时机未到) + <b>加减仓节奏</b>(MA10/20与20日高低点：回调至支撑缩量企稳→加1/4仓 / 反弹至高点放量滞涨→减1/3仓 / 跌破MA60→清仓)</td><td>点击 📌 操作建议弹窗内"仓位管理"section（基准仓位+波动调节+IV-RV背离+小时线时机+加仓点+减仓点+止损位）</td></tr>
+          <tr><td>拥挤度</td><td class="formula">会员持仓排名(前20席位)：多空比(偏离1的程度)×50 + 主导方集中度(前5席位÷前20)×50，方向决定正负号</td><td><span class="red">+100</span>=多头高度拥挤(看跌反转) · <span class="green">−100</span>=空头高度拥挤(看涨反转) · 0=均衡。席位增减背离(多头减仓+空头增仓=顶部松动)为领先信号。<span class="amber">点击单元格查看详解</span></td></tr>
           <tr><td>IV-RV背离</td><td class="formula">IV(平值期权隐含波动率) vs RV(20日年化已实现波动率)。核心：IV=预测+风险溢价(非纯预测)，故IV&gt;RV是常态，须看 <b>RV历史分位 × VRP(IV−RV)</b> 四象限；方差溢价=(IV/100)²−(RV/100)²</td><td><span class="red">RV历史高位(≥80分位)+IV未跟随(VRP≤2pp)</span>=波动均值回归/跳跃驱动→行情极值区，顶/底由价格位置+动量方向定 · <span class="amber">涨时IV降</span>=顶背离(动能衰竭) · <span class="amber">跌时IV降</span>=底背离(恐慌消退) · <span class="amber">RV低位+IV溢价</span>=蓄势待变盘 · <span class="green">IV大幅低于RV</span>=波动低估。⚠️大商所(豆粕/棕榈油/焦煤/焦炭/铁矿石/玉米/生猪/豆油)无期权IV数据</td></tr>
         </tbody>
       </table>
@@ -172,6 +173,48 @@ function termCell(c) {
   if (c.main_contract) html += '<br><span class="neu" style="font-size:0.68rem">' + c.main_contract + '/' + c.second_contract + '</span>';
   return html;
 }
+function crowdCell(c) {
+  if (!c.crowd || c.crowd.score == null) return '<span class="neu">—</span>';
+  var cd = c.crowd;
+  var score = cd.score;
+  var color = score >= 60 ? '#ff5050' : (score >= 35 ? '#ff7b72' : (score <= -60 ? '#00c864' : (score <= -35 ? '#3fb950' : '#8b949e')));
+  var pct = Math.min(100, Math.abs(score));
+  var w = pct, left = score > 0 ? 50 : 50 - w;
+  var html = '<span class="slow-click" title="点击查看拥挤度详解" onclick="showCrowdModal(\\'' + c.name + '\\')">';
+  html += '<span style="color:' + color + ';font-weight:700">' + score + '</span>';
+  html += '<br><span style="font-size:0.68rem;color:' + color + '">' + (cd.label || '') + '</span>';
+  html += '</span>';
+  return html;
+}
+
+function showCrowdModal(name) {
+  if (!SCAN_DATA) return;
+  var c = null;
+  for (var i = 0; i < SCAN_DATA.commodities.length; i++) {
+    if (SCAN_DATA.commodities[i].name === name) { c = SCAN_DATA.commodities[i]; break; }
+  }
+  if (!c || !c.crowd) return;
+  var cd = c.crowd;
+  var html = '<h3>' + c.name + ' · 持仓拥挤度详解' + (cd.contract ? ' (' + cd.contract + ')' : '') + '</h3>';
+  var score = cd.score || 0;
+  var color = score >= 60 ? '#ff5050' : (score >= 35 ? '#ff7b72' : (score <= -60 ? '#00c864' : (score <= -35 ? '#3fb950' : '#8b949e')));
+  html += '<p style="font-size:0.95rem"><b style="color:' + color + '">' + (cd.label || '') + '</b> 拥挤度评分 <b style="color:' + color + '">' + score + '</b></p>';
+  html += '<p style="font-size:0.82rem"><span class="kv"><b>多空比</b> ' + (cd.lsr != null ? cd.lsr : '—') + '</span>' +
+          '<span class="kv"><b>多单集中度</b> ' + (cd.cr5_long != null ? (cd.cr5_long * 100).toFixed(1) + '%' : '—') + '</span>' +
+          '<span class="kv"><b>空单集中度</b> ' + (cd.cr5_short != null ? (cd.cr5_short * 100).toFixed(1) + '%' : '—') + '</span></p>';
+  if (cd.diverge) html += '<div class="interp">⚠️ ' + cd.diverge + '</div>';
+  var interp = '';
+  if (score >= 60) interp = '多头高度拥挤：前20席位多单远超空单且集中在少数大席位，边际买盘枯竭，警惕大级别下跌反转。';
+  else if (score <= -60) interp = '空头高度拥挤：前20席位空单远超多单且集中在少数大席位，边际卖盘枯竭，警惕大级别上涨反转。';
+  else if (score >= 35) interp = '多头偏拥挤：多单占优，趋势有惯性但需警惕高位回调。';
+  else if (score <= -35) interp = '空头偏拥挤：空单占优，需警惕空头回补反弹。';
+  else interp = '持仓均衡：多空席位分布相对均衡，拥挤度风险较低。';
+  html += '<div class="interp">' + interp + '</div>';
+  html += '<div class="dim" style="margin-top:0.8rem">拥挤度 = 席位集中度 + 多空比 + 席位增减背离（会员持仓排名前20席位）。数据源：上期所/郑商所/广期所/大商所(新浪)会员持仓排名。非投资指令。</div>';
+  document.getElementById('slowModalBody').innerHTML = html;
+  document.getElementById('slowModal').style.display = 'flex';
+}
+
 function ivRvCell(c) {
   if (!c.iv_rv) return '<span class="neu">—</span>';
   var v = c.iv_rv;
@@ -223,7 +266,7 @@ function renderSectors(list) {
     if (!items.length) return;
     html += '<h2>' + sec + '</h2><div class="card"><table><thead><tr>'
       + '<th>品种</th><th>最新价</th><th>3年分位</th><th>MA</th><th>20d动量</th><th>YTD</th>'
-      + '<th>量仓</th><th>临界慢化</th><th>期限结构</th><th>IV-RV</th>'
+      + '<th>量仓</th><th>拥挤度</th><th>临界慢化</th><th>期限结构</th><th>IV-RV</th>'
       + '<th>尺度周期</th><th>涌现阶段</th><th>涌现相位</th><th>方向</th><th>驱动逻辑</th></tr></thead><tbody>';
     items.forEach(function(c) {
       if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=14 class="neu">获取失败</td></tr>'; return; }
@@ -237,6 +280,7 @@ function renderSectors(list) {
         + '<td class="' + (c.mom_20d >= 0 ? 'up' : 'down') + '">' + (c.mom_20d != null ? (c.mom_20d > 0 ? '+' : '') + c.mom_20d + '%' : '—') + '</td>'
         + '<td class="' + (c.ytd >= 0 ? 'up' : 'down') + '">' + (c.ytd != null ? (c.ytd > 0 ? '+' : '') + c.ytd + '%' : '—') + '</td>'
         + '<td>' + flow + '</td>'
+        + '<td>' + crowdCell(c) + '</td>'
         + '<td>' + critSlow(c) + '</td>'
         + '<td>' + termCell(c) + '</td>'
         + '<td>' + ivRvCell(c) + '</td>'
