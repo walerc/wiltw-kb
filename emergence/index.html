@@ -177,7 +177,7 @@ function ivRvCell(c) {
   var v = c.iv_rv;
   var label = v.label || 'IV-RV正常';
   var color = label.indexOf('⚠️') >= 0 ? '#ff7b72' : (label === 'IV溢价偏高' || label === 'IV低估' ? '#d29922' : '#8b949e');
-  var html = 'IV <b>' + v.iv_atm + '%</b>';
+  var html = 'IV <b>' + v.iv_atm + '%</b>' + (v.iv_source === '新浪反推' ? '<span style="color:#d29922;font-size:0.6rem" title="Black-76反推">*</span>' : '');
   var rvColor = (v.rv_pctile != null) ? (v.rv_pctile >= 80 ? '#ff7b72' : (v.rv_pctile <= 20 ? '#3fb950' : '#9da7b3')) : '#9da7b3';
   html += '<br><span class="neu" style="font-size:0.68rem">RV ' + v.rv + '% <span style="color:' + rvColor + '">(' + (v.rv_pctile != null ? v.rv_pctile + '%分位' : '—') + ')</span> · ' + (v.vrp >= 0 ? '+' : '') + v.vrp + 'pp</span>';
   if (label !== 'IV-RV正常') html += '<br><span style="color:' + color + ';font-weight:600;font-size:0.7rem">' + label + '</span>';

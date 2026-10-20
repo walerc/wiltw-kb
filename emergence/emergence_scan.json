@@ -83,6 +83,7 @@
     19.49,
     20.33
    ],
+   "iv_source": "交易所官方",
    "scale": "康波/金融",
    "stage": "均值回归(回调)",
    "crit": "中",
@@ -121,6 +122,7 @@
     "rv_pctile": 72.9,
     "iv_delta": 4.68,
     "mom_10d": -0.2,
+    "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
      "价格持平但IV升(Δ+4.7pp)：期权定价即将到来的波动",
@@ -218,6 +220,7 @@
     36.61,
     38.05
    ],
+   "iv_source": "交易所官方",
    "scale": "康波/金融",
    "stage": "深度回调",
    "crit": "中",
@@ -255,6 +258,7 @@
     "rv_pctile": 89.1,
     "iv_delta": 1.24,
     "mom_10d": -6.6,
+    "iv_source": "交易所官方",
     "label": "⚠️ 极值区·警惕反弹",
     "detail": [
      "RV历史高位(分位89%)+IV未跟随(VRP+0.4pp)：波动透支、跌势中，警惕反弹",
@@ -348,6 +352,7 @@
     17.52,
     18.94
    ],
+   "iv_source": "交易所官方",
    "scale": "朱格拉capex",
    "stage": "趋势中段偏末端",
    "crit": "高",
@@ -387,6 +392,7 @@
     "rv_pctile": 22.7,
     "iv_delta": 1.52,
     "mom_10d": 0.3,
+    "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
      "方差溢价(学术口径)：σ²IV−σ²RV = +0.0270"
@@ -483,6 +489,7 @@
     12.96,
     12.92
    ],
+   "iv_source": "交易所官方",
    "scale": "政策/产能",
    "stage": "趋势中继(回调)",
    "crit": "中",
@@ -522,6 +529,7 @@
     "rv_pctile": 41.5,
     "iv_delta": -0.74,
     "mom_10d": -4.1,
+    "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
      "方差溢价(学术口径)：σ²IV−σ²RV = +0.0014"
@@ -618,6 +626,7 @@
     15.81,
     16.2
    ],
+   "iv_source": "交易所官方",
    "scale": "基钦库存",
    "stage": "回调",
    "crit": "低",
@@ -655,6 +664,7 @@
     "rv_pctile": 16.8,
     "iv_delta": 1.41,
     "mom_10d": -3.8,
+    "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
      "RV低位(分位%.0f%%)：波动平静期",
@@ -747,6 +757,7 @@
     23.56,
     24.81
    ],
+   "iv_source": "交易所官方",
    "scale": "供给过剩",
    "stage": "下跌末端",
    "crit": "中",
@@ -784,6 +795,7 @@
     "rv_pctile": 13.8,
     "iv_delta": -5.65,
     "mom_10d": -5.3,
+    "iv_source": "交易所官方",
     "label": "⚠️ 底背离",
     "detail": [
      "跌时IV降(Δ-5.7pp)：恐慌消退，警惕见底反弹",
@@ -877,6 +889,7 @@
     34.13,
     36.3
    ],
+   "iv_source": "交易所官方",
    "scale": "供给冲击",
    "stage": "趋势中继(回调)",
    "crit": "中",
@@ -916,6 +929,7 @@
     "rv_pctile": 71.2,
     "iv_delta": -8.2,
     "mom_10d": -7.0,
+    "iv_source": "交易所官方",
     "label": "⚠️ 底背离",
     "detail": [
      "跌时IV降(Δ-8.2pp)：恐慌消退，警惕见底反弹",
@@ -1013,6 +1027,7 @@
     18.64,
     19.03
    ],
+   "iv_source": "交易所官方",
    "scale": "供给过剩",
    "stage": "下跌末端",
    "crit": "低",
@@ -1050,6 +1065,7 @@
     "rv_pctile": 27.8,
     "iv_delta": -2.5,
     "mom_10d": -2.2,
+    "iv_source": "交易所官方",
     "label": "⚠️ 底背离",
     "detail": [
      "跌时IV降(Δ-2.5pp)：恐慌消退，警惕见底反弹",
@@ -1142,6 +1158,7 @@
     11.96,
     12.05
    ],
+   "iv_source": "交易所官方",
    "scale": "地产/库存",
    "stage": "低位筑底(潜伏)",
    "crit": "中低",
@@ -1181,6 +1198,7 @@
     "rv_pctile": 5.4,
     "iv_delta": -0.1,
     "mom_10d": -1.2,
+    "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
      "RV低位(分位%.0f%%)：波动平静期",
@@ -1278,6 +1296,7 @@
     11.75,
     11.56
    ],
+   "iv_source": "交易所官方",
    "scale": "制造业周期",
    "stage": "低位震荡",
    "crit": "低",
@@ -1315,6 +1334,7 @@
     "rv_pctile": 0.2,
     "iv_delta": 0.47,
     "mom_10d": -1.4,
+    "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
      "RV低位(分位0%)但IV溢价(VRP+5.9pp)：期权定价即将到来的波动，蓄势/事件前，关注变盘",
@@ -1392,10 +1412,11 @@
    "second_contract": "I2705",
    "intraday_vol_state": "量平",
    "intraday_price_state": "走弱",
-   "iv_atm": null,
+   "iv_atm": 16.5,
    "iv_prev": null,
    "iv_delta": null,
    "iv_series": [],
+   "iv_source": "新浪反推",
    "scale": "海外矿山/库存",
    "stage": "下跌末端",
    "crit": "中高",
@@ -1426,7 +1447,21 @@
    "drv_lag": "即时",
    "drv_stage": "已触发",
    "emergence_phase": "跃迁中",
-   "iv_rv": null,
+   "iv_rv": {
+    "iv_atm": 16.5,
+    "rv": 14.7,
+    "vrp": 1.8,
+    "vrp_var": 0.0056,
+    "rv_pctile": 3.8,
+    "iv_delta": null,
+    "mom_10d": -3.2,
+    "iv_source": "新浪反推",
+    "label": "IV-RV正常",
+    "detail": [
+     "RV低位(分位%.0f%%)：波动平静期",
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0056"
+    ]
+   },
    "position_plan": [
     "基准仓位：50-80%（持有空单/顺势 · 相位 跃迁中）",
     "波动调节：波动率处 3.8% 历史低位 → 可上移一档（低波动=有加仓空间）",
@@ -1507,6 +1542,7 @@
    "iv_prev": null,
    "iv_delta": null,
    "iv_series": [],
+   "iv_source": null,
    "scale": "供给冲击/政策",
    "stage": "相变后顶部构筑",
    "crit": "高",
@@ -1618,6 +1654,7 @@
    "iv_prev": null,
    "iv_delta": null,
    "iv_series": [],
+   "iv_source": null,
    "scale": "成本驱动",
    "stage": "跟随焦煤顶部",
    "crit": "中高",
@@ -1740,6 +1777,7 @@
     57.95,
     60.7
    ],
+   "iv_source": "交易所官方",
    "scale": "地缘/库存",
    "stage": "高位宽幅震荡",
    "crit": "高(双向)",
@@ -1777,6 +1815,7 @@
     "rv_pctile": 95.4,
     "iv_delta": 18.98,
     "mom_10d": -1.9,
+    "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
      "RV历史高位(分位95%)且IV同步跟进(VRP+3.8pp)：波动获期权确认，趋势/恐慌进行中，未见背离",
@@ -1870,6 +1909,7 @@
     27.05,
     26.55
    ],
+   "iv_source": "交易所官方",
    "scale": "成本/产能",
    "stage": "趋势中继",
    "crit": "中",
@@ -1908,6 +1948,7 @@
     "rv_pctile": 95.8,
     "iv_delta": 0.64,
     "mom_10d": 2.0,
+    "iv_source": "交易所官方",
     "label": "⚠️ 极值区·警惕反转",
     "detail": [
      "RV历史高位(分位96%)+IV未跟随(VRP-13.6pp)：波动透支、行情处极值区，警惕反转",
@@ -2006,6 +2047,7 @@
     33.78,
     33.02
    ],
+   "iv_source": "交易所官方",
    "scale": "供给冲击/地缘",
    "stage": "逼空后段",
    "crit": "高(反向)",
@@ -2043,6 +2085,7 @@
     "rv_pctile": 94.0,
     "iv_delta": -4.32,
     "mom_10d": 6.9,
+    "iv_source": "交易所官方",
     "label": "⚠️ 极值区·警惕回调",
     "detail": [
      "RV历史高位(分位94%)+IV未跟随(VRP-14.5pp)：波动透支、涨势中，警惕回调",
@@ -2137,6 +2180,7 @@
     23.55,
     23.65
    ],
+   "iv_source": "交易所官方",
    "scale": "产能/地产竣工",
    "stage": "低位筑底(相变临界)",
    "crit": "中高",
@@ -2175,6 +2219,7 @@
     "rv_pctile": 47.8,
     "iv_delta": 0.68,
     "mom_10d": -3.8,
+    "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
      "方差溢价(学术口径)：σ²IV−σ²RV = +0.0011"
@@ -2271,6 +2316,7 @@
     24.47,
     24.47
    ],
+   "iv_source": "交易所官方",
    "scale": "产能过剩/地产",
    "stage": "潜伏期(磨底)",
    "crit": "中",
@@ -2308,6 +2354,7 @@
     "rv_pctile": 32.2,
     "iv_delta": -3.6,
     "mom_10d": -6.2,
+    "iv_source": "交易所官方",
     "label": "⚠️ 底背离",
     "detail": [
      "跌时IV降(Δ-3.6pp)：恐慌消退，警惕见底反弹",
@@ -2400,6 +2447,7 @@
     32.7,
     32.45
    ],
+   "iv_source": "交易所官方",
    "scale": "厄尔尼诺/供给",
    "stage": "趋势中段",
    "crit": "中",
@@ -2438,6 +2486,7 @@
     "rv_pctile": 61.2,
     "iv_delta": -9.43,
     "mom_10d": 2.2,
+    "iv_source": "交易所官方",
     "label": "⚠️ 顶背离",
     "detail": [
      "涨时IV降(Δ-9.4pp)：多头动能衰竭，警惕回调",
@@ -2521,10 +2570,11 @@
    "second_contract": "M2705",
    "intraday_vol_state": "放量",
    "intraday_price_state": "走弱",
-   "iv_atm": null,
+   "iv_atm": 12.98,
    "iv_prev": null,
    "iv_delta": null,
    "iv_series": [],
+   "iv_source": "新浪反推",
    "scale": "厄尔尼诺/供给",
    "stage": "趋势中继",
    "crit": "中",
@@ -2556,7 +2606,21 @@
    "drv_lag": "8-18月",
    "drv_stage": "累积中",
    "emergence_phase": "逼近临界",
-   "iv_rv": null,
+   "iv_rv": {
+    "iv_atm": 12.98,
+    "rv": 18.4,
+    "vrp": -5.4,
+    "vrp_var": -0.017,
+    "rv_pctile": 48.7,
+    "iv_delta": null,
+    "mom_10d": -2.3,
+    "iv_source": "新浪反推",
+    "label": "IV低估",
+    "detail": [
+     "IV低于RV(-5.4pp)：波动被低估",
+     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0170"
+    ]
+   },
    "position_plan": [
     "基准仓位：10-30%（减仓观察 · 相位 逼近临界）",
     "波动调节：波动率 48.7% 分位，正常",
@@ -2637,6 +2701,7 @@
    "iv_prev": null,
    "iv_delta": null,
    "iv_series": [],
+   "iv_source": null,
    "scale": "油脂周期",
    "stage": "趋势中段",
    "crit": "中",
@@ -2749,6 +2814,7 @@
    "iv_prev": null,
    "iv_delta": null,
    "iv_series": [],
+   "iv_source": null,
    "scale": "厄尔尼诺/供给",
    "stage": "趋势中继(主升浪未启动)",
    "crit": "中",
@@ -2872,6 +2938,7 @@
     11.75,
     11.7
    ],
+   "iv_source": "交易所官方",
    "scale": "糖周期",
    "stage": "低位企稳",
    "crit": "低",
@@ -2909,6 +2976,7 @@
     "rv_pctile": 42.1,
     "iv_delta": 2.08,
     "mom_10d": 0.1,
+    "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
      "价格持平但IV升(Δ+2.1pp)：期权定价即将到来的波动",
@@ -3001,6 +3069,7 @@
     8.76,
     10.46
    ],
+   "iv_source": "交易所官方",
    "scale": "种植周期",
    "stage": "中位震荡",
    "crit": "低",
@@ -3038,6 +3107,7 @@
     "rv_pctile": 30.7,
     "iv_delta": 1.51,
     "mom_10d": -1.3,
+    "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
      "方差溢价(学术口径)：σ²IV−σ²RV = +0.0004"
@@ -3114,10 +3184,11 @@
    "second_contract": "C2703",
    "intraday_vol_state": "缩量",
    "intraday_price_state": "企稳",
-   "iv_atm": null,
+   "iv_atm": 9.91,
    "iv_prev": null,
    "iv_delta": null,
    "iv_series": [],
+   "iv_source": "新浪反推",
    "scale": "种植周期",
    "stage": "低位企稳",
    "crit": "低",
@@ -3147,7 +3218,20 @@
    "drv_lag": "即时",
    "drv_stage": "累积中",
    "emergence_phase": "驱动累积",
-   "iv_rv": null,
+   "iv_rv": {
+    "iv_atm": 9.91,
+    "rv": 11.5,
+    "vrp": -1.6,
+    "vrp_var": -0.0034,
+    "rv_pctile": 54.2,
+    "iv_delta": null,
+    "mom_10d": 0.1,
+    "iv_source": "新浪反推",
+    "label": "IV-RV正常",
+    "detail": [
+     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0034"
+    ]
+   },
    "position_plan": [
     "观望品种，暂无仓位计划"
    ]
@@ -3223,6 +3307,7 @@
    "iv_prev": null,
    "iv_delta": null,
    "iv_series": [],
+   "iv_source": null,
    "scale": "猪周期",
    "stage": "下跌末端",
    "crit": "低",
@@ -3339,6 +3424,7 @@
     56.58,
     58.15
    ],
+   "iv_source": "交易所官方",
    "scale": "供给过剩出清",
    "stage": "下跌加速(恐慌底)",
    "crit": "高",
@@ -3377,6 +3463,7 @@
     "rv_pctile": 83.0,
     "iv_delta": -9.01,
     "mom_10d": -15.5,
+    "iv_source": "交易所官方",
     "label": "⚠️ 极值区·警惕反弹",
     "detail": [
      "RV历史高位(分位83%)+IV未跟随(VRP-8.6pp)：波动透支、跌势中，警惕反弹",
@@ -3468,6 +3555,7 @@
     19.1,
     18.24
    ],
+   "iv_source": "交易所官方",
    "scale": "产能过剩出清",
    "stage": "低位筑底区间",
    "crit": "中",
@@ -3505,6 +3593,7 @@
     "rv_pctile": 57.5,
     "iv_delta": 6.77,
     "mom_10d": 4.3,
+    "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
      "涨时IV升(Δ+6.8pp)：趋势加速(正常)",
