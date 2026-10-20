@@ -16,6 +16,7 @@ h2 { font-size: 1.1rem; color: #e0c068; margin: 1.8rem 0 0.6rem; padding-left: 0
 .card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 1rem 1.2rem; margin: 0.6rem 0; }
 .up { color: #ff5050; } .down { color: #00c864; } .neu { color: #8b949e; }
 table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+table.sector-table { table-layout: fixed; }
 th { background: #1f242c; color: #8b949e; text-align: left; padding: 0.5rem 0.6rem; font-weight: 600; border-bottom: 2px solid #30363d; white-space: nowrap; }
 td { padding: 0.5rem 0.6rem; border-bottom: 1px solid #21262d; vertical-align: middle; }
 td.driver { white-space: normal; word-break: break-word; max-width: 220px; }
@@ -307,7 +308,11 @@ function renderSectors(list) {
       return (pri[a.dir] != null ? pri[a.dir] : 5) - (pri[b.dir] != null ? pri[b.dir] : 5);
     });
     if (!items.length) return;
-    html += '<h2>' + sec + '</h2><div class="card"><table><thead><tr>'
+    html += '<h2>' + sec + '</h2><div class="card"><table class="sector-table"><colgroup>'
+      + '<col style="width:46px"><col style="width:62px"><col style="width:64px"><col style="width:40px"><col style="width:58px">'
+      + '<col style="width:84px"><col style="width:64px"><col style="width:72px"><col style="width:88px"><col style="width:88px"><col style="width:74px">'
+      + '<col style="width:64px"><col style="width:64px"><col style="width:64px"><col style="width:120px"><col style="width:170px">'
+      + '</colgroup><thead><tr>'
       + '<th>品种</th><th>最新价</th><th>3年分位</th><th>MA</th><th>YTD</th>'
       + '<th>量仓</th><th>拥挤度</th><th>基本面</th><th>临界慢化</th><th>期限结构</th><th>IV-RV</th>'
       + '<th>尺度周期</th><th>涌现阶段</th><th>涌现相位</th><th>方向</th><th>驱动逻辑</th></tr></thead><tbody>';
