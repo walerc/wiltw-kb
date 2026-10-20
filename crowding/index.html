@@ -28,10 +28,13 @@ tr:hover td { background: #1a2028; }
 .score-bar { display: inline-block; width: 80px; height: 8px; border-radius: 4px; background: #21262d; vertical-align: middle; margin-right: 6px; overflow: hidden; position: relative; }
 .score-bar .center { position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: #30363d; }
 .score-bar i { display: block; height: 100%; border-radius: 4px; }
-.sum-card { display: inline-block; vertical-align: top; width: 32%; margin-right: 1%; background: #1a2028; border: 1px solid #30363d; border-radius: 8px; padding: 0.8rem 1rem; }
-.sum-card h3 { font-size: 0.85rem; margin-bottom: 0.4rem; }
+.sum-row { display: flex; gap: 0.8rem; align-items: stretch; }
+.sum-card { flex: 1; min-width: 0; background: #1a2028; border: 1px solid #30363d; border-radius: 8px; padding: 0.8rem 1rem; }
+.sum-card h3 { font-size: 0.85rem; margin-bottom: 0.5rem; }
 .sum-card .item { font-size: 0.78rem; padding: 0.2rem 0; border-bottom: 1px dashed #21262d; }
 .sum-card .item:last-child { border-bottom: none; }
+.sum-card .chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.chip { display: inline-block; padding: 0.1rem 0.55rem; border-radius: 10px; font-size: 0.72rem; background: #21262d; color: #c9d1d9; line-height: 1.5; }
 .note { color: #6e7681; font-size: 0.76rem; margin-top: 0.8rem; line-height: 1.5; }
 .rule-panel { margin: 1rem 0 0.4rem; }
 .rule-panel summary { cursor: pointer; color: #e0c068; font-size: 0.88rem; font-weight: 600; padding: 0.6rem 0.8rem; background: #1a2028; border: 1px solid #30363d; border-radius: 8px; list-style: none; }
@@ -67,7 +70,7 @@ tr:hover td { background: #1a2028; }
   <div id="sectors"></div>
 
   <div class="note">
-    <details class="rule-panel" open>
+    <details class="rule-panel">
       <summary>📖 指标计算规则说明（点击展开/收起）</summary>
       <table>
         <thead><tr><th>指标</th><th>计算公式 / 规则</th><th>判读 / 阈值</th></tr></thead>
@@ -192,7 +195,7 @@ function renderSummary(list) {
   var shorts = list.filter(c => c.crowd_score <= -35);
   var balanced = list.filter(c => c.crowd_score > -35 && c.crowd_score < 35);
   var html = '<div class="card" style="background:#1a2028"><b style="color:#e0c068">📌 拥挤度速览</b>';
-  html += '<div style="margin-top:0.5rem">';
+  html += '<div class="sum-row">';
   html += '<div class="sum-card"><h3 class="up">🔴 多头拥挤 (' + longs.length + ')</h3>';
   longs.forEach(x => html += '<div class="item">' + x.name + ' <span class="neu">score=' + x.crowd_score + '</span></div>');
   html += '</div>';
@@ -200,8 +203,9 @@ function renderSummary(list) {
   shorts.forEach(x => html += '<div class="item">' + x.name + ' <span class="neu">score=' + x.crowd_score + '</span></div>');
   html += '</div>';
   html += '<div class="sum-card"><h3 style="color:#8b949e">⚖️ 持仓均衡 (' + balanced.length + ')</h3>';
-  balanced.forEach(x => html += '<div class="item">' + x.name + '</div>');
-  html += '</div></div>';
+  html += '<div class="chips">';
+  balanced.forEach(x => html += '<span class="chip">' + x.name + '</span>');
+  html += '</div></div></div>';
   html += '<div style="margin-top:0.6rem;font-size:0.82rem;color:#c9d1d9"><b style="color:#e0c068">提示：</b>多头拥挤品种关注<span class="up">下跌反转风险</span>，空头拥挤品种关注<span class="down">上涨反转风险</span>。高度拥挤(score≥60或≤−60)是最高优先级反转预警。</div></div>';
   document.getElementById('summaryBox').innerHTML = html;
 }
