@@ -3443,10 +3443,15 @@
    "second_contract": "SI2611",
    "intraday_vol_state": "缩量",
    "intraday_price_state": "走弱",
-   "iv_atm": null,
-   "iv_prev": null,
-   "iv_delta": null,
-   "iv_series": [],
+   "iv_atm": 25.01,
+   "iv_prev": 18.24,
+   "iv_delta": 6.77,
+   "iv_series": [
+    25.01,
+    30.68,
+    19.1,
+    18.24
+   ],
    "scale": "产能过剩出清",
    "stage": "低位筑底区间",
    "crit": "中",
@@ -3476,7 +3481,18 @@
    "drv_lag": "即时",
    "drv_stage": "累积中",
    "emergence_phase": "驱动累积",
-   "iv_rv": null,
+   "iv_rv": {
+    "iv_atm": 25.01,
+    "rv": 22.6,
+    "vrp": 2.4,
+    "iv_delta": 6.77,
+    "mom_10d": 4.3,
+    "label": "IV-RV正常",
+    "detail": [
+     "IV≈RV(2.4pp)：预期与实际波动一致",
+     "涨时IV升(Δ+6.77pp)：趋势加速(正常)"
+    ]
+   },
    "position_plan": [
     "观望品种，暂无仓位计划"
    ]
