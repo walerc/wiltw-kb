@@ -180,7 +180,7 @@ function crowdCell(c) {
   var color = score >= 60 ? '#ff5050' : (score >= 35 ? '#ff7b72' : (score <= -60 ? '#00c864' : (score <= -35 ? '#3fb950' : '#8b949e')));
   var pct = Math.min(100, Math.abs(score));
   var w = pct, left = score > 0 ? 50 : 50 - w;
-  var html = '<span class="slow-click" title="点击查看拥挤度详解" onclick="showCrowdModal(\\'' + c.name + '\\')">';
+  var html = '<span class="slow-click" title="点击查看拥挤度详解" onclick="showCrowdModal(\'' + c.name + '\')">';
   html += '<span style="color:' + color + ';font-weight:700">' + score + '</span>';
   html += '<br><span style="font-size:0.68rem;color:' + color + '">' + (cd.label || '') + '</span>';
   html += '</span>';
