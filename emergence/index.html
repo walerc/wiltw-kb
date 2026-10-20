@@ -18,6 +18,7 @@ h2 { font-size: 1.1rem; color: #e0c068; margin: 1.8rem 0 0.6rem; padding-left: 0
 table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
 th { background: #1f242c; color: #8b949e; text-align: left; padding: 0.5rem 0.6rem; font-weight: 600; border-bottom: 2px solid #30363d; white-space: nowrap; }
 td { padding: 0.5rem 0.6rem; border-bottom: 1px solid #21262d; vertical-align: middle; }
+td.driver { white-space: normal; word-break: break-word; max-width: 220px; }
 tr:hover td { background: #1a2028; }
 .badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 11px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
 .dir-long { background: #ff505022; color: #ff5050; }
@@ -91,7 +92,6 @@ tr:hover td { background: #1a2028; }
         <tbody>
           <tr><td>3年分位</td><td class="formula">(现价 − 近3年最低) ÷ (近3年最高 − 近3年最低) × 100</td><td><span class="red">≥80 高位</span> / <span class="green">≤20 低位</span>，衡量价格在近3年区间的位置</td></tr>
           <tr><td>MA 双箭头</td><td>第1个箭头 = 现价 vs <b>MA20</b>（20日均线）；第2个箭头 = 现价 vs <b>MA60</b>（60日均线）。↑=站上均线，↓=跌破均线</td><td>↑↑=站上双均线（短期强势）· ↓↓=跌破双均线（弱势）· ↑↓=短反弹但中期仍空 · ↓↑=短回调但中期仍多</td></tr>
-          <tr><td>20d动量</td><td class="formula">(今日收盘 ÷ 20个交易日前收盘 − 1) × 100%</td><td>近一个月的涨跌幅，<span class="red">正=上涨</span> / <span class="green">负=下跌</span></td></tr>
           <tr><td>YTD</td><td class="formula">(今日收盘 ÷ 2026年首个交易日收盘 − 1) × 100%</td><td>年初至今涨跌幅</td></tr>
           <tr><td>量仓·量比</td><td class="formula">今日成交量 ÷ 近20日平均成交量</td><td>&gt;1.5 = 放量 · &gt;2 = 显著放量</td></tr>
           <tr><td>量仓·仓</td><td class="formula">(今日持仓 ÷ 5个交易日前持仓 − 1) × 100%</td><td><span class="red">正=增仓</span>（资金进场）/ <span class="green">负=减仓</span>（资金离场）</td></tr>
@@ -269,11 +269,11 @@ function renderSectors(list) {
     });
     if (!items.length) return;
     html += '<h2>' + sec + '</h2><div class="card"><table><thead><tr>'
-      + '<th>品种</th><th>最新价</th><th>3年分位</th><th>MA</th><th>20d动量</th><th>YTD</th>'
+      + '<th>品种</th><th>最新价</th><th>3年分位</th><th>MA</th><th>YTD</th>'
       + '<th>量仓</th><th>拥挤度</th><th>临界慢化</th><th>期限结构</th><th>IV-RV</th>'
       + '<th>尺度周期</th><th>涌现阶段</th><th>涌现相位</th><th>方向</th><th>驱动逻辑</th></tr></thead><tbody>';
     items.forEach(function(c) {
-      if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=14 class="neu">获取失败</td></tr>'; return; }
+      if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=13 class="neu">获取失败</td></tr>'; return; }
       var ma = (c.above_ma20 ? '↑' : '↓') + (c.above_ma60 ? '↑' : '↓');
       var flow = flowBadge(c.flow_quad) + '<br><span class="neu" style="font-size:0.7rem">量比' + (c.volume_ratio != null ? c.volume_ratio : '—') + ' 仓' + (c.hold_chg_5 != null ? (c.hold_chg_5 > 0 ? '+' : '') + c.hold_chg_5 + '%' : '—') + '</span>';
       html += '<tr>'
@@ -281,7 +281,6 @@ function renderSectors(list) {
         + '<td>' + (c.latest != null ? c.latest.toLocaleString() : '—') + '</td>'
         + '<td>' + pctBar(c.pctile_3y) + '</td>'
         + '<td>' + ma + '</td>'
-        + '<td class="' + (c.mom_20d >= 0 ? 'up' : 'down') + '">' + (c.mom_20d != null ? (c.mom_20d > 0 ? '+' : '') + c.mom_20d + '%' : '—') + '</td>'
         + '<td class="' + (c.ytd >= 0 ? 'up' : 'down') + '">' + (c.ytd != null ? (c.ytd > 0 ? '+' : '') + c.ytd + '%' : '—') + '</td>'
         + '<td>' + flow + '</td>'
         + '<td>' + crowdCell(c) + '</td>'
