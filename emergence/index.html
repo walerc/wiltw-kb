@@ -357,6 +357,15 @@ function showActionModal(name) {
     + '<span class="kv"><b>持仓20日:</b> ' + (c.hold_chg_20 != null ? (c.hold_chg_20 > 0 ? '+' : '') + c.hold_chg_20 + '%' : '—') + '</span></p>';
   html += '<h4>细化解释</h4>';
   html += '<div class="interp">' + detail.map(function(s) { return '· ' + s; }).join('<br>') + '</div>';
+  // 波动率背离（IV vs RV，独立信号，所有有IV品种可见）
+  var ivrv = c.iv_rv;
+  if (ivrv) {
+    var sign = ivrv.vrp >= 0 ? '+' : '';
+    var ivColor = ivrv.label.indexOf('⚠️') >= 0 ? '#ff7b72' : (ivrv.label === 'IV溢价偏高' || ivrv.label === 'IV低估' ? '#d29922' : '#8b949e');
+    html += '<h4>波动率背离（IV vs RV）</h4>';
+    html += '<p style="font-size:0.85rem">IV(平值期权 ' + ivrv.iv_atm + '%) vs RV(20日已实现 ' + ivrv.rv + '%)，溢价 <b style="color:' + ivColor + '">' + sign + ivrv.vrp + 'pp</b> → <b style="color:' + ivColor + '">' + ivrv.label + '</b></p>';
+    html += '<div class="interp">' + ivrv.detail.map(function(s) { return '· ' + s; }).join('<br>') + '</div>';
+  }
   // 仓位管理（更小尺度加减仓）
   var plan = c.position_plan || [];
   if (plan.length) {
