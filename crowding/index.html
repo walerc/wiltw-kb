@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>👥 交易拥挤度扫描盘</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.6; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 1.5rem 1.2rem; }
+h1 { font-size: 1.5rem; color: #e6edf3; margin-bottom: 0.3rem; }
+.sub { color: #8b949e; font-size: 0.82rem; margin-bottom: 1rem; }
+h2 { font-size: 1.1rem; color: #e0c068; margin: 1.8rem 0 0.6rem; padding-left: 0.6rem; border-left: 4px solid #e0c068; }
+.card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 1rem 1.2rem; margin: 0.6rem 0; }
+.up { color: #ff5050; } .down { color: #00c864; } .neu { color: #8b949e; }
+table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+th { background: #1f242c; color: #8b949e; text-align: left; padding: 0.5rem 0.6rem; font-weight: 600; border-bottom: 2px solid #30363d; white-space: nowrap; }
+td { padding: 0.5rem 0.6rem; border-bottom: 1px solid #21262d; vertical-align: middle; }
+tr:hover td { background: #1a2028; }
+.badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 11px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+.crowd-long { background: #ff505022; color: #ff5050; }
+.crowd-short { background: #00c86422; color: #00c864; }
+.crowd-neutral { background: #30363d; color: #8b949e; }
+.crowd-mild-long { background: #ff505015; color: #ff7b72; }
+.crowd-mild-short { background: #00c86415; color: #3fb950; }
+.score-bar { display: inline-block; width: 80px; height: 8px; border-radius: 4px; background: #21262d; vertical-align: middle; margin-right: 6px; overflow: hidden; position: relative; }
+.score-bar .center { position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: #30363d; }
+.score-bar i { display: block; height: 100%; border-radius: 4px; }
+.sum-card { display: inline-block; vertical-align: top; width: 32%; margin-right: 1%; background: #1a2028; border: 1px solid #30363d; border-radius: 8px; padding: 0.8rem 1rem; }
+.sum-card h3 { font-size: 0.85rem; margin-bottom: 0.4rem; }
+.sum-card .item { font-size: 0.78rem; padding: 0.2rem 0; border-bottom: 1px dashed #21262d; }
+.sum-card .item:last-child { border-bottom: none; }
+.note { color: #6e7681; font-size: 0.76rem; margin-top: 0.8rem; line-height: 1.5; }
+.rule-panel { margin: 1rem 0 0.4rem; }
+.rule-panel summary { cursor: pointer; color: #e0c068; font-size: 0.88rem; font-weight: 600; padding: 0.6rem 0.8rem; background: #1a2028; border: 1px solid #30363d; border-radius: 8px; list-style: none; }
+.rule-panel summary::-webkit-details-marker { display: none; }
+.rule-panel summary:hover { background: #21262d; }
+.rule-panel table { margin-top: 0.6rem; font-size: 0.74rem; }
+.rule-panel th { background: #1f242c; color: #8b949e; padding: 0.4rem 0.6rem; text-align: left; white-space: nowrap; }
+.rule-panel td { padding: 0.4rem 0.6rem; border-bottom: 1px solid #21262d; line-height: 1.55; vertical-align: top; }
+.rule-panel td:first-child { color: #e6edf3; font-weight: 600; white-space: nowrap; }
+.rule-panel .formula { color: #9da7b3; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.72rem; }
+.rule-panel .red { color: #ff7b72; } .rule-panel .green { color: #3fb950; } .rule-panel .amber { color: #d29922; }
+.update-time { float: right; color: #8b949e; font-size: 0.78rem; }
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.72); z-index: 999; display: flex; align-items: center; justify-content: center; }
+.modal-content { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 1.2rem 1.5rem; max-width: 560px; width: 92%; max-height: 84vh; overflow-y: auto; }
+.modal-close { float: right; cursor: pointer; font-size: 1.5rem; line-height: 1; color: #8b949e; }
+.modal-close:hover { color: #e6edf3; }
+.modal-content h3 { color: #e0c068; font-size: 1rem; margin-bottom: 0.8rem; }
+.modal-content h4 { color: #e6edf3; font-size: 0.86rem; margin: 0.9rem 0 0.3rem; }
+.modal-content p { font-size: 0.8rem; line-height: 1.6; color: #c9d1d9; margin: 0.3rem 0; }
+.modal-content .kv { display: inline-block; margin-right: 0.6rem; font-size: 0.8rem; }
+.modal-content .kv b { color: #e6edf3; }
+.modal-content .interp { background: #1a2028; border-left: 3px solid #d29922; padding: 0.5rem 0.7rem; border-radius: 4px; margin-top: 0.6rem; font-size: 0.8rem; line-height: 1.6; color: #d29922; }
+.clickable { cursor: pointer; border-bottom: 1px dashed #8b949e; }
+.clickable:hover { background: #1a2028; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>👥 交易拥挤度扫描盘 <span class="update-time" id="updTime"></span></h1>
+  <div class="sub">会员持仓排名(前20席位) · 席位集中度 + 多空比 + 席位增减背离 · 识别大级别反转风险 · 数据每日自动更新</div>
+
+  <div id="summaryBox"></div>
+  <div id="sectors"></div>
+
+  <div class="note">
+    <details class="rule-panel" open>
+      <summary>📖 指标计算规则说明（点击展开/收起）</summary>
+      <table>
+        <thead><tr><th>指标</th><th>计算公式 / 规则</th><th>判读 / 阈值</th></tr></thead>
+        <tbody>
+          <tr><td>拥挤度评分</td><td class="formula">多空比(偏离1的程度) × 50 + 主导方集中度 × 50，方向决定正负号</td><td><span class="red">+100</span>=多头极度拥挤(看跌反转) · <span class="green">−100</span>=空头极度拥挤(看涨反转) · 0=持仓均衡</td></tr>
+          <tr><td>多空比 LSR</td><td class="formula">前20席位多单合计 ÷ 前20席位空单合计</td><td>&gt;1.15 = 多头占优 · &lt;0.85 = 空头占优 · 越极端越拥挤。⚠️ 已剔除"总计"行(rank=999)</td></tr>
+          <tr><td>多单集中度</td><td class="formula">前5席位多单 ÷ 前20席位多单合计</td><td>&gt;0.35 = 多头集中在少数大席位（聪明钱已充分进场，边际买盘枯竭）</td></tr>
+          <tr><td>空单集中度</td><td class="formula">前5席位空单 ÷ 前20席位空单合计</td><td>&gt;0.35 = 空头集中在少数大席位（边际卖盘枯竭）</td></tr>
+          <tr><td>净持仓</td><td class="formula">前20席位多单合计 − 前20席位空单合计</td><td><span class="red">正=净多</span> / <span class="green">负=净空</span>，反映前20大席位的方向倾斜</td></tr>
+          <tr><td>席位增减背离</td><td>多头前5席位增减 vs 空头前5席位增减的方向对比</td><td><span class="amber">多头减仓+空头增仓</span>=顶部松动 · <span class="amber">空头减仓+多头增仓</span>=底部松动，是反转的领先信号</td></tr>
+        </tbody>
+      </table>
+    </details>
+    方法论：拥挤度源于 CFTC COT 报告的 smart money vs dumb money 逻辑——当某一方向持仓高度集中且持续加仓，说明"聪明钱"已充分进场，边际买盘/卖盘耗尽，一旦价格停滞或反向，拥挤头寸踩踏平仓将放大反转幅度。国内期货通过会员持仓排名(前20席位)落地该逻辑：<b>席位集中度</b>近似"机构 vs 散户"结构（大席位=机构/产业，小席位=散户），<b>多空比极端</b>+<b>席位增减背离</b>共同构成大级别反转预警。⚠️ 大商所(豆粕/铁矿/焦煤/焦炭/棕榈油/豆油/玉米/生猪)官网 anti-bot，暂缺数据。
+  </div>
+</div>
+
+<div id="detailModal" class="modal" style="display:none" onclick="if(event.target===this)closeDetail()">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeDetail()">×</span>
+    <div id="detailBody"></div>
+  </div>
+</div>
+
+<script>
+function scoreBar(score) {
+  if (score == null) return '<span class="neu">—</span>';
+  var pct = Math.min(100, Math.abs(score));
+  var color = score > 0 ? '#ff5050' : '#00c864';
+  var fill = score > 0 ? pct : -pct;
+  var w = pct;
+  var left = score > 0 ? 50 : 50 - w;
+  return '<span class="score-bar"><span class="center"></span><i style="width:' + w + '%;background:' + color + ';margin-left:' + left + '%"></i></span><b style="color:' + color + '">' + score + '</b>';
+}
+
+function crowdBadge(c) {
+  var label = c.crowd_label || '持仓均衡';
+  var score = c.crowd_score || 0;
+  var cls;
+  if (label.indexOf('高度拥挤') >= 0) cls = score > 0 ? 'crowd-long' : 'crowd-short';
+  else if (label.indexOf('偏拥挤') >= 0) cls = score > 0 ? 'crowd-mild-long' : 'crowd-mild-short';
+  else cls = 'crowd-neutral';
+  return '<span class="badge ' + cls + '">' + label + '</span>';
+}
+
+function ratioCell(c) {
+  var lsr = c.long_short_ratio;
+  if (lsr == null) return '<span class="neu">—</span>';
+  var color = lsr > 1.15 ? '#ff5050' : (lsr < 0.85 ? '#00c864' : '#9da7b3');
+  return '<span style="color:' + color + ';font-weight:600">' + lsr.toFixed(2) + '</span>';
+}
+
+function crCell(v) {
+  if (v == null) return '<span class="neu">—</span>';
+  var color = v > 0.5 ? '#ff7b72' : (v > 0.35 ? '#d29922' : '#9da7b3');
+  return '<span style="color:' + color + '">' + (v * 100).toFixed(1) + '%</span>';
+}
+
+function netCell(v) {
+  if (v == null) return '<span class="neu">—</span>';
+  var cls = v > 0 ? 'up' : 'down';
+  var sign = v > 0 ? '+' : '';
+  return '<span class="' + cls + '">' + sign + (v / 10000).toFixed(1) + '万</span>';
+}
+
+function chgCell(longChg, shortChg) {
+  if (longChg == null) return '<span class="neu">—</span>';
+  var l = longChg > 0 ? '<span class="up">+' + longChg + '</span>' : '<span class="down">' + longChg + '</span>';
+  var s = shortChg > 0 ? '<span class="up">+' + shortChg + '</span>' : '<span class="down">' + shortChg + '</span>';
+  return '多' + l + ' / 空' + s;
+}
+
+function showDetail(name) {
+  var c = SCAN_DATA.products.find(x => x.name === name);
+  if (!c) return;
+  var body = document.getElementById('detailBody');
+  var html = '<h3>' + c.name + ' (' + c.sym + ') · ' + c.contract + '</h3>';
+  html += '<div>' + crowdBadge(c) + ' ' + scoreBar(c.crowd_score) + '</div>';
+  html += '<h4>📊 核心指标</h4>';
+  html += '<p><span class="kv"><b>多空比</b> ' + (c.long_short_ratio || '—') + '</span>' +
+          '<span class="kv"><b>净持仓</b> ' + (c.net_pos != null ? (c.net_pos/10000).toFixed(1) + '万' : '—') + '</span></p>';
+  html += '<p><span class="kv"><b>多单合计</b> ' + (c.long_total/10000).toFixed(1) + '万</span>' +
+          '<span class="kv"><b>空单合计</b> ' + (c.short_total/10000).toFixed(1) + '万</span></p>';
+  html += '<p><span class="kv"><b>多单集中度(前5)</b> ' + (c.cr5_long*100).toFixed(1) + '%</span>' +
+          '<span class="kv"><b>空单集中度(前5)</b> ' + (c.cr5_short*100).toFixed(1) + '%</span></p>';
+  html += '<p><span class="kv"><b>多单增减</b> ' + (c.long_chg != null ? (c.long_chg>0?'+':'') + c.long_chg : '—') + '</span>' +
+          '<span class="kv"><b>空单增减</b> ' + (c.short_chg != null ? (c.short_chg>0?'+':'') + c.short_chg : '—') + '</span></p>';
+  if (c.top_long_names && c.top_long_names.length) {
+    html += '<h4>🔴 多单前5席位</h4><p class="neu">' + c.top_long_names.filter(Boolean).join('、') + '</p>';
+  }
+  if (c.top_short_names && c.top_short_names.length) {
+    html += '<h4>🟢 空单前5席位</h4><p class="neu">' + c.top_short_names.filter(Boolean).join('、') + '</p>';
+  }
+  if (c.diverge_note) {
+    html += '<div class="interp">⚠️ ' + c.diverge_note + '</div>';
+  }
+  var interp = '';
+  if (c.crowd_score >= 60) interp = '多头高度拥挤：前20席位多单远超空单，且集中在少数大席位。聪明钱已充分进场，边际买盘枯竭，一旦价格停滞或回落，多头踩踏平仓将放大跌幅——警惕大级别下跌反转。';
+  else if (c.crowd_score <= -60) interp = '空头高度拥挤：前20席位空单远超多单，且集中在少数大席位。边际卖盘枯竭，一旦价格反弹，空头回补将放大涨幅——警惕大级别上涨反转。';
+  else if (c.crowd_score >= 35) interp = '多头偏拥挤：多单占优且有一定集中度，趋势仍有惯性，但需警惕高位拥挤引发的回调风险。';
+  else if (c.crowd_score <= -35) interp = '空头偏拥挤：空单占优且有一定集中度，下跌趋势可能延续，但需警惕空头回补引发的反弹风险。';
+  else interp = '持仓均衡：多空席位分布相对均衡，拥挤度风险较低，趋势方向需结合其他因子判断。';
+  html += '<div class="interp">' + interp + '</div>';
+  body.innerHTML = html;
+  document.getElementById('detailModal').style.display = 'flex';
+}
+function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
+
+var SCAN_DATA = null;
+fetch('crowding_scan.json?t=' + Date.now())
+  .then(r => r.json())
+  .then(d => {
+    SCAN_DATA = d;
+    document.getElementById('updTime').textContent = '更新 ' + d.date;
+    renderSummary(d.products);
+    renderSectors(d.products);
+  })
+  .catch(err => { document.getElementById('summaryBox').innerHTML = '❌ 数据加载失败：' + err.message; });
+
+function renderSummary(list) {
+  var longs = list.filter(c => c.crowd_score >= 35);
+  var shorts = list.filter(c => c.crowd_score <= -35);
+  var balanced = list.filter(c => c.crowd_score > -35 && c.crowd_score < 35);
+  var html = '<div class="card" style="background:#1a2028"><b style="color:#e0c068">📌 拥挤度速览</b>';
+  html += '<div style="margin-top:0.5rem">';
+  html += '<div class="sum-card"><h3 class="up">🔴 多头拥挤 (' + longs.length + ')</h3>';
+  longs.forEach(x => html += '<div class="item">' + x.name + ' <span class="neu">score=' + x.crowd_score + '</span></div>');
+  html += '</div>';
+  html += '<div class="sum-card"><h3 class="down">🟢 空头拥挤 (' + shorts.length + ')</h3>';
+  shorts.forEach(x => html += '<div class="item">' + x.name + ' <span class="neu">score=' + x.crowd_score + '</span></div>');
+  html += '</div>';
+  html += '<div class="sum-card"><h3 style="color:#8b949e">⚖️ 持仓均衡 (' + balanced.length + ')</h3>';
+  balanced.forEach(x => html += '<div class="item">' + x.name + '</div>');
+  html += '</div></div>';
+  html += '<div style="margin-top:0.6rem;font-size:0.82rem;color:#c9d1d9"><b style="color:#e0c068">提示：</b>多头拥挤品种关注<span class="up">下跌反转风险</span>，空头拥挤品种关注<span class="down">上涨反转风险</span>。高度拥挤(score≥60或≤−60)是最高优先级反转预警。</div></div>';
+  document.getElementById('summaryBox').innerHTML = html;
+}
+
+function renderSectors(list) {
+  var sectors = ['贵金属', '有色金属', '黑色系', '能源化工', '农产品', '新能源'];
+  var html = '';
+  sectors.forEach(function(sec) {
+    var items = list.filter(c => c.sector === sec).sort(function(a, b) {
+      return Math.abs(b.crowd_score || 0) - Math.abs(a.crowd_score || 0);
+    });
+    if (!items.length) return;
+    html += '<h2>' + sec + '</h2><table><thead><tr>' +
+      '<th>品种</th><th>合约</th><th>拥挤度</th><th>多空比</th><th>多单集中度</th><th>空单集中度</th><th>净持仓</th><th>席位增减</th><th>背离信号</th></tr></thead><tbody>';
+    items.forEach(function(c) {
+      if (!c.available) {
+        html += '<tr><td>' + c.name + ' <span class="neu">(' + c.sym + ')</span></td><td colspan="8" class="neu">数据暂缺（交易所接口不可用）</td></tr>';
+        return;
+      }
+      html += '<tr><td class="clickable" onclick="showDetail(\'' + c.name + '\')"><b style="color:#e6edf3">' + c.name + '</b> <span class="neu" style="font-size:0.7rem">' + c.sym + '</span></td>';
+      html += '<td class="neu">' + (c.contract || '—') + '</td>';
+      html += '<td>' + crowdBadge(c) + '<br>' + scoreBar(c.crowd_score) + '</td>';
+      html += '<td>' + ratioCell(c) + '</td>';
+      html += '<td>' + crCell(c.cr5_long) + '</td>';
+      html += '<td>' + crCell(c.cr5_short) + '</td>';
+      html += '<td>' + netCell(c.net_pos) + '</td>';
+      html += '<td>' + chgCell(c.long_chg, c.short_chg) + '</td>';
+      html += '<td class="neu" style="font-size:0.72rem">' + (c.diverge_note || '—') + '</td></tr>';
+    });
+    html += '</tbody></table>';
+  });
+  document.getElementById('sectors').innerHTML = html;
+}
+</script>
+</body>
+</html>
