@@ -226,11 +226,10 @@ function fundCell(c) {
   var valStr = val >= 10000 ? val.toLocaleString() : String(val);
   var pctColor = f.pctile != null ? (f.pctile >= 80 ? '#ff7b72' : (f.pctile <= 20 ? '#3fb950' : '#9da7b3')) : '#9da7b3';
   var chgColor = f.chg_pct == null ? '#9da7b3' : (f.chg_pct > 3 ? '#ff7b72' : (f.chg_pct < -3 ? '#3fb950' : '#9da7b3'));
-  var html = '<span class="slow-click" title="点击查看基本面库存数据" onclick="showFundModal(\'' + c.name + '\')">';
-  html += '<span style="color:#e6edf3;font-weight:600">' + valStr + f.unit + '</span>';
-  html += '<br><span style="font-size:0.66rem;color:#8b949e">' + (f.indicator || '') + '</span>';
-  if (f.chg_pct != null) html += '<br><span style="font-size:0.68rem;color:' + chgColor + '">周环比' + (f.chg_pct > 0 ? '+' : '') + f.chg_pct + '%</span>';
-  if (f.pctile != null) html += ' <span style="font-size:0.68rem;color:' + pctColor + '">分位' + f.pctile + '%</span>';
+  var html = '<span class="slow-click" title="' + (f.indicator || '') + '，点击查看详解" onclick="showFundModal(\'' + c.name + '\')">';
+  html += '<span style="color:#e6edf3;font-weight:600">' + valStr + '</span><span style="font-size:0.66rem;color:#8b949e">' + f.unit + '</span>';
+  if (f.pctile != null) html += ' <span style="font-size:0.7rem;color:' + pctColor + ';font-weight:600">' + f.pctile + '%</span>';
+  if (f.chg_pct != null) html += '<br><span style="font-size:0.66rem;color:' + chgColor + '">' + (f.chg_pct > 0 ? '▲' : '▼') + Math.abs(f.chg_pct) + '%</span>';
   html += '</span>';
   return html;
 }
