@@ -102,7 +102,8 @@ tr:hover td { background: #1a2028; }
           <tr><td>方向信号</td><td>量化方向信号，−100~+100（中长期口径）。<b>趋势</b>(±40)=MA20/MA60双均线组合；<b>资金</b>(±30)=持仓20日变化÷25%×30；<b>动量</b>(±30)=60日动量÷15%×30</td><td><span class="red">≥+15 偏多</span> · −15~+15 中性 · <span class="green">≤−15 偏空</span>（≥40强多/≤−40强空）。列内小字=技术+分数+标签</td></tr>
           <tr><td>方向</td><td>基本面涌现建议（中长期，有供需/成本/周期研究支撑）</td><td>做多 / 做空 / 观望 / 等回调 / 等右侧 等。与下方"方向信号"(技术面)对照：✅量化印证 / ⚠️背离 / ⏳技术回调中</td></tr>
           <tr><td>操作建议</td><td>把方向+量仓+一致性翻译成动作，围绕"趋势中继回调管理"自动生成：<b>暂离避险</b>(资金撤退+破位) / <b>减仓观察</b>(资金离场) / <b>持有观察企稳可回补</b>(健康回调) / <b>持有回调加仓</b>(资金进场+回调) / <b>持有顺势</b>(技术印证) / 左侧试探/等右侧/等回调/区间高抛低吸</td><td>方向列内 📌 彩色标签（红=减仓避险/金=加仓/绿=持有），<span class="amber">点击弹出操作详解</span>（依据+动作+风险线）</td></tr>
-          <tr><td>仓位管理</td><td>四层：<b>基准仓位</b>(以操作建议定) + <b>波动调节</b>(VIX类比：波动率历史分位≥80%降仓/≤20%升仓) + <b>小时线时机</b>(60分钟线量价：缩量企稳=加仓成熟/放量走弱=时机未到) + <b>加减仓节奏</b>(MA10/20与20日高低点：回调至支撑缩量企稳→加1/4仓 / 反弹至高点放量滞涨→减1/3仓 / 跌破MA60→清仓)</td><td>点击 📌 操作建议弹窗内"仓位管理"section（基准仓位+波动调节+小时线时机+加仓点+减仓点+止损位）</td></tr>
+          <tr><td>仓位管理</td><td>四层：<b>基准仓位</b>(以操作建议定) + <b>波动调节</b>(VIX类比：波动率历史分位≥80%降仓/≤20%升仓) + <b>IV-RV背离</b>(隐含波动率vs已实现波动率，见下行) + <b>小时线时机</b>(60分钟线量价：缩量企稳=加仓成熟/放量走弱=时机未到) + <b>加减仓节奏</b>(MA10/20与20日高低点：回调至支撑缩量企稳→加1/4仓 / 反弹至高点放量滞涨→减1/3仓 / 跌破MA60→清仓)</td><td>点击 📌 操作建议弹窗内"仓位管理"section（基准仓位+波动调节+IV-RV背离+小时线时机+加仓点+减仓点+止损位）</td></tr>
+          <tr><td>IV-RV背离</td><td class="formula">IV(平值期权隐含波动率) − RV(20日年化已实现波动率) = 波动率风险溢价；另对比 IV 近10日变化方向 vs 价格近10日方向</td><td><span class="red">IV大幅溢价RV(≥10pp)</span>=期权定价过高不确定性、情绪过度，警惕反转 · <span class="amber">涨时IV降</span>=多头动能衰竭(顶背离) · <span class="amber">跌时IV降</span>=恐慌消退(底背离) · <span class="green">IV大幅低于RV(≤−10pp)</span>=波动低估。⚠️大商所(豆粕/棕榈油/焦煤/焦炭/铁矿石/玉米/生猪/豆油)无期权IV数据</td></tr>
         </tbody>
       </table>
     </details>
@@ -171,6 +172,16 @@ function termCell(c) {
   if (c.main_contract) html += '<br><span class="neu" style="font-size:0.68rem">' + c.main_contract + '/' + c.second_contract + '</span>';
   return html;
 }
+function ivRvCell(c) {
+  if (!c.iv_rv) return '<span class="neu">—</span>';
+  var v = c.iv_rv;
+  var label = v.label || 'IV-RV正常';
+  var color = label.indexOf('⚠️') >= 0 ? '#ff7b72' : (label === 'IV溢价偏高' || label === 'IV低估' ? '#d29922' : '#8b949e');
+  var html = 'IV <b>' + v.iv_atm + '%</b>';
+  html += '<br><span class="neu" style="font-size:0.68rem">RV ' + v.rv + '% · ' + (v.vrp >= 0 ? '+' : '') + v.vrp + 'pp</span>';
+  if (label !== 'IV-RV正常') html += '<br><span style="color:' + color + ';font-weight:600;font-size:0.7rem">' + label + '</span>';
+  return html;
+}
 
 var SCAN_DATA = null;
 fetch('emergence_scan.json?t=' + Date.now())
@@ -209,10 +220,10 @@ function renderSectors(list) {
     if (!items.length) return;
     html += '<h2>' + sec + '</h2><div class="card"><table><thead><tr>'
       + '<th>品种</th><th>最新价</th><th>3年分位</th><th>MA</th><th>20d动量</th><th>YTD</th>'
-      + '<th>量仓</th><th>临界慢化</th><th>期限结构</th>'
+      + '<th>量仓</th><th>临界慢化</th><th>期限结构</th><th>IV-RV</th>'
       + '<th>尺度周期</th><th>涌现阶段</th><th>涌现相位</th><th>方向</th><th>驱动逻辑</th></tr></thead><tbody>';
     items.forEach(function(c) {
-      if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=13 class="neu">获取失败</td></tr>'; return; }
+      if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=14 class="neu">获取失败</td></tr>'; return; }
       var ma = (c.above_ma20 ? '↑' : '↓') + (c.above_ma60 ? '↑' : '↓');
       var flow = flowBadge(c.flow_quad) + '<br><span class="neu" style="font-size:0.7rem">量比' + (c.volume_ratio != null ? c.volume_ratio : '—') + ' 仓' + (c.hold_chg_5 != null ? (c.hold_chg_5 > 0 ? '+' : '') + c.hold_chg_5 + '%' : '—') + '</span>';
       html += '<tr>'
@@ -225,6 +236,7 @@ function renderSectors(list) {
         + '<td>' + flow + '</td>'
         + '<td>' + critSlow(c) + '</td>'
         + '<td>' + termCell(c) + '</td>'
+        + '<td>' + ivRvCell(c) + '</td>'
         + '<td class="stage">' + (c.scale || '') + '</td>'
         + '<td class="stage">' + (c.stage || '') + '</td>'
         + '<td>' + phaseCell(c) + '</td>'
