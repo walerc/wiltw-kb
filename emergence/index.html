@@ -177,10 +177,12 @@ function ivRvCell(c) {
   var v = c.iv_rv;
   var label = v.label || 'IV-RV正常';
   var color = label.indexOf('⚠️') >= 0 ? '#ff7b72' : (label === 'IV溢价偏高' || label === 'IV低估' ? '#d29922' : '#8b949e');
-  var html = 'IV <b>' + v.iv_atm + '%</b>' + (v.iv_source === '新浪反推' ? '<span style="color:#d29922;font-size:0.6rem" title="Black-76反推">*</span>' : '');
+  var html = '<span class="slow-click" title="点击查看IV/RV详解与历史变动" onclick="showIvRvModal(\'' + c.name + '\')">';
+  html += 'IV <b>' + v.iv_atm + '%</b>' + (v.iv_source === '新浪反推' ? '<span style="color:#d29922;font-size:0.6rem" title="Black-76反推">*</span>' : '');
   var rvColor = (v.rv_pctile != null) ? (v.rv_pctile >= 80 ? '#ff7b72' : (v.rv_pctile <= 20 ? '#3fb950' : '#9da7b3')) : '#9da7b3';
   html += '<br><span class="neu" style="font-size:0.68rem">RV ' + v.rv + '% <span style="color:' + rvColor + '">(' + (v.rv_pctile != null ? v.rv_pctile + '%分位' : '—') + ')</span> · ' + (v.vrp >= 0 ? '+' : '') + v.vrp + 'pp</span>';
   if (label !== 'IV-RV正常') html += '<br><span style="color:' + color + ';font-weight:600;font-size:0.7rem">' + label + '</span>';
+  html += '</span>';
   return html;
 }
 
@@ -269,10 +271,71 @@ function ar1Sparkline(hist) {
   return html;
 }
 
+function ivRvSparkline(ivHist, rvHist) {
+  if ((!ivHist || ivHist.length < 2) && (!rvHist || rvHist.length < 2)) return '<div class="dim">暂无历史序列（大商所反推品种仅有当前快照）</div>';
+  var w = 480, h = 150, padL = 34, padR = 8, padT = 8, padB = 22;
+  var dates = [];
+  (ivHist || []).forEach(function(p) { dates.push(p.date); });
+  (rvHist || []).forEach(function(p) { dates.push(p.date); });
+  dates = dates.filter(function(v, i, a) { return a.indexOf(v) === i; }).sort();
+  var vals = [];
+  (ivHist || []).forEach(function(p) { vals.push(p.iv); });
+  (rvHist || []).forEach(function(p) { vals.push(p.rv); });
+  var minV = Math.min.apply(null, vals), maxV = Math.max.apply(null, vals);
+  var range = (maxV - minV) || 1;
+  function x(d) { return padL + dates.indexOf(d) / (dates.length - 1) * (w - padL - padR); }
+  function y(v) { return h - padB - (v - minV) / range * (h - padT - padB); }
+  function line(hist, key, color) {
+    if (!hist || hist.length < 2) return '';
+    var pts = [];
+    hist.forEach(function(p) {
+      if (dates.indexOf(p.date) >= 0) pts.push(x(p.date).toFixed(1) + ',' + y(p[key]).toFixed(1));
+    });
+    return '<polyline points="' + pts.join(' ') + '" fill="none" stroke="' + color + '" stroke-width="1.7"/>';
+  }
+  var html = '<svg width="100%" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" style="background:#0d1117;border:1px solid #30363d;border-radius:6px">';
+  for (var g = 0; g <= 2; g++) {
+    var gy = padT + g * (h - padT - padB) / 2;
+    var gv = maxV - g * range / 2;
+    html += '<line x1="' + padL + '" y1="' + gy.toFixed(1) + '" x2="' + (w - padR) + '" y2="' + gy.toFixed(1) + '" stroke="#21262d" stroke-width="1"/>';
+    html += '<text x="' + (padL - 4) + '" y="' + (gy + 3).toFixed(1) + '" fill="#8b949e" font-size="8" text-anchor="end">' + gv.toFixed(1) + '%</text>';
+  }
+  html += line(rvHist, 'rv', '#ff5050');
+  html += line(ivHist, 'iv', '#e0c068');
+  if (dates.length) {
+    html += '<text x="' + padL + '" y="' + (h - 6) + '" fill="#8b949e" font-size="8">' + dates[0] + '</text>';
+    html += '<text x="' + (w - padR) + '" y="' + (h - 6) + '" fill="#8b949e" font-size="8" text-anchor="end">' + dates[dates.length - 1] + '</text>';
+  }
+  html += '</svg>';
+  return html;
+}
+
+function showIvRvModal(name) {
+  if (!SCAN_DATA) return;
+  var c = null;
+  for (var i = 0; i < SCAN_DATA.commodities.length; i++) {
+    if (SCAN_DATA.commodities[i].name === name) { c = SCAN_DATA.commodities[i]; break; }
+  }
+  if (!c || !c.iv_rv) return;
+  var v = c.iv_rv;
+  var sign = v.vrp >= 0 ? '+' : '';
+  var ivColor = v.label.indexOf('⚠️') >= 0 ? '#ff7b72' : (v.label === 'IV溢价偏高' || v.label === 'IV低估' ? '#d29922' : '#8b949e');
+  var html = '<h3>' + c.name + ' · IV vs RV 波动率详解</h3>';
+  html += '<p style="font-size:0.92rem"><b style="color:#e0c068">IV(平值期权) ' + v.iv_atm + '%</b>' + (v.iv_source === '新浪反推' ? ' <span style="color:#d29922;font-size:0.68rem">(Black-76反推)</span>' : '') + ' &nbsp;vs&nbsp; <b style="color:#ff5050">RV(20日已实现) ' + v.rv + '%</b></p>';
+  html += '<p style="font-size:0.84rem">溢价 <b style="color:' + ivColor + '">' + sign + v.vrp + 'pp</b> · 方差溢价 σ²IV−σ²RV = <b>' + (v.vrp_var >= 0 ? '+' : '') + v.vrp_var + '</b> · RV历史分位 <b>' + (v.rv_pctile != null ? v.rv_pctile + '%' : '—') + '</b></p>';
+  html += '<p style="font-size:0.9rem"><b style="color:' + ivColor + '">' + v.label + '</b></p>';
+  html += '<div class="interp">' + v.detail.map(function(s) { return '· ' + s; }).join('<br>') + '</div>';
+  html += '<h4>IV / RV 历史变动</h4>';
+  html += ivRvSparkline(v.iv_hist, v.rv_hist);
+  html += '<div class="dim" style="margin-top:0.4rem"><span style="color:#e0c068">━ IV 隐含波动率</span>（近15交易日，期权定价的预期波动） · <span style="color:#ff5050">━ RV 已实现波动率</span>（近200日·每5日一点，实际发生的波动）。两线背离=反转预警。</div>';
+  html += '<div class="dim" style="margin-top:0.8rem">以上为波动率关系评估，非投资指令。隐含波动率来自期权市场定价，已实现波动率来自历史价格。</div>';
+  document.getElementById('slowModalBody').innerHTML = html;
+  document.getElementById('slowModal').style.display = 'flex';
+}
+
 function closeSlowModal() {
   document.getElementById('slowModal').style.display = 'none';
 }
-
 function showSlowModal(name) {
   if (!SCAN_DATA) return;
   var c = null;
