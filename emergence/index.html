@@ -98,6 +98,7 @@ tr:hover td { background: #1a2028; }
           <tr><td>量仓·仓</td><td class="formula">(今日持仓 ÷ 5个交易日前持仓 − 1) × 100%</td><td><span class="red">正=增仓</span>（资金进场）/ <span class="green">负=减仓</span>（资金离场）</td></tr>
           <tr><td>量仓·四象限</td><td>近5日<b>价格涨跌</b> × 近5日<b>持仓增减</b></td><td>涨+增仓=<span class="red">多头进攻</span>（新多进场）· 跌+增仓=<span class="green">空头进攻</span>（新空进场）· 涨+减仓=<span class="amber">空头回补</span>（虚涨）· 跌+减仓=<span class="amber">多头离场</span></td></tr>
           <tr><td>临界慢化·波动</td><td class="formula">近20日年化波动率 ÷ 近252日年化波动率</td><td>&lt;0.7 = <span class="amber">压缩</span>（波动收窄、蓄势待变）· &gt;1.5 = <span class="red">放大</span>（变盘进行中）· 0.7~1.5 = 正常</td></tr>
+          <tr><td>波动率</td><td class="formula">20日年化已实现波动率 RV = 近20日收益率标准差 × √252；历史分位 = 当前 RV 在自身历史滑动序列（每5日一点）的百分位</td><td>列内显示 <b>RV值</b> + <b>状态</b>（<span class="amber">压缩</span>＝波动收窄蓄势 / <span class="red">放大</span>＝变盘进行中 / 正常）+ <b>历史分位</b>（<span class="red">≥80 高波动</span>→降仓 / <span class="green">≤20 低波动</span>→可升仓，VIX类比）</td></tr>
           <tr><td>临界慢化·AR1</td><td>近60日收盘价（去趋势）的一阶自回归系数，衡量"价格惯性 / 系统恢复力"。含四维：<b>历史分位</b>(当前AR1在自身历史序列的百分位，≥80高位/≤20低位)、<b>变动趋势</b>(近4点vs前4点，Δ>+0.03上升=逼近临界 / Δ<−0.03回落=相变已启动)、<b>协同相位</b>(AR1×波动：临界逼近/相变进行中/蓄势/事件驱动/稳定)、<b>偏度</b>(60日收益率，右偏=多动能/左偏=空动能)</td><td>越接近1 = 惯性越强、恢复越慢 = 越接近临界跃迁；<span class="amber">≥0.95 高亮</span>。⚠️ 只看绝对值会误判（不同品种基线不同，须看分位）；<span class="amber">点击单元格查看详解 + AR1趋势图</span></td></tr>
           <tr><td>期限结构</td><td class="formula">(主力合约价 − 次主力合约价) ÷ 次主力价 × 100%</td><td><span class="red">正=Backwardation</span>（现货升水、现货紧张）· <span class="green">负=Contango</span>（期货升水、供过于求）· |值|≤0.5%=平坦；农产品跨季价差含季节性</td></tr>
           <tr><td>量仓印证</td><td>「方向(做多/做空)」vs「持仓20日变化 + 四象限」的自动对照</td><td><span class="green">✅印证</span>=资金行为支持方向 · <span class="red">⚠️背离</span>=资金离场或反向风险 · <span class="amber">⏳观察</span>=中性待确认</td></tr>
@@ -258,6 +259,17 @@ function showFundModal(name) {
   document.getElementById('slowModal').style.display = 'flex';
 }
 
+function volCell(c) {
+  if (c.vol20 == null) return '<span class="neu">—</span>';
+  var st = c.vol_state || '';
+  var stCls = st === '压缩' ? 'vol-squeeze' : (st === '放大' ? 'vol-expand' : 'neu');
+  var html = '<span>' + c.vol20 + '%</span> <span class="' + stCls + '" style="font-size:0.72rem">' + st + '</span>';
+  if (c.vol_pctile != null) {
+    var pctColor = c.vol_pctile >= 80 ? '#ff7b72' : (c.vol_pctile <= 20 ? '#3fb950' : '#9da7b3');
+    html += '<br><span style="font-size:0.68rem;color:' + pctColor + '">' + c.vol_pctile + '%分位</span>';
+  }
+  return html;
+}
 function ivRvCell(c) {
   if (!c.iv_rv) return '<span class="neu">—</span>';
   var v = c.iv_rv;
@@ -265,8 +277,7 @@ function ivRvCell(c) {
   var color = label.indexOf('⚠️') >= 0 ? '#ff7b72' : (label === 'IV溢价偏高' || label === 'IV低估' ? '#d29922' : '#8b949e');
   var html = '<span class="slow-click" title="点击查看IV/RV详解与历史变动" onclick="showIvRvModal(\'' + c.name + '\')">';
   html += 'IV <b>' + v.iv_atm + '%</b>' + (v.iv_source === '新浪反推' ? '<span style="color:#d29922;font-size:0.6rem" title="Black-76反推">*</span>' : '');
-  var rvColor = (v.rv_pctile != null) ? (v.rv_pctile >= 80 ? '#ff7b72' : (v.rv_pctile <= 20 ? '#3fb950' : '#9da7b3')) : '#9da7b3';
-  html += '<br><span class="neu" style="font-size:0.68rem">RV ' + v.rv + '% <span style="color:' + rvColor + '">(' + (v.rv_pctile != null ? v.rv_pctile + '%分位' : '—') + ')</span> · ' + (v.vrp >= 0 ? '+' : '') + v.vrp + 'pp</span>';
+  html += '<br><span class="neu" style="font-size:0.68rem">' + (v.vrp >= 0 ? '+' : '') + v.vrp + 'pp</span>';
   if (label !== 'IV-RV正常') html += '<br><span style="color:' + color + ';font-weight:600;font-size:0.7rem">' + label + '</span>';
   html += '</span>';
   return html;
@@ -309,15 +320,16 @@ function renderSectors(list) {
     });
     if (!items.length) return;
     html += '<h2>' + sec + '</h2><div class="card"><table class="sector-table"><colgroup>'
-      + '<col style="width:42px"><col style="width:56px"><col style="width:58px"><col style="width:36px"><col style="width:52px">'
-      + '<col style="width:78px"><col style="width:58px"><col style="width:66px"><col style="width:80px"><col style="width:80px"><col style="width:68px">'
-      + '<col style="width:56px"><col style="width:56px"><col style="width:56px"><col style="width:108px"><col style="width:150px">'
+      + '<col style="width:40px"><col style="width:54px"><col style="width:54px"><col style="width:34px"><col style="width:50px">'
+      + '<col style="width:74px"><col style="width:56px"><col style="width:62px"><col style="width:78px"><col style="width:78px">'
+      + '<col style="width:62px"><col style="width:50px">'
+      + '<col style="width:54px"><col style="width:54px"><col style="width:54px"><col style="width:104px"><col style="width:142px">'
       + '</colgroup><thead><tr>'
       + '<th>品种</th><th>最新价</th><th>3年分位</th><th>MA</th><th>YTD</th>'
-      + '<th>量仓</th><th>拥挤度</th><th>基本面</th><th>临界慢化</th><th>期限结构</th><th>IV-RV</th>'
+      + '<th>量仓</th><th>拥挤度</th><th>基本面</th><th>临界慢化</th><th>期限结构</th><th>波动率</th><th>IV-RV</th>'
       + '<th>尺度周期</th><th>涌现阶段</th><th>涌现相位</th><th>方向</th><th>驱动逻辑</th></tr></thead><tbody>';
     items.forEach(function(c) {
-      if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=14 class="neu">获取失败</td></tr>'; return; }
+      if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=16 class="neu">获取失败</td></tr>'; return; }
       var ma = (c.above_ma20 ? '↑' : '↓') + (c.above_ma60 ? '↑' : '↓');
       var flow = flowBadge(c.flow_quad) + '<br><span class="neu" style="font-size:0.7rem">量比' + (c.volume_ratio != null ? c.volume_ratio : '—') + ' 仓' + (c.hold_chg_5 != null ? (c.hold_chg_5 > 0 ? '+' : '') + c.hold_chg_5 + '%' : '—') + '</span>';
       html += '<tr>'
@@ -331,6 +343,7 @@ function renderSectors(list) {
         + '<td>' + fundCell(c) + '</td>'
         + '<td>' + critSlow(c) + '</td>'
         + '<td>' + termCell(c) + '</td>'
+        + '<td>' + volCell(c) + '</td>'
         + '<td>' + ivRvCell(c) + '</td>'
         + '<td class="stage">' + (c.scale || '') + '</td>'
         + '<td class="stage">' + (c.stage || '') + '</td>'
