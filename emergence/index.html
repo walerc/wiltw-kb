@@ -79,7 +79,7 @@ tr:hover td { background: #1a2028; }
 <body>
 <div class="wrap">
   <h1>🌊 全品种涌现状态扫描盘 <span class="update-time" id="updTime"></span></h1>
-  <div class="sub">28 个活跃品种 · 涌现时钟扫描 · 找出"跃迁前夜"的品种做轮动 · 数据每日自动更新</div>
+  <div class="sub">28 个活跃品种 · 涌现时钟扫描 · 找出"临近变盘"的品种做轮动 · 数据每日自动更新</div>
 
   <div id="summaryBox"></div>
 
@@ -97,13 +97,13 @@ tr:hover td { background: #1a2028; }
           <tr><td>量仓·量比</td><td class="formula">今日成交量 ÷ 近20日平均成交量</td><td>&gt;1.5 = 放量 · &gt;2 = 显著放量</td></tr>
           <tr><td>量仓·仓</td><td class="formula">(今日持仓 ÷ 5个交易日前持仓 − 1) × 100%</td><td><span class="red">正=增仓</span>（资金进场）/ <span class="green">负=减仓</span>（资金离场）</td></tr>
           <tr><td>量仓·四象限</td><td>近5日<b>价格涨跌</b> × 近5日<b>持仓增减</b></td><td>涨+增仓=<span class="red">多头进攻</span>（新多进场）· 跌+增仓=<span class="green">空头进攻</span>（新空进场）· 涨+减仓=<span class="amber">空头回补</span>（虚涨）· 跌+减仓=<span class="amber">多头离场</span></td></tr>
-          <tr><td>临界慢化·波动</td><td class="formula">近20日年化波动率 ÷ 近252日年化波动率</td><td>&lt;0.7 = <span class="amber">压缩</span>（波动收窄、蓄势待变）· &gt;1.5 = <span class="red">放大</span>（变盘进行中）· 0.7~1.5 = 正常</td></tr>
+          <tr><td>临界信号·波动</td><td class="formula">近20日年化波动率 ÷ 近252日年化波动率</td><td>&lt;0.7 = <span class="amber">压缩</span>（波动收窄、蓄势待变）· &gt;1.5 = <span class="red">放大</span>（变盘进行中）· 0.7~1.5 = 正常</td></tr>
           <tr><td>波动率</td><td class="formula">20日年化已实现波动率 RV = 近20日收益率标准差 × √252；历史分位 = 当前 RV 在自身历史滑动序列（每5日一点）的百分位</td><td>列内显示 <b>RV值</b> + <b>状态</b>（<span class="amber">压缩</span>＝波动收窄蓄势 / <span class="red">放大</span>＝变盘进行中 / 正常）+ <b>历史分位</b>（<span class="red">≥80 高波动</span>→降仓 / <span class="green">≤20 低波动</span>→可升仓，VIX类比）</td></tr>
-          <tr><td>临界慢化·AR1</td><td>近60日收盘价（去趋势）的一阶自回归系数，衡量"价格惯性 / 系统恢复力"。含四维：<b>历史分位</b>(当前AR1在自身历史序列的百分位，≥80高位/≤20低位)、<b>变动趋势</b>(近4点vs前4点，Δ>+0.03上升=逼近临界 / Δ<−0.03回落=相变已启动)、<b>协同相位</b>(AR1×波动：临界逼近/相变进行中/蓄势/事件驱动/稳定)、<b>偏度</b>(60日收益率，右偏=多动能/左偏=空动能)</td><td>越接近1 = 惯性越强、恢复越慢 = 越接近临界跃迁；<span class="amber">≥0.95 高亮</span>。⚠️ 只看绝对值会误判（不同品种基线不同，须看分位）；<span class="amber">点击单元格查看详解 + AR1趋势图</span></td></tr>
+          <tr><td>临界信号·AR1</td><td>近60日收盘价（去趋势）的一阶自回归系数，衡量"价格惯性 / 系统恢复力"。含四维：<b>历史分位</b>(当前AR1在自身历史序列的百分位，≥80高位/≤20低位)、<b>变动趋势</b>(近4点vs前4点，Δ>+0.03上升=临近变盘 / Δ<−0.03回落=变盘已启动)、<b>协同相位</b>(AR1×波动：临近变盘/变盘进行中/蓄势待变/事件冲击/稳定)、<b>偏度</b>(60日收益率，右偏=多动能/左偏=空动能)</td><td>越接近1 = 惯性越强、恢复越慢 = 越临近变盘；<span class="amber">≥0.95 高亮</span>。⚠️ 只看绝对值会误判（不同品种基线不同，须看分位）；<span class="amber">点击单元格查看详解 + AR1趋势图</span></td></tr>
           <tr><td>期限结构</td><td class="formula">(主力合约价 − 次主力合约价) ÷ 次主力价 × 100%</td><td><span class="red">正=Backwardation</span>（现货升水、现货紧张）· <span class="green">负=Contango</span>（期货升水、供过于求）· |值|≤0.5%=平坦；农产品跨季价差含季节性</td></tr>
           <tr><td>量仓印证</td><td>「方向(做多/做空)」vs「持仓20日变化 + 四象限」的自动对照</td><td><span class="green">✅印证</span>=资金行为支持方向 · <span class="red">⚠️背离</span>=资金离场或反向风险 · <span class="amber">⏳观察</span>=中性待确认</td></tr>
           <tr><td>期限信号</td><td>「方向」vs「期限结构」的自动对照（仅极端 |升贴水|&gt;3% 触发）</td><td><span class="green">✅</span>=结构印证方向 · <span class="red">⚠️</span>=结构反向风险 · <span class="amber">⏳</span>=待观察（如贴水可选远月）</td></tr>
-          <tr><td>涌现相位</td><td>相空间状态机（驱动=因 + 技术=果，替代线性加总，回归"不可还原"）：<b>驱动累积</b>(驱动累积未触发) / <b>逼近临界</b>(有明确方向+临界信号) / <b>跃迁中</b>(驱动已触发+技术确认) / <b>新稳态</b>(驱动已兑现) / <b>蓄势</b>(方向未定+波动异常)</td><td>跃迁中=顺势 · 逼近临界=等信号 · 驱动累积=埋伏布局 · 蓄势=方向待定。列内小字=驱动类型·强度 + <span class="amber">时滞</span>(驱动→兑现的时间)</td></tr>
+          <tr><td>涌现相位</td><td>把"基本面驱动 + 技术确认"合成通俗阶段标签：<b>积累中</b>(基本面在变、价格未动) / <b>临近变盘</b>(快到转折点) / <b>趋势启动</b>(单边已走出来) / <b>新平衡</b>(行情走完) / <b>蓄势待变</b>(方向未定+波动异常)</td><td>趋势启动=顺势持有 · 临近变盘=等信号盯紧 · 积累中=埋伏布局 · 蓄势待变=方向待定。列内小字=驱动类型·强度 + <span class="amber">时滞</span>(驱动→兑现的时间)</td></tr>
           <tr><td>方向信号</td><td>量化方向信号，−100~+100（中长期口径）。<b>趋势</b>(±40)=MA20/MA60双均线组合；<b>资金</b>(±30)=持仓20日变化÷25%×30；<b>动量</b>(±30)=60日动量÷15%×30</td><td><span class="red">≥+15 偏多</span> · −15~+15 中性 · <span class="green">≤−15 偏空</span>（≥40强多/≤−40强空）。列内小字=技术+分数+标签</td></tr>
           <tr><td>方向</td><td>基本面涌现建议（中长期，有供需/成本/周期研究支撑）</td><td>做多 / 做空 / 观望 / 等回调 / 等右侧 等。与下方"方向信号"(技术面)对照：✅量化印证 / ⚠️背离 / ⏳技术回调中</td></tr>
           <tr><td>操作建议</td><td>把方向+量仓+一致性翻译成动作，围绕"趋势中继回调管理"自动生成：<b>暂离避险</b>(资金撤退+破位) / <b>减仓观察</b>(资金离场) / <b>持有观察企稳可回补</b>(健康回调) / <b>持有回调加仓</b>(资金进场+回调) / <b>持有顺势</b>(技术印证) / 左侧试探/等右侧/等回调/区间高抛低吸</td><td>方向列内 📌 彩色标签（红=减仓避险/金=加仓/绿=持有），<span class="amber">点击弹出操作详解</span>（依据+动作+风险线）</td></tr>
@@ -155,17 +155,20 @@ function emergeCell(c) {
 }
 function phaseCell(c) {
   var phase = c.emergence_phase || '—';
+  var label = { '驱动累积': '积累中', '蓄势': '蓄势待变', '逼近临界': '临近变盘', '跃迁中': '趋势启动', '跃迁中(反向)': '反向趋势', '新稳态': '新平衡' }[phase] || phase;
+  var tip = { '积累中': '基本面在变，价格还没动，可埋伏等启动', '蓄势待变': '方向未定、波动异常，等方向明确', '临近变盘': '快到转折点了，结合方向列判断', '趋势启动': '单边行情已走出来，顺势持有', '反向趋势': '反向单边行情，顺势持有', '新平衡': '行情走完，价格在新水平稳定' }[label] || '';
   var color = { '跃迁中': '#ff5050', '跃迁中(反向)': '#00c864', '逼近临界': '#d29922', '驱动累积': '#58a6ff', '新稳态': '#8b949e', '蓄势': '#d29922' }[phase] || '#8b949e';
-  var html = '<span style="color:' + color + ';font-weight:700">' + phase + '</span>';
+  var html = '<span style="color:' + color + ';font-weight:700" title="' + tip + '">' + label + '</span>';
   if (c.drv_type) html += '<br><span class="neu" style="font-size:0.66rem">' + c.drv_type + '·' + (c.drv_strength || '') + '</span>';
   if (c.drv_lag && c.drv_lag !== '即时') html += '<br><span class="amber" style="font-size:0.66rem">时滞' + c.drv_lag + '</span>';
   return html;
 }
 function critSlow(c) {
   var phase = c.slow_phase;
+  var phaseLabel = { '相变进行中': '变盘进行中', '临界逼近': '临近变盘', '蓄势': '蓄势待变', '事件驱动': '事件冲击', '稳定': '稳定' }[phase] || phase;
   var phaseColor = phase === '相变进行中' ? '#ff7b72' : (phase === '临界逼近' ? '#d29922' : (phase === '蓄势' ? '#d29922' : (phase === '事件驱动' ? '#ff7b72' : '#8b949e')));
-  var html = '<span class="slow-click" title="点击查看临界慢化详解" onclick="showSlowModal(\'' + c.name + '\')">';
-  if (phase) html += '<span style="color:' + phaseColor + ';font-weight:600">' + phase + '</span><br>';
+  var html = '<span class="slow-click" title="点击查看临界信号详解" onclick="showSlowModal(\'' + c.name + '\')">';
+  if (phase) html += '<span style="color:' + phaseColor + ';font-weight:600">' + phaseLabel + '</span><br>';
   if (c.ar1 != null) html += '<span class="' + (c.ar1 >= 0.95 ? 'ar1-hot' : 'neu') + '">AR1=' + c.ar1 + '</span>';
   if (c.ar1_pct != null) html += '<span class="neu" style="font-size:0.68rem"> ' + c.ar1_pct + '%分位</span>';
   html += '</span>';
@@ -296,12 +299,12 @@ fetch('emergence_scan.json?t=' + Date.now())
 
 function renderSummary(s) {
   if (!s) return;
-  var html = '<div class="card" style="background:#1a2028"><b style="color:#e0c068">📌 跃迁候选清单</b>';
+  var html = '<div class="card" style="background:#1a2028"><b style="color:#e0c068">📌 今日重点品种</b>';
   html += '<div class="sum-row"><div class="sum-card"><h3 class="up">🔴 做多候选 (' + (s.longs ? s.longs.length : 0) + ')</h3>';
   (s.longs || []).forEach(x => html += '<div class="item">' + x + '</div>');
   html += '</div><div class="sum-card"><h3 class="down">🟢 做空候选 (' + (s.shorts ? s.shorts.length : 0) + ')</h3>';
   (s.shorts || []).forEach(x => html += '<div class="item">' + x + '</div>');
-  html += '</div><div class="sum-card"><h3 style="color:#d29922">⚠️ 相变警惕 (' + (s.alerts ? s.alerts.length : 0) + ')</h3>';
+  html += '</div><div class="sum-card"><h3 style="color:#d29922">⚠️ 变盘警惕 (' + (s.alerts ? s.alerts.length : 0) + ')</h3>';
   html += '<div class="chips">';
   (s.alerts || []).forEach(x => html += '<span class="chip">' + x + '</span>');
   html += '</div></div></div>';
@@ -326,7 +329,7 @@ function renderSectors(list) {
       + '<col style="width:54px"><col style="width:54px"><col style="width:54px"><col style="width:104px"><col style="width:142px">'
       + '</colgroup><thead><tr>'
       + '<th>品种</th><th>最新价</th><th>3年分位</th><th>MA</th><th>YTD</th>'
-      + '<th>量仓</th><th>拥挤度</th><th>基本面</th><th>临界慢化</th><th>期限结构</th><th>波动率</th><th>IV-RV</th>'
+      + '<th>量仓</th><th>拥挤度</th><th>基本面</th><th>临界信号</th><th>期限结构</th><th>波动率</th><th>IV-RV</th>'
       + '<th>尺度周期</th><th>涌现阶段</th><th>涌现相位</th><th>方向</th><th>驱动逻辑</th></tr></thead><tbody>';
     items.forEach(function(c) {
       if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=16 class="neu">获取失败</td></tr>'; return; }
@@ -451,18 +454,19 @@ function showSlowModal(name) {
   if (!c) return;
 
   var phase = c.slow_phase || '—';
+  var phaseLabel = { '相变进行中': '变盘进行中', '临界逼近': '临近变盘', '蓄势': '蓄势待变', '事件驱动': '事件冲击', '稳定': '稳定' }[phase] || phase;
   var phaseColor = phase === '相变进行中' ? '#ff7b72' : (phase === '临界逼近' || phase === '蓄势' ? '#d29922' : (phase === '事件驱动' ? '#ff7b72' : '#8b949e'));
   var trend = c.ar1_trend || '—';
   var trendColor = (trend.indexOf('上升') >= 0) ? '#ff7b72' : (trend.indexOf('回落') >= 0 ? '#00c864' : '#8b949e');
 
   var interp = [];
-  if (phase === '相变进行中') interp.push('高AR1 + 波动放大 = 临界慢化双信号齐亮，相变已启动、趋势正在展开（顺势持有或准备离场）');
-  else if (phase === '临界逼近') interp.push('AR1 高但波动尚未放大，恢复力已衰弱但变盘未启动，处于"逼近临界"状态（等波动放大或方向确认）');
+  if (phase === '相变进行中') interp.push('高AR1 + 波动放大 = 双信号齐亮，变盘已启动、趋势正在展开（顺势持有或准备离场）');
+  else if (phase === '临界逼近') interp.push('AR1 高但波动尚未放大，恢复力已衰弱但变盘未启动，处于"临近变盘"状态（等波动放大或方向确认）');
   else if (phase === '蓄势') interp.push('AR1 高 + 波动压缩 = "暴风雨前的宁静"，蓄势待变，可能酝酿剧烈方向选择');
-  else if (phase === '事件驱动') interp.push('波动放大但 AR1 不高 = 事件驱动型波动，非临界慢化，持续性可能差');
-  else interp.push('未现临界慢化信号，系统恢复力正常');
-  if (trend.indexOf('上升') >= 0) interp.push('AR1 趋势上行，惯性在增强——仍在逼近临界');
-  else if (trend.indexOf('回落') >= 0) interp.push('AR1 趋势回落，惯性在减弱——可能已过临界、相变已启动');
+  else if (phase === '事件驱动') interp.push('波动放大但 AR1 不高 = 事件冲击型波动，非临界信号，持续性可能差');
+  else interp.push('未现临界信号，系统恢复力正常');
+  if (trend.indexOf('上升') >= 0) interp.push('AR1 趋势上行，惯性在增强——仍在临近变盘');
+  else if (trend.indexOf('回落') >= 0) interp.push('AR1 趋势回落，惯性在减弱——可能已过临界点、变盘已启动');
   if (c.ar1_pct != null) {
     if (c.ar1_pct >= 80) interp.push('当前 AR1 处历史 ' + c.ar1_pct + '% 高位，异常程度高');
     else if (c.ar1_pct <= 20) interp.push('当前 AR1 处历史 ' + c.ar1_pct + '% 低位，恢复力反而偏强');
@@ -473,18 +477,18 @@ function showSlowModal(name) {
     else if (c.skew_label.indexOf('左偏') >= 0) interp.push('偏度左偏，近期大跌幅占主导（偏空动能）');
   }
 
-  var html = '<h3>' + c.name + ' · 临界慢化详解</h3>';
+  var html = '<h3>' + c.name + ' · 临界信号详解</h3>';
   html += '<p><span class="kv"><b>AR1(60日):</b> ' + (c.ar1 != null ? c.ar1 : '—') + '</span>'
     + '<span class="kv"><b>历史分位:</b> ' + (c.ar1_pct != null ? c.ar1_pct + '%' : '—') + '</span></p>';
   html += '<p><span class="kv"><b>变动趋势:</b> <span style="color:' + trendColor + '">' + trend + '</span></span>'
     + '<span class="kv"><b>Δ:</b> ' + (c.ar1_delta != null ? (c.ar1_delta > 0 ? '+' : '') + c.ar1_delta : '—') + '</span></p>';
-  html += '<p><span class="kv"><b>协同相位:</b> <span style="color:' + phaseColor + '">' + phase + '</span></span></p>';
+  html += '<p><span class="kv"><b>协同相位:</b> <span style="color:' + phaseColor + '">' + phaseLabel + '</span></span></p>';
   html += '<p><span class="kv"><b>偏度(60日):</b> ' + (c.skew != null ? c.skew : '—') + ' ' + (c.skew_label || '') + '</span></p>';
   html += '<p><span class="kv"><b>波动状态:</b> ' + (c.vol_state || '—') + '（比值 ' + (c.vol_ratio != null ? c.vol_ratio : '—') + '）</span></p>';
 
   html += '<h4>AR1 历史趋势（近200日 · 虚线=0.95 阈值）</h4>';
   html += ar1Sparkline(c.ar1_hist);
-  html += '<div class="dim">AR1 越接近 1 = 日间惯性越强、系统恢复力越弱、越接近临界跃迁。上升=逼近临界；回落=相变可能已启动。</div>';
+  html += '<div class="dim">AR1 越接近 1 = 日间惯性越强、系统恢复力越弱、越临近变盘。上升=临近变盘；回落=变盘可能已启动。</div>';
 
   html += '<div class="interp">' + interp.map(function(s) { return '· ' + s; }).join('<br>') + '</div>';
 
