@@ -332,7 +332,7 @@ function renderSectors(list) {
       if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=16 class="neu">获取失败</td></tr>'; return; }
       var ma = (c.above_ma20 ? '↑' : '↓') + (c.above_ma60 ? '↑' : '↓');
       var flow = flowBadge(c.flow_quad) + '<br><span class="neu" style="font-size:0.7rem">量比' + (c.volume_ratio != null ? c.volume_ratio : '—') + ' 仓' + (c.hold_chg_5 != null ? (c.hold_chg_5 > 0 ? '+' : '') + c.hold_chg_5 + '%' : '—') + '</span>';
-      if (c.rollover_recent) flow += '<br><span style="font-size:0.66rem;color:#d29922" title="近期主力换月，持仓变化率已做阶梯修正">⚠️近期换月</span>';
+      if (c.rollover_recent) flow += '<br><span style="font-size:0.66rem;color:#d29922" title="近期主力换月（持仓变化率已改用总持仓口径，不受换月跳变影响）">⚠️近期换月</span>';
       html += '<tr>'
         + '<td><b>' + c.name + '</b></td>'
         + '<td>' + (c.latest != null ? c.latest.toLocaleString() : '—') + '</td>'
