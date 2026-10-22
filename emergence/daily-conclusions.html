@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>🔔 每日结论提示</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: #0d1117; color: #c9d1d9; line-height: 1.6; }
+.wrap { max-width: 900px; margin: 0 auto; padding: 1.5rem 1.2rem; }
+.top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.3rem; }
+h1 { font-size: 1.4rem; color: #e6edf3; }
+.back { color: #8b949e; font-size: 0.8rem; text-decoration: none; padding: 0.3rem 0.8rem; border: 1px solid #30363d; border-radius: 6px; }
+.back:hover { color: #e0c068; border-color: #e0c068; }
+.sub { color: #8b949e; font-size: 0.82rem; margin-bottom: 1rem; }
+/* 日期选择器 */
+.date-bar { display: flex; gap: 0.5rem; overflow-x: auto; padding: 0.5rem 0 1rem; margin-bottom: 0.5rem; }
+.date-chip { flex: 0 0 auto; padding: 0.4rem 0.9rem; border-radius: 8px; border: 1px solid #30363d; background: #161b22; color: #9da7b3; font-size: 0.8rem; cursor: pointer; text-align: center; white-space: nowrap; transition: all 0.15s; }
+.date-chip .d { font-weight: 600; }
+.date-chip .w { font-size: 0.68rem; color: #6e7681; }
+.date-chip .n { font-size: 0.66rem; color: #6e7681; }
+.date-chip:hover { border-color: #e0c068; color: #e6edf3; }
+.date-chip.active { background: #e0c068; color: #1a1a2e; border-color: #c9a840; }
+.date-chip.active .w, .date-chip.active .n { color: #4a3d10; }
+/* 结论卡片 */
+.card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 0.9rem 1.1rem; margin: 0.5rem 0; cursor: pointer; transition: all 0.15s; }
+.card:hover { border-color: #e0c068; background: #1a2028; }
+.card .head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; flex-wrap: wrap; }
+.card .icon { font-size: 1.1rem; }
+.card .title { font-weight: 700; color: #e6edf3; font-size: 0.95rem; }
+.card .name { color: #e0c068; font-size: 0.85rem; }
+.card .text { font-size: 0.85rem; color: #c9d1d9; line-height: 1.6; }
+.card .kind-tag { font-size: 0.66rem; padding: 0.1rem 0.45rem; border-radius: 8px; background: #21262d; color: #8b949e; }
+/* kind 颜色 */
+.kind-dir .title { color: #ff7b72; }
+.kind-phase .title { color: #d29922; }
+.kind-diverge .title { color: #ffa657; }
+.kind-vol .title { color: #3fb950; }
+.kind-extreme .title { color: #d29922; }
+.empty-card { text-align: center; padding: 2.5rem 1rem; color: #6e7681; background: #161b22; border: 1px solid #21262d; border-radius: 10px; margin: 0.5rem 0; }
+.empty-card .big { font-size: 1.6rem; margin-bottom: 0.5rem; }
+/* 弹窗 */
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.72); z-index: 999; display: none; align-items: center; justify-content: center; }
+.modal.active { display: flex; }
+.modal-content { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 1.2rem 1.5rem; max-width: 560px; width: 92%; max-height: 84vh; overflow-y: auto; }
+.modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
+.modal-head h3 { color: #e6edf3; font-size: 1rem; }
+.modal-close { cursor: pointer; font-size: 1.4rem; line-height: 1; color: #8b949e; background: none; border: none; }
+.modal-close:hover { color: #e6edf3; }
+.modal-content .icon-big { font-size: 1.3rem; }
+.modal-content .m-title { font-size: 1.05rem; font-weight: 700; color: #e6edf3; }
+.modal-content .m-name { color: #e0c068; }
+.modal-content h4 { color: #8b949e; font-size: 0.75rem; margin: 0.9rem 0 0.3rem; }
+.modal-content .m-text { font-size: 0.88rem; line-height: 1.7; color: #c9d1d9; }
+.modal-content .m-detail { background: #1a2028; border-left: 3px solid #d29922; padding: 0.6rem 0.8rem; border-radius: 4px; font-size: 0.78rem; line-height: 1.6; color: #9da7b3; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre-wrap; word-break: break-all; }
+.note { color: #6e7681; font-size: 0.74rem; margin-top: 1rem; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <h1>🔔 每日结论提示</h1>
+    <a class="back" href="index.html">← 返回涌现扫描盘</a>
+  </div>
+  <div class="sub">每天收盘后自动记录的「观点变化」结论 · 点击日期切换 · 点击卡片查看术语详情</div>
+
+  <div class="date-bar" id="dateBar"></div>
+  <div id="list"></div>
+
+  <div class="note">
+    本页记录 <b>每日观点变化检测</b>（opinion_change.py）产出的结论提示：方向翻转 / 涌现相位变化 / 技术基本面背离 / 波动率事件 / 极端分位跨越。无变化的日子记为「今日无重大观点变化」。非投资指令。
+  </div>
+</div>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-content">
+    <div class="modal-head">
+      <h3 id="mHead"></h3>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div id="mBody"></div>
+  </div>
+</div>
+
+<script>
+var DATA = { days: [] };
+var ACTIVE = null;
+
+fetch('daily_conclusions.json?t=' + Date.now())
+  .then(function(r){ return r.json(); })
+  .then(function(d){ DATA = d; render(); })
+  .catch(function(e){ document.getElementById('list').innerHTML = '<div class="empty-card">❌ 数据加载失败：' + e.message + '</div>'; });
+
+function fmtDate(s) {
+  return s.length === 8 ? s.slice(0,4) + '-' + s.slice(4,6) + '-' + s.slice(6,8) : s;
+}
+
+function render() {
+  var days = DATA.days || [];
+  if (!days.length) {
+    document.getElementById('list').innerHTML = '<div class="empty-card"><div class="big">📭</div>暂无记录，等待首个交易日运行后生成</div>';
+    return;
+  }
+  if (!ACTIVE) ACTIVE = days[0].date;
+  // 日期 chips
+  var bar = days.map(function(d) {
+    var cls = 'date-chip' + (d.date === ACTIVE ? ' active' : '');
+    var dsp = fmtDate(d.date);
+    var n = d.count > 0 ? (d.count + ' 项') : '无变化';
+    return '<div class="' + cls + '" onclick="select(&#39;' + d.date + '&#39;)">' +
+      '<div class="d">' + dsp.slice(5) + '</div>' +
+      '<div class="w">' + (d.weekday || '') + '</div>' +
+      '<div class="n">' + n + '</div></div>';
+  }).join('');
+  document.getElementById('dateBar').innerHTML = bar;
+  renderList();
+}
+
+function select(date) {
+  ACTIVE = date;
+  render();
+}
+
+function renderList() {
+  var day = (DATA.days || []).find(function(d){ return d.date === ACTIVE; });
+  var box = document.getElementById('list');
+  if (!day) { box.innerHTML = ''; return; }
+  var evs = day.events || [];
+  if (!evs.length) {
+    box.innerHTML = '<div class="empty-card"><div class="big">✅</div><div>' + fmtDate(day.date) + ' ' + (day.weekday||'') + ' 无重大观点变化</div><div style="margin-top:0.4rem;font-size:0.78rem">各品种方向、相位、波动率、拥挤度均维持昨日判断</div></div>';
+    return;
+  }
+  box.innerHTML = evs.map(function(e) {
+    return '<div class="card kind-' + e.kind + '" onclick="openModal(&#39;' + encodeURIComponent(JSON.stringify(e)) + '&#39;)">' +
+      '<div class="head"><span class="icon">' + (e.icon||'') + '</span>' +
+      '<span class="title">' + (e.title||'') + '</span>' +
+      (e.name ? '<span class="name">' + e.name + '</span>' : '') +
+      '<span class="kind-tag">' + kindCn(e.kind) + '</span></div>' +
+      '<div class="text">' + (e.text||'') + '</div></div>';
+  }).join('');
+}
+
+function kindCn(k) {
+  return {dir:'方向', phase:'相位', diverge:'背离', vol:'波动率', extreme:'极端'}[k] || k;
+}
+
+function openModal(enc) {
+  var e = JSON.parse(decodeURIComponent(enc));
+  document.getElementById('mHead').textContent = (e.icon||'') + ' ' + (e.title||'') + (e.name ? ' · ' + e.name : '');
+  document.getElementById('mBody').innerHTML =
+    '<h4>📌 结论</h4><div class="m-text">' + (e.text||'') + '</div>' +
+    (e.detail ? '<h4>🔬 术语详情</h4><div class="m-detail">' + e.detail + '</div>' : '');
+  document.getElementById('modal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+}
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
