@@ -151,6 +151,7 @@ function openModal(enc) {
   document.getElementById('mHead').textContent = (e.icon||'') + ' ' + (e.title||'') + (e.name ? ' · ' + e.name : '');
   document.getElementById('mBody').innerHTML =
     '<h4>📌 结论</h4><div class="m-text">' + (e.text||'') + '</div>' +
+    (e.context ? '<h4>💡 怎么理解</h4><div class="m-text" style="background:#1a2028;padding:0.6rem 0.8rem;border-radius:6px;border-left:3px solid #3fb950">' + e.context + '</div>' : '') +
     (e.detail ? '<h4>🔬 术语详情</h4><div class="m-detail">' + e.detail + '</div>' : '');
   document.getElementById('modal').classList.add('active');
 }
