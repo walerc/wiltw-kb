@@ -25,6 +25,9 @@ tr:hover td { background: #1a2028; }
 .crowd-neutral { background: #30363d; color: #8b949e; }
 .crowd-mild-long { background: #ff505015; color: #ff7b72; }
 .crowd-mild-short { background: #00c86415; color: #3fb950; }
+.retail-extend { background: #d2992222; color: #d29922; }
+.retail-surrender { background: #bc8cff33; color: #bc8cff; }
+.retail-neutral { background: #30363d; color: #8b949e; }
 .score-bar { display: inline-block; width: 80px; height: 8px; border-radius: 4px; background: #21262d; vertical-align: middle; margin-right: 6px; overflow: hidden; position: relative; }
 .score-bar .center { position: absolute; left: 50%; top: 0; width: 1px; height: 100%; background: #30363d; }
 .score-bar i { display: block; height: 100%; border-radius: 4px; }
@@ -81,6 +84,7 @@ tr:hover td { background: #1a2028; }
           <tr><td>空单集中度</td><td class="formula">前5席位空单 ÷ 前20席位空单合计</td><td>&gt;0.35 = 空头集中在少数大席位（边际卖盘枯竭）</td></tr>
           <tr><td>净持仓</td><td class="formula">前20席位多单合计 − 前20席位空单合计</td><td><span class="red">正=净多</span> / <span class="green">负=净空</span>，反映前20大席位的方向倾斜</td></tr>
           <tr><td>席位增减背离</td><td>多头前5席位增减 vs 空头前5席位增减的方向对比</td><td><span class="amber">多头减仓+空头增仓</span>=顶部松动 · <span class="amber">空头减仓+多头增仓</span>=底部松动，是反转的领先信号</td></tr>
+          <tr><td>散户反向指标</td><td>东财/徽商/平安/方正中期/中信建投 5 家散户席位合计净持仓（任一家进前20即激活，0家=散户不集中）</td><td><span class="amber">加仓延伸</span>=散户逆势扛单、反向趋势延续（顺势持有）· <span style="color:#bc8cff">投降预警</span>=散户净持仓从高位回落归零、平仓投降 → 反转预警</td></tr>
         </tbody>
       </table>
     </details>
@@ -136,6 +140,18 @@ function netCell(v) {
   return '<span class="' + cls + '">' + sign + (v / 10000).toFixed(1) + '万</span>';
 }
 
+function retailCell(c) {
+  var r = c.retail;
+  if (!r) return '<span class="neu">—</span>';
+  if (!r.active) {
+    var lbl = r.phase === '散户离场' ? '散户离场' : '散户不集中';
+    return '<span class="badge retail-neutral">' + lbl + '</span>';
+  }
+  var net = r.net_pos != null ? ((r.net_pos > 0 ? '+' : '') + (r.net_pos / 10000).toFixed(1) + '万') : '—';
+  var cls = r.phase === '投降预警' ? 'retail-surrender' : (r.phase === '加仓延伸' ? 'retail-extend' : 'retail-neutral');
+  return '<span class="badge ' + cls + '">' + r.phase + '</span><br><span class="neu" style="font-size:0.7rem">净' + net + '·' + r.seats.length + '席</span>';
+}
+
 function chgCell(longChg, shortChg) {
   if (longChg == null) return '<span class="neu">—</span>';
   var l = longChg > 0 ? '<span class="up">+' + longChg + '</span>' : '<span class="down">' + longChg + '</span>';
@@ -166,6 +182,18 @@ function showDetail(name) {
   }
   if (c.diverge_note) {
     html += '<div class="interp">⚠️ ' + c.diverge_note + '</div>';
+  }
+  if (c.retail && c.retail.active) {
+    var rt = c.retail;
+    var rtCls = rt.phase === '投降预警' ? 'retail-surrender' : (rt.phase === '加仓延伸' ? 'retail-extend' : 'retail-neutral');
+    html += '<h4>🟣 散户反向指标（散户投降框架）</h4>';
+    html += '<p><span class="badge ' + rtCls + '">' + rt.phase + '</span></p>';
+    html += '<p><span class="kv"><b>散户净持仓</b> ' + (rt.net_pos != null ? ((rt.net_pos > 0 ? '+' : '') + (rt.net_pos / 10000).toFixed(1) + '万') : '—') + '</span>' +
+            '<span class="kv"><b>命中席位</b> ' + (rt.seats && rt.seats.length ? rt.seats.join('、') : '—') + '</span></p>';
+    html += '<div class="interp">' + (rt.phase_detail || '') + '</div>';
+  } else if (c.retail) {
+    html += '<h4>🟣 散户反向指标</h4>';
+    html += '<p class="neu">' + (c.retail.phase || '散户不集中') + '（东财/徽商/平安等散户席位未进前20，反向指标不适用）</p>';
   }
   var interp = '';
   if (c.crowd_score >= 60) interp = '多头高度拥挤：前20席位多单远超空单，且集中在少数大席位。聪明钱已充分进场，边际买盘枯竭，一旦价格停滞或回落，多头踩踏平仓将放大跌幅——警惕大级别下跌反转。';
@@ -219,10 +247,10 @@ function renderSectors(list) {
     });
     if (!items.length) return;
     html += '<h2>' + sec + '</h2><table><thead><tr>' +
-      '<th>品种</th><th>合约</th><th>拥挤度</th><th>多空比</th><th>多单集中度</th><th>空单集中度</th><th>净持仓</th><th>席位增减</th><th>背离信号</th></tr></thead><tbody>';
+      '<th>品种</th><th>合约</th><th>拥挤度</th><th>多空比</th><th>多单集中度</th><th>空单集中度</th><th>净持仓</th><th>散户反向</th><th>席位增减</th><th>背离信号</th></tr></thead><tbody>';
     items.forEach(function(c) {
       if (!c.available) {
-        html += '<tr><td>' + c.name + ' <span class="neu">(' + c.sym + ')</span></td><td colspan="8" class="neu">数据暂缺（交易所接口不可用）</td></tr>';
+        html += '<tr><td>' + c.name + ' <span class="neu">(' + c.sym + ')</span></td><td colspan="9" class="neu">数据暂缺（交易所接口不可用）</td></tr>';
         return;
       }
       html += '<tr><td class="clickable" onclick="showDetail(\'' + c.name + '\')"><b style="color:#e6edf3">' + c.name + '</b> <span class="neu" style="font-size:0.7rem">' + c.sym + '</span></td>';
@@ -232,6 +260,7 @@ function renderSectors(list) {
       html += '<td>' + crCell(c.cr5_long) + '</td>';
       html += '<td>' + crCell(c.cr5_short) + '</td>';
       html += '<td>' + netCell(c.net_pos) + '</td>';
+      html += '<td>' + retailCell(c) + '</td>';
       html += '<td>' + chgCell(c.long_chg, c.short_chg) + '</td>';
       html += '<td class="neu" style="font-size:0.72rem">' + (c.diverge_note || '—') + '</td></tr>';
     });
