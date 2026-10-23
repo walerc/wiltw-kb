@@ -297,13 +297,18 @@ function showFamilyModal(name) {
   var hrc = f.high_rank_count || 0;
   if (hrc >= 1) {
     var attColor = hrc >= 3 ? '#ff5050' : (hrc >= 2 ? '#ff7b72' : '#d29922');
-    html += '<div class="interp" style="border-left-color:' + attColor + ';color:' + attColor + '">🔥 重视度：' + (f.attention || '') + '（' + hrc + ' 家席位净持仓排名进入前5，散户看多资金高度集中）</div>';
+    var _sd = f.seats_detail || [];
+    var _lc = _sd.filter(function(s){ return s.dir === 'long' && s.net_rank && s.net_rank <= 5; }).length;
+    var _sc = _sd.filter(function(s){ return s.dir === 'short' && s.net_rank && s.net_rank <= 5; }).length;
+    var dirTxt = (_lc > 0 && _sc > 0) ? '散户双向资金集中' : (_lc > 0 ? '散户看多资金高度集中' : '散户看空资金高度集中');
+    html += '<div class="interp" style="border-left-color:' + attColor + ';color:' + attColor + '">🔥 重视度：' + (f.attention || '') + '（' + hrc + ' 家席位净持仓排名进入前5，' + dirTxt + '）</div>';
   }
   var seatLines = (f.seats_detail || []).map(function(s) {
     var clean = String(s.seat).replace(/（代客）|\(代客\)/g, '').replace(/期货(股份|有限)?公司/g, '').replace(/期货/g, '');
     var nr = s.net_rank;
     var high = nr && nr <= 5;
-    return clean + (nr ? '(净第' + nr + '名)' : '') + (high ? '🔥' : '');
+    var dirTag = (s.dir === 'short') ? '净空第' : '净多第';
+    return clean + (nr ? '(' + dirTag + nr + '名)' : '') + (high ? '🔥' : '');
   });
   html += '<div class="dim" style="margin-top:0.6rem">净持仓排名：' + (seatLines.length ? seatLines.join('、') : '—') + '</div>';
   if (f.hist && f.hist.length >= 2) {
