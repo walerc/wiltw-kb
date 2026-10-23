@@ -40,8 +40,8 @@ tr:hover td { background: #1a2028; }
 .term-flat { color: #8b949e; }
 .slow-click { cursor: pointer; border-bottom: 1px dashed #8b949e; }
 .slow-click:hover { background: #1a2028; }
-.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.72); z-index: 999; display: flex; align-items: center; justify-content: center; }
-.modal-content { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 1.2rem 1.5rem; max-width: 540px; width: 92%; max-height: 84vh; overflow-y: auto; }
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.72); z-index: 999; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 3vh 16px; }
+.modal-content { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 1.2rem 1.5rem; max-width: 620px; width: 100%; margin: auto; }
 .modal-close { float: right; cursor: pointer; font-size: 1.5rem; line-height: 1; color: #8b949e; }
 .modal-close:hover { color: #e6edf3; }
 .modal-content h3 { color: #e0c068; font-size: 1rem; margin-bottom: 0.8rem; }
@@ -217,6 +217,55 @@ function familyCell(c) {
   return html;
 }
 
+function fmtNet(v) {
+  var a = Math.abs(v);
+  if (a >= 10000) return (v / 10000).toFixed(1) + '万';
+  if (a >= 1000) return (v / 1000).toFixed(1) + 'k';
+  return String(Math.round(v));
+}
+
+function familySparkline(hist) {
+  if (!hist || hist.length < 2) return '<div class="dim">暂无历史序列</div>';
+  var w = 540, h = 190, padL = 52, padR = 10, padT = 12, padB = 24;
+  var nets = hist.map(function(p) { return p.net; });
+  var dates = hist.map(function(p) { return p.date; });
+  var minV = Math.min.apply(null, nets);
+  var maxV = Math.max.apply(null, nets);
+  if (minV > 0) minV = 0;
+  if (maxV < 0) maxV = 0;
+  var range = (maxV - minV) || 1;
+  function x(i) { return padL + i / (hist.length - 1) * (w - padL - padR); }
+  function y(v) { return h - padB - (v - minV) / range * (h - padT - padB); }
+  var zeroY = y(0);
+  var html = '<svg width="100%" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" style="background:#0d1117;border:1px solid #30363d;border-radius:6px">';
+  // 零轴上方（净多区）淡红、下方（净空区）淡绿背景
+  if (zeroY > padT) html += '<rect x="' + padL + '" y="' + padT + '" width="' + (w - padL - padR) + '" height="' + (zeroY - padT).toFixed(1) + '" fill="#ff50500d"/>';
+  if (h - padB - zeroY > 0) html += '<rect x="' + padL + '" y="' + zeroY.toFixed(1) + '" width="' + (w - padL - padR) + '" height="' + (h - padB - zeroY).toFixed(1) + '" fill="#00c8640d"/>';
+  // 网格线 + Y 轴刻度（max / mid / min）
+  for (var g = 0; g <= 2; g++) {
+    var gy = padT + g * (h - padT - padB) / 2;
+    var gv = maxV - g * range / 2;
+    html += '<line x1="' + padL + '" y1="' + gy.toFixed(1) + '" x2="' + (w - padR) + '" y2="' + gy.toFixed(1) + '" stroke="#21262d" stroke-width="1"/>';
+    html += '<text x="' + (padL - 5) + '" y="' + (gy + 3).toFixed(1) + '" fill="#8b949e" font-size="8.5" text-anchor="end">' + fmtNet(gv) + '</text>';
+  }
+  // 零轴高亮虚线
+  html += '<line x1="' + padL + '" y1="' + zeroY.toFixed(1) + '" x2="' + (w - padR) + '" y2="' + zeroY.toFixed(1) + '" stroke="#8b949e" stroke-dasharray="5,4" stroke-width="1.2"/>';
+  // 净持仓轨迹折线
+  var pts = [];
+  for (var i = 0; i < hist.length; i++) {
+    pts.push(x(i).toFixed(1) + ',' + y(nets[i]).toFixed(1));
+  }
+  html += '<polyline points="' + pts.join(' ') + '" fill="none" stroke="#e0c068" stroke-width="1.8"/>';
+  // 末点高亮（当前净持仓，红=净多 / 绿=净空）
+  var lastX = x(hist.length - 1), lastY = y(nets[hist.length - 1]);
+  html += '<circle cx="' + lastX.toFixed(1) + '" cy="' + lastY.toFixed(1) + '" r="3.2" fill="' + (nets[nets.length - 1] >= 0 ? '#ff5050' : '#00c864') + '" stroke="#0d1117" stroke-width="1"/>';
+  // 首尾日期
+  html += '<text x="' + padL + '" y="' + (h - 6) + '" fill="#8b949e" font-size="8.5">' + dates[0] + '</text>';
+  html += '<text x="' + (w - padR) + '" y="' + (h - 6) + '" fill="#8b949e" font-size="8.5" text-anchor="end">' + dates[dates.length - 1] + '</text>';
+  html += '</svg>';
+  return html;
+}
+
 function showFamilyModal(name) {
   if (!SCAN_DATA) return;
   var c = null;
@@ -240,7 +289,13 @@ function showFamilyModal(name) {
   else if (f.trend_state === '投降/反手') interp = '家人净持仓归零甚至反手，散户彻底投降，反转预警强烈。';
   else interp = '家人净持仓在高位徘徊，方向未明。';
   html += '<div class="interp">' + interp + '</div>';
-  html += '<div class="dim" style="margin-top:0.6rem">活跃席位：' + (f.seats && f.seats.length ? f.seats.join('、') : '—') + '</div>';
+  var seatsClean = (f.seats || []).map(function(s) { return String(s).replace(/（代客）|\(代客\)/g, '').replace(/期货(股份|有限)?公司/g, '').replace(/期货/g, ''); });
+  html += '<div class="dim" style="margin-top:0.6rem">活跃席位：' + (seatsClean.length ? seatsClean.join('、') : '—') + '</div>';
+  if (f.hist && f.hist.length >= 2) {
+    html += '<h4>五家席位合计净持仓（近 ' + f.hist.length + ' 个交易日）</h4>';
+    html += familySparkline(f.hist);
+    html += '<div class="dim" style="margin-top:0.4rem"><span style="color:#ff5050">■ 净多区</span>（家人看多 = 对手盘警惕顶部） · <span style="color:#00c864">■ 净空区</span>（家人看空 = 对手盘警惕底部） · <span style="color:#e0c068">━ 净持仓轨迹</span> · 虚线 = 零轴（穿越零轴 = 投降/反手）。</div>';
+  }
   html += '<div class="dim" style="margin-top:0.6rem">投降进度 = 家人净持仓从近期峰值回落到归零的百分比：0%=还在加仓(趋势延伸) · 100%=归零(彻底投降→反转预警) · >100%=反手。五家散户席位：东方财富/徽商/平安/方正中期/中信建投。非投资指令。</div>';
   document.getElementById('slowModalBody').innerHTML = html;
   document.getElementById('slowModal').style.display = 'flex';
@@ -351,7 +406,13 @@ fetch('emergence_scan.json?t=' + Date.now())
     if (f && f.summary) {
       var bySym = {};
       (f.summary || []).forEach(function(s) { bySym[s.sym] = s; });
-      SCAN_DATA.commodities.forEach(function(c) { if (bySym[c.sym]) c.family = bySym[c.sym]; });
+      var prods = (f && f.products) || {};
+      SCAN_DATA.commodities.forEach(function(c) {
+        if (bySym[c.sym]) {
+          c.family = bySym[c.sym];
+          if (prods[c.sym] && prods[c.sym].hist) c.family.hist = prods[c.sym].hist;
+        }
+      });
     }
     renderSectors(SCAN_DATA.commodities);
   })
