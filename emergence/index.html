@@ -13,7 +13,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC"
 h1 { font-size: 1.5rem; color: #e6edf3; margin-bottom: 0.3rem; }
 .sub { color: #8b949e; font-size: 0.82rem; margin-bottom: 1rem; }
 h2 { font-size: 1.1rem; color: #e0c068; margin: 1.8rem 0 0.6rem; padding-left: 0.6rem; border-left: 4px solid #e0c068; }
-.card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 1rem 1.2rem; margin: 0.6rem 0; }
+.card { background: #161b22; border: 1px solid #21262d; border-radius: 10px; padding: 1rem 1.2rem; margin: 0.6rem 0; overflow-x: auto; }
 .up { color: #ff5050; } .down { color: #00c864; } .neu { color: #8b949e; }
 table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
 table.sector-table { table-layout: fixed; }
@@ -444,10 +444,10 @@ function renderSectors(list) {
     });
     if (!items.length) return;
     html += '<h2>' + sec + '</h2><div class="card"><table class="sector-table"><colgroup>'
-      + '<col style="width:40px"><col style="width:54px"><col style="width:54px"><col style="width:34px"><col style="width:50px">'
-      + '<col style="width:74px"><col style="width:56px"><col style="width:66px"><col style="width:62px"><col style="width:78px"><col style="width:78px">'
-      + '<col style="width:62px"><col style="width:50px">'
-      + '<col style="width:54px"><col style="width:54px"><col style="width:54px"><col style="width:104px"><col style="width:142px">'
+      + '<col style="width:40px"><col style="width:50px"><col style="width:50px"><col style="width:32px"><col style="width:48px">'
+      + '<col style="width:72px"><col style="width:54px"><col style="width:64px"><col style="width:60px"><col style="width:76px"><col style="width:76px">'
+      + '<col style="width:60px"><col style="width:48px">'
+      + '<col style="width:52px"><col style="width:52px"><col style="width:52px"><col style="width:98px"><col style="width:134px">'
       + '</colgroup><thead><tr>'
       + '<th>品种</th><th>最新价</th><th>3年分位</th><th>MA</th><th>YTD</th>'
       + '<th>量仓</th><th>拥挤度</th><th>家人</th><th>基本面</th><th>临界信号</th><th>期限结构</th><th>波动率</th><th>IV-RV</th>'
