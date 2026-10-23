@@ -199,6 +199,53 @@ function crowdCell(c) {
   return html;
 }
 
+function familyCell(c) {
+  if (!c.family || !c.family.active) return '<span class="neu" title="五家散户席位(东方财富/徽商/平安/方正中期/中信建投)均未进前20席位，散户不集中">不集中</span>';
+  var f = c.family;
+  var p = f.surrender_progress;
+  var color = p == null ? '#8b949e' : (p >= 70 ? '#ff5050' : (p >= 30 ? '#d29922' : '#3fb950'));
+  var html = '<span class="slow-click" title="点击查看家人持仓详解" onclick="showFamilyModal(\'' + c.name + '\')">';
+  if (p != null) {
+    html += '<span style="color:' + color + ';font-weight:700">' + (f.trend_state || '') + '</span>';
+    html += '<br><span style="font-size:0.68rem;color:' + color + '">投降' + p + '%</span>';
+  } else {
+    html += '<span class="neu">样本不足</span>';
+  }
+  var net = f.net != null ? (f.net > 0 ? '+' : '') + f.net.toLocaleString() : '—';
+  html += '<br><span class="neu" style="font-size:0.66rem">净' + net + '</span>';
+  html += '</span>';
+  return html;
+}
+
+function showFamilyModal(name) {
+  if (!SCAN_DATA) return;
+  var c = null;
+  for (var i = 0; i < SCAN_DATA.commodities.length; i++) {
+    if (SCAN_DATA.commodities[i].name === name) { c = SCAN_DATA.commodities[i]; break; }
+  }
+  if (!c || !c.family) return;
+  var f = c.family;
+  var html = '<h3>' + c.name + ' · 家人的选择（散户持仓）</h3>';
+  var netColor = f.net > 0 ? '#ff5050' : (f.net < 0 ? '#00c864' : '#8b949e');
+  html += '<p style="font-size:0.95rem">五家散户席位合计净持仓 <b style="color:' + netColor + '">' + (f.net > 0 ? '+' : '') + (f.net != null ? f.net.toLocaleString() : '—') + '</b> 手</p>';
+  if (f.surrender_progress != null) {
+    var p = f.surrender_progress;
+    var color = p >= 70 ? '#ff5050' : (p >= 30 ? '#d29922' : '#3fb950');
+    html += '<p style="font-size:0.88rem">投降进度 <b style="color:' + color + '">' + p + '%</b> · ' + (f.trend_state || '') + '</p>';
+  }
+  var interp = '';
+  if (f.trend_state === '加仓延伸') interp = '家人（散户）还在持续加仓扛单，反向趋势仍在延伸，别急着抄底/逃顶。';
+  else if (f.trend_state === '见顶回落') interp = '家人净持仓开始从峰值回落，散户开始撤退，关注是否加速。';
+  else if (f.trend_state === '投降进行') interp = '家人净持仓大幅回落，散户在投降平仓，反转信号临近。';
+  else if (f.trend_state === '投降/反手') interp = '家人净持仓归零甚至反手，散户彻底投降，反转预警强烈。';
+  else interp = '家人净持仓在高位徘徊，方向未明。';
+  html += '<div class="interp">' + interp + '</div>';
+  html += '<div class="dim" style="margin-top:0.6rem">活跃席位：' + (f.seats && f.seats.length ? f.seats.join('、') : '—') + '</div>';
+  html += '<div class="dim" style="margin-top:0.6rem">投降进度 = 家人净持仓从近期峰值回落到归零的百分比：0%=还在加仓(趋势延伸) · 100%=归零(彻底投降→反转预警) · >100%=反手。五家散户席位：东方财富/徽商/平安/方正中期/中信建投。非投资指令。</div>';
+  document.getElementById('slowModalBody').innerHTML = html;
+  document.getElementById('slowModal').style.display = 'flex';
+}
+
 function showCrowdModal(name) {
   if (!SCAN_DATA) return;
   var c = null;
@@ -296,7 +343,17 @@ fetch('emergence_scan.json?t=' + Date.now())
     SCAN_DATA = d;
     document.getElementById('updTime').textContent = '更新 ' + d.date;
     renderSummary(d.summary);
-    renderSectors(d.commodities);
+    return fetch('../crowding/family_net_pos.json?t=' + Date.now())
+      .then(r => r.json())
+      .catch(() => null);
+  })
+  .then(f => {
+    if (f && f.summary) {
+      var bySym = {};
+      (f.summary || []).forEach(function(s) { bySym[s.sym] = s; });
+      SCAN_DATA.commodities.forEach(function(c) { if (bySym[c.sym]) c.family = bySym[c.sym]; });
+    }
+    renderSectors(SCAN_DATA.commodities);
   })
   .catch(err => { document.getElementById('summaryBox').innerHTML = '❌ 数据加载失败：' + err.message; });
 
@@ -327,15 +384,15 @@ function renderSectors(list) {
     if (!items.length) return;
     html += '<h2>' + sec + '</h2><div class="card"><table class="sector-table"><colgroup>'
       + '<col style="width:40px"><col style="width:54px"><col style="width:54px"><col style="width:34px"><col style="width:50px">'
-      + '<col style="width:74px"><col style="width:56px"><col style="width:62px"><col style="width:78px"><col style="width:78px">'
+      + '<col style="width:74px"><col style="width:56px"><col style="width:66px"><col style="width:62px"><col style="width:78px"><col style="width:78px">'
       + '<col style="width:62px"><col style="width:50px">'
       + '<col style="width:54px"><col style="width:54px"><col style="width:54px"><col style="width:104px"><col style="width:142px">'
       + '</colgroup><thead><tr>'
       + '<th>品种</th><th>最新价</th><th>3年分位</th><th>MA</th><th>YTD</th>'
-      + '<th>量仓</th><th>拥挤度</th><th>基本面</th><th>临界信号</th><th>期限结构</th><th>波动率</th><th>IV-RV</th>'
+      + '<th>量仓</th><th>拥挤度</th><th>家人</th><th>基本面</th><th>临界信号</th><th>期限结构</th><th>波动率</th><th>IV-RV</th>'
       + '<th>尺度周期</th><th>涌现阶段</th><th>涌现相位</th><th>方向</th><th>驱动逻辑</th></tr></thead><tbody>';
     items.forEach(function(c) {
-      if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=16 class="neu">获取失败</td></tr>'; return; }
+      if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=17 class="neu">获取失败</td></tr>'; return; }
       var ma = (c.above_ma20 ? '↑' : '↓') + (c.above_ma60 ? '↑' : '↓');
       var flow = flowBadge(c.flow_quad) + '<br><span class="neu" style="font-size:0.7rem">量比' + (c.volume_ratio != null ? c.volume_ratio : '—') + ' 仓' + (c.hold_chg_5 != null ? (c.hold_chg_5 > 0 ? '+' : '') + c.hold_chg_5 + '%' : '—') + '</span>';
       if (c.rollover_recent) flow += '<br><span style="font-size:0.66rem;color:#d29922" title="近期主力换月（持仓变化率已改用总持仓口径，不受换月跳变影响）">⚠️近期换月</span>';
@@ -347,6 +404,7 @@ function renderSectors(list) {
         + '<td class="' + (c.ytd >= 0 ? 'up' : 'down') + '">' + (c.ytd != null ? (c.ytd > 0 ? '+' : '') + c.ytd + '%' : '—') + '</td>'
         + '<td>' + flow + '</td>'
         + '<td>' + crowdCell(c) + '</td>'
+        + '<td>' + familyCell(c) + '</td>'
         + '<td>' + fundCell(c) + '</td>'
         + '<td>' + critSlow(c) + '</td>'
         + '<td>' + termCell(c) + '</td>'
