@@ -200,7 +200,7 @@ function crowdCell(c) {
 }
 
 function familyCell(c) {
-  if (!c.family || !c.family.active) return '<span class="neu" title="五家散户席位(东方财富/徽商/平安/方正中期/中信建投)均未进前20席位，散户不集中">不集中</span>';
+  if (!c.family || !c.family.active) return '<span class="neu" title="三家散户席位(东方财富/徽商/平安)均未进前20席位，散户不集中">不集中</span>';
   var f = c.family;
   var p = f.surrender_progress;
   var color = p == null ? '#8b949e' : (p >= 70 ? '#ff5050' : (p >= 30 ? '#d29922' : '#3fb950'));
@@ -276,7 +276,7 @@ function showFamilyModal(name) {
   var f = c.family;
   var html = '<h3>' + c.name + ' · 家人的选择（散户持仓）</h3>';
   var netColor = f.net > 0 ? '#ff5050' : (f.net < 0 ? '#00c864' : '#8b949e');
-  html += '<p style="font-size:0.95rem">五家散户席位合计净持仓 <b style="color:' + netColor + '">' + (f.net > 0 ? '+' : '') + (f.net != null ? f.net.toLocaleString() : '—') + '</b> 手</p>';
+  html += '<p style="font-size:0.95rem">三家散户席位合计净持仓 <b style="color:' + netColor + '">' + (f.net > 0 ? '+' : '') + (f.net != null ? f.net.toLocaleString() : '—') + '</b> 手</p>';
   if (f.surrender_progress != null) {
     var p = f.surrender_progress;
     var color = p >= 70 ? '#ff5050' : (p >= 30 ? '#d29922' : '#3fb950');
@@ -292,11 +292,11 @@ function showFamilyModal(name) {
   var seatsClean = (f.seats || []).map(function(s) { return String(s).replace(/（代客）|\(代客\)/g, '').replace(/期货(股份|有限)?公司/g, '').replace(/期货/g, ''); });
   html += '<div class="dim" style="margin-top:0.6rem">活跃席位：' + (seatsClean.length ? seatsClean.join('、') : '—') + '</div>';
   if (f.hist && f.hist.length >= 2) {
-    html += '<h4>五家席位合计净持仓（近 ' + f.hist.length + ' 个交易日）</h4>';
+    html += '<h4>三家席位合计净持仓（近 ' + f.hist.length + ' 个交易日）</h4>';
     html += familySparkline(f.hist);
     html += '<div class="dim" style="margin-top:0.4rem"><span style="color:#ff5050">■ 净多区</span>（家人看多 = 对手盘警惕顶部） · <span style="color:#00c864">■ 净空区</span>（家人看空 = 对手盘警惕底部） · <span style="color:#e0c068">━ 净持仓轨迹</span> · 虚线 = 零轴（穿越零轴 = 投降/反手）。</div>';
   }
-  html += '<div class="dim" style="margin-top:0.6rem">投降进度 = 家人净持仓从近期峰值回落到归零的百分比：0%=还在加仓(趋势延伸) · 100%=归零(彻底投降→反转预警) · >100%=反手。五家散户席位：东方财富/徽商/平安/方正中期/中信建投。非投资指令。</div>';
+  html += '<div class="dim" style="margin-top:0.6rem">投降进度 = 家人净持仓从近期峰值回落到归零的百分比：0%=还在加仓(趋势延伸) · 100%=归零(彻底投降→反转预警) · >100%=反手。三家散户席位：东方财富/徽商/平安。非投资指令。</div>';
   document.getElementById('slowModalBody').innerHTML = html;
   document.getElementById('slowModal').style.display = 'flex';
 }
