@@ -213,6 +213,11 @@ function familyCell(c) {
   }
   var net = f.net != null ? (f.net > 0 ? '+' : '') + f.net.toLocaleString() : '—';
   html += '<br><span class="neu" style="font-size:0.66rem">净' + net + '</span>';
+  var hrc = f.high_rank_count || 0;
+  if (hrc >= 1) {
+    var attColor = hrc >= 3 ? '#ff5050' : (hrc >= 2 ? '#ff7b72' : '#d29922');
+    html += '<br><span style="color:' + attColor + ';font-weight:700;font-size:0.66rem">🔥' + hrc + '家前10</span>';
+  }
   html += '</span>';
   return html;
 }
@@ -289,8 +294,21 @@ function showFamilyModal(name) {
   else if (f.trend_state === '投降/反手') interp = '家人净持仓归零甚至反手，散户彻底投降，反转预警强烈。';
   else interp = '家人净持仓在高位徘徊，方向未明。';
   html += '<div class="interp">' + interp + '</div>';
-  var seatsClean = (f.seats || []).map(function(s) { return String(s).replace(/（代客）|\(代客\)/g, '').replace(/期货(股份|有限)?公司/g, '').replace(/期货/g, ''); });
-  html += '<div class="dim" style="margin-top:0.6rem">活跃席位：' + (seatsClean.length ? seatsClean.join('、') : '—') + '</div>';
+  var hrc = f.high_rank_count || 0;
+  if (hrc >= 1) {
+    var attColor = hrc >= 3 ? '#ff5050' : (hrc >= 2 ? '#ff7b72' : '#d29922');
+    html += '<div class="interp" style="border-left-color:' + attColor + ';color:' + attColor + '">🔥 重视度：' + (f.attention || '') + '（' + hrc + ' 家席位进入前10高排名，散户资金高度集中）</div>';
+  }
+  var seatLines = (f.seats_detail || []).map(function(s) {
+    var clean = String(s.seat).replace(/（代客）|\(代客\)/g, '').replace(/期货(股份|有限)?公司/g, '').replace(/期货/g, '');
+    var lr = s.long_rank, sr = s.short_rank;
+    var high = (lr && lr <= 10) || (sr && sr <= 10);
+    var rk = [];
+    if (lr) rk.push('多' + lr);
+    if (sr) rk.push('空' + sr);
+    return clean + (rk.length ? '(' + rk.join('/') + '名)' : '') + (high ? '🔥' : '');
+  });
+  html += '<div class="dim" style="margin-top:0.6rem">席位排名：' + (seatLines.length ? seatLines.join('、') : '—') + '</div>';
   if (f.hist && f.hist.length >= 2) {
     html += '<h4>三家席位合计净持仓（近 ' + f.hist.length + ' 个交易日）</h4>';
     html += familySparkline(f.hist);
