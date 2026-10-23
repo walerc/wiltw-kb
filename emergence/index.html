@@ -216,7 +216,7 @@ function familyCell(c) {
   var hrc = f.high_rank_count || 0;
   if (hrc >= 1) {
     var attColor = hrc >= 3 ? '#ff5050' : (hrc >= 2 ? '#ff7b72' : '#d29922');
-    html += '<br><span style="color:' + attColor + ';font-weight:700;font-size:0.66rem">🔥' + hrc + '家前10</span>';
+    html += '<br><span style="color:' + attColor + ';font-weight:700;font-size:0.66rem">🔥' + hrc + '家前5</span>';
   }
   html += '</span>';
   return html;
@@ -297,18 +297,15 @@ function showFamilyModal(name) {
   var hrc = f.high_rank_count || 0;
   if (hrc >= 1) {
     var attColor = hrc >= 3 ? '#ff5050' : (hrc >= 2 ? '#ff7b72' : '#d29922');
-    html += '<div class="interp" style="border-left-color:' + attColor + ';color:' + attColor + '">🔥 重视度：' + (f.attention || '') + '（' + hrc + ' 家席位进入前10高排名，散户资金高度集中）</div>';
+    html += '<div class="interp" style="border-left-color:' + attColor + ';color:' + attColor + '">🔥 重视度：' + (f.attention || '') + '（' + hrc + ' 家席位净持仓排名进入前5，散户看多资金高度集中）</div>';
   }
   var seatLines = (f.seats_detail || []).map(function(s) {
     var clean = String(s.seat).replace(/（代客）|\(代客\)/g, '').replace(/期货(股份|有限)?公司/g, '').replace(/期货/g, '');
-    var lr = s.long_rank, sr = s.short_rank;
-    var high = (lr && lr <= 10) || (sr && sr <= 10);
-    var rk = [];
-    if (lr) rk.push('多' + lr);
-    if (sr) rk.push('空' + sr);
-    return clean + (rk.length ? '(' + rk.join('/') + '名)' : '') + (high ? '🔥' : '');
+    var nr = s.net_rank;
+    var high = nr && nr <= 5;
+    return clean + (nr ? '(净第' + nr + '名)' : '') + (high ? '🔥' : '');
   });
-  html += '<div class="dim" style="margin-top:0.6rem">席位排名：' + (seatLines.length ? seatLines.join('、') : '—') + '</div>';
+  html += '<div class="dim" style="margin-top:0.6rem">净持仓排名：' + (seatLines.length ? seatLines.join('、') : '—') + '</div>';
   if (f.hist && f.hist.length >= 2) {
     html += '<h4>三家席位合计净持仓（近 ' + f.hist.length + ' 个交易日）</h4>';
     html += familySparkline(f.hist);
