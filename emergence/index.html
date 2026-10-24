@@ -86,6 +86,8 @@ tr:hover td { background: #1a2028; }
 
   <div id="summaryBox"></div>
 
+  <div id="divergenceBox"></div>
+
   <div id="sectors"></div>
 
   <div class="note">
@@ -181,9 +183,67 @@ function termCell(c) {
   if (c.term_spread_pct == null) return '<span class="neu">—</span>';
   var cls = c.term_structure === 'Backwardation' ? 'term-back' : (c.term_structure === 'Contango' ? 'term-cont' : 'term-flat');
   var sign = c.term_spread_pct > 0 ? '+' : '';
-  var html = '<span class="' + cls + '">' + sign + c.term_spread_pct + '%</span>';
+  var html = '<span class="' + cls + '" title="点击查看期限结构 × 机构/外资持仓结构" onclick="showTermPositionModal(\'' + c.name + '\')" style="cursor:pointer;border-bottom:1px dashed #8b949e">' + sign + c.term_spread_pct + '%</span>';
   if (c.main_contract) html += '<br><span class="neu" style="font-size:0.68rem">' + c.main_contract + '/' + c.second_contract + '</span>';
+  if (c.term_position) {
+    var tp = c.term_position;
+    var ins = tp.institution, fgn = tp.foreign;
+    function d(cn) { return cn === 'long' ? '多' : (cn === 'short' ? '空' : '平'); }
+    var insTxt = d(ins.main_dir) + '/' + d(ins.second_dir);
+    var fgnTxt = d(fgn.main_dir) + '/' + d(fgn.second_dir);
+    html += '<br><span style="font-size:0.62rem;color:#8b949e">机构' + insTxt + ' 外资' + fgnTxt + '</span>';
+  }
   return html;
+}
+
+function showTermPositionModal(name) {
+  if (!SCAN_DATA) return;
+  var c = null;
+  for (var i = 0; i < SCAN_DATA.commodities.length; i++) {
+    if (SCAN_DATA.commodities[i].name === name) { c = SCAN_DATA.commodities[i]; break; }
+  }
+  if (!c) return;
+  var html = '<h3>' + c.name + ' · 期限结构 × 机构/外资持仓结构</h3>';
+  var cls = c.term_structure === 'Backwardation' ? 'term-back' : (c.term_structure === 'Contango' ? 'term-cont' : 'term-flat');
+  var sign = c.term_spread_pct > 0 ? '+' : '';
+  html += '<p style="font-size:0.95rem">期限结构 <b class="' + cls + '">' + sign + c.term_spread_pct + '%</b>（' + (c.term_structure || '') + '）· 主力 ' + (c.main_contract || '—') + ' / 次主力 ' + (c.second_contract || '—') + '</p>';
+  var termInterp = c.term_structure === 'Backwardation' ? '近月升水（现货紧张，供给偏紧）' : (c.term_structure === 'Contango' ? '远月贴水（供过于求，或远月减产预期）' : '期限结构平坦');
+  html += '<div class="interp" style="color:#c9d1d9;border-left-color:#58a6ff">' + termInterp + '</div>';
+  if (c.term_position) {
+    var tp = c.term_position;
+    var ins = tp.institution, fgn = tp.foreign;
+    function d(cn) { return cn === 'long' ? '净多' : (cn === 'short' ? '净空' : '净平'); }
+    function fmtNetV(v) { return v == null ? '—' : (v > 0 ? '+' : '') + Math.abs(v).toLocaleString(); }
+    html += '<h4>机构四席位（永安/中信/华泰/国泰君安）分合约持仓</h4>';
+    html += '<p style="font-size:0.82rem">主力 ' + (tp.main_contract || '') + '：<b style="color:' + (ins.main_dir === 'long' ? '#ff5050' : (ins.main_dir === 'short' ? '#00c864' : '#8b949e')) + '">' + d(ins.main_dir) + ' ' + fmtNetV(ins.main_net) + '</b> 手<br>'
+          + '次主力 ' + (tp.second_contract || '') + '：<b style="color:' + (ins.second_dir === 'long' ? '#ff5050' : (ins.second_dir === 'short' ? '#00c864' : '#8b949e')) + '">' + d(ins.second_dir) + ' ' + fmtNetV(ins.second_net) + '</b> 手</p>';
+    html += '<h4>外资三席位（高盛/摩根大通/瑞银）分合约持仓</h4>';
+    html += '<p style="font-size:0.82rem">主力 ' + (tp.main_contract || '') + '：<b style="color:' + (fgn.main_dir === 'long' ? '#ff5050' : (fgn.main_dir === 'short' ? '#00c864' : '#8b949e')) + '">' + d(fgn.main_dir) + ' ' + fmtNetV(fgn.main_net) + '</b> 手<br>'
+          + '次主力 ' + (tp.second_contract || '') + '：<b style="color:' + (fgn.second_dir === 'long' ? '#ff5050' : (fgn.second_dir === 'short' ? '#00c864' : '#8b949e')) + '">' + d(fgn.second_dir) + ' ' + fmtNetV(fgn.second_net) + '</b> 手</p>';
+    // 结构印证判断
+    var insSameDir = ins.main_dir !== 'flat' && ins.main_dir === ins.second_dir;
+    var fgnSameDir = fgn.main_dir !== 'flat' && fgn.main_dir === fgn.second_dir;
+    var insCross = ins.main_dir !== 'flat' && ins.second_dir !== 'flat' && ins.main_dir !== ins.second_dir;
+    var fgnCross = fgn.main_dir !== 'flat' && fgn.second_dir !== 'flat' && fgn.main_dir !== fgn.second_dir;
+    var note = '';
+    if (c.term_structure === 'Backwardation') {
+      if (ins.main_dir === 'long' && ins.second_dir === 'short') note = '机构近月净多+远月净空 = 做多现货紧张，升水结构可信';
+      else if (ins.main_dir === 'long') note = '机构近月净多，印证近月升水';
+      else if (ins.second_dir === 'short') note = '机构远月净空，与升水方向一致';
+      else note = '机构持仓方向与升水结构未明显印证';
+    } else if (c.term_structure === 'Contango') {
+      if (ins.main_dir === 'short' && ins.second_dir === 'long') note = '机构近月净空+远月净多 = 布局远月(供给宽松/减产预期)，贴水结构可信';
+      else if (ins.second_dir === 'long') note = '机构远月净多，印证远月布局';
+      else if (ins.main_dir === 'short') note = '机构近月净空，与贴水方向一致';
+      else note = '机构持仓方向与贴水结构未明显印证';
+    }
+    if (note) html += '<div class="interp" style="color:#d29922">' + note + '</div>';
+  } else {
+    html += '<div class="dim">该品种暂无机构/外资分合约持仓数据。</div>';
+  }
+  html += '<div class="dim" style="margin-top:0.6rem">持仓结构 = 机构/外资在主力合约（近月）与次主力合约（远月）上的净持仓方向，用于验证期限结构（升贴水）是聪明钱主导还是噪音主导。非投资指令。</div>';
+  document.getElementById('slowModalBody').innerHTML = html;
+  document.getElementById('slowModal').style.display = 'flex';
 }
 function crowdCell(c) {
   if (!c.crowd || c.crowd.score == null) return '<span class="neu">—</span>';
@@ -236,6 +296,29 @@ function foreignCell(c) {
   }
   var net = f.net != null ? (f.net > 0 ? '+' : '') + f.net.toLocaleString() : '—';
   html += '<br><span class="neu" style="font-size:0.66rem">净' + net + '</span>';
+  html += '</span>';
+  return html;
+}
+
+function institutionCell(c) {
+  if (!c.institution || !c.institution.active) return '<span class="neu" title="机构四席位(永安/中信/华泰/国泰君安)均未进前20席位">不集中</span>';
+  var f = c.institution;
+  var p = f.surrender_progress;
+  var color = p == null ? '#8b949e' : (p >= 70 ? '#ff5050' : (p >= 30 ? '#d29922' : '#3fb950'));
+  var html = '<span class="slow-click" title="点击查看机构持仓详解" onclick="showInstitutionModal(\'' + c.name + '\')">';
+  if (p != null) {
+    html += '<span style="color:' + color + ';font-weight:700">' + (f.trend_state || '') + '</span>';
+    html += '<br><span style="font-size:0.68rem;color:' + color + '">撤退' + p + '%</span>';
+  } else {
+    html += '<span class="neu">样本不足</span>';
+  }
+  var net = f.net != null ? (f.net > 0 ? '+' : '') + f.net.toLocaleString() : '—';
+  html += '<br><span class="neu" style="font-size:0.66rem">净' + net + '</span>';
+  var hrc = f.high_rank_count || 0;
+  if (hrc >= 1) {
+    var attColor = hrc >= 4 ? '#ff5050' : (hrc >= 3 ? '#ff7b72' : '#d29922');
+    html += '<br><span style="color:' + attColor + ';font-weight:700;font-size:0.66rem">🔥' + hrc + '家前5</span>';
+  }
   html += '</span>';
   return html;
 }
@@ -414,6 +497,69 @@ function showForeignModal(name) {
   document.getElementById('slowModal').style.display = 'flex';
 }
 
+function showInstitutionModal(name) {
+  if (!SCAN_DATA) return;
+  var c = null;
+  for (var i = 0; i < SCAN_DATA.commodities.length; i++) {
+    if (SCAN_DATA.commodities[i].name === name) { c = SCAN_DATA.commodities[i]; break; }
+  }
+  if (!c || !c.institution) return;
+  var f = c.institution;
+  var html = '<h3>' + c.name + ' · 机构席位净持仓（聪明钱同向指标）' + (f.contract ? ' <span style="font-size:0.78rem;color:#8b949e">[' + f.contract + ']</span>' : '') + '</h3>';
+  if (f.contract_switch) {
+    html += '<div class="interp" style="border-left-color:#d29922;color:#d29922">⚠️ 主力合约切换：' + f.contract_switch + '</div>';
+  }
+  var netColor = f.net > 0 ? '#ff5050' : (f.net < 0 ? '#00c864' : '#8b949e');
+  html += '<p style="font-size:0.95rem">机构四席位（永安/中信/华泰/国泰君安）合计净持仓 <b style="color:' + netColor + '">' + (f.net > 0 ? '+' : '') + (f.net != null ? f.net.toLocaleString() : '—') + '</b> 手</p>';
+  if (f.surrender_progress != null) {
+    var p = f.surrender_progress;
+    var color = p >= 70 ? '#ff5050' : (p >= 30 ? '#d29922' : '#3fb950');
+    html += '<p style="font-size:0.88rem">撤退进度 <b style="color:' + color + '">' + p + '%</b> · ' + (f.trend_state || '') + '</p>';
+  }
+  var isShort = (f.direction === 'short');
+  var interp = '';
+  if (f.trend_state === '加仓延伸') {
+    interp = isShort ? '机构净空持仓还在峰值附近持续加空，看空延续——品种大概率持续弱势。'
+                     : '机构净多持仓还在峰值附近持续加多，看多延续——品种大概率持续强势。';
+  } else if (f.trend_state === '高位持仓') {
+    interp = isShort ? '机构净空持仓维持高位，看空未变，弱势趋势未结束。'
+                     : '机构净多持仓维持高位，看多未变，强势趋势未结束。';
+  } else if (f.trend_state === '减仓撤退') {
+    interp = isShort ? '机构净空持仓开始回落，机构开始平空撤退（看空松动），关注是否加速。'
+                     : '机构净多持仓开始回落，机构开始平多撤退（看多松动），关注是否加速。';
+  } else if (f.trend_state === '投降进行') {
+    interp = isShort ? '机构净空持仓大幅回落，机构撤退平空，弱势趋势反转信号临近。'
+                     : '机构净多持仓大幅回落，机构撤退平多，强势趋势反转信号临近。';
+  } else if (f.trend_state === '已投降') {
+    interp = isShort ? '机构净空持仓已归零（或反手），机构转多——弱势趋势大概率终止，触底反弹信号。'
+                     : '机构净多持仓已归零（或反手），机构转空——强势趋势大概率终止，见顶回落信号。';
+  } else {
+    interp = '机构持仓状态观察中。';
+  }
+  html += '<div class="interp">' + interp + '</div>';
+  var hrc = f.high_rank_count || 0;
+  if (hrc >= 1) {
+    var attColor = hrc >= 4 ? '#ff5050' : (hrc >= 3 ? '#ff7b72' : '#d29922');
+    html += '<div class="interp" style="border-left-color:' + attColor + ';color:' + attColor + '">🔥 重视度：' + (f.attention || '') + '（' + hrc + ' 家机构席位净持仓排名进入前5）</div>';
+  }
+  var seatLines = (f.seats_detail || []).map(function(s) {
+    var clean = String(s.seat).replace(/（代客）|\(代客\)/g, '').replace(/期货(股份|有限)?公司/g, '').replace(/期货/g, '');
+    var nr = s.net_rank;
+    var high = nr && nr <= 5;
+    var dirTag = (s.dir === 'short') ? '净空第' : '净多第';
+    return clean + (nr ? '(' + dirTag + nr + '名)' : '') + (high ? '🔥' : '');
+  });
+  html += '<div class="dim" style="margin-top:0.6rem">净持仓排名：' + (seatLines.length ? seatLines.join('、') : '—') + '</div>';
+  if (f.hist && f.hist.length >= 2) {
+    html += '<h4>机构四席位合计净持仓（近 ' + f.hist.length + ' 个交易日）</h4>';
+    html += familySparkline(f.hist);
+    html += '<div class="dim" style="margin-top:0.4rem"><span style="color:#ff5050">■ 净多区</span>（机构看多） · <span style="color:#00c864">■ 净空区</span>（机构看空） · <span style="color:#e0c068">━ 净持仓轨迹</span> · 虚线 = 零轴（穿越零轴 = 多空反转）。</div>';
+  }
+  html += '<div class="dim" style="margin-top:0.6rem">机构四席位：永安期货/中信期货/华泰期货/国泰君安。与「家人（散户）反向指标」相反、与「外资」相同，机构是聪明钱同向指标——机构净多=看多，机构净多归零=看空转变。席位筛选：与外资方向一致率81.8%（东证因方向严重背离外资已剔除）。非投资指令。</div>';
+  document.getElementById('slowModalBody').innerHTML = html;
+  document.getElementById('slowModal').style.display = 'flex';
+}
+
 function showCrowdModal(name) {
   if (!SCAN_DATA) return;
   var c = null;
@@ -543,6 +689,44 @@ fetch('emergence_scan.json?t=' + Date.now())
         }
       });
     }
+    return fetch('../crowding/institution_net_pos.json?t=' + Date.now())
+      .then(r => r.json())
+      .catch(() => null);
+  })
+  .then(h => {
+    if (h && h.summary) {
+      var bySym3 = {};
+      (h.summary || []).forEach(function(s) { bySym3[s.sym] = s; });
+      var prods3 = (h && h.products) || {};
+      SCAN_DATA.commodities.forEach(function(c) {
+        if (bySym3[c.sym]) {
+          c.institution = bySym3[c.sym];
+          if (prods3[c.sym] && prods3[c.sym].hist) c.institution.hist = prods3[c.sym].hist;
+        }
+      });
+    }
+    // 期限结构持仓结构（机构/外资分合约）
+    return fetch('../crowding/term_structure_position.json?t=' + Date.now())
+      .then(r => r.json())
+      .catch(() => null);
+  })
+  .then(tp => {
+    if (tp && tp.products) {
+      var tpBySym = {};
+      tp.products.forEach(function(p) { tpBySym[p.sym] = p; });
+      SCAN_DATA.commodities.forEach(function(c) {
+        if (tpBySym[c.sym]) c.term_position = tpBySym[c.sym];
+      });
+    }
+    // 反向净持仓检测（重点观察品种）
+    return fetch('../crowding/divergence_scan.json?t=' + Date.now())
+      .then(r => r.json())
+      .catch(() => null);
+  })
+  .then(dv => {
+    if (dv && dv.divergence) {
+      renderDivergence(dv.divergence);
+    }
     renderSectors(SCAN_DATA.commodities);
   })
   .catch(err => { document.getElementById('summaryBox').innerHTML = '❌ 数据加载失败：' + err.message; });
@@ -562,6 +746,41 @@ function renderSummary(s) {
   document.getElementById('summaryBox').innerHTML = html;
 }
 
+function renderDivergence(div) {
+  var items = (div || []).filter(function(r) { return r.level !== 'none'; });
+  if (!items.length) return;
+  var levelColor = { '强收割': '#ff5050', '中等收割': '#ff7b72', '方向背离': '#d29922' };
+  var html = '<div class="card" style="background:#1a2028"><b style="color:#ff7b72">⚔️ 反向净持仓重点观察（' + items.length + '）</b>'
+    + '<div style="font-size:0.78rem;color:#8b949e;margin-top:0.3rem">家人(散户)与机构/外资<b style="color:#c9d1d9">方向相反</b>的品种；「收割」= 聪明钱反向<b style="color:#ff7b72">持续增仓</b>，散户逆势扛单 → 加大收割。</div>';
+  html += '<div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.6rem">';
+  items.forEach(function(r) {
+    var lc = levelColor[r.level] || '#8b949e';
+    var fam = r.family;
+    var famDir = fam.net > 0 ? '多' : '空';
+    var parts = [];
+    if (r.institution) {
+      var i = r.institution;
+      var iDir = i.net > 0 ? '多' : '空';
+      var iConv = r.div_institution && r.div_institution.converging;
+      parts.push('机构' + (iConv ? '⇊' : '') + iDir + fmtNet(i.net));
+    }
+    if (r.foreign) {
+      var g = r.foreign;
+      var gDir = g.net > 0 ? '多' : '空';
+      var gConv = r.div_foreign && r.div_foreign.converging;
+      parts.push('外资' + (gConv ? '⇊' : '') + gDir + fmtNet(g.net));
+    }
+    var badge = r.level === '强收割' || r.level === '中等收割' ? '⚔️' : '⚠️';
+    html += '<span class="chip" style="border:1px solid ' + lc + ';background:#21262d" title="家人净' + famDir + fmtNet(fam.net) + ' vs ' + parts.join(' / ') + '">'
+      + badge + ' <b style="color:' + lc + '">' + r.name + '</b> '
+      + '<span style="color:#8b949e">家人' + famDir + fmtNet(fam.net) + '</span> '
+      + '<span style="color:#c9d1d9">| ' + parts.join(' / ') + '</span>'
+      + '</span>';
+  });
+  html += '</div></div>';
+  document.getElementById('divergenceBox').innerHTML = html;
+}
+
 function renderSectors(list) {
   var sectors = ['贵金属', '有色金属', '黑色系', '能源化工', '农产品', '新能源'];
   // 方向优先级排序
@@ -574,15 +793,15 @@ function renderSectors(list) {
     if (!items.length) return;
     html += '<h2>' + sec + '</h2><div class="card"><table class="sector-table"><colgroup>'
       + '<col style="width:40px"><col style="width:50px"><col style="width:50px"><col style="width:32px"><col style="width:48px">'
-      + '<col style="width:72px"><col style="width:54px"><col style="width:64px"><col style="width:64px"><col style="width:60px"><col style="width:76px"><col style="width:76px">'
+      + '<col style="width:72px"><col style="width:54px"><col style="width:64px"><col style="width:64px"><col style="width:64px"><col style="width:60px"><col style="width:76px"><col style="width:76px">'
       + '<col style="width:60px"><col style="width:48px">'
       + '<col style="width:52px"><col style="width:52px"><col style="width:52px"><col style="width:98px"><col style="width:134px">'
       + '</colgroup><thead><tr>'
       + '<th>品种</th><th>最新价</th><th>3年分位</th><th>MA</th><th>YTD</th>'
-      + '<th>量仓</th><th>拥挤度</th><th>家人</th><th>外资</th><th>基本面</th><th>临界信号</th><th>期限结构</th><th>波动率</th><th>IV-RV</th>'
+      + '<th>量仓</th><th>拥挤度</th><th>家人</th><th>外资</th><th>机构</th><th>基本面</th><th>临界信号</th><th>期限结构</th><th>波动率</th><th>IV-RV</th>'
       + '<th>尺度周期</th><th>涌现阶段</th><th>涌现相位</th><th>方向</th><th>驱动逻辑</th></tr></thead><tbody>';
     items.forEach(function(c) {
-      if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=18 class="neu">获取失败</td></tr>'; return; }
+      if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=19 class="neu">获取失败</td></tr>'; return; }
       var ma = (c.above_ma20 ? '↑' : '↓') + (c.above_ma60 ? '↑' : '↓');
       var flow = flowBadge(c.flow_quad) + '<br><span class="neu" style="font-size:0.7rem">量比' + (c.volume_ratio != null ? c.volume_ratio : '—') + ' 仓' + (c.hold_chg_5 != null ? (c.hold_chg_5 > 0 ? '+' : '') + c.hold_chg_5 + '%' : '—') + '</span>';
       if (c.rollover_recent) flow += '<br><span style="font-size:0.66rem;color:#d29922" title="近期主力换月（持仓变化率已改用总持仓口径，不受换月跳变影响）">⚠️近期换月</span>';
@@ -596,6 +815,7 @@ function renderSectors(list) {
         + '<td>' + crowdCell(c) + '</td>'
         + '<td>' + familyCell(c) + '</td>'
         + '<td>' + foreignCell(c) + '</td>'
+        + '<td>' + institutionCell(c) + '</td>'
         + '<td>' + fundCell(c) + '</td>'
         + '<td>' + critSlow(c) + '</td>'
         + '<td>' + termCell(c) + '</td>'
