@@ -279,7 +279,10 @@ function showFamilyModal(name) {
   }
   if (!c || !c.family) return;
   var f = c.family;
-  var html = '<h3>' + c.name + ' · 家人的选择（散户持仓）</h3>';
+  var html = '<h3>' + c.name + ' · 家人的选择（散户持仓）' + (f.contract ? ' <span style="font-size:0.78rem;color:#8b949e">[' + f.contract + ']</span>' : '') + '</h3>';
+  if (f.contract_switch) {
+    html += '<div class="interp" style="border-left-color:#d29922;color:#d29922">⚠️ 主力合约切换：' + f.contract_switch + '（席位/量级已变，投降进度在新合约重新累积）</div>';
+  }
   var netColor = f.net > 0 ? '#ff5050' : (f.net < 0 ? '#00c864' : '#8b949e');
   html += '<p style="font-size:0.95rem">三家散户席位合计净持仓 <b style="color:' + netColor + '">' + (f.net > 0 ? '+' : '') + (f.net != null ? f.net.toLocaleString() : '—') + '</b> 手</p>';
   if (f.surrender_progress != null) {
