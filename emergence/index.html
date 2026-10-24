@@ -288,12 +288,25 @@ function showFamilyModal(name) {
     html += '<p style="font-size:0.88rem">投降进度 <b style="color:' + color + '">' + p + '%</b> · ' + (f.trend_state || '') + '</p>';
   }
   var interp = '';
-  if (f.trend_state === '加仓延伸') interp = '家人（散户）净持仓还在峰值附近持续扛单，反向趋势仍在延伸——品种大概率持续弱势（净多）或强势（净空），别急着抄底/逃顶。';
-  else if (f.trend_state === '高位持仓') interp = '家人净持仓维持高位，散户还在扛单，反向趋势未结束，观望。';
-  else if (f.trend_state === '见顶回落') interp = '家人净持仓开始从峰值回落，散户开始撤退（投降进行中），关注是否加速。';
-  else if (f.trend_state === '投降进行') interp = '家人净持仓大幅回落，散户在投降平仓，反向趋势反转信号临近。';
-  else if (f.trend_state === '已投降') interp = '家人净持仓已归零（或反手），散户彻底投降——反向趋势大概率终止，触底/见顶反转信号。';
-  else interp = '家人净持仓状态观察中。';
+  var isShort = (f.direction === 'short');
+  if (f.trend_state === '加仓延伸') {
+    interp = isShort ? '家人（散户）净空持仓还在峰值附近持续摸顶加空，反向趋势仍在延伸——品种大概率持续强势，别急着逃顶。'
+                     : '家人（散户）净多持仓还在峰值附近持续抄底扛单，反向趋势仍在延伸——品种大概率持续弱势，别急着抄底。';
+  } else if (f.trend_state === '高位持仓') {
+    interp = isShort ? '家人净空持仓维持高位，散户还在摸顶，强势趋势未结束，观望。'
+                     : '家人净多持仓维持高位，散户还在扛单，弱势趋势未结束，观望。';
+  } else if (f.trend_state === '减仓撤退') {
+    interp = isShort ? '家人净空持仓开始从峰值回落，散户开始平空撤退（投降进行中），关注是否加速。'
+                     : '家人净多持仓开始从峰值回落，散户开始平多撤退（投降进行中），关注是否加速。';
+  } else if (f.trend_state === '投降进行') {
+    interp = isShort ? '家人净空持仓大幅回落，散户在投降平空，上涨趋势反转（见顶回落）信号临近。'
+                     : '家人净多持仓大幅回落，散户在投降平多，下跌趋势反转（触底反弹）信号临近。';
+  } else if (f.trend_state === '已投降') {
+    interp = isShort ? '家人净空持仓已归零（或反手），散户彻底投降——上涨趋势大概率终止，见顶回落信号。'
+                     : '家人净多持仓已归零（或反手），散户彻底投降——下跌趋势大概率终止，触底反弹信号。';
+  } else {
+    interp = '家人净持仓状态观察中。';
+  }
   html += '<div class="interp">' + interp + '</div>';
   var hrc = f.high_rank_count || 0;
   if (hrc >= 1) {
