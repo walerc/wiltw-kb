@@ -222,6 +222,24 @@ function familyCell(c) {
   return html;
 }
 
+function foreignCell(c) {
+  if (!c.foreign || !c.foreign.active) return '<span class="neu" title="外资三席位(高盛/摩根大通/瑞银)均未进前20席位">不集中</span>';
+  var f = c.foreign;
+  var p = f.surrender_progress;
+  var color = p == null ? '#8b949e' : (p >= 70 ? '#ff5050' : (p >= 30 ? '#d29922' : '#3fb950'));
+  var html = '<span class="slow-click" title="点击查看外资持仓详解" onclick="showForeignModal(\'' + c.name + '\')">';
+  if (p != null) {
+    html += '<span style="color:' + color + ';font-weight:700">' + (f.trend_state || '') + '</span>';
+    html += '<br><span style="font-size:0.68rem;color:' + color + '">撤退' + p + '%</span>';
+  } else {
+    html += '<span class="neu">样本不足</span>';
+  }
+  var net = f.net != null ? (f.net > 0 ? '+' : '') + f.net.toLocaleString() : '—';
+  html += '<br><span class="neu" style="font-size:0.66rem">净' + net + '</span>';
+  html += '</span>';
+  return html;
+}
+
 function fmtNet(v) {
   var a = Math.abs(v);
   if (a >= 10000) return (v / 10000).toFixed(1) + '万';
@@ -334,6 +352,64 @@ function showFamilyModal(name) {
     html += '<div class="dim" style="margin-top:0.4rem"><span style="color:#ff5050">■ 净多区</span>（家人看多 = 对手盘警惕顶部） · <span style="color:#00c864">■ 净空区</span>（家人看空 = 对手盘警惕底部） · <span style="color:#e0c068">━ 净持仓轨迹</span> · 虚线 = 零轴（穿越零轴 = 投降/反手）。</div>';
   }
   html += '<div class="dim" style="margin-top:0.6rem">投降进度 = 家人净持仓从近期峰值回落到归零的百分比：0%=还在加仓(趋势延伸) · 100%=归零(彻底投降→反转预警) · >100%=反手。三家散户席位：东方财富/徽商/平安。非投资指令。</div>';
+  document.getElementById('slowModalBody').innerHTML = html;
+  document.getElementById('slowModal').style.display = 'flex';
+}
+
+function showForeignModal(name) {
+  if (!SCAN_DATA) return;
+  var c = null;
+  for (var i = 0; i < SCAN_DATA.commodities.length; i++) {
+    if (SCAN_DATA.commodities[i].name === name) { c = SCAN_DATA.commodities[i]; break; }
+  }
+  if (!c || !c.foreign) return;
+  var f = c.foreign;
+  var html = '<h3>' + c.name + ' · 外资机构净持仓（聪明钱同向指标）' + (f.contract ? ' <span style="font-size:0.78rem;color:#8b949e">[' + f.contract + ']</span>' : '') + '</h3>';
+  if (f.contract_switch) {
+    html += '<div class="interp" style="border-left-color:#d29922;color:#d29922">⚠️ 主力合约切换：' + f.contract_switch + '</div>';
+  }
+  var netColor = f.net > 0 ? '#ff5050' : (f.net < 0 ? '#00c864' : '#8b949e');
+  html += '<p style="font-size:0.95rem">外资三席位（高盛/摩根大通/瑞银）合计净持仓 <b style="color:' + netColor + '">' + (f.net > 0 ? '+' : '') + (f.net != null ? f.net.toLocaleString() : '—') + '</b> 手</p>';
+  if (f.surrender_progress != null) {
+    var p = f.surrender_progress;
+    var color = p >= 70 ? '#ff5050' : (p >= 30 ? '#d29922' : '#3fb950');
+    html += '<p style="font-size:0.88rem">撤退进度 <b style="color:' + color + '">' + p + '%</b> · ' + (f.trend_state || '') + '</p>';
+  }
+  var isShort = (f.direction === 'short');
+  var interp = '';
+  if (f.trend_state === '加仓延伸') {
+    interp = isShort ? '外资净空持仓还在峰值附近持续加空，看空延续——品种大概率持续弱势。'
+                     : '外资净多持仓还在峰值附近持续加多，看多延续——品种大概率持续强势。';
+  } else if (f.trend_state === '高位持仓') {
+    interp = isShort ? '外资净空持仓维持高位，看空未变，弱势趋势未结束。'
+                     : '外资净多持仓维持高位，看多未变，强势趋势未结束。';
+  } else if (f.trend_state === '减仓撤退') {
+    interp = isShort ? '外资净空持仓开始回落，外资开始平空撤退（看空松动），关注是否加速。'
+                     : '外资净多持仓开始回落，外资开始平多撤退（看多松动），关注是否加速。';
+  } else if (f.trend_state === '投降进行') {
+    interp = isShort ? '外资净空持仓大幅回落，外资撤退平空，弱势趋势反转信号临近。'
+                     : '外资净多持仓大幅回落，外资撤退平多，强势趋势反转信号临近。';
+  } else if (f.trend_state === '已投降') {
+    interp = isShort ? '外资净空持仓已归零（或反手），外资转多——弱势趋势大概率终止，触底反弹信号。'
+                     : '外资净多持仓已归零（或反手），外资转空——强势趋势大概率终止，见顶回落信号。';
+  } else {
+    interp = '外资持仓状态观察中。';
+  }
+  html += '<div class="interp">' + interp + '</div>';
+  var seatLines = (f.seats_detail || []).map(function(s) {
+    var clean = String(s.seat).replace(/（代客）|\(代客\)/g, '').replace(/期货(股份|有限)?公司/g, '').replace(/期货/g, '');
+    var nr = s.net_rank;
+    var high = nr && nr <= 5;
+    var dirTag = (s.dir === 'short') ? '净空第' : '净多第';
+    return clean + (nr ? '(' + dirTag + nr + '名)' : '') + (high ? '🔥' : '');
+  });
+  html += '<div class="dim" style="margin-top:0.6rem">净持仓排名：' + (seatLines.length ? seatLines.join('、') : '—') + '</div>';
+  if (f.hist && f.hist.length >= 2) {
+    html += '<h4>外资三席位合计净持仓（近 ' + f.hist.length + ' 个交易日）</h4>';
+    html += familySparkline(f.hist);
+    html += '<div class="dim" style="margin-top:0.4rem"><span style="color:#ff5050">■ 净多区</span>（外资看多） · <span style="color:#00c864">■ 净空区</span>（外资看空） · <span style="color:#e0c068">━ 净持仓轨迹</span> · 虚线 = 零轴（穿越零轴 = 多空反转）。</div>';
+  }
+  html += '<div class="dim" style="margin-top:0.6rem">外资三席位：高盛/摩根大通/瑞银。与「家人（散户）反向指标」相反，外资是聪明钱同向指标——外资净多=看多，外资净多归零=看空转变。非投资指令。</div>';
   document.getElementById('slowModalBody').innerHTML = html;
   document.getElementById('slowModal').style.display = 'flex';
 }
@@ -451,6 +527,22 @@ fetch('emergence_scan.json?t=' + Date.now())
         }
       });
     }
+    return fetch('../crowding/foreign_net_pos.json?t=' + Date.now())
+      .then(r => r.json())
+      .catch(() => null);
+  })
+  .then(g => {
+    if (g && g.summary) {
+      var bySym2 = {};
+      (g.summary || []).forEach(function(s) { bySym2[s.sym] = s; });
+      var prods2 = (g && g.products) || {};
+      SCAN_DATA.commodities.forEach(function(c) {
+        if (bySym2[c.sym]) {
+          c.foreign = bySym2[c.sym];
+          if (prods2[c.sym] && prods2[c.sym].hist) c.foreign.hist = prods2[c.sym].hist;
+        }
+      });
+    }
     renderSectors(SCAN_DATA.commodities);
   })
   .catch(err => { document.getElementById('summaryBox').innerHTML = '❌ 数据加载失败：' + err.message; });
@@ -482,15 +574,15 @@ function renderSectors(list) {
     if (!items.length) return;
     html += '<h2>' + sec + '</h2><div class="card"><table class="sector-table"><colgroup>'
       + '<col style="width:40px"><col style="width:50px"><col style="width:50px"><col style="width:32px"><col style="width:48px">'
-      + '<col style="width:72px"><col style="width:54px"><col style="width:64px"><col style="width:60px"><col style="width:76px"><col style="width:76px">'
+      + '<col style="width:72px"><col style="width:54px"><col style="width:64px"><col style="width:64px"><col style="width:60px"><col style="width:76px"><col style="width:76px">'
       + '<col style="width:60px"><col style="width:48px">'
       + '<col style="width:52px"><col style="width:52px"><col style="width:52px"><col style="width:98px"><col style="width:134px">'
       + '</colgroup><thead><tr>'
       + '<th>品种</th><th>最新价</th><th>3年分位</th><th>MA</th><th>YTD</th>'
-      + '<th>量仓</th><th>拥挤度</th><th>家人</th><th>基本面</th><th>临界信号</th><th>期限结构</th><th>波动率</th><th>IV-RV</th>'
+      + '<th>量仓</th><th>拥挤度</th><th>家人</th><th>外资</th><th>基本面</th><th>临界信号</th><th>期限结构</th><th>波动率</th><th>IV-RV</th>'
       + '<th>尺度周期</th><th>涌现阶段</th><th>涌现相位</th><th>方向</th><th>驱动逻辑</th></tr></thead><tbody>';
     items.forEach(function(c) {
-      if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=17 class="neu">获取失败</td></tr>'; return; }
+      if (c.error) { html += '<tr><td>' + c.name + '</td><td colspan=18 class="neu">获取失败</td></tr>'; return; }
       var ma = (c.above_ma20 ? '↑' : '↓') + (c.above_ma60 ? '↑' : '↓');
       var flow = flowBadge(c.flow_quad) + '<br><span class="neu" style="font-size:0.7rem">量比' + (c.volume_ratio != null ? c.volume_ratio : '—') + ' 仓' + (c.hold_chg_5 != null ? (c.hold_chg_5 > 0 ? '+' : '') + c.hold_chg_5 + '%' : '—') + '</span>';
       if (c.rollover_recent) flow += '<br><span style="font-size:0.66rem;color:#d29922" title="近期主力换月（持仓变化率已改用总持仓口径，不受换月跳变影响）">⚠️近期换月</span>';
@@ -503,6 +595,7 @@ function renderSectors(list) {
         + '<td>' + flow + '</td>'
         + '<td>' + crowdCell(c) + '</td>'
         + '<td>' + familyCell(c) + '</td>'
+        + '<td>' + foreignCell(c) + '</td>'
         + '<td>' + fundCell(c) + '</td>'
         + '<td>' + critSlow(c) + '</td>'
         + '<td>' + termCell(c) + '</td>'
