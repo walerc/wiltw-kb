@@ -1,33 +1,33 @@
 {
- "date": "2026-10-23",
+ "date": "2026-10-26",
  "commodities": [
   {
    "sym": "AU0",
    "name": "黄金",
    "sector": "贵金属",
-   "latest": 864.36,
-   "date": "2026-10-23",
-   "n_days": 4575,
-   "pctile_3y": 51.8,
-   "pctile_5y": 56.6,
-   "pctile_all": 65.0,
-   "ma20": 907.234,
-   "ma60": 931.3,
-   "ma5": 885.4159999999999,
-   "ma10": 893.168,
-   "recent_high_20": 951.38,
-   "recent_low_20": 864.36,
+   "latest": 862.58,
+   "date": "2026-10-26",
+   "n_days": 4576,
+   "pctile_3y": 51.6,
+   "pctile_5y": 56.4,
+   "pctile_all": 64.9,
+   "ma20": 902.7939999999999,
+   "ma60": 930.9463333333333,
+   "ma5": 877.448,
+   "ma10": 888.874,
+   "recent_high_20": 942.9,
+   "recent_low_20": 862.58,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -4.9,
-   "mom_20d": -7.6,
-   "mom_60d": -4.1,
-   "mom_250d": -6.8,
-   "ytd": -13.1,
-   "vol20": 18.7,
-   "vol_ratio": 0.59,
+   "mom_10d": -4.7,
+   "mom_20d": -9.3,
+   "mom_60d": -2.4,
+   "mom_250d": -8.1,
+   "ytd": -13.3,
+   "vol20": 17.0,
+   "vol_ratio": 0.54,
    "vol_state": "压缩",
-   "vol_pctile": 75.5,
+   "vol_pctile": 67.4,
    "rv_hist": [
     {
      "date": "2025-12-29",
@@ -190,19 +190,19 @@
      "rv": 18.7
     }
    ],
-   "volume_ratio": 1.56,
-   "vol_5_20": 1.27,
-   "hold_chg_5": -5.0,
-   "hold_chg_20": 15.2,
+   "volume_ratio": 1.31,
+   "vol_5_20": 1.26,
+   "hold_chg_5": -5.9,
+   "hold_chg_20": 7.7,
    "flow_quad": "多头离场",
    "last_rollover": "2024-11-22",
    "rollover_recent": false,
-   "ar1": 0.941,
-   "ar1_pct": 62.4,
+   "ar1": 0.944,
+   "ar1_pct": 65.3,
    "ar1_trend": "持平",
    "ar1_delta": -0.021,
    "slow_phase": "稳定",
-   "skew": -0.05,
+   "skew": -0.06,
    "skew_label": "对称",
    "ar1_hist": [
     0.895,
@@ -226,16 +226,17 @@
     0.952,
     0.939
    ],
-   "term_spread_pct": -0.28,
+   "term_spread_pct": -0.27,
    "term_structure": "平坦",
    "main_contract": "AU2612",
    "second_contract": "AU2702",
    "intraday_vol_state": "量平",
-   "intraday_price_state": "走弱",
-   "iv_atm": 18.71,
-   "iv_prev": 24.07,
-   "iv_delta": -5.36,
+   "intraday_price_state": "走强",
+   "iv_atm": 24.19,
+   "iv_prev": 25.01,
+   "iv_delta": -0.82,
    "iv_series": [
+    24.19,
     18.71,
     18.24,
     18.66,
@@ -249,10 +250,13 @@
     23.01,
     23.57,
     24.28,
-    25.01,
-    24.07
+    25.01
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 24.19
+    },
     {
      "date": "2026-10-23",
      "iv": 18.71
@@ -308,10 +312,6 @@
     {
      "date": "2026-09-29",
      "iv": 25.01
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 24.07
     }
    ],
    "iv_source": "交易所官方",
@@ -321,22 +321,22 @@
    "dir": "观望偏多",
    "driver": "黄金/CPI破45年下降趋势线+美元入长期下行+再通胀(通胀或3-4%非2%) vs 利率升逆风；央行购金+ETF资金流创纪录托底",
    "note": "矿商资本纪律改善估值吸引；波动率压缩0.58=脆弱，回调到位再布局",
-   "flow_confirm": "✅资金进场(持仓+15.2%)",
+   "flow_confirm": "✅资金进场(持仓+7.7%)",
    "term_signal": "",
-   "emerge_score": 39.3,
-   "e_pos": 0.9,
-   "e_flow": 15.5,
+   "emerge_score": 32.7,
+   "e_pos": 0.8,
+   "e_flow": 8.9,
    "e_struct": 2.3,
-   "e_crit": 20.6,
-   "dir_score": -30.0,
+   "e_crit": 20.8,
+   "dir_score": -35.6,
    "d_trend": -40,
-   "d_fund": 18.2,
-   "d_mom": -8.2,
+   "d_fund": 9.2,
+   "d_mom": -4.8,
    "dir_label": "偏空",
    "dir_consistency": "⏳技术回调中",
    "action_advice": "持有，回调可加仓",
    "action_detail": [
-    "资金进场(持仓20日+15.2%) + 技术回调 = 健康洗盘，最佳回补窗口",
+    "资金进场(持仓20日+7.7%) + 技术回调 = 健康洗盘，最佳回补窗口",
     "动作：持有底仓，回调到位分批加仓",
     "风险线：跌破MA60 或资金转为撤离，则停止加仓"
    ],
@@ -347,21 +347,24 @@
    "drv_stage": "累积中",
    "emergence_phase": "逼近临界",
    "iv_rv": {
-    "iv_atm": 18.71,
-    "iv_prev": 24.07,
-    "rv": 18.7,
-    "vrp": 0.0,
-    "vrp_var": 0.0,
-    "rv_pctile": 75.5,
-    "iv_delta": -5.36,
-    "mom_10d": -4.9,
+    "iv_atm": 24.19,
+    "iv_prev": 25.01,
+    "rv": 17.0,
+    "vrp": 7.2,
+    "vrp_var": 0.0296,
+    "rv_pctile": 67.4,
+    "iv_delta": -0.82,
+    "mom_10d": -4.7,
     "iv_source": "交易所官方",
-    "label": "⚠️ 底背离",
+    "label": "IV-RV正常",
     "detail": [
-     "跌时IV降(Δ-5.4pp)：恐慌消退，警惕见底反弹",
-     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0000"
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0296"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 24.19
+     },
      {
       "date": "2026-10-23",
       "iv": 18.71
@@ -417,10 +420,6 @@
      {
       "date": "2026-09-29",
       "iv": 25.01
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 24.07
      }
     ],
     "rv_hist": [
@@ -588,34 +587,32 @@
    },
    "position_plan": [
     "基准仓位：40-60%（持有，回调可加仓 · 相位 逼近临界）",
-    "波动调节：波动率处 75.5% 分位，偏高 → 仓位适中勿加",
-    "小时线时机：量平·走弱，按价位触发",
-    "加仓：回调至 864（MA10/20日低点）缩量企稳 → 加 1/4 仓",
-    "减仓：反弹至 951（20日高点）放量滞涨 → 减 1/3 仓",
-    "风控：跌破 864（20日低点/前低）且无企稳 → 回调加深，暂停加仓减仓观望"
+    "波动调节：波动率处 67.4% 分位，偏高 → 仓位适中勿加",
+    "小时线时机：量平·走强，按价位触发",
+    "加仓：回调至 863（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "减仓：反弹至 943（20日高点）放量滞涨 → 减 1/3 仓",
+    "风控：跌破 863（20日低点/前低）且无企稳 → 回调加深，暂停加仓减仓观望"
    ],
    "crowd": {
     "score": 100,
     "label": "⚠️多头高度拥挤",
-    "lsr": 2.731,
-    "cr5_long": 0.5605,
-    "cr5_short": 0.5694,
+    "lsr": 2.61,
+    "cr5_long": 0.5632,
+    "cr5_short": 0.5878,
     "diverge": "多头前5减仓+空头前5增仓→顶部松动",
     "contract": "au2612",
     "retail": {
      "active": true,
-     "net_pos": 13360,
-     "long_oi": 16746,
-     "short_oi": 3386,
+     "net_pos": 6018,
+     "long_oi": 6018,
+     "short_oi": 0,
      "seats": [
-      "中信建投",
-      "平安",
-      "方正中期"
+      "平安"
      ],
      "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 13360,
-     "peak": 13360,
+     "detail": "家人历史仅2天，持续跟踪积累中（暂不判定方向）",
+     "scale": 6018,
+     "peak": 6018,
      "scale_pct": 100.0,
      "trend": "—",
      "surrender_pct": 0.0
@@ -634,29 +631,29 @@
    "sym": "AG0",
    "name": "白银",
    "sector": "贵金属",
-   "latest": 13108.0,
-   "date": "2026-10-23",
-   "n_days": 3516,
-   "pctile_3y": 29.6,
-   "pctile_5y": 33.8,
-   "pctile_all": 36.4,
-   "ma20": 14712.7,
-   "ma60": 15354.083333333334,
-   "ma5": 13711.2,
-   "ma10": 14009.3,
-   "recent_high_20": 16304.0,
-   "recent_low_20": 13108.0,
+   "latest": 13040.0,
+   "date": "2026-10-26",
+   "n_days": 3517,
+   "pctile_3y": 29.3,
+   "pctile_5y": 33.6,
+   "pctile_all": 36.1,
+   "ma20": 14549.5,
+   "ma60": 15335.516666666666,
+   "ma5": 13519.4,
+   "ma10": 13831.7,
+   "recent_high_20": 16165.0,
+   "recent_low_20": 13040.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -10.9,
-   "mom_20d": -15.9,
-   "mom_60d": -10.3,
-   "mom_250d": 13.7,
-   "ytd": -28.2,
-   "vol20": 39.0,
-   "vol_ratio": 0.62,
+   "mom_10d": -12.0,
+   "mom_20d": -20.0,
+   "mom_60d": -7.9,
+   "mom_250d": 13.1,
+   "ytd": -28.5,
+   "vol20": 33.4,
+   "vol_ratio": 0.54,
    "vol_state": "压缩",
-   "vol_pctile": 89.1,
+   "vol_pctile": 80.7,
    "rv_hist": [
     {
      "date": "2025-12-26",
@@ -819,19 +816,19 @@
      "rv": 37.6
     }
    ],
-   "volume_ratio": 1.84,
-   "vol_5_20": 1.34,
-   "hold_chg_5": 4.9,
-   "hold_chg_20": 46.3,
+   "volume_ratio": 1.55,
+   "vol_5_20": 1.37,
+   "hold_chg_5": 4.8,
+   "hold_chg_20": 41.5,
    "flow_quad": "空头进攻",
    "last_rollover": "2024-05-15",
    "rollover_recent": false,
-   "ar1": 0.92,
-   "ar1_pct": 52.0,
+   "ar1": 0.927,
+   "ar1_pct": 57.2,
    "ar1_trend": "回落(惯性减弱)",
    "ar1_delta": -0.049,
    "slow_phase": "稳定",
-   "skew": 0.04,
+   "skew": 0.02,
    "skew_label": "对称",
    "ar1_hist": [
     0.984,
@@ -855,16 +852,17 @@
     0.917,
     0.906
    ],
-   "term_spread_pct": -0.25,
+   "term_spread_pct": -0.28,
    "term_structure": "平坦",
    "main_contract": "AG2612",
    "second_contract": "AG2702",
    "intraday_vol_state": "放量",
    "intraday_price_state": "走弱",
-   "iv_atm": 38.72,
-   "iv_prev": 38.98,
-   "iv_delta": -0.26,
+   "iv_atm": 44.02,
+   "iv_prev": 39.29,
+   "iv_delta": 4.73,
    "iv_series": [
+    44.02,
     38.72,
     34.79,
     34.53,
@@ -878,10 +876,13 @@
     37.07,
     38.07,
     39.04,
-    39.29,
-    38.98
+    39.29
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 44.02
+    },
     {
      "date": "2026-10-23",
      "iv": 38.72
@@ -937,10 +938,6 @@
     {
      "date": "2026-09-29",
      "iv": 39.29
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 38.98
     }
    ],
    "iv_source": "交易所官方",
@@ -950,22 +947,22 @@
    "dir": "观望偏多",
    "driver": "白银跑赢黄金、银矿商相对表现突破全球几乎所有股指→金银比修复兑现中",
    "note": "",
-   "flow_confirm": "✅资金进场(持仓+46.3%)",
+   "flow_confirm": "✅资金进场(持仓+41.5%)",
    "term_signal": "",
-   "emerge_score": 55.0,
-   "e_pos": 10.2,
-   "e_flow": 23.7,
-   "e_struct": 2.1,
-   "e_crit": 19.0,
-   "dir_score": -30.6,
+   "emerge_score": 53.5,
+   "e_pos": 10.3,
+   "e_flow": 21.2,
+   "e_struct": 2.3,
+   "e_crit": 19.5,
+   "dir_score": -25.8,
    "d_trend": -40,
    "d_fund": 30,
-   "d_mom": -20.6,
+   "d_mom": -15.8,
    "dir_label": "偏空",
    "dir_consistency": "⏳技术回调中",
    "action_advice": "持有，回调可加仓",
    "action_detail": [
-    "资金进场(持仓20日+46.3%) + 技术回调 = 健康洗盘，最佳回补窗口",
+    "资金进场(持仓20日+41.5%) + 技术回调 = 健康洗盘，最佳回补窗口",
     "动作：持有底仓，回调到位分批加仓",
     "风险线：跌破MA60 或资金转为撤离，则停止加仓"
    ],
@@ -976,22 +973,27 @@
    "drv_stage": "累积中",
    "emergence_phase": "逼近临界",
    "iv_rv": {
-    "iv_atm": 38.72,
-    "iv_prev": 38.98,
-    "rv": 39.0,
-    "vrp": -0.3,
-    "vrp_var": -0.0022,
-    "rv_pctile": 89.1,
-    "iv_delta": -0.26,
-    "mom_10d": -10.9,
+    "iv_atm": 44.02,
+    "iv_prev": 39.29,
+    "rv": 33.4,
+    "vrp": 10.6,
+    "vrp_var": 0.0822,
+    "rv_pctile": 80.7,
+    "iv_delta": 4.73,
+    "mom_10d": -12.0,
     "iv_source": "交易所官方",
-    "label": "⚠️ 极值区·警惕反弹",
+    "label": "IV溢价偏高",
     "detail": [
-     "实际波动处历史高位(分位89%)，但期权定价未抬升(IV−RV=-0.3)，跌势恐慌消退 → 警惕反弹",
-     "白话：实际波动已经很高，但期权市场不愿给出更高定价，说明市场认为这波高波动是暂时的、即将回落——而波动的收敛常伴随行情反转",
-     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0022"
+     "RV历史高位(分位81%)且IV同步跟进(VRP+10.6pp)：波动获期权确认，趋势/恐慌进行中，未见背离",
+     "IV大幅溢价RV(+10.6pp)：期权定价过高不确定性，情绪过度，警惕反转",
+     "跌时IV升(Δ+4.7pp)：恐慌加速(正常)",
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0822"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 44.02
+     },
      {
       "date": "2026-10-23",
       "iv": 38.72
@@ -1047,10 +1049,6 @@
      {
       "date": "2026-09-29",
       "iv": 39.29
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 38.98
      }
     ],
     "rv_hist": [
@@ -1218,34 +1216,33 @@
    },
    "position_plan": [
     "基准仓位：40-60%（持有，回调可加仓 · 相位 逼近临界）",
-    "波动调节：波动率处 89.1% 历史高位 → 仓位下调一档（高波动=高风险）",
+    "波动调节：波动率处 80.7% 历史高位 → 仓位下调一档（高波动=高风险）",
     "小时线时机：⏳ 放量走弱，加仓时机未到（等缩量企稳）",
-    "加仓：回调至 13108（MA10/20日低点）缩量企稳 → 加 1/4 仓",
-    "减仓：反弹至 16304（20日高点）放量滞涨 → 减 1/3 仓",
-    "风控：跌破 13108（20日低点/前低）且无企稳 → 回调加深，暂停加仓减仓观望"
+    "加仓：回调至 13040（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "减仓：反弹至 16165（20日高点）放量滞涨 → 减 1/3 仓",
+    "风控：跌破 13040（20日低点/前低）且无企稳 → 回调加深，暂停加仓减仓观望"
    ],
    "crowd": {
-    "score": 38,
+    "score": 41,
     "label": "多头偏拥挤",
-    "lsr": 1.179,
-    "cr5_long": 0.4572,
-    "cr5_short": 0.5846,
-    "diverge": "空头前5减仓+多头前5增仓→底部松动",
+    "lsr": 1.208,
+    "cr5_long": 0.4636,
+    "cr5_short": 0.5956,
+    "diverge": "",
     "contract": "ag2612",
     "retail": {
      "active": true,
-     "net_pos": 30331,
-     "long_oi": 35600,
-     "short_oi": 5269,
+     "net_pos": 15689,
+     "long_oi": 15689,
+     "short_oi": 0,
      "seats": [
-      "中信建投",
-      "平安",
-      "方正中期"
+      "东方财富",
+      "平安"
      ],
      "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 30331,
-     "peak": 30331,
+     "detail": "家人历史仅2天，持续跟踪积累中（暂不判定方向）",
+     "scale": 15689,
+     "peak": 15689,
      "scale_pct": 100.0,
      "trend": "—",
      "surrender_pct": 0.0
@@ -1264,29 +1261,29 @@
    "sym": "CU0",
    "name": "铜",
    "sector": "有色金属",
-   "latest": 107900.0,
-   "date": "2026-10-23",
-   "n_days": 5302,
-   "pctile_3y": 90.8,
-   "pctile_5y": 92.7,
-   "pctile_all": 95.2,
-   "ma20": 109786.5,
-   "ma60": 108472.5,
-   "ma5": 108718.0,
-   "ma10": 109509.0,
+   "latest": 108110.0,
+   "date": "2026-10-26",
+   "n_days": 5303,
+   "pctile_3y": 91.2,
+   "pctile_5y": 93.0,
+   "pctile_all": 95.4,
+   "ma20": 109711.0,
+   "ma60": 108528.5,
+   "ma5": 108386.0,
+   "ma10": 109257.0,
    "recent_high_20": 111320.0,
    "recent_low_20": 107590.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -2.0,
-   "mom_20d": -0.6,
-   "mom_60d": 1.9,
-   "mom_250d": 26.8,
-   "ytd": 6.5,
-   "vol20": 11.8,
-   "vol_ratio": 0.58,
+   "mom_10d": -2.3,
+   "mom_20d": -1.4,
+   "mom_60d": 3.2,
+   "mom_250d": 28.1,
+   "ytd": 6.7,
+   "vol20": 11.2,
+   "vol_ratio": 0.55,
    "vol_state": "压缩",
-   "vol_pctile": 19.7,
+   "vol_pctile": 15.4,
    "rv_hist": [
     {
      "date": "2025-12-25",
@@ -1449,19 +1446,19 @@
      "rv": 11.5
     }
    ],
-   "volume_ratio": 1.4,
-   "vol_5_20": 0.98,
-   "hold_chg_5": 3.9,
-   "hold_chg_20": 15.2,
+   "volume_ratio": 1.11,
+   "vol_5_20": 1.03,
+   "hold_chg_5": 13.5,
+   "hold_chg_20": 25.5,
    "flow_quad": "空头进攻",
    "last_rollover": "2025-09-25",
    "rollover_recent": false,
-   "ar1": 0.872,
-   "ar1_pct": 21.1,
+   "ar1": 0.861,
+   "ar1_pct": 17.1,
    "ar1_trend": "上升(惯性增强)",
    "ar1_delta": 0.102,
    "slow_phase": "稳定",
-   "skew": -1.08,
+   "skew": -1.17,
    "skew_label": "左偏(偏空动能)",
    "ar1_hist": [
     0.971,
@@ -1485,16 +1482,17 @@
     0.928,
     0.883
    ],
-   "term_spread_pct": -0.74,
+   "term_spread_pct": -0.66,
    "term_structure": "Contango",
    "main_contract": "CU2612",
    "second_contract": "CU2611",
-   "intraday_vol_state": "放量",
-   "intraday_price_state": "走强",
-   "iv_atm": 14.72,
-   "iv_prev": 20.6,
-   "iv_delta": -5.88,
+   "intraday_vol_state": "缩量",
+   "intraday_price_state": "走弱",
+   "iv_atm": 18.96,
+   "iv_prev": 20.46,
+   "iv_delta": -1.5,
    "iv_series": [
+    18.96,
     14.72,
     14.8,
     15.37,
@@ -1508,10 +1506,13 @@
     18.62,
     19.73,
     20.46,
-    20.46,
-    20.6
+    20.46
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 18.96
+    },
     {
      "date": "2026-10-23",
      "iv": 14.72
@@ -1567,10 +1568,6 @@
     {
      "date": "2026-09-29",
      "iv": 20.46
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 20.6
     }
    ],
    "iv_source": "交易所官方",
@@ -1580,19 +1577,19 @@
    "dir": "做多(等回调)",
    "driver": "康波回升领涨+TC归零+capex滞后(供给2028-29才见顶)",
    "note": "分位95%历史高位+持仓20日-24.5%多头获利离场=回调进行中，符合等回调",
-   "flow_confirm": "✅资金进场(持仓+15.2%)",
+   "flow_confirm": "✅资金进场(持仓+25.5%)",
    "term_signal": "",
-   "emerge_score": 56.1,
-   "e_pos": 20.4,
-   "e_flow": 14.1,
-   "e_struct": 6.2,
-   "e_crit": 15.4,
-   "dir_score": -18.0,
+   "emerge_score": 58.3,
+   "e_pos": 20.6,
+   "e_flow": 17.6,
+   "e_struct": 5.5,
+   "e_crit": 14.6,
+   "dir_score": -3.6,
    "d_trend": -40,
-   "d_fund": 18.2,
-   "d_mom": 3.8,
-   "dir_label": "偏空",
-   "dir_consistency": "⏳技术回调中",
+   "d_fund": 30,
+   "d_mom": 6.4,
+   "dir_label": "中性",
+   "dir_consistency": "",
    "action_advice": "等待回调企稳信号",
    "action_detail": [
     "方向看多但当前不是进场点",
@@ -1605,22 +1602,25 @@
    "drv_stage": "已触发",
    "emergence_phase": "逼近临界",
    "iv_rv": {
-    "iv_atm": 14.72,
-    "iv_prev": 20.6,
-    "rv": 11.8,
-    "vrp": 2.9,
-    "vrp_var": 0.0077,
-    "rv_pctile": 19.7,
-    "iv_delta": -5.88,
-    "mom_10d": -2.0,
+    "iv_atm": 18.96,
+    "iv_prev": 20.46,
+    "rv": 11.2,
+    "vrp": 7.8,
+    "vrp_var": 0.0234,
+    "rv_pctile": 15.4,
+    "iv_delta": -1.5,
+    "mom_10d": -2.3,
     "iv_source": "交易所官方",
-    "label": "⚠️ 底背离",
+    "label": "IV-RV正常",
     "detail": [
-     "跌时IV降(Δ-5.9pp)：恐慌消退，警惕见底反弹",
-     "RV低位(分位%.0f%%)：波动平静期",
-     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0077"
+     "RV低位(分位15%)但IV溢价(VRP+7.8pp)：期权定价即将到来的波动，蓄势/事件前，关注变盘",
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0234"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 18.96
+     },
      {
       "date": "2026-10-23",
       "iv": 14.72
@@ -1676,10 +1676,6 @@
      {
       "date": "2026-09-29",
       "iv": 20.46
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 20.6
      }
     ],
     "rv_hist": [
@@ -1847,31 +1843,30 @@
    },
    "position_plan": [
     "基准仓位：0-10%（等信号）（等待回调企稳信号 · 相位 逼近临界）",
-    "波动调节：波动率处 19.7% 历史低位 → 可上移一档（低波动=有加仓空间）",
-    "小时线时机：⚠️ 放量，注意追高/减仓",
+    "波动调节：波动率处 15.4% 历史低位 → 可上移一档（低波动=有加仓空间）",
+    "小时线时机：缩量·走弱，按价位触发",
     "等待进场信号：站稳 MA20 或放量突破后，再按节奏建仓"
    ],
    "crowd": {
     "score": 0,
     "label": "持仓均衡",
-    "lsr": 0.935,
-    "cr5_long": 0.5728,
-    "cr5_short": 0.5289,
+    "lsr": 0.953,
+    "cr5_long": 0.5633,
+    "cr5_short": 0.53,
     "diverge": "",
     "contract": "cu2612",
     "retail": {
      "active": true,
-     "net_pos": 8191,
-     "long_oi": 8191,
+     "net_pos": 2599,
+     "long_oi": 2599,
      "short_oi": 0,
      "seats": [
-      "中信建投",
       "平安"
      ],
      "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 8191,
-     "peak": 8191,
+     "detail": "家人历史仅2天，持续跟踪积累中（暂不判定方向）",
+     "scale": 2599,
+     "peak": 2599,
      "scale_pct": 100.0,
      "trend": "—",
      "surrender_pct": 0.0
@@ -1890,29 +1885,29 @@
    "sym": "AL0",
    "name": "铝",
    "sector": "有色金属",
-   "latest": 23350.0,
-   "date": "2026-10-23",
-   "n_days": 5302,
-   "pctile_3y": 68.7,
-   "pctile_5y": 73.0,
-   "pctile_all": 85.6,
-   "ma20": 23594.5,
-   "ma60": 23827.5,
-   "ma5": 23118.0,
-   "ma10": 23197.0,
-   "recent_high_20": 24400.0,
+   "latest": 23450.0,
+   "date": "2026-10-26",
+   "n_days": 5303,
+   "pctile_3y": 70.1,
+   "pctile_5y": 74.2,
+   "pctile_all": 86.3,
+   "ma20": 23547.0,
+   "ma60": 23831.25,
+   "ma5": 23214.0,
+   "ma10": 23195.5,
+   "recent_high_20": 24240.0,
    "recent_low_20": 22970.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -0.5,
-   "mom_20d": -3.6,
-   "mom_60d": 0.0,
-   "mom_250d": 11.8,
-   "ytd": -1.2,
-   "vol20": 12.1,
-   "vol_ratio": 0.66,
+   "mom_10d": -0.1,
+   "mom_20d": -3.9,
+   "mom_60d": 1.0,
+   "mom_250d": 12.3,
+   "ytd": -0.8,
+   "vol20": 11.8,
+   "vol_ratio": 0.65,
    "vol_state": "压缩",
-   "vol_pctile": 44.5,
+   "vol_pctile": 42.5,
    "rv_hist": [
     {
      "date": "2025-12-25",
@@ -2076,18 +2071,18 @@
     }
    ],
    "volume_ratio": 1.26,
-   "vol_5_20": 1.1,
-   "hold_chg_5": 21.8,
-   "hold_chg_20": 2.8,
+   "vol_5_20": 1.17,
+   "hold_chg_5": 15.4,
+   "hold_chg_20": -7.4,
    "flow_quad": "多头进攻",
    "last_rollover": "2026-04-16",
    "rollover_recent": false,
-   "ar1": 0.937,
-   "ar1_pct": 58.1,
+   "ar1": 0.935,
+   "ar1_pct": 56.4,
    "ar1_trend": "持平",
    "ar1_delta": -0.007,
    "slow_phase": "稳定",
-   "skew": -0.66,
+   "skew": -0.73,
    "skew_label": "左偏(偏空动能)",
    "ar1_hist": [
     0.946,
@@ -2111,16 +2106,17 @@
     0.952,
     0.936
    ],
-   "term_spread_pct": 1.46,
+   "term_spread_pct": 1.25,
    "term_structure": "Backwardation",
    "main_contract": "AL2612",
    "second_contract": "AL2701",
-   "intraday_vol_state": "放量",
-   "intraday_price_state": "走强",
-   "iv_atm": 11.14,
-   "iv_prev": 11.78,
-   "iv_delta": -0.64,
+   "intraday_vol_state": "量平",
+   "intraday_price_state": "走弱",
+   "iv_atm": 14.25,
+   "iv_prev": 12.18,
+   "iv_delta": 2.07,
    "iv_series": [
+    14.25,
     11.14,
     11.86,
     11.94,
@@ -2134,10 +2130,13 @@
     13.29,
     12.92,
     12.14,
-    12.18,
-    11.78
+    12.18
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 14.25
+    },
     {
      "date": "2026-10-23",
      "iv": 11.14
@@ -2193,10 +2192,6 @@
     {
      "date": "2026-09-29",
      "iv": 12.18
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 11.78
     }
    ],
    "iv_source": "交易所官方",
@@ -2208,20 +2203,20 @@
    "note": "波动率压缩0.62，回调到位可布局",
    "flow_confirm": "✅量价印证",
    "term_signal": "",
-   "emerge_score": 47.3,
-   "e_pos": 9.4,
-   "e_flow": 5.5,
-   "e_struct": 12.2,
-   "e_crit": 20.3,
-   "dir_score": -36.6,
+   "emerge_score": 48.9,
+   "e_pos": 10.0,
+   "e_flow": 8.3,
+   "e_struct": 10.4,
+   "e_crit": 20.1,
+   "dir_score": -46.9,
    "d_trend": -40,
-   "d_fund": 3.4,
-   "d_mom": 0.0,
-   "dir_label": "偏空",
+   "d_fund": -8.9,
+   "d_mom": 2.0,
+   "dir_label": "强空",
    "dir_consistency": "⏳技术回调中",
    "action_advice": "持有观察，企稳可回补",
    "action_detail": [
-    "技术面偏空但资金未撤(持仓20日2.8%) = 健康回调",
+    "技术面偏空但资金未撤(持仓20日-7.4%) = 健康回调",
     "动作：持有底仓，回调到位(未破关键位)可回补",
     "风险线：跌破MA60 且资金开始撤退，则转为暂离"
    ],
@@ -2232,20 +2227,25 @@
    "drv_stage": "已触发",
    "emergence_phase": "逼近临界",
    "iv_rv": {
-    "iv_atm": 11.14,
-    "iv_prev": 11.78,
-    "rv": 12.1,
-    "vrp": -1.0,
-    "vrp_var": -0.0022,
-    "rv_pctile": 44.5,
-    "iv_delta": -0.64,
-    "mom_10d": -0.5,
+    "iv_atm": 14.25,
+    "iv_prev": 12.18,
+    "rv": 11.8,
+    "vrp": 2.4,
+    "vrp_var": 0.0064,
+    "rv_pctile": 42.5,
+    "iv_delta": 2.07,
+    "mom_10d": -0.1,
     "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
-     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0022"
+     "价格持平但IV升(Δ+2.1pp)：期权定价即将到来的波动",
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0064"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 14.25
+     },
      {
       "date": "2026-10-23",
       "iv": 11.14
@@ -2301,10 +2301,6 @@
      {
       "date": "2026-09-29",
       "iv": 12.18
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 11.78
      }
     ],
     "rv_hist": [
@@ -2472,44 +2468,41 @@
    },
    "position_plan": [
     "基准仓位：30-50%（持有观察，企稳可回补 · 相位 逼近临界）",
-    "波动调节：波动率 44.5% 分位，正常",
-    "小时线时机：⚠️ 放量，注意追高/减仓",
-    "加仓：回调至 23197（MA10/20日低点）缩量企稳 → 加 1/4 仓",
-    "减仓：反弹至 24400（20日高点）放量滞涨 → 减 1/3 仓",
+    "波动调节：波动率 42.5% 分位，正常",
+    "小时线时机：量平·走弱，按价位触发",
+    "加仓：回调至 23196（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "减仓：反弹至 24240（20日高点）放量滞涨 → 减 1/3 仓",
     "风控：跌破 22970（20日低点/前低）且无企稳 → 回调加深，暂停加仓减仓观望"
    ],
    "crowd": {
-    "score": -31,
+    "score": 30,
     "label": "持仓均衡",
-    "lsr": 1.072,
-    "cr5_long": 0.5043,
-    "cr5_short": 0.5078,
-    "diverge": "空头前5减仓+多头前5增仓→底部松动",
+    "lsr": 1.06,
+    "cr5_long": 0.5001,
+    "cr5_short": 0.507,
+    "diverge": "多头前5减仓+空头前5增仓→顶部松动",
     "contract": "al2612",
     "retail": {
-     "active": true,
-     "net_pos": 6585,
-     "long_oi": 20707,
-     "short_oi": 14122,
-     "seats": [
-      "中信建投",
-      "方正中期"
-     ],
-     "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 6585,
-     "peak": 6585,
-     "scale_pct": 100.0,
+     "active": false,
+     "net_pos": null,
+     "long_oi": null,
+     "short_oi": null,
+     "seats": [],
+     "phase": "家人不集中",
+     "detail": "",
+     "scale": 0,
+     "peak": 0,
+     "scale_pct": 0.0,
      "trend": "—",
      "surrender_pct": 0.0
     }
    },
    "fundamental": {
     "indicator": "电解铝库存",
-    "value": 53.1,
+    "value": 51.1,
     "unit": "吨",
-    "date": "2026-10-22",
-    "chg_pct": -6.2,
+    "date": "2026-10-26",
+    "chg_pct": -3.8,
     "pctile": 1.7
    }
   },
@@ -2517,29 +2510,29 @@
    "sym": "ZN0",
    "name": "锌",
    "sector": "有色金属",
-   "latest": 25420.0,
-   "date": "2026-10-23",
-   "n_days": 4765,
-   "pctile_3y": 69.0,
-   "pctile_5y": 66.4,
-   "pctile_all": 64.4,
-   "ma20": 26024.75,
-   "ma60": 25988.25,
-   "ma5": 25498.0,
-   "ma10": 25586.5,
+   "latest": 25710.0,
+   "date": "2026-10-26",
+   "n_days": 4766,
+   "pctile_3y": 72.9,
+   "pctile_5y": 69.4,
+   "pctile_all": 65.5,
+   "ma20": 25982.0,
+   "ma60": 26003.666666666668,
+   "ma5": 25541.0,
+   "ma10": 25546.0,
    "recent_high_20": 26760.0,
    "recent_low_20": 25420.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -2.0,
-   "mom_20d": -3.3,
-   "mom_60d": 2.0,
-   "mom_250d": 14.2,
-   "ytd": 6.7,
-   "vol20": 11.4,
-   "vol_ratio": 0.73,
+   "mom_10d": -1.6,
+   "mom_20d": -3.2,
+   "mom_60d": 3.7,
+   "mom_250d": 15.7,
+   "ytd": 7.9,
+   "vol20": 11.5,
+   "vol_ratio": 0.74,
    "vol_state": "正常",
-   "vol_pctile": 10.2,
+   "vol_pctile": 10.6,
    "rv_hist": [
     {
      "date": "2025-12-29",
@@ -2702,19 +2695,19 @@
      "rv": 11.4
     }
    ],
-   "volume_ratio": 1.22,
-   "vol_5_20": 1.0,
-   "hold_chg_5": 10.7,
-   "hold_chg_20": -6.1,
-   "flow_quad": "空头进攻",
+   "volume_ratio": 1.03,
+   "vol_5_20": 1.05,
+   "hold_chg_5": 11.0,
+   "hold_chg_20": -8.7,
+   "flow_quad": "多头进攻",
    "last_rollover": "2026-04-20",
    "rollover_recent": false,
-   "ar1": 0.936,
-   "ar1_pct": 62.4,
+   "ar1": 0.932,
+   "ar1_pct": 59.0,
    "ar1_trend": "上升(惯性增强)",
    "ar1_delta": 0.17,
    "slow_phase": "稳定",
-   "skew": -0.33,
+   "skew": -0.38,
    "skew_label": "对称",
    "ar1_hist": [
     0.927,
@@ -2738,16 +2731,17 @@
     0.963,
     0.949
    ],
-   "term_spread_pct": 0.02,
+   "term_spread_pct": -0.02,
    "term_structure": "平坦",
    "main_contract": "ZN2612",
    "second_contract": "ZN2701",
    "intraday_vol_state": "放量",
-   "intraday_price_state": "走强",
-   "iv_atm": 14.37,
-   "iv_prev": 16.47,
-   "iv_delta": -2.1,
+   "intraday_price_state": "企稳",
+   "iv_atm": 17.69,
+   "iv_prev": 17.61,
+   "iv_delta": 0.08,
    "iv_series": [
+    17.69,
     14.37,
     15.69,
     14.31,
@@ -2761,10 +2755,13 @@
     16.22,
     16.81,
     17.54,
-    17.61,
-    16.47
+    17.61
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 17.69
+    },
     {
      "date": "2026-10-23",
      "iv": 14.37
@@ -2820,10 +2817,6 @@
     {
      "date": "2026-09-29",
      "iv": 17.61
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 16.47
     }
    ],
    "iv_source": "交易所官方",
@@ -2835,15 +2828,15 @@
    "note": "",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 27.0,
-   "e_pos": 9.5,
-   "e_flow": 7.2,
+   "emerge_score": 28.7,
+   "e_pos": 11.5,
+   "e_flow": 7.1,
    "e_struct": 0.2,
-   "e_crit": 10.2,
-   "dir_score": -43.3,
+   "e_crit": 9.9,
+   "dir_score": -43.0,
    "d_trend": -40,
-   "d_fund": -7.3,
-   "d_mom": 4.0,
+   "d_fund": -10.4,
+   "d_mom": 7.4,
    "dir_label": "强空",
    "dir_consistency": "",
    "action_advice": "观望",
@@ -2857,22 +2850,25 @@
    "drv_stage": "累积中",
    "emergence_phase": "驱动累积",
    "iv_rv": {
-    "iv_atm": 14.37,
-    "iv_prev": 16.47,
-    "rv": 11.4,
-    "vrp": 3.0,
-    "vrp_var": 0.0077,
-    "rv_pctile": 10.2,
-    "iv_delta": -2.1,
-    "mom_10d": -2.0,
+    "iv_atm": 17.69,
+    "iv_prev": 17.61,
+    "rv": 11.5,
+    "vrp": 6.2,
+    "vrp_var": 0.0181,
+    "rv_pctile": 10.6,
+    "iv_delta": 0.08,
+    "mom_10d": -1.6,
     "iv_source": "交易所官方",
-    "label": "⚠️ 底背离",
+    "label": "IV-RV正常",
     "detail": [
-     "跌时IV降(Δ-2.1pp)：恐慌消退，警惕见底反弹",
-     "RV低位(分位%.0f%%)：波动平静期",
-     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0077"
+     "RV低位(分位11%)但IV溢价(VRP+6.2pp)：期权定价即将到来的波动，蓄势/事件前，关注变盘",
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0181"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 17.69
+     },
      {
       "date": "2026-10-23",
       "iv": 14.37
@@ -2928,10 +2924,6 @@
      {
       "date": "2026-09-29",
       "iv": 17.61
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 16.47
      }
     ],
     "rv_hist": [
@@ -3101,72 +3093,65 @@
     "观望品种，暂无仓位计划"
    ],
    "crowd": {
-    "score": 38,
-    "label": "多头偏拥挤",
-    "lsr": 1.122,
-    "cr5_long": 0.5531,
-    "cr5_short": 0.5342,
-    "diverge": "多头前5减仓+空头前5增仓→顶部松动",
+    "score": -41,
+    "label": "空头偏拥挤",
+    "lsr": 1.144,
+    "cr5_long": 0.5712,
+    "cr5_short": 0.515,
+    "diverge": "空头前5减仓+多头前5增仓→底部松动",
     "contract": "zn2612",
     "retail": {
-     "active": true,
-     "net_pos": 4756,
-     "long_oi": 4756,
-     "short_oi": 0,
-     "seats": [
-      "中信建投",
-      "方正中期"
-     ],
-     "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 4756,
-     "peak": 4756,
-     "scale_pct": 100.0,
+     "active": false,
+     "net_pos": null,
+     "long_oi": null,
+     "short_oi": null,
+     "seats": [],
+     "phase": "家人不集中",
+     "detail": "",
+     "scale": 0,
+     "peak": 0,
+     "scale_pct": 0.0,
      "trend": "—",
      "surrender_pct": 0.0
     }
    },
    "fundamental": {
     "indicator": "锌锭库存",
-    "value": 17.62,
+    "value": 17.3,
     "unit": "吨",
-    "date": "2026-10-22",
-    "chg_pct": -2.1,
-    "pctile": 6.7
+    "date": "2026-10-26",
+    "chg_pct": -1.8,
+    "pctile": 3.3
    }
   },
   {
    "sym": "NI0",
    "name": "镍",
    "sector": "有色金属",
-   "latest": 120580.0,
-   "date": "2026-10-23",
-   "n_days": 2814,
-   "pctile_3y": 16.2,
-   "pctile_5y": 5.3,
-   "pctile_all": 27.4,
-   "ma20": 120783.0,
-   "ma60": 126004.0,
-   "ma5": 119758.0,
-   "ma10": 118471.0,
+   "latest": 118300.0,
+   "date": "2026-10-26",
+   "n_days": 2815,
+   "pctile_3y": 11.7,
+   "pctile_5y": 3.9,
+   "pctile_all": 26.3,
+   "ma20": 120484.0,
+   "ma60": 125747.16666666667,
+   "ma5": 119952.0,
+   "ma10": 118520.0,
    "recent_high_20": 125660.0,
    "recent_low_20": 115240.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": 1.2,
-   "mom_20d": -2.6,
-   "mom_60d": -9.4,
-   "mom_250d": -0.7,
-   "ytd": -10.1,
-   "vol20": 19.6,
-   "vol_ratio": 0.72,
+   "mom_10d": 0.4,
+   "mom_20d": -4.8,
+   "mom_60d": -11.5,
+   "mom_250d": -2.2,
+   "ytd": -11.8,
+   "vol20": 20.5,
+   "vol_ratio": 0.75,
    "vol_state": "正常",
-   "vol_pctile": 24.2,
+   "vol_pctile": 27.9,
    "rv_hist": [
-    {
-     "date": "2025-12-23",
-     "rv": 20.8
-    },
     {
      "date": "2025-12-30",
      "rv": 31.3
@@ -3322,21 +3307,25 @@
     {
      "date": "2026-10-19",
      "rv": 17.8
+    },
+    {
+     "date": "2026-10-26",
+     "rv": 20.5
     }
    ],
-   "volume_ratio": 1.79,
-   "vol_5_20": 1.23,
-   "hold_chg_5": -12.7,
-   "hold_chg_20": 1.0,
+   "volume_ratio": 1.34,
+   "vol_5_20": 1.29,
+   "hold_chg_5": -8.6,
+   "hold_chg_20": 2.2,
    "flow_quad": "空头回补",
    "last_rollover": "2025-06-24",
    "rollover_recent": false,
-   "ar1": 0.952,
-   "ar1_pct": 74.6,
+   "ar1": 0.95,
+   "ar1_pct": 72.5,
    "ar1_trend": "回落(惯性减弱)",
    "ar1_delta": -0.121,
    "slow_phase": "临界逼近",
-   "skew": 0.39,
+   "skew": 0.41,
    "skew_label": "对称",
    "ar1_hist": [
     0.897,
@@ -3360,16 +3349,17 @@
     0.82,
     0.954
    ],
-   "term_spread_pct": -0.23,
+   "term_spread_pct": -0.24,
    "term_structure": "平坦",
    "main_contract": "NI2612",
    "second_contract": "NI2701",
-   "intraday_vol_state": "量平",
+   "intraday_vol_state": "缩量",
    "intraday_price_state": "走弱",
-   "iv_atm": 23.74,
-   "iv_prev": 19.97,
-   "iv_delta": 3.77,
+   "iv_atm": 27.0,
+   "iv_prev": 19.16,
+   "iv_delta": 7.84,
    "iv_series": [
+    27.0,
     23.74,
     29.9,
     24.76,
@@ -3383,10 +3373,13 @@
     21.68,
     22.32,
     19.21,
-    19.16,
-    19.97
+    19.16
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 27.0
+    },
     {
      "date": "2026-10-23",
      "iv": 23.74
@@ -3442,10 +3435,6 @@
     {
      "date": "2026-09-29",
      "iv": 19.16
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 19.97
     }
    ],
    "iv_source": "交易所官方",
@@ -3457,15 +3446,15 @@
    "note": "波动率压缩0.60，警惕底部相变",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 39.1,
-   "e_pos": 16.9,
-   "e_flow": 8.9,
-   "e_struct": 1.9,
-   "e_crit": 11.4,
-   "dir_score": -57.6,
+   "emerge_score": 38.2,
+   "e_pos": 19.1,
+   "e_flow": 5.8,
+   "e_struct": 2.0,
+   "e_crit": 11.2,
+   "dir_score": -60.4,
    "d_trend": -40,
-   "d_fund": 1.2,
-   "d_mom": -18.8,
+   "d_fund": 2.6,
+   "d_mom": -23.0,
    "dir_label": "强空",
    "dir_consistency": "",
    "action_advice": "观望",
@@ -3479,21 +3468,25 @@
    "drv_stage": "已触发",
    "emergence_phase": "跃迁中",
    "iv_rv": {
-    "iv_atm": 23.74,
-    "iv_prev": 19.97,
-    "rv": 19.6,
-    "vrp": 4.1,
-    "vrp_var": 0.0179,
-    "rv_pctile": 24.2,
-    "iv_delta": 3.77,
-    "mom_10d": 1.2,
+    "iv_atm": 27.0,
+    "iv_prev": 19.16,
+    "rv": 20.5,
+    "vrp": 6.5,
+    "vrp_var": 0.0309,
+    "rv_pctile": 27.9,
+    "iv_delta": 7.84,
+    "mom_10d": 0.4,
     "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
-     "价格持平但IV升(Δ+3.8pp)：期权定价即将到来的波动",
-     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0179"
+     "价格持平但IV升(Δ+7.8pp)：期权定价即将到来的波动",
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0309"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 27.0
+     },
      {
       "date": "2026-10-23",
       "iv": 23.74
@@ -3549,17 +3542,9 @@
      {
       "date": "2026-09-29",
       "iv": 19.16
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 19.97
      }
     ],
     "rv_hist": [
-     {
-      "date": "2025-12-23",
-      "rv": 20.8
-     },
      {
       "date": "2025-12-30",
       "rv": 31.3
@@ -3715,6 +3700,10 @@
      {
       "date": "2026-10-19",
       "rv": 17.8
+     },
+     {
+      "date": "2026-10-26",
+      "rv": 20.5
      }
     ]
    },
@@ -3724,25 +3713,22 @@
    "crowd": {
     "score": 0,
     "label": "持仓均衡",
-    "lsr": 0.936,
-    "cr5_long": 0.6344,
-    "cr5_short": 0.5761,
+    "lsr": 0.953,
+    "cr5_long": 0.5969,
+    "cr5_short": 0.553,
     "diverge": "",
     "contract": "ni2612",
     "retail": {
-     "active": true,
-     "net_pos": 450,
-     "long_oi": 2044,
-     "short_oi": 1594,
-     "seats": [
-      "中信建投",
-      "方正中期"
-     ],
-     "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 450,
-     "peak": 450,
-     "scale_pct": 100.0,
+     "active": false,
+     "net_pos": null,
+     "long_oi": null,
+     "short_oi": null,
+     "seats": [],
+     "phase": "家人不集中",
+     "detail": "",
+     "scale": 0,
+     "peak": 0,
+     "scale_pct": 0.0,
      "trend": "—",
      "surrender_pct": 0.0
     }
@@ -3760,34 +3746,30 @@
    "sym": "SN0",
    "name": "锡",
    "sector": "有色金属",
-   "latest": 382660.0,
-   "date": "2026-10-23",
-   "n_days": 2814,
-   "pctile_3y": 72.6,
-   "pctile_5y": 76.2,
+   "latest": 382860.0,
+   "date": "2026-10-26",
+   "n_days": 2815,
+   "pctile_3y": 72.7,
+   "pctile_5y": 76.3,
    "pctile_all": 83.9,
-   "ma20": 394944.0,
-   "ma60": 412082.1666666667,
-   "ma5": 381766.0,
-   "ma10": 382975.0,
+   "ma20": 393712.5,
+   "ma60": 411564.1666666667,
+   "ma5": 382342.0,
+   "ma10": 381580.0,
    "recent_high_20": 412790.0,
    "recent_low_20": 373260.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -2.2,
-   "mom_20d": -4.7,
-   "mom_60d": -8.6,
-   "mom_250d": 35.6,
-   "ytd": 14.4,
-   "vol20": 26.6,
-   "vol_ratio": 0.65,
+   "mom_10d": -3.5,
+   "mom_20d": -6.0,
+   "mom_60d": -7.5,
+   "mom_250d": 36.5,
+   "ytd": 14.5,
+   "vol20": 25.9,
+   "vol_ratio": 0.63,
    "vol_state": "压缩",
-   "vol_pctile": 72.6,
+   "vol_pctile": 69.5,
    "rv_hist": [
-    {
-     "date": "2025-12-23",
-     "rv": 26.6
-    },
     {
      "date": "2025-12-30",
      "rv": 30.5
@@ -3943,21 +3925,25 @@
     {
      "date": "2026-10-19",
      "rv": 26.3
+    },
+    {
+     "date": "2026-10-26",
+     "rv": 25.9
     }
    ],
-   "volume_ratio": 1.02,
-   "vol_5_20": 1.11,
-   "hold_chg_5": 5.8,
-   "hold_chg_20": 10.3,
+   "volume_ratio": 0.82,
+   "vol_5_20": 1.01,
+   "hold_chg_5": 16.8,
+   "hold_chg_20": 29.5,
    "flow_quad": "多头进攻",
    "last_rollover": "2026-05-22",
    "rollover_recent": false,
-   "ar1": 0.932,
-   "ar1_pct": 59.4,
+   "ar1": 0.937,
+   "ar1_pct": 67.8,
    "ar1_trend": "持平",
    "ar1_delta": 0.022,
    "slow_phase": "稳定",
-   "skew": -0.89,
+   "skew": -0.94,
    "skew_label": "左偏(偏空动能)",
    "ar1_hist": [
     0.978,
@@ -3981,16 +3967,17 @@
     0.819,
     0.915
    ],
-   "term_spread_pct": -0.45,
-   "term_structure": "平坦",
+   "term_spread_pct": -0.52,
+   "term_structure": "Contango",
    "main_contract": "SN2612",
    "second_contract": "SN2611",
-   "intraday_vol_state": "放量",
-   "intraday_price_state": "走强",
-   "iv_atm": 30.82,
-   "iv_prev": 27.99,
-   "iv_delta": 2.83,
+   "intraday_vol_state": "缩量",
+   "intraday_price_state": "走弱",
+   "iv_atm": 34.76,
+   "iv_prev": 28.1,
+   "iv_delta": 6.66,
    "iv_series": [
+    34.76,
     30.82,
     31.2,
     30.85,
@@ -4004,10 +3991,13 @@
     30.05,
     29.04,
     26.35,
-    28.1,
-    27.99
+    28.1
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 34.76
+    },
     {
      "date": "2026-10-23",
      "iv": 30.82
@@ -4063,10 +4053,6 @@
     {
      "date": "2026-09-29",
      "iv": 28.1
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 27.99
     }
    ],
    "iv_source": "交易所官方",
@@ -4076,22 +4062,22 @@
    "dir": "做多",
    "driver": "佤邦/印尼/刚果供给扰动+AI焊接需求",
    "note": "⚠️放量(1.51)减仓(8%)多头离场+波动率压缩，警惕继续回调",
-   "flow_confirm": "✅资金进场(持仓+10.3%)",
+   "flow_confirm": "✅资金进场(持仓+29.5%)",
    "term_signal": "",
-   "emerge_score": 43.0,
-   "e_pos": 11.3,
-   "e_flow": 8.0,
-   "e_struct": 3.8,
-   "e_crit": 19.9,
-   "dir_score": -44.8,
+   "emerge_score": 51.1,
+   "e_pos": 11.4,
+   "e_flow": 15.2,
+   "e_struct": 4.3,
+   "e_crit": 20.3,
+   "dir_score": -25.0,
    "d_trend": -40,
-   "d_fund": 12.4,
-   "d_mom": -17.2,
-   "dir_label": "强空",
+   "d_fund": 30,
+   "d_mom": -15.0,
+   "dir_label": "偏空",
    "dir_consistency": "⏳技术回调中",
    "action_advice": "持有，回调可加仓",
    "action_detail": [
-    "资金进场(持仓20日+10.3%) + 技术回调 = 健康洗盘，最佳回补窗口",
+    "资金进场(持仓20日+29.5%) + 技术回调 = 健康洗盘，最佳回补窗口",
     "动作：持有底仓，回调到位分批加仓",
     "风险线：跌破MA60 或资金转为撤离，则停止加仓"
    ],
@@ -4102,21 +4088,25 @@
    "drv_stage": "已触发",
    "emergence_phase": "逼近临界",
    "iv_rv": {
-    "iv_atm": 30.82,
-    "iv_prev": 27.99,
-    "rv": 26.6,
-    "vrp": 4.2,
-    "vrp_var": 0.0242,
-    "rv_pctile": 72.6,
-    "iv_delta": 2.83,
-    "mom_10d": -2.2,
+    "iv_atm": 34.76,
+    "iv_prev": 28.1,
+    "rv": 25.9,
+    "vrp": 8.9,
+    "vrp_var": 0.0537,
+    "rv_pctile": 69.5,
+    "iv_delta": 6.66,
+    "mom_10d": -3.5,
     "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
-     "跌时IV升(Δ+2.8pp)：恐慌加速(正常)",
-     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0242"
+     "跌时IV升(Δ+6.7pp)：恐慌加速(正常)",
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0537"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 34.76
+     },
      {
       "date": "2026-10-23",
       "iv": 30.82
@@ -4172,17 +4162,9 @@
      {
       "date": "2026-09-29",
       "iv": 28.1
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 27.99
      }
     ],
     "rv_hist": [
-     {
-      "date": "2025-12-23",
-      "rv": 26.6
-     },
      {
       "date": "2025-12-30",
       "rv": 30.5
@@ -4338,39 +4320,40 @@
      {
       "date": "2026-10-19",
       "rv": 26.3
+     },
+     {
+      "date": "2026-10-26",
+      "rv": 25.9
      }
     ]
    },
    "position_plan": [
     "基准仓位：40-60%（持有，回调可加仓 · 相位 逼近临界）",
-    "波动调节：波动率处 72.6% 分位，偏高 → 仓位适中勿加",
-    "小时线时机：⚠️ 放量，注意追高/减仓",
-    "加仓：回调至 373260（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "波动调节：波动率处 69.5% 分位，偏高 → 仓位适中勿加",
+    "小时线时机：缩量·走弱，按价位触发",
+    "加仓：回调至 381580（MA10/20日低点）缩量企稳 → 加 1/4 仓",
     "减仓：反弹至 412790（20日高点）放量滞涨 → 减 1/3 仓",
     "风控：跌破 373260（20日低点/前低）且无企稳 → 回调加深，暂停加仓减仓观望"
    ],
    "crowd": {
     "score": 0,
     "label": "持仓均衡",
-    "lsr": 1.009,
-    "cr5_long": 0.5209,
-    "cr5_short": 0.4848,
+    "lsr": 0.968,
+    "cr5_long": 0.5048,
+    "cr5_short": 0.469,
     "diverge": "",
     "contract": "sn2611",
     "retail": {
-     "active": true,
-     "net_pos": -86,
-     "long_oi": 985,
-     "short_oi": 1071,
-     "seats": [
-      "中信建投",
-      "方正中期"
-     ],
-     "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 86,
-     "peak": 86,
-     "scale_pct": 100.0,
+     "active": false,
+     "net_pos": null,
+     "long_oi": null,
+     "short_oi": null,
+     "seats": [],
+     "phase": "家人不集中",
+     "detail": "",
+     "scale": 0,
+     "peak": 0,
+     "scale_pct": 0.0,
      "trend": "—",
      "surrender_pct": 0.0
     }
@@ -4388,29 +4371,29 @@
    "sym": "AO0",
    "name": "氧化铝",
    "sector": "有色金属",
-   "latest": 2576.0,
-   "date": "2026-10-23",
-   "n_days": 810,
-   "pctile_3y": 3.5,
-   "pctile_5y": 3.5,
-   "pctile_all": 3.5,
-   "ma20": 2659.45,
-   "ma60": 2681.5666666666666,
-   "ma5": 2607.0,
-   "ma10": 2620.4,
+   "latest": 2565.0,
+   "date": "2026-10-26",
+   "n_days": 811,
+   "pctile_3y": 3.2,
+   "pctile_5y": 3.2,
+   "pctile_all": 3.2,
+   "ma20": 2652.95,
+   "ma60": 2679.15,
+   "ma5": 2593.0,
+   "ma10": 2608.0,
    "recent_high_20": 2737.0,
-   "recent_low_20": 2566.0,
+   "recent_low_20": 2565.0,
    "above_ma20": false,
    "above_ma60": false,
    "mom_10d": -4.6,
-   "mom_20d": -4.0,
-   "mom_60d": -5.0,
-   "mom_250d": -8.7,
-   "ytd": -7.0,
-   "vol20": 19.9,
-   "vol_ratio": 0.94,
+   "mom_20d": -4.8,
+   "mom_60d": -5.4,
+   "mom_250d": -8.6,
+   "ytd": -7.4,
+   "vol20": 19.7,
+   "vol_ratio": 0.93,
    "vol_state": "正常",
-   "vol_pctile": 39.6,
+   "vol_pctile": 39.0,
    "rv_hist": [
     {
      "date": "2025-12-29",
@@ -4573,19 +4556,19 @@
      "rv": 19.9
     }
    ],
-   "volume_ratio": 1.14,
-   "vol_5_20": 0.97,
-   "hold_chg_5": 10.1,
-   "hold_chg_20": 19.1,
+   "volume_ratio": 1.12,
+   "vol_5_20": 0.99,
+   "hold_chg_5": 14.8,
+   "hold_chg_20": 22.4,
    "flow_quad": "空头进攻",
    "last_rollover": "2024-12-11",
    "rollover_recent": false,
-   "ar1": 0.826,
-   "ar1_pct": 2.6,
+   "ar1": 0.843,
+   "ar1_pct": 6.6,
    "ar1_trend": "回落(惯性减弱)",
    "ar1_delta": -0.071,
    "slow_phase": "稳定",
-   "skew": 0.04,
+   "skew": 0.06,
    "skew_label": "对称",
    "ar1_hist": [
     0.946,
@@ -4609,16 +4592,17 @@
     0.751,
     0.826
    ],
-   "term_spread_pct": -0.47,
+   "term_spread_pct": -0.5,
    "term_structure": "平坦",
    "main_contract": "AO2701",
    "second_contract": "AO2702",
    "intraday_vol_state": "量平",
    "intraday_price_state": "走强",
-   "iv_atm": 16.96,
-   "iv_prev": 17.81,
-   "iv_delta": -0.85,
+   "iv_atm": 19.11,
+   "iv_prev": 16.53,
+   "iv_delta": 2.58,
    "iv_series": [
+    19.11,
     16.96,
     17.47,
     16.41,
@@ -4632,10 +4616,13 @@
     16.69,
     18.92,
     17.07,
-    16.53,
-    17.81
+    16.53
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 19.11
+    },
     {
      "date": "2026-10-23",
      "iv": 16.96
@@ -4691,10 +4678,6 @@
     {
      "date": "2026-09-29",
      "iv": 16.53
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 17.81
     }
    ],
    "iv_source": "交易所官方",
@@ -4706,15 +4689,15 @@
    "note": "",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 43.4,
-   "e_pos": 23.2,
-   "e_flow": 14.3,
-   "e_struct": 3.9,
-   "e_crit": 1.9,
-   "dir_score": -27.1,
+   "emerge_score": 46.9,
+   "e_pos": 23.4,
+   "e_flow": 16.1,
+   "e_struct": 4.2,
+   "e_crit": 3.2,
+   "dir_score": -23.9,
    "d_trend": -40,
-   "d_fund": 22.9,
-   "d_mom": -10.0,
+   "d_fund": 26.9,
+   "d_mom": -10.8,
    "dir_label": "偏空",
    "dir_consistency": "",
    "action_advice": "观望",
@@ -4728,20 +4711,25 @@
    "drv_stage": "已触发",
    "emergence_phase": "跃迁中",
    "iv_rv": {
-    "iv_atm": 16.96,
-    "iv_prev": 17.81,
-    "rv": 19.9,
-    "vrp": -2.9,
-    "vrp_var": -0.0108,
-    "rv_pctile": 39.6,
-    "iv_delta": -0.85,
+    "iv_atm": 19.11,
+    "iv_prev": 16.53,
+    "rv": 19.7,
+    "vrp": -0.6,
+    "vrp_var": -0.0023,
+    "rv_pctile": 39.0,
+    "iv_delta": 2.58,
     "mom_10d": -4.6,
     "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
-     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0108"
+     "跌时IV升(Δ+2.6pp)：恐慌加速(正常)",
+     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0023"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 19.11
+     },
      {
       "date": "2026-10-23",
       "iv": 16.96
@@ -4797,10 +4785,6 @@
      {
       "date": "2026-09-29",
       "iv": 16.53
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 17.81
      }
     ],
     "rv_hist": [
@@ -4972,26 +4956,24 @@
    "crowd": {
     "score": 0,
     "label": "持仓均衡",
-    "lsr": 0.973,
-    "cr5_long": 0.489,
-    "cr5_short": 0.5907,
+    "lsr": 0.987,
+    "cr5_long": 0.4832,
+    "cr5_short": 0.5896,
     "diverge": "",
     "contract": "ao2701",
     "retail": {
      "active": true,
-     "net_pos": 27733,
-     "long_oi": 31376,
-     "short_oi": 3643,
+     "net_pos": 8874,
+     "long_oi": 12378,
+     "short_oi": 3504,
      "seats": [
       "东方财富",
-      "中信建投",
-      "平安",
-      "方正中期"
+      "平安"
      ],
      "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 27733,
-     "peak": 27733,
+     "detail": "家人历史仅2天，持续跟踪积累中（暂不判定方向）",
+     "scale": 8874,
+     "peak": 8874,
      "scale_pct": 100.0,
      "trend": "—",
      "surrender_pct": 0.0
@@ -5010,29 +4992,29 @@
    "sym": "RB0",
    "name": "螺纹钢",
    "sector": "黑色系",
-   "latest": 3047.0,
-   "date": "2026-10-23",
-   "n_days": 4266,
-   "pctile_3y": 10.5,
-   "pctile_5y": 4.1,
-   "pctile_all": 31.3,
-   "ma20": 3087.2,
-   "ma60": 3076.9333333333334,
-   "ma5": 3065.0,
-   "ma10": 3072.2,
+   "latest": 3037.0,
+   "date": "2026-10-26",
+   "n_days": 4267,
+   "pctile_3y": 9.6,
+   "pctile_5y": 3.8,
+   "pctile_all": 31.0,
+   "ma20": 3084.25,
+   "ma60": 3076.2833333333333,
+   "ma5": 3058.8,
+   "ma10": 3066.9,
    "recent_high_20": 3118.0,
-   "recent_low_20": 3047.0,
+   "recent_low_20": 3037.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -1.1,
-   "mom_20d": -2.4,
-   "mom_60d": -1.2,
-   "mom_250d": -1.2,
-   "ytd": -1.8,
-   "vol20": 8.5,
-   "vol_ratio": 0.82,
+   "mom_10d": -1.7,
+   "mom_20d": -1.9,
+   "mom_60d": -1.3,
+   "mom_250d": -0.8,
+   "ytd": -2.2,
+   "vol20": 8.1,
+   "vol_ratio": 0.79,
    "vol_state": "正常",
-   "vol_pctile": 5.2,
+   "vol_pctile": 3.5,
    "rv_hist": [
     {
      "date": "2025-12-26",
@@ -5195,10 +5177,10 @@
      "rv": 8.4
     }
    ],
-   "volume_ratio": 1.29,
-   "vol_5_20": 1.0,
-   "hold_chg_5": 7.2,
-   "hold_chg_20": 7.9,
+   "volume_ratio": 0.88,
+   "vol_5_20": 0.95,
+   "hold_chg_5": 7.1,
+   "hold_chg_20": 6.2,
    "flow_quad": "空头进攻",
    "last_rollover": "2025-12-02",
    "rollover_recent": false,
@@ -5207,7 +5189,7 @@
    "ar1_trend": "持平",
    "ar1_delta": -0.007,
    "slow_phase": "稳定",
-   "skew": 0.68,
+   "skew": 0.69,
    "skew_label": "右偏(偏多动能)",
    "ar1_hist": [
     0.828,
@@ -5231,16 +5213,17 @@
     0.926,
     0.928
    ],
-   "term_spread_pct": 0.03,
+   "term_spread_pct": 0.13,
    "term_structure": "平坦",
    "main_contract": "RB2701",
    "second_contract": "RB2703",
    "intraday_vol_state": "放量",
-   "intraday_price_state": "走强",
-   "iv_atm": 11.24,
-   "iv_prev": 11.88,
-   "iv_delta": -0.64,
+   "intraday_price_state": "走弱",
+   "iv_atm": 11.84,
+   "iv_prev": 11.95,
+   "iv_delta": -0.11,
    "iv_series": [
+    11.84,
     11.24,
     11.24,
     11.38,
@@ -5254,10 +5237,13 @@
     12.07,
     12.2,
     12.03,
-    11.95,
-    11.88
+    11.95
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 11.84
+    },
     {
      "date": "2026-10-23",
      "iv": 11.24
@@ -5313,10 +5299,6 @@
     {
      "date": "2026-09-29",
      "iv": 11.95
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 11.88
     }
    ],
    "iv_source": "交易所官方",
@@ -5326,22 +5308,22 @@
    "dir": "观望(潜在做多)",
    "driver": "深度亏损(盈利率6.9%)倒逼减产去库+反内卷托底，但地产新开工-25%压制",
    "note": "被动去库，等需求拐点",
-   "flow_confirm": "✅资金进场(持仓+7.9%)",
+   "flow_confirm": "✅资金进场(持仓+6.2%)",
    "term_signal": "",
-   "emerge_score": 38.3,
-   "e_pos": 19.8,
-   "e_flow": 8.8,
-   "e_struct": 0.2,
+   "emerge_score": 35.2,
+   "e_pos": 20.2,
+   "e_flow": 4.4,
+   "e_struct": 1.1,
    "e_crit": 9.5,
-   "dir_score": -32.9,
+   "dir_score": -35.2,
    "d_trend": -40,
-   "d_fund": 9.5,
-   "d_mom": -2.4,
+   "d_fund": 7.4,
+   "d_mom": -2.6,
    "dir_label": "偏空",
    "dir_consistency": "⏳技术回调中",
    "action_advice": "持有，回调可加仓",
    "action_detail": [
-    "资金进场(持仓20日+7.9%) + 技术回调 = 健康洗盘，最佳回补窗口",
+    "资金进场(持仓20日+6.2%) + 技术回调 = 健康洗盘，最佳回补窗口",
     "动作：持有底仓，回调到位分批加仓",
     "风险线：跌破MA60 或资金转为撤离，则停止加仓"
    ],
@@ -5352,21 +5334,25 @@
    "drv_stage": "累积中",
    "emergence_phase": "驱动累积",
    "iv_rv": {
-    "iv_atm": 11.24,
-    "iv_prev": 11.88,
-    "rv": 8.5,
-    "vrp": 2.7,
-    "vrp_var": 0.0054,
-    "rv_pctile": 5.2,
-    "iv_delta": -0.64,
-    "mom_10d": -1.1,
+    "iv_atm": 11.84,
+    "iv_prev": 11.95,
+    "rv": 8.1,
+    "vrp": 3.7,
+    "vrp_var": 0.0075,
+    "rv_pctile": 3.5,
+    "iv_delta": -0.11,
+    "mom_10d": -1.7,
     "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
      "RV低位(分位%.0f%%)：波动平静期",
-     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0054"
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0075"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 11.84
+     },
      {
       "date": "2026-10-23",
       "iv": 11.24
@@ -5422,10 +5408,6 @@
      {
       "date": "2026-09-29",
       "iv": 11.95
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 11.88
      }
     ],
     "rv_hist": [
@@ -5593,34 +5575,32 @@
    },
    "position_plan": [
     "基准仓位：40-60%（持有，回调可加仓 · 相位 驱动累积）",
-    "波动调节：波动率处 5.2% 历史低位 → 可上移一档（低波动=有加仓空间）",
-    "小时线时机：⚠️ 放量，注意追高/减仓",
-    "加仓：回调至 3047（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "波动调节：波动率处 3.5% 历史低位 → 可上移一档（低波动=有加仓空间）",
+    "小时线时机：⏳ 放量走弱，加仓时机未到（等缩量企稳）",
+    "加仓：回调至 3037（MA10/20日低点）缩量企稳 → 加 1/4 仓",
     "减仓：反弹至 3118（20日高点）放量滞涨 → 减 1/3 仓",
-    "风控：跌破 3047（20日低点/前低）且无企稳 → 回调加深，暂停加仓减仓观望"
+    "风控：跌破 3037（20日低点/前低）且无企稳 → 回调加深，暂停加仓减仓观望"
    ],
    "crowd": {
-    "score": -29,
+    "score": 28,
     "label": "持仓均衡",
-    "lsr": 1.016,
-    "cr5_long": 0.5562,
-    "cr5_short": 0.4672,
-    "diverge": "空头前5减仓+多头前5增仓→底部松动",
+    "lsr": 1.002,
+    "cr5_long": 0.5531,
+    "cr5_short": 0.4715,
+    "diverge": "多头前5减仓+空头前5增仓→顶部松动",
     "contract": "rb2701",
     "retail": {
      "active": true,
-     "net_pos": 65473,
-     "long_oi": 131178,
-     "short_oi": 65705,
+     "net_pos": 23262,
+     "long_oi": 23262,
+     "short_oi": 0,
      "seats": [
-      "中信建投",
-      "徽商",
-      "方正中期"
+      "徽商"
      ],
      "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 65473,
-     "peak": 65473,
+     "detail": "家人历史仅2天，持续跟踪积累中（暂不判定方向）",
+     "scale": 23262,
+     "peak": 23262,
      "scale_pct": 100.0,
      "trend": "—",
      "surrender_pct": 0.0
@@ -5639,34 +5619,30 @@
    "sym": "HC0",
    "name": "热卷",
    "sector": "黑色系",
-   "latest": 3209.0,
-   "date": "2026-10-23",
-   "n_days": 3064,
-   "pctile_3y": 14.2,
-   "pctile_5y": 5.5,
-   "pctile_all": 30.4,
-   "ma20": 3260.0,
-   "ma60": 3287.9166666666665,
-   "ma5": 3229.0,
-   "ma10": 3237.5,
+   "latest": 3193.0,
+   "date": "2026-10-26",
+   "n_days": 3065,
+   "pctile_3y": 12.7,
+   "pctile_5y": 5.0,
+   "pctile_all": 30.1,
+   "ma20": 3255.15,
+   "ma60": 3286.3166666666666,
+   "ma5": 3220.4,
+   "ma10": 3231.3,
    "recent_high_20": 3308.0,
-   "recent_low_20": 3209.0,
+   "recent_low_20": 3193.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -1.4,
-   "mom_20d": -3.3,
-   "mom_60d": -2.5,
-   "mom_250d": -1.6,
-   "ytd": -1.2,
-   "vol20": 6.2,
-   "vol_ratio": 0.69,
+   "mom_10d": -1.9,
+   "mom_20d": -2.9,
+   "mom_60d": -2.9,
+   "mom_250d": -1.5,
+   "ytd": -1.7,
+   "vol20": 5.8,
+   "vol_ratio": 0.65,
    "vol_state": "压缩",
-   "vol_pctile": 0.3,
+   "vol_pctile": 0.2,
    "rv_hist": [
-    {
-     "date": "2025-12-23",
-     "rv": 9.7
-    },
     {
      "date": "2025-12-30",
      "rv": 9.2
@@ -5822,21 +5798,25 @@
     {
      "date": "2026-10-19",
      "rv": 6.1
+    },
+    {
+     "date": "2026-10-26",
+     "rv": 5.8
     }
    ],
-   "volume_ratio": 1.56,
-   "vol_5_20": 1.14,
-   "hold_chg_5": 4.3,
-   "hold_chg_20": 21.8,
+   "volume_ratio": 1.19,
+   "vol_5_20": 1.12,
+   "hold_chg_5": 12.3,
+   "hold_chg_20": 26.3,
    "flow_quad": "空头进攻",
    "last_rollover": "2026-08-31",
    "rollover_recent": false,
-   "ar1": 0.948,
-   "ar1_pct": 58.1,
+   "ar1": 0.95,
+   "ar1_pct": 61.8,
    "ar1_trend": "持平",
    "ar1_delta": -0.008,
-   "slow_phase": "稳定",
-   "skew": 0.12,
+   "slow_phase": "蓄势",
+   "skew": 0.15,
    "skew_label": "对称",
    "ar1_hist": [
     0.822,
@@ -5860,16 +5840,17 @@
     0.933,
     0.944
    ],
-   "term_spread_pct": -0.09,
+   "term_spread_pct": -0.16,
    "term_structure": "平坦",
    "main_contract": "HC2701",
    "second_contract": "HC2703",
    "intraday_vol_state": "量平",
    "intraday_price_state": "走弱",
-   "iv_atm": 11.48,
-   "iv_prev": 12.32,
-   "iv_delta": -0.84,
+   "iv_atm": 12.03,
+   "iv_prev": 12.03,
+   "iv_delta": 0.0,
    "iv_series": [
+    12.03,
     11.48,
     12.63,
     13.28,
@@ -5883,10 +5864,13 @@
     11.49,
     12.15,
     12.07,
-    12.03,
-    12.32
+    12.03
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 12.03
+    },
     {
      "date": "2026-10-23",
      "iv": 11.48
@@ -5942,10 +5926,6 @@
     {
      "date": "2026-09-29",
      "iv": 12.03
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 12.32
     }
    ],
    "iv_source": "交易所官方",
@@ -5957,15 +5937,15 @@
    "note": "卷螺价差收窄，板材韧性消耗",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 59.2,
-   "e_pos": 17.9,
-   "e_flow": 19.4,
-   "e_struct": 0.8,
-   "e_crit": 21.1,
-   "dir_score": -18.8,
+   "emerge_score": 59.5,
+   "e_pos": 18.6,
+   "e_flow": 18.2,
+   "e_struct": 1.3,
+   "e_crit": 21.2,
+   "dir_score": -15.8,
    "d_trend": -40,
-   "d_fund": 26.2,
-   "d_mom": -5.0,
+   "d_fund": 30,
+   "d_mom": -5.8,
    "dir_label": "偏空",
    "dir_consistency": "",
    "action_advice": "观望",
@@ -5979,21 +5959,25 @@
    "drv_stage": "累积中",
    "emergence_phase": "蓄势",
    "iv_rv": {
-    "iv_atm": 11.48,
-    "iv_prev": 12.32,
-    "rv": 6.2,
-    "vrp": 5.3,
-    "vrp_var": 0.0093,
-    "rv_pctile": 0.3,
-    "iv_delta": -0.84,
-    "mom_10d": -1.4,
+    "iv_atm": 12.03,
+    "iv_prev": 12.03,
+    "rv": 5.8,
+    "vrp": 6.2,
+    "vrp_var": 0.0111,
+    "rv_pctile": 0.2,
+    "iv_delta": 0.0,
+    "mom_10d": -1.9,
     "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
-     "RV低位(分位0%)但IV溢价(VRP+5.3pp)：期权定价即将到来的波动，蓄势/事件前，关注变盘",
-     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0093"
+     "RV低位(分位0%)但IV溢价(VRP+6.2pp)：期权定价即将到来的波动，蓄势/事件前，关注变盘",
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0111"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 12.03
+     },
      {
       "date": "2026-10-23",
       "iv": 11.48
@@ -6049,17 +6033,9 @@
      {
       "date": "2026-09-29",
       "iv": 12.03
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 12.32
      }
     ],
     "rv_hist": [
-     {
-      "date": "2025-12-23",
-      "rv": 9.7
-     },
      {
       "date": "2025-12-30",
       "rv": 9.2
@@ -6215,6 +6191,10 @@
      {
       "date": "2026-10-19",
       "rv": 6.1
+     },
+     {
+      "date": "2026-10-26",
+      "rv": 5.8
      }
     ]
    },
@@ -6222,28 +6202,26 @@
     "观望品种，暂无仓位计划"
    ],
    "crowd": {
-    "score": -35,
-    "label": "空头偏拥挤",
-    "lsr": 1.074,
-    "cr5_long": 0.5802,
-    "cr5_short": 0.5151,
-    "diverge": "空头前5减仓+多头前5增仓→底部松动",
+    "score": 0,
+    "label": "持仓均衡",
+    "lsr": 1.084,
+    "cr5_long": 0.5755,
+    "cr5_short": 0.5112,
+    "diverge": "",
     "contract": "hc2701",
     "retail": {
      "active": true,
-     "net_pos": 64526,
-     "long_oi": 88947,
-     "short_oi": 24421,
+     "net_pos": -6969,
+     "long_oi": 18660,
+     "short_oi": 25629,
      "seats": [
-      "中信建投",
       "平安",
-      "徽商",
-      "方正中期"
+      "徽商"
      ],
      "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 64526,
-     "peak": 64526,
+     "detail": "家人历史仅2天，持续跟踪积累中（暂不判定方向）",
+     "scale": 6969,
+     "peak": 6969,
      "scale_pct": 100.0,
      "trend": "—",
      "surrender_pct": 0.0
@@ -6262,29 +6240,29 @@
    "sym": "I0",
    "name": "铁矿石",
    "sector": "黑色系",
-   "latest": 675.0,
-   "date": "2026-10-23",
-   "n_days": 3163,
-   "pctile_3y": 4.6,
-   "pctile_5y": 32.3,
-   "pctile_all": 37.1,
-   "ma20": 690.15,
-   "ma60": 708.8,
-   "ma5": 677.9,
-   "ma10": 676.75,
-   "recent_high_20": 715.5,
+   "latest": 671.5,
+   "date": "2026-10-26",
+   "n_days": 3164,
+   "pctile_3y": 3.6,
+   "pctile_5y": 31.6,
+   "pctile_all": 36.8,
+   "ma20": 687.95,
+   "ma60": 707.5583333333333,
+   "ma5": 675.7,
+   "ma10": 675.6,
+   "recent_high_20": 715.0,
    "recent_low_20": 669.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -1.1,
-   "mom_20d": -5.0,
-   "mom_60d": -9.7,
-   "mom_250d": -16.1,
-   "ytd": -15.3,
-   "vol20": 15.7,
-   "vol_ratio": 0.93,
+   "mom_10d": -1.7,
+   "mom_20d": -6.1,
+   "mom_60d": -10.0,
+   "mom_250d": -14.1,
+   "ytd": -15.7,
+   "vol20": 15.3,
+   "vol_ratio": 0.9,
    "vol_state": "正常",
-   "vol_pctile": 5.6,
+   "vol_pctile": 4.6,
    "rv_hist": [
     {
      "date": "2025-12-24",
@@ -6447,11 +6425,11 @@
      "rv": 14.1
     }
    ],
-   "volume_ratio": 1.04,
-   "vol_5_20": 1.05,
-   "hold_chg_5": 0.4,
-   "hold_chg_20": 11.7,
-   "flow_quad": "多头进攻",
+   "volume_ratio": 0.85,
+   "vol_5_20": 0.97,
+   "hold_chg_5": 4.2,
+   "hold_chg_20": 13.3,
+   "flow_quad": "空头进攻",
    "last_rollover": "2024-12-12",
    "rollover_recent": false,
    "ar1": 0.918,
@@ -6459,7 +6437,7 @@
    "ar1_trend": "回落(惯性减弱)",
    "ar1_delta": -0.039,
    "slow_phase": "稳定",
-   "skew": -0.69,
+   "skew": -0.68,
    "skew_label": "左偏(偏空动能)",
    "ar1_hist": [
     0.82,
@@ -6487,9 +6465,9 @@
    "term_structure": "Backwardation",
    "main_contract": "I2701",
    "second_contract": "I2705",
-   "intraday_vol_state": "量平",
-   "intraday_price_state": "企稳",
-   "iv_atm": 17.06,
+   "intraday_vol_state": "缩量",
+   "intraday_price_state": "走强",
+   "iv_atm": 17.4,
    "iv_prev": null,
    "iv_delta": null,
    "iv_series": [],
@@ -6501,17 +6479,17 @@
    "dir": "观望偏空(等658破位)",
    "driver": "港口库存1.79亿吨历史新高+钢厂亏损减产，但已1%分位",
    "note": "总量过剩+高品结构性紧缺并存",
-   "flow_confirm": "⚠️空头遇对抗(持仓+11.7%)",
+   "flow_confirm": "⚠️空头遇对抗(持仓+13.3%)",
    "term_signal": "",
-   "emerge_score": 52.6,
-   "e_pos": 22.7,
-   "e_flow": 9.0,
+   "emerge_score": 52.4,
+   "e_pos": 23.2,
+   "e_flow": 8.4,
    "e_struct": 12.0,
    "e_crit": 8.8,
-   "dir_score": -45.4,
+   "dir_score": -44.0,
    "d_trend": -40,
-   "d_fund": 14.0,
-   "d_mom": -19.4,
+   "d_fund": 16.0,
+   "d_mom": -20.0,
    "dir_label": "强空",
    "dir_consistency": "✅量化印证",
    "action_advice": "持有空单/顺势",
@@ -6526,19 +6504,19 @@
    "drv_stage": "已触发",
    "emergence_phase": "跃迁中",
    "iv_rv": {
-    "iv_atm": 17.06,
+    "iv_atm": 17.4,
     "iv_prev": null,
-    "rv": 15.7,
-    "vrp": 1.4,
-    "vrp_var": 0.0045,
-    "rv_pctile": 5.6,
+    "rv": 15.3,
+    "vrp": 2.1,
+    "vrp_var": 0.0069,
+    "rv_pctile": 4.6,
     "iv_delta": null,
-    "mom_10d": -1.1,
+    "mom_10d": -1.7,
     "iv_source": "新浪反推",
     "label": "IV-RV正常",
     "detail": [
      "RV低位(分位%.0f%%)：波动平静期",
-     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0045"
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0069"
     ],
     "iv_hist": [],
     "rv_hist": [
@@ -6706,39 +6684,13 @@
    },
    "position_plan": [
     "基准仓位：50-80%（持有空单/顺势 · 相位 跃迁中）",
-    "波动调节：波动率处 5.6% 历史低位 → 可上移一档（低波动=有加仓空间）",
-    "小时线时机：量平·企稳，按价位触发",
-    "加空：反弹至 677（MA10/20日高点）滞涨 → 加空 1/4 仓",
+    "波动调节：波动率处 4.6% 历史低位 → 可上移一档（低波动=有加仓空间）",
+    "小时线时机：✅ 缩量反弹乏力，加空时机成熟",
+    "加空：反弹至 676（MA10/20日高点）滞涨 → 加空 1/4 仓",
     "减空：跌至 669（20日低点）止跌 → 减空 1/3 仓",
-    "止损：突破 MA60(709) → 空单离场"
+    "止损：突破 MA60(708) → 空单离场"
    ],
-   "crowd": {
-    "score": 0,
-    "label": "持仓均衡",
-    "lsr": 0.952,
-    "cr5_long": 0.4642,
-    "cr5_short": 0.4195,
-    "diverge": "",
-    "contract": "I2701",
-    "retail": {
-     "active": true,
-     "net_pos": 25149,
-     "long_oi": 45426,
-     "short_oi": 20277,
-     "seats": [
-      "中信建投",
-      "徽商",
-      "方正中期"
-     ],
-     "phase": "减仓撤退",
-     "detail": "家人净多，规模从峰值39213回落至25149(64%)，投降进度36%，警惕反转",
-     "scale": 25149,
-     "peak": 39213,
-     "scale_pct": 64.1,
-     "trend": "加仓中",
-     "surrender_pct": 35.9
-    }
-   },
+   "crowd": null,
    "fundamental": {
     "indicator": "铁矿港口库存",
     "value": 15995.0,
@@ -6752,29 +6704,29 @@
    "sym": "JM0",
    "name": "焦煤",
    "sector": "黑色系",
-   "latest": 1427.5,
-   "date": "2026-10-23",
-   "n_days": 3295,
-   "pctile_3y": 48.8,
-   "pctile_5y": 22.7,
-   "pctile_all": 27.8,
-   "ma20": 1478.8,
-   "ma60": 1483.4166666666667,
-   "ma5": 1406.4,
-   "ma10": 1466.55,
+   "latest": 1405.5,
+   "date": "2026-10-26",
+   "n_days": 3296,
+   "pctile_3y": 47.3,
+   "pctile_5y": 21.9,
+   "pctile_all": 27.2,
+   "ma20": 1474.725,
+   "ma60": 1485.425,
+   "ma5": 1406.9,
+   "ma10": 1452.5,
    "recent_high_20": 1566.0,
    "recent_low_20": 1384.5,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -7.3,
-   "mom_20d": -9.7,
-   "mom_60d": 10.9,
-   "mom_250d": 24.6,
-   "ytd": 32.1,
-   "vol20": 40.7,
-   "vol_ratio": 0.98,
+   "mom_10d": -9.1,
+   "mom_20d": -5.5,
+   "mom_60d": 9.4,
+   "mom_250d": 21.8,
+   "ytd": 30.1,
+   "vol20": 35.6,
+   "vol_ratio": 0.86,
    "vol_state": "正常",
-   "vol_pctile": 71.0,
+   "vol_pctile": 58.5,
    "rv_hist": [
     {
      "date": "2025-12-29",
@@ -6937,19 +6889,19 @@
      "rv": 40.7
     }
    ],
-   "volume_ratio": 1.14,
-   "vol_5_20": 1.1,
-   "hold_chg_5": 2.3,
-   "hold_chg_20": -6.7,
-   "flow_quad": "空头进攻",
+   "volume_ratio": 1.11,
+   "vol_5_20": 1.05,
+   "hold_chg_5": -1.2,
+   "hold_chg_20": -5.5,
+   "flow_quad": "空头回补",
    "last_rollover": "2025-12-05",
    "rollover_recent": false,
-   "ar1": 0.965,
-   "ar1_pct": 81.5,
+   "ar1": 0.964,
+   "ar1_pct": 80.2,
    "ar1_trend": "上升(惯性增强)",
    "ar1_delta": 0.095,
    "slow_phase": "临界逼近",
-   "skew": 0.76,
+   "skew": 0.77,
    "skew_label": "右偏(偏多动能)",
    "ar1_hist": [
     0.941,
@@ -6973,12 +6925,12 @@
     0.979,
     0.973
    ],
-   "term_spread_pct": 6.76,
+   "term_spread_pct": 6.8,
    "term_structure": "Backwardation",
    "main_contract": "JM2701",
    "second_contract": "JM2705",
    "intraday_vol_state": "量平",
-   "intraday_price_state": "走弱",
+   "intraday_price_state": "走强",
    "iv_atm": null,
    "iv_prev": null,
    "iv_delta": null,
@@ -6991,17 +6943,17 @@
    "dir": "做空(等顶部确认)",
    "driver": "5月矿难8月暴涨45%→9/18保供政策逆转，保供+蒙煤通关+需求负反馈三杀",
    "note": "⚠️近月升水7%现货仍紧(含冬季季节性)，做空最大反向风险",
-   "flow_confirm": "✅量价印证",
-   "term_signal": "⚠️近月升水6.76%(反向风险)",
-   "emerge_score": 44.8,
-   "e_pos": 0.6,
-   "e_flow": 6.9,
+   "flow_confirm": "",
+   "term_signal": "⚠️近月升水6.8%(反向风险)",
+   "emerge_score": 44.5,
+   "e_pos": 1.4,
+   "e_flow": 5.9,
    "e_struct": 25,
-   "e_crit": 12.4,
-   "dir_score": -26.2,
+   "e_crit": 12.3,
+   "dir_score": -27.8,
    "d_trend": -40,
-   "d_fund": -8.0,
-   "d_mom": 21.8,
+   "d_fund": -6.6,
+   "d_mom": 18.8,
    "dir_label": "偏空",
    "dir_consistency": "✅量化印证",
    "action_advice": "持有空单/顺势",
@@ -7018,39 +6970,13 @@
    "iv_rv": null,
    "position_plan": [
     "基准仓位：50-80%（持有空单/顺势 · 相位 跃迁中(反向)）",
-    "波动调节：波动率处 71.0% 分位，偏高 → 仓位适中勿加",
-    "小时线时机：量平·走弱，按价位触发",
-    "加空：反弹至 1467（MA10/20日高点）滞涨 → 加空 1/4 仓",
+    "波动调节：波动率 58.5% 分位，正常",
+    "小时线时机：量平·走强，按价位触发",
+    "加空：反弹至 1452（MA10/20日高点）滞涨 → 加空 1/4 仓",
     "减空：跌至 1384（20日低点）止跌 → 减空 1/3 仓",
-    "止损：突破 MA60(1483) → 空单离场"
+    "止损：突破 MA60(1485) → 空单离场"
    ],
-   "crowd": {
-    "score": 28,
-    "label": "持仓均衡",
-    "lsr": 0.981,
-    "cr5_long": 0.5069,
-    "cr5_short": 0.5231,
-    "diverge": "多头前5减仓+空头前5增仓→顶部松动",
-    "contract": "JM2701",
-    "retail": {
-     "active": true,
-     "net_pos": 1843,
-     "long_oi": 28047,
-     "short_oi": 26204,
-     "seats": [
-      "中信建投",
-      "徽商",
-      "方正中期"
-     ],
-     "phase": "已投降",
-     "detail": "家人净多，规模回落至1843(峰值47814的4%)，家人已投降(进度96%)，反转信号",
-     "scale": 1843,
-     "peak": 47814,
-     "scale_pct": 3.9,
-     "trend": "加仓中",
-     "surrender_pct": 96.1
-    }
-   },
+   "crowd": null,
    "fundamental": {
     "indicator": "焦煤港口库存",
     "value": 296.74,
@@ -7064,29 +6990,29 @@
    "sym": "J0",
    "name": "焦炭",
    "sector": "黑色系",
-   "latest": 1937.0,
-   "date": "2026-10-23",
-   "n_days": 3767,
-   "pctile_3y": 44.3,
-   "pctile_5y": 20.6,
-   "pctile_all": 35.1,
-   "ma20": 1966.3,
-   "ma60": 1991.0666666666666,
-   "ma5": 1925.7,
-   "ma10": 1963.55,
+   "latest": 1916.5,
+   "date": "2026-10-26",
+   "n_days": 3768,
+   "pctile_3y": 42.9,
+   "pctile_5y": 19.9,
+   "pctile_all": 34.5,
+   "ma20": 1964.5,
+   "ma60": 1992.3333333333333,
+   "ma5": 1927.0,
+   "ma10": 1952.95,
    "recent_high_20": 2039.0,
    "recent_low_20": 1896.5,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -4.1,
-   "mom_20d": -5.2,
-   "mom_60d": 4.9,
-   "mom_250d": 17.9,
-   "ytd": 17.5,
-   "vol20": 29.8,
-   "vol_ratio": 0.92,
+   "mom_10d": -5.2,
+   "mom_20d": -1.8,
+   "mom_60d": 4.1,
+   "mom_250d": 15.8,
+   "ytd": 16.3,
+   "vol20": 25.6,
+   "vol_ratio": 0.79,
    "vol_state": "正常",
-   "vol_pctile": 57.5,
+   "vol_pctile": 40.1,
    "rv_hist": [
     {
      "date": "2025-12-25",
@@ -7249,19 +7175,19 @@
      "rv": 27.2
     }
    ],
-   "volume_ratio": 1.09,
-   "vol_5_20": 1.13,
-   "hold_chg_5": -3.5,
-   "hold_chg_20": -11.3,
-   "flow_quad": "多头离场",
+   "volume_ratio": 1.26,
+   "vol_5_20": 1.09,
+   "hold_chg_5": -3.0,
+   "hold_chg_20": -7.9,
+   "flow_quad": "空头回补",
    "last_rollover": "2026-06-12",
    "rollover_recent": false,
-   "ar1": 0.955,
-   "ar1_pct": 70.6,
+   "ar1": 0.953,
+   "ar1_pct": 69.0,
    "ar1_trend": "上升(惯性增强)",
    "ar1_delta": 0.037,
    "slow_phase": "临界逼近",
-   "skew": 0.15,
+   "skew": 0.17,
    "skew_label": "对称",
    "ar1_hist": [
     0.898,
@@ -7285,12 +7211,12 @@
     0.966,
     0.964
    ],
-   "term_spread_pct": 2.59,
+   "term_spread_pct": 3.2,
    "term_structure": "Backwardation",
    "main_contract": "J2701",
    "second_contract": "J2705",
    "intraday_vol_state": "量平",
-   "intraday_price_state": "企稳",
+   "intraday_price_state": "走弱",
    "iv_atm": null,
    "iv_prev": null,
    "iv_delta": null,
@@ -7303,17 +7229,17 @@
    "dir": "做空(跟随焦煤)",
    "driver": "纯成本跟随焦煤，焦企亏损，无独立驱动",
    "note": "",
-   "flow_confirm": "⏳多空同撤(趋势收尾)",
-   "term_signal": "",
-   "emerge_score": 45.3,
-   "e_pos": 2.9,
-   "e_flow": 9.2,
-   "e_struct": 21.6,
-   "e_crit": 11.6,
-   "dir_score": -43.8,
+   "flow_confirm": "",
+   "term_signal": "⚠️近月升水3.2%(反向风险)",
+   "emerge_score": 48.6,
+   "e_pos": 3.6,
+   "e_flow": 8.6,
+   "e_struct": 25,
+   "e_crit": 11.5,
+   "dir_score": -41.3,
    "d_trend": -40,
-   "d_fund": -13.6,
-   "d_mom": 9.8,
+   "d_fund": -9.5,
+   "d_mom": 8.2,
    "dir_label": "强空",
    "dir_consistency": "✅量化印证",
    "action_advice": "持有空单/顺势",
@@ -7330,38 +7256,13 @@
    "iv_rv": null,
    "position_plan": [
     "基准仓位：50-80%（持有空单/顺势 · 相位 跃迁中(反向)）",
-    "波动调节：波动率 57.5% 分位，正常",
-    "小时线时机：量平·企稳，按价位触发",
-    "加空：反弹至 1964（MA10/20日高点）滞涨 → 加空 1/4 仓",
+    "波动调节：波动率 40.1% 分位，正常",
+    "小时线时机：量平·走弱，按价位触发",
+    "加空：反弹至 1953（MA10/20日高点）滞涨 → 加空 1/4 仓",
     "减空：跌至 1896（20日低点）止跌 → 减空 1/3 仓",
-    "止损：突破 MA60(1991) → 空单离场"
+    "止损：突破 MA60(1992) → 空单离场"
    ],
-   "crowd": {
-    "score": -38,
-    "label": "空头偏拥挤",
-    "lsr": 1.122,
-    "cr5_long": 0.564,
-    "cr5_short": 0.5392,
-    "diverge": "空头前5减仓+多头前5增仓→底部松动",
-    "contract": "J2701",
-    "retail": {
-     "active": true,
-     "net_pos": 1099,
-     "long_oi": 1949,
-     "short_oi": 850,
-     "seats": [
-      "中信建投",
-      "方正中期"
-     ],
-     "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 1099,
-     "peak": 1099,
-     "scale_pct": 100.0,
-     "trend": "—",
-     "surrender_pct": 0.0
-    }
-   },
+   "crowd": null,
    "fundamental": {
     "indicator": "焦炭港口库存",
     "value": 146.07,
@@ -7375,29 +7276,29 @@
    "sym": "SC0",
    "name": "原油",
    "sector": "能源化工",
-   "latest": 724.9,
-   "date": "2026-10-23",
-   "n_days": 2080,
-   "pctile_3y": 63.2,
-   "pctile_5y": 64.0,
-   "pctile_all": 74.2,
-   "ma20": 724.05,
-   "ma60": 657.11,
-   "ma5": 719.12,
-   "ma10": 723.21,
+   "latest": 728.1,
+   "date": "2026-10-26",
+   "n_days": 2081,
+   "pctile_3y": 63.8,
+   "pctile_5y": 63.8,
+   "pctile_all": 74.7,
+   "ma20": 724.055,
+   "ma60": 659.4216666666666,
+   "ma5": 722.02,
+   "ma10": 721.86,
    "recent_high_20": 758.5,
    "recent_low_20": 688.1,
    "above_ma20": true,
    "above_ma60": true,
-   "mom_10d": -1.3,
-   "mom_20d": -7.7,
-   "mom_60d": 26.5,
-   "mom_250d": 59.8,
-   "ytd": 71.9,
-   "vol20": 56.2,
-   "vol_ratio": 0.96,
+   "mom_10d": -1.8,
+   "mom_20d": 0.0,
+   "mom_60d": 23.5,
+   "mom_250d": 61.9,
+   "ytd": 72.7,
+   "vol20": 49.9,
+   "vol_ratio": 0.85,
    "vol_state": "正常",
-   "vol_pctile": 91.3,
+   "vol_pctile": 86.9,
    "rv_hist": [
     {
      "date": "2025-12-29",
@@ -7560,19 +7461,19 @@
      "rv": 56.2
     }
    ],
-   "volume_ratio": 1.05,
-   "vol_5_20": 1.17,
-   "hold_chg_5": 1.8,
-   "hold_chg_20": -17.8,
+   "volume_ratio": 1.2,
+   "vol_5_20": 1.23,
+   "hold_chg_5": 3.4,
+   "hold_chg_20": -15.1,
    "flow_quad": "多头进攻",
    "last_rollover": "2026-06-15",
    "rollover_recent": false,
-   "ar1": 0.96,
-   "ar1_pct": 75.9,
+   "ar1": 0.962,
+   "ar1_pct": 79.8,
    "ar1_trend": "持平",
    "ar1_delta": -0.004,
    "slow_phase": "临界逼近",
-   "skew": 0.2,
+   "skew": 0.23,
    "skew_label": "对称",
    "ar1_hist": [
     0.892,
@@ -7596,16 +7497,17 @@
     0.963,
     0.96
    ],
-   "term_spread_pct": 1.21,
+   "term_spread_pct": 0.96,
    "term_structure": "Backwardation",
    "main_contract": "SC2612",
    "second_contract": "SC2701",
    "intraday_vol_state": "放量",
-   "intraday_price_state": "企稳",
-   "iv_atm": 68.27,
-   "iv_prev": 77.79,
-   "iv_delta": -9.52,
+   "intraday_price_state": "走弱",
+   "iv_atm": 75.75,
+   "iv_prev": 79.68,
+   "iv_delta": -3.93,
    "iv_series": [
+    75.75,
     68.27,
     64.07,
     63.66,
@@ -7619,10 +7521,13 @@
     75.95,
     78.49,
     78.48,
-    79.68,
-    77.79
+    79.68
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 75.75
+    },
     {
      "date": "2026-10-23",
      "iv": 68.27
@@ -7678,10 +7583,6 @@
     {
      "date": "2026-09-29",
      "iv": 79.68
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 77.79
     }
    ],
    "iv_source": "交易所官方",
@@ -7693,14 +7594,14 @@
    "note": "柴油批发220美元/桶历史新高；谈判突破则溢价快速崩塌",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 41.4,
-   "e_pos": 6.6,
-   "e_flow": 12.8,
-   "e_struct": 10.1,
-   "e_crit": 12.0,
-   "dir_score": 48.6,
+   "emerge_score": 39.4,
+   "e_pos": 6.9,
+   "e_flow": 12.4,
+   "e_struct": 8.0,
+   "e_crit": 12.1,
+   "dir_score": 51.9,
    "d_trend": 40,
-   "d_fund": -21.4,
+   "d_fund": -18.1,
    "d_mom": 30,
    "dir_label": "强多",
    "dir_consistency": "",
@@ -7715,23 +7616,27 @@
    "drv_stage": "已触发",
    "emergence_phase": "逼近临界",
    "iv_rv": {
-    "iv_atm": 68.27,
-    "iv_prev": 77.79,
-    "rv": 56.2,
-    "vrp": 12.1,
-    "vrp_var": 0.1502,
-    "rv_pctile": 91.3,
-    "iv_delta": -9.52,
-    "mom_10d": -1.3,
+    "iv_atm": 75.75,
+    "iv_prev": 79.68,
+    "rv": 49.9,
+    "vrp": 25.9,
+    "vrp_var": 0.3248,
+    "rv_pctile": 86.9,
+    "iv_delta": -3.93,
+    "mom_10d": -1.8,
     "iv_source": "交易所官方",
     "label": "IV溢价偏高",
     "detail": [
-     "RV历史高位(分位91%)且IV同步跟进(VRP+12.1pp)：波动获期权确认，趋势/恐慌进行中，未见背离",
-     "IV大幅溢价RV(+12.1pp)：期权定价过高不确定性，情绪过度，警惕反转",
-     "价格持平且IV降(Δ-9.5pp)：预期波动收敛",
-     "方差溢价(学术口径)：σ²IV−σ²RV = +0.1502"
+     "RV历史高位(分位87%)且IV同步跟进(VRP+25.9pp)：波动获期权确认，趋势/恐慌进行中，未见背离",
+     "IV大幅溢价RV(+25.9pp)：期权定价过高不确定性，情绪过度，警惕反转",
+     "价格持平且IV降(Δ-3.9pp)：预期波动收敛",
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.3248"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 75.75
+     },
      {
       "date": "2026-10-23",
       "iv": 68.27
@@ -7787,10 +7692,6 @@
      {
       "date": "2026-09-29",
       "iv": 79.68
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 77.79
      }
     ],
     "rv_hist": [
@@ -7973,29 +7874,29 @@
    "sym": "TA0",
    "name": "PTA",
    "sector": "能源化工",
-   "latest": 6542.0,
-   "date": "2026-10-23",
-   "n_days": 4820,
-   "pctile_3y": 80.4,
-   "pctile_5y": 70.9,
-   "pctile_all": 37.7,
-   "ma20": 6432.9,
-   "ma60": 6068.5,
-   "ma5": 6458.8,
-   "ma10": 6500.0,
+   "latest": 6602.0,
+   "date": "2026-10-26",
+   "n_days": 4821,
+   "pctile_3y": 82.4,
+   "pctile_5y": 72.7,
+   "pctile_all": 38.3,
+   "ma20": 6451.1,
+   "ma60": 6080.866666666667,
+   "ma5": 6502.4,
+   "ma10": 6501.4,
    "recent_high_20": 6830.0,
    "recent_low_20": 6120.0,
    "above_ma20": true,
    "above_ma60": true,
-   "mom_10d": -1.9,
-   "mom_20d": 2.4,
-   "mom_60d": 10.0,
-   "mom_250d": 45.1,
-   "ytd": 29.6,
-   "vol20": 39.3,
-   "vol_ratio": 1.17,
+   "mom_10d": 0.2,
+   "mom_20d": 5.8,
+   "mom_60d": 12.7,
+   "mom_250d": 48.7,
+   "ytd": 30.8,
+   "vol20": 38.3,
+   "vol_ratio": 1.14,
    "vol_state": "正常",
-   "vol_pctile": 94.2,
+   "vol_pctile": 93.3,
    "rv_hist": [
     {
      "date": "2025-12-29",
@@ -8158,19 +8059,19 @@
      "rv": 39.3
     }
    ],
-   "volume_ratio": 0.97,
-   "vol_5_20": 0.97,
-   "hold_chg_5": -6.9,
-   "hold_chg_20": -20.0,
+   "volume_ratio": 1.41,
+   "vol_5_20": 1.05,
+   "hold_chg_5": -6.1,
+   "hold_chg_20": -20.3,
    "flow_quad": "空头回补",
    "last_rollover": "2024-12-17",
    "rollover_recent": false,
-   "ar1": 0.931,
-   "ar1_pct": 41.9,
+   "ar1": 0.936,
+   "ar1_pct": 45.9,
    "ar1_trend": "回落(惯性减弱)",
    "ar1_delta": -0.049,
    "slow_phase": "稳定",
-   "skew": 0.83,
+   "skew": 0.79,
    "skew_label": "右偏(偏多动能)",
    "ar1_hist": [
     0.966,
@@ -8194,16 +8095,17 @@
     0.897,
     0.931
    ],
-   "term_spread_pct": 2.83,
+   "term_spread_pct": 3.06,
    "term_structure": "Backwardation",
    "main_contract": "TA2701",
    "second_contract": "TA2703",
-   "intraday_vol_state": "量平",
-   "intraday_price_state": "企稳",
-   "iv_atm": 26.64,
+   "intraday_vol_state": "放量",
+   "intraday_price_state": "走弱",
+   "iv_atm": 27.71,
    "iv_prev": 27.19,
-   "iv_delta": -0.55,
+   "iv_delta": 0.52,
    "iv_series": [
+    27.71,
     26.64,
     26.75,
     26.39,
@@ -8217,10 +8119,13 @@
     40.6,
     41.99,
     27.19,
-    27.19,
     27.19
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 27.71
+    },
     {
      "date": "2026-10-23",
      "iv": 26.64
@@ -8276,10 +8181,6 @@
     {
      "date": "2026-09-29",
      "iv": 27.19
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 27.19
     }
    ],
    "iv_source": "交易所官方",
@@ -8289,22 +8190,22 @@
    "dir": "观望偏多",
    "driver": "2026供给零新增+PX偏紧成本传导",
    "note": "下半年PX投产下移成本中枢",
-   "flow_confirm": "⚠️资金离场(持仓-20.0%)",
-   "term_signal": "",
-   "emerge_score": 62.0,
-   "e_pos": 15.2,
-   "e_flow": 13.4,
-   "e_struct": 23.6,
-   "e_crit": 9.8,
-   "dir_score": 36.0,
+   "flow_confirm": "⚠️资金离场(持仓-20.3%)",
+   "term_signal": "✅近月升水3.06%",
+   "emerge_score": 68.7,
+   "e_pos": 16.2,
+   "e_flow": 17.3,
+   "e_struct": 25,
+   "e_crit": 10.2,
+   "dir_score": 41.0,
    "d_trend": 40,
-   "d_fund": -24.0,
-   "d_mom": 20.0,
-   "dir_label": "偏多",
+   "d_fund": -24.4,
+   "d_mom": 25.4,
+   "dir_label": "强多",
    "dir_consistency": "✅量化印证",
    "action_advice": "减仓观察",
    "action_detail": [
-    "资金正在离场(持仓20日-20.0%)，但趋势尚未破位",
+    "资金正在离场(持仓20日-20.3%)，但趋势尚未破位",
     "动作：减仓锁定利润，观察回调是否止跌",
     "若进一步跌破MA60且资金持续撤，升级为暂离"
    ],
@@ -8315,22 +8216,26 @@
    "drv_stage": "已触发",
    "emergence_phase": "跃迁中",
    "iv_rv": {
-    "iv_atm": 26.64,
+    "iv_atm": 27.71,
     "iv_prev": 27.19,
-    "rv": 39.3,
-    "vrp": -12.7,
-    "vrp_var": -0.0835,
-    "rv_pctile": 94.2,
-    "iv_delta": -0.55,
-    "mom_10d": -1.9,
+    "rv": 38.3,
+    "vrp": -10.6,
+    "vrp_var": -0.0699,
+    "rv_pctile": 93.3,
+    "iv_delta": 0.52,
+    "mom_10d": 0.2,
     "iv_source": "交易所官方",
     "label": "⚠️ 阶段顶信号",
     "detail": [
-     "实际波动处历史高位(分位94%)，但期权定价未抬升(IV−RV=-12.7) → 阶段顶部信号",
+     "实际波动处历史高位(分位93%)，但期权定价未抬升(IV−RV=-10.6) → 阶段顶部信号",
      "白话：实际波动已经很高，但期权市场不愿给出更高定价，说明市场认为这波高波动是暂时的、即将回落——而波动的收敛常伴随行情反转",
-     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0835"
+     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0699"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 27.71
+     },
      {
       "date": "2026-10-23",
       "iv": 26.64
@@ -8385,10 +8290,6 @@
      },
      {
       "date": "2026-09-29",
-      "iv": 27.19
-     },
-     {
-      "date": "2026-09-28",
       "iv": 27.19
      }
     ],
@@ -8557,33 +8458,32 @@
    },
    "position_plan": [
     "基准仓位：10-30%（减仓观察 · 相位 跃迁中）",
-    "波动调节：波动率处 94.2% 历史高位 → 仓位下调一档（高波动=高风险）",
-    "小时线时机：量平·企稳，避险/减仓执行中",
-    "加仓：回调至 6500（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "波动调节：波动率处 93.3% 历史高位 → 仓位下调一档（高波动=高风险）",
+    "小时线时机：放量·走弱，避险/减仓执行中",
+    "加仓：回调至 6501（MA10/20日低点）缩量企稳 → 加 1/4 仓",
     "减仓：反弹至 6830（20日高点）放量滞涨 → 减 1/3 仓",
-    "止损：跌破 MA60(6068) → 清仓离场"
+    "止损：跌破 MA60(6081) → 清仓离场"
    ],
    "crowd": {
-    "score": 0,
-    "label": "持仓均衡",
-    "lsr": 1.126,
-    "cr5_long": 0.6347,
-    "cr5_short": 0.5379,
-    "diverge": "",
+    "score": 38,
+    "label": "多头偏拥挤",
+    "lsr": 1.083,
+    "cr5_long": 0.6303,
+    "cr5_short": 0.5604,
+    "diverge": "多头前5减仓+空头前5增仓→顶部松动",
     "contract": "TA701",
     "retail": {
      "active": true,
-     "net_pos": 3195,
-     "long_oi": 21473,
-     "short_oi": 18278,
+     "net_pos": 9904,
+     "long_oi": 9904,
+     "short_oi": 0,
      "seats": [
-      "中信建投",
-      "方正中期"
+      "徽商"
      ],
      "phase": "观察",
      "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 3195,
-     "peak": 3195,
+     "scale": 9904,
+     "peak": 9904,
      "scale_pct": 100.0,
      "trend": "—",
      "surrender_pct": 0.0
@@ -8602,29 +8502,29 @@
    "sym": "MA0",
    "name": "甲醇",
    "sector": "能源化工",
-   "latest": 3219.0,
-   "date": "2026-10-23",
-   "n_days": 2866,
-   "pctile_3y": 78.4,
-   "pctile_5y": 60.0,
-   "pctile_all": 66.6,
-   "ma20": 3098.15,
-   "ma60": 2934.15,
-   "ma5": 3168.0,
-   "ma10": 3192.8,
-   "recent_high_20": 3338.0,
+   "latest": 3389.0,
+   "date": "2026-10-26",
+   "n_days": 2867,
+   "pctile_3y": 89.4,
+   "pctile_5y": 68.1,
+   "pctile_all": 73.4,
+   "ma20": 3120.0,
+   "ma60": 2944.7166666666667,
+   "ma5": 3217.2,
+   "ma10": 3208.8,
+   "recent_high_20": 3389.0,
    "recent_low_20": 2833.0,
    "above_ma20": true,
    "above_ma60": true,
-   "mom_10d": -3.6,
-   "mom_20d": 7.5,
-   "mom_60d": 16.8,
-   "mom_250d": 37.4,
-   "ytd": 45.3,
-   "vol20": 43.0,
-   "vol_ratio": 0.95,
+   "mom_10d": 5.0,
+   "mom_20d": 14.8,
+   "mom_60d": 23.0,
+   "mom_250d": 49.0,
+   "ytd": 53.0,
+   "vol20": 45.7,
+   "vol_ratio": 1.01,
    "vol_state": "正常",
-   "vol_pctile": 93.7,
+   "vol_pctile": 94.7,
    "rv_hist": [
     {
      "date": "2025-12-26",
@@ -8787,19 +8687,19 @@
      "rv": 43.7
     }
    ],
-   "volume_ratio": 1.68,
-   "vol_5_20": 1.77,
-   "hold_chg_5": 9.0,
-   "hold_chg_20": 33.6,
+   "volume_ratio": 2.17,
+   "vol_5_20": 1.8,
+   "hold_chg_5": 13.4,
+   "hold_chg_20": 41.1,
    "flow_quad": "多头进攻",
    "last_rollover": "2023-12-12",
    "rollover_recent": false,
-   "ar1": 0.939,
-   "ar1_pct": 60.1,
+   "ar1": 0.94,
+   "ar1_pct": 60.9,
    "ar1_trend": "持平",
    "ar1_delta": 0.007,
    "slow_phase": "稳定",
-   "skew": -1.19,
+   "skew": -1.11,
    "skew_label": "左偏(偏空动能)",
    "ar1_hist": [
     0.961,
@@ -8823,16 +8723,17 @@
     0.948,
     0.932
    ],
-   "term_spread_pct": -4.7,
+   "term_spread_pct": -4.67,
    "term_structure": "Contango",
    "main_contract": "MA2701",
    "second_contract": "MA2612",
-   "intraday_vol_state": "量平",
+   "intraday_vol_state": "放量",
    "intraday_price_state": "企稳",
-   "iv_atm": 34.88,
-   "iv_prev": 48.65,
-   "iv_delta": -13.77,
+   "iv_atm": 37.73,
+   "iv_prev": 28.7,
+   "iv_delta": 9.03,
    "iv_series": [
+    37.73,
     34.88,
     41.79,
     30.51,
@@ -8846,10 +8747,13 @@
     34.66,
     46.89,
     28.7,
-    28.7,
-    48.65
+    28.7
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 37.73
+    },
     {
      "date": "2026-10-23",
      "iv": 34.88
@@ -8905,10 +8809,6 @@
     {
      "date": "2026-09-29",
      "iv": 28.7
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 48.65
     }
    ],
    "iv_source": "交易所官方",
@@ -8919,12 +8819,12 @@
    "driver": "伊朗产能瘫痪+港口库存30.5万吨历史新低，逼空进行中",
    "note": "⚠️量仓背离：高位放量(1.62)+增仓(6.7%)但空头进攻=空头高位建仓，多头谨慎",
    "flow_confirm": "",
-   "term_signal": "贴水-4.7%",
-   "emerge_score": 72.0,
-   "e_pos": 14.2,
-   "e_flow": 22.3,
+   "term_signal": "贴水-4.67%",
+   "emerge_score": 80.2,
+   "e_pos": 19.7,
+   "e_flow": 25.0,
    "e_struct": 25,
-   "e_crit": 10.4,
+   "e_crit": 10.5,
    "dir_score": 100,
    "d_trend": 40,
    "d_fund": 30,
@@ -8942,23 +8842,27 @@
    "drv_stage": "已触发",
    "emergence_phase": "跃迁中",
    "iv_rv": {
-    "iv_atm": 34.88,
-    "iv_prev": 48.65,
-    "rv": 43.0,
-    "vrp": -8.1,
-    "vrp_var": -0.0632,
-    "rv_pctile": 93.7,
-    "iv_delta": -13.77,
-    "mom_10d": -3.6,
+    "iv_atm": 37.73,
+    "iv_prev": 28.7,
+    "rv": 45.7,
+    "vrp": -8.0,
+    "vrp_var": -0.0665,
+    "rv_pctile": 94.7,
+    "iv_delta": 9.03,
+    "mom_10d": 5.0,
     "iv_source": "交易所官方",
-    "label": "⚠️ 极值区·警惕反弹",
+    "label": "⚠️ 阶段顶信号",
     "detail": [
-     "实际波动处历史高位(分位94%)，但期权定价未抬升(IV−RV=-8.1)，跌势恐慌消退 → 警惕反弹",
+     "实际波动处历史高位(分位95%)，但期权定价未抬升(IV−RV=-8.0) → 阶段顶部信号",
      "白话：实际波动已经很高，但期权市场不愿给出更高定价，说明市场认为这波高波动是暂时的、即将回落——而波动的收敛常伴随行情反转",
-     "跌时IV降(Δ-13.8pp)：恐慌消退，与极值信号共振",
-     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0632"
+     "涨时IV升(Δ+9.0pp)：趋势加速(正常)",
+     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0665"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 37.73
+     },
      {
       "date": "2026-10-23",
       "iv": 34.88
@@ -9014,10 +8918,6 @@
      {
       "date": "2026-09-29",
       "iv": 28.7
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 48.65
      }
     ],
     "rv_hist": [
@@ -9187,30 +9087,29 @@
     "观望品种，暂无仓位计划"
    ],
    "crowd": {
-    "score": 41,
+    "score": 43,
     "label": "多头偏拥挤",
-    "lsr": 1.187,
-    "cr5_long": 0.5157,
-    "cr5_short": 0.4585,
-    "diverge": "多头前5减仓+空头前5增仓→顶部松动",
+    "lsr": 1.208,
+    "cr5_long": 0.5192,
+    "cr5_short": 0.4468,
+    "diverge": "",
     "contract": "MA701",
     "retail": {
      "active": true,
-     "net_pos": -59368,
-     "long_oi": 23029,
-     "short_oi": 82397,
+     "net_pos": -59131,
+     "long_oi": 0,
+     "short_oi": 59131,
      "seats": [
-      "中信建投",
+      "东方财富",
       "平安",
-      "徽商",
-      "方正中期"
+      "徽商"
      ],
-     "phase": "高位持仓",
-     "detail": "家人净空，规模59368处高位(峰值59368的100%)但持平，家人持仓见顶，观望",
-     "scale": 59368,
-     "peak": 59368,
+     "phase": "加仓扛单",
+     "detail": "家人净空，规模59131处高位(峰值59131的100%)且加仓中，家人逆势扛单，反向趋势延伸，顺势持有",
+     "scale": 59131,
+     "peak": 59131,
      "scale_pct": 100.0,
-     "trend": "持平",
+     "trend": "加仓中",
      "surrender_pct": 0.0
     }
    },
@@ -9227,25 +9126,25 @@
    "sym": "FG0",
    "name": "玻璃",
    "sector": "能源化工",
-   "latest": 836.0,
-   "date": "2026-10-23",
-   "n_days": 3362,
-   "pctile_3y": 0.7,
-   "pctile_5y": 0.4,
-   "pctile_all": 1.2,
-   "ma20": 875.85,
-   "ma60": 901.9666666666667,
-   "ma5": 842.4,
-   "ma10": 849.6,
+   "latest": 838.0,
+   "date": "2026-10-26",
+   "n_days": 3363,
+   "pctile_3y": 0.9,
+   "pctile_5y": 0.5,
+   "pctile_all": 1.3,
+   "ma20": 872.4,
+   "ma60": 900.8,
+   "ma5": 838.2,
+   "ma10": 847.1,
    "recent_high_20": 932.0,
    "recent_low_20": 828.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -4.1,
+   "mom_10d": -2.9,
    "mom_20d": -7.6,
-   "mom_60d": -7.0,
-   "mom_250d": -29.1,
-   "ytd": -22.7,
+   "mom_60d": -7.7,
+   "mom_250d": -26.4,
+   "ytd": -22.5,
    "vol20": 19.4,
    "vol_ratio": 0.69,
    "vol_state": "压缩",
@@ -9412,19 +9311,19 @@
      "rv": 18.2
     }
    ],
-   "volume_ratio": 1.14,
-   "vol_5_20": 1.06,
-   "hold_chg_5": 9.8,
-   "hold_chg_20": 12.2,
+   "volume_ratio": 0.86,
+   "vol_5_20": 1.07,
+   "hold_chg_5": 8.9,
+   "hold_chg_20": 14.9,
    "flow_quad": "空头进攻",
    "last_rollover": "2026-04-16",
    "rollover_recent": false,
-   "ar1": 0.925,
-   "ar1_pct": 52.3,
+   "ar1": 0.929,
+   "ar1_pct": 55.3,
    "ar1_trend": "回落(惯性减弱)",
    "ar1_delta": -0.04,
    "slow_phase": "稳定",
-   "skew": 0.76,
+   "skew": 0.79,
    "skew_label": "右偏(偏多动能)",
    "ar1_hist": [
     0.926,
@@ -9448,16 +9347,17 @@
     0.887,
     0.915
    ],
-   "term_spread_pct": -3.23,
+   "term_spread_pct": -2.78,
    "term_structure": "Contango",
    "main_contract": "FG2701",
    "second_contract": "FG2703",
    "intraday_vol_state": "量平",
-   "intraday_price_state": "走强",
-   "iv_atm": 22.74,
-   "iv_prev": 22.55,
-   "iv_delta": 0.19,
+   "intraday_price_state": "企稳",
+   "iv_atm": 23.36,
+   "iv_prev": 24.33,
+   "iv_delta": -0.97,
    "iv_series": [
+    23.36,
     22.74,
     22.54,
     22.73,
@@ -9471,10 +9371,13 @@
     24.13,
     24.19,
     24.33,
-    24.33,
-    22.55
+    24.33
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 23.36
+    },
     {
      "date": "2026-10-23",
      "iv": 22.74
@@ -9530,10 +9433,6 @@
     {
      "date": "2026-09-29",
      "iv": 24.33
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 22.55
     }
    ],
    "iv_source": "交易所官方",
@@ -9543,17 +9442,17 @@
    "dir": "观望偏多(左侧埋伏)",
    "driver": "全路线深度亏损逼近煤制气冷修阈值，供给出清一触即发",
    "note": "低位放量增仓(20日+27%)=底部换手蓄势，印证左侧埋伏",
-   "flow_confirm": "✅资金进场(持仓+12.2%)",
-   "term_signal": "⏳贴水-3.23%(或选远月)",
-   "emerge_score": 79.2,
+   "flow_confirm": "✅资金进场(持仓+14.9%)",
+   "term_signal": "",
+   "emerge_score": 76.8,
    "e_pos": 24.6,
-   "e_flow": 10.2,
-   "e_struct": 25,
-   "e_crit": 19.4,
-   "dir_score": -39.4,
+   "e_flow": 9.4,
+   "e_struct": 23.2,
+   "e_crit": 19.7,
+   "dir_score": -37.5,
    "d_trend": -40,
-   "d_fund": 14.6,
-   "d_mom": -14.0,
+   "d_fund": 17.9,
+   "d_mom": -15.4,
    "dir_label": "偏空",
    "dir_consistency": "⏳技术回调中",
    "action_advice": "左侧轻仓试探",
@@ -9568,20 +9467,24 @@
    "drv_stage": "累积中",
    "emergence_phase": "逼近临界",
    "iv_rv": {
-    "iv_atm": 22.74,
-    "iv_prev": 22.55,
+    "iv_atm": 23.36,
+    "iv_prev": 24.33,
     "rv": 19.4,
-    "vrp": 3.3,
-    "vrp_var": 0.0141,
+    "vrp": 4.0,
+    "vrp_var": 0.0169,
     "rv_pctile": 29.6,
-    "iv_delta": 0.19,
-    "mom_10d": -4.1,
+    "iv_delta": -0.97,
+    "mom_10d": -2.9,
     "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
-     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0141"
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0169"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 23.36
+     },
      {
       "date": "2026-10-23",
       "iv": 22.74
@@ -9637,10 +9540,6 @@
      {
       "date": "2026-09-29",
       "iv": 24.33
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 22.55
      }
     ],
     "rv_hist": [
@@ -9809,37 +9708,35 @@
    "position_plan": [
     "基准仓位：10-20%（试探）（左侧轻仓试探 · 相位 逼近临界）",
     "波动调节：波动率处 29.6% 分位，偏低 → 仓位可正常",
-    "小时线时机：量平·走强，按价位触发",
+    "小时线时机：量平·企稳，按价位触发",
     "加仓：回调至 828（MA10/20日低点）缩量企稳 → 加 1/4 仓",
     "减仓：反弹至 932（20日高点）放量滞涨 → 减 1/3 仓",
     "风控：跌破 828（20日低点/前低）且无企稳 → 回调加深，暂停加仓减仓观望"
    ],
    "crowd": {
-    "score": -50,
+    "score": -48,
     "label": "空头偏拥挤",
-    "lsr": 0.795,
-    "cr5_long": 0.454,
-    "cr5_short": 0.5621,
-    "diverge": "",
+    "lsr": 0.804,
+    "cr5_long": 0.4579,
+    "cr5_short": 0.555,
+    "diverge": "空头前5减仓+多头前5增仓→底部松动",
     "contract": "FG701",
     "retail": {
      "active": true,
-     "net_pos": 63787,
-     "long_oi": 146020,
-     "short_oi": 82233,
+     "net_pos": 27004,
+     "long_oi": 53332,
+     "short_oi": 26328,
      "seats": [
-      "中信建投",
       "平安",
-      "徽商",
-      "方正中期"
+      "徽商"
      ],
-     "phase": "加仓扛单",
-     "detail": "家人净多，规模63787处高位(峰值83685的76%)且加仓中，家人逆势扛单，反向趋势延伸，顺势持有",
-     "scale": 63787,
-     "peak": 83685,
-     "scale_pct": 76.2,
-     "trend": "加仓中",
-     "surrender_pct": 23.8
+     "phase": "减仓撤退",
+     "detail": "家人净多，规模从峰值44662回落至27004(60%)，投降进度40%，警惕反转",
+     "scale": 27004,
+     "peak": 44662,
+     "scale_pct": 60.5,
+     "trend": "减仓中",
+     "surrender_pct": 39.5
     }
    },
    "fundamental": {
@@ -9855,26 +9752,26 @@
    "sym": "SA0",
    "name": "纯碱",
    "sector": "能源化工",
-   "latest": 963.0,
-   "date": "2026-10-23",
-   "n_days": 1666,
-   "pctile_3y": 2.6,
-   "pctile_5y": 1.7,
-   "pctile_all": 1.7,
-   "ma20": 978.95,
-   "ma60": 1001.6666666666666,
-   "ma5": 947.2,
-   "ma10": 949.7,
+   "latest": 966.0,
+   "date": "2026-10-26",
+   "n_days": 1667,
+   "pctile_3y": 2.7,
+   "pctile_5y": 1.8,
+   "pctile_all": 1.8,
+   "ma20": 976.9,
+   "ma60": 1001.0333333333333,
+   "ma5": 950.2,
+   "ma10": 947.8,
    "recent_high_20": 1018.0,
    "recent_low_20": 932.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -4.7,
-   "mom_20d": -4.3,
-   "mom_60d": -4.4,
-   "mom_250d": -22.8,
-   "ytd": -18.2,
-   "vol20": 25.4,
+   "mom_10d": -1.9,
+   "mom_20d": -4.1,
+   "mom_60d": -3.8,
+   "mom_250d": -21.7,
+   "ytd": -17.9,
+   "vol20": 25.5,
    "vol_ratio": 1.02,
    "vol_state": "正常",
    "vol_pctile": 32.4,
@@ -10040,19 +9937,19 @@
      "rv": 22.4
     }
    ],
-   "volume_ratio": 1.2,
-   "vol_5_20": 1.01,
-   "hold_chg_5": -2.9,
-   "hold_chg_20": -5.8,
+   "volume_ratio": 1.39,
+   "vol_5_20": 1.08,
+   "hold_chg_5": -2.4,
+   "hold_chg_20": -6.7,
    "flow_quad": "空头回补",
    "last_rollover": "2026-04-14",
    "rollover_recent": false,
-   "ar1": 0.929,
-   "ar1_pct": 43.5,
+   "ar1": 0.93,
+   "ar1_pct": 44.1,
    "ar1_trend": "持平",
    "ar1_delta": -0.024,
    "slow_phase": "稳定",
-   "skew": 0.49,
+   "skew": 0.47,
    "skew_label": "对称",
    "ar1_hist": [
     0.933,
@@ -10076,16 +9973,17 @@
     0.937,
     0.918
    ],
-   "term_spread_pct": -3.12,
+   "term_spread_pct": -2.91,
    "term_structure": "Contango",
    "main_contract": "SA2701",
    "second_contract": "SA2703",
    "intraday_vol_state": "放量",
-   "intraday_price_state": "企稳",
-   "iv_atm": 24.17,
-   "iv_prev": 24.94,
-   "iv_delta": -0.77,
+   "intraday_price_state": "走弱",
+   "iv_atm": 23.56,
+   "iv_prev": 20.87,
+   "iv_delta": 2.69,
    "iv_series": [
+    23.56,
     24.17,
     25.04,
     23.95,
@@ -10099,10 +9997,13 @@
     25.09,
     24.92,
     25.01,
-    20.87,
-    24.94
+    20.87
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 23.56
+    },
     {
      "date": "2026-10-23",
      "iv": 24.17
@@ -10158,10 +10059,6 @@
     {
      "date": "2026-09-29",
      "iv": 20.87
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 24.94
     }
    ],
    "iv_source": "交易所官方",
@@ -10172,16 +10069,16 @@
    "driver": "天然碱释放+地产竣工-23.7%，跌破现金成本但出清三要素未确认",
    "note": "贴水3.15%供过于求，最便宜但最不接近跃迁",
    "flow_confirm": "",
-   "term_signal": "贴水-3.12%",
-   "emerge_score": 65.2,
-   "e_pos": 23.7,
-   "e_flow": 6.8,
-   "e_struct": 25,
-   "e_crit": 9.7,
-   "dir_score": -55.8,
+   "term_signal": "",
+   "emerge_score": 66.6,
+   "e_pos": 23.6,
+   "e_flow": 8.9,
+   "e_struct": 24.3,
+   "e_crit": 9.8,
+   "dir_score": -55.6,
    "d_trend": -40,
-   "d_fund": -7.0,
-   "d_mom": -8.8,
+   "d_fund": -8.0,
+   "d_mom": -7.6,
    "dir_label": "强空",
    "dir_consistency": "",
    "action_advice": "观望",
@@ -10195,20 +10092,25 @@
    "drv_stage": "累积中",
    "emergence_phase": "驱动累积",
    "iv_rv": {
-    "iv_atm": 24.17,
-    "iv_prev": 24.94,
-    "rv": 25.4,
-    "vrp": -1.2,
-    "vrp_var": -0.0061,
+    "iv_atm": 23.56,
+    "iv_prev": 20.87,
+    "rv": 25.5,
+    "vrp": -1.9,
+    "vrp_var": -0.0095,
     "rv_pctile": 32.4,
-    "iv_delta": -0.77,
-    "mom_10d": -4.7,
+    "iv_delta": 2.69,
+    "mom_10d": -1.9,
     "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
-     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0061"
+     "价格持平但IV升(Δ+2.7pp)：期权定价即将到来的波动",
+     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0095"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 23.56
+     },
      {
       "date": "2026-10-23",
       "iv": 24.17
@@ -10264,10 +10166,6 @@
      {
       "date": "2026-09-29",
       "iv": 20.87
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 24.94
      }
     ],
     "rv_hist": [
@@ -10437,27 +10335,25 @@
     "观望品种，暂无仓位计划"
    ],
    "crowd": {
-    "score": -44,
+    "score": -46,
     "label": "空头偏拥挤",
-    "lsr": 0.823,
-    "cr5_long": 0.4009,
-    "cr5_short": 0.518,
-    "diverge": "空头前5减仓+多头前5增仓→底部松动",
+    "lsr": 0.812,
+    "cr5_long": 0.3907,
+    "cr5_short": 0.5248,
+    "diverge": "多头前5减仓+空头前5增仓→顶部松动",
     "contract": "SA701",
     "retail": {
      "active": true,
-     "net_pos": 45814,
-     "long_oi": 96761,
-     "short_oi": 50947,
+     "net_pos": 27982,
+     "long_oi": 27982,
+     "short_oi": 0,
      "seats": [
-      "中信建投",
-      "徽商",
-      "方正中期"
+      "徽商"
      ],
      "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 45814,
-     "peak": 45814,
+     "detail": "家人历史仅2天，持续跟踪积累中（暂不判定方向）",
+     "scale": 27982,
+     "peak": 27982,
      "scale_pct": 100.0,
      "trend": "—",
      "surrender_pct": 0.0
@@ -10465,10 +10361,10 @@
    },
    "fundamental": {
     "indicator": "纯碱企业库存",
-    "value": 147.1,
+    "value": 136.89,
     "unit": "吨",
-    "date": "2026-10-22",
-    "chg_pct": -4.5,
+    "date": "2026-10-26",
+    "chg_pct": -6.9,
     "pctile": 1.7
    }
   },
@@ -10476,29 +10372,29 @@
    "sym": "RU0",
    "name": "橡胶",
    "sector": "能源化工",
-   "latest": 19705.0,
-   "date": "2026-10-23",
-   "n_days": 5300,
-   "pctile_3y": 87.3,
-   "pctile_5y": 89.6,
-   "pctile_all": 31.8,
-   "ma20": 19687.25,
-   "ma60": 18649.583333333332,
-   "ma5": 19698.0,
-   "ma10": 19908.5,
+   "latest": 19545.0,
+   "date": "2026-10-26",
+   "n_days": 5301,
+   "pctile_3y": 85.1,
+   "pctile_5y": 87.9,
+   "pctile_all": 31.3,
+   "ma20": 19731.0,
+   "ma60": 18695.916666666668,
+   "ma5": 19666.0,
+   "ma10": 19799.0,
    "recent_high_20": 20645.0,
-   "recent_low_20": 18670.0,
-   "above_ma20": true,
+   "recent_low_20": 18800.0,
+   "above_ma20": false,
    "above_ma60": true,
-   "mom_10d": -4.6,
+   "mom_10d": -5.3,
    "mom_20d": 4.7,
-   "mom_60d": 15.7,
-   "mom_250d": 31.9,
-   "ytd": 24.8,
-   "vol20": 28.6,
+   "mom_60d": 16.6,
+   "mom_250d": 31.7,
+   "ytd": 23.8,
+   "vol20": 28.7,
    "vol_ratio": 1.41,
    "vol_state": "正常",
-   "vol_pctile": 57.9,
+   "vol_pctile": 58.0,
    "rv_hist": [
     {
      "date": "2025-12-29",
@@ -10662,18 +10558,18 @@
     }
    ],
    "volume_ratio": 1.06,
-   "vol_5_20": 1.0,
-   "hold_chg_5": -5.8,
-   "hold_chg_20": 3.9,
+   "vol_5_20": 1.03,
+   "hold_chg_5": -3.2,
+   "hold_chg_20": 5.9,
    "flow_quad": "多头离场",
    "last_rollover": "2024-11-28",
    "rollover_recent": false,
-   "ar1": 0.968,
-   "ar1_pct": 81.1,
+   "ar1": 0.967,
+   "ar1_pct": 81.0,
    "ar1_trend": "上升(惯性增强)",
    "ar1_delta": 0.073,
    "slow_phase": "临界逼近",
-   "skew": 1.75,
+   "skew": 1.78,
    "skew_label": "右偏(偏多动能)",
    "ar1_hist": [
     0.865,
@@ -10697,16 +10593,17 @@
     0.968,
     0.968
    ],
-   "term_spread_pct": -0.08,
+   "term_spread_pct": -0.13,
    "term_structure": "平坦",
    "main_contract": "RU2701",
    "second_contract": "RU2705",
    "intraday_vol_state": "量平",
-   "intraday_price_state": "企稳",
-   "iv_atm": 25.99,
-   "iv_prev": 23.8,
-   "iv_delta": 2.19,
+   "intraday_price_state": "走弱",
+   "iv_atm": 28.69,
+   "iv_prev": 23.02,
+   "iv_delta": 5.67,
    "iv_series": [
+    28.69,
     25.99,
     29.14,
     31.14,
@@ -10720,10 +10617,13 @@
     26.96,
     27.24,
     26.14,
-    23.02,
-    23.8
+    23.02
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 28.69
+    },
     {
      "date": "2026-10-23",
      "iv": 25.99
@@ -10779,10 +10679,6 @@
     {
      "date": "2026-09-29",
      "iv": 23.02
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 23.8
     }
    ],
    "iv_source": "交易所官方",
@@ -10792,18 +10688,18 @@
    "dir": "做多",
    "driver": "厄尔尼诺+供给，YTD+26%但分位89%高位",
    "note": "⚠️高位减仓(13.6%)多头离场，警惕回调",
-   "flow_confirm": "",
+   "flow_confirm": "✅资金进场(持仓+5.9%)",
    "term_signal": "",
-   "emerge_score": 36.4,
-   "e_pos": 18.6,
-   "e_flow": 4.5,
-   "e_struct": 0.7,
-   "e_crit": 12.6,
-   "dir_score": 74.7,
-   "d_trend": 40,
-   "d_fund": 4.7,
+   "emerge_score": 36.9,
+   "e_pos": 17.5,
+   "e_flow": 5.7,
+   "e_struct": 1.1,
+   "e_crit": 12.5,
+   "dir_score": 27.1,
+   "d_trend": -10,
+   "d_fund": 7.1,
    "d_mom": 30,
-   "dir_label": "强多",
+   "dir_label": "偏多",
    "dir_consistency": "✅量化印证",
    "action_advice": "持有/顺势",
    "action_detail": [
@@ -10817,21 +10713,25 @@
    "drv_stage": "已触发",
    "emergence_phase": "跃迁中",
    "iv_rv": {
-    "iv_atm": 25.99,
-    "iv_prev": 23.8,
-    "rv": 28.6,
-    "vrp": -2.6,
-    "vrp_var": -0.0142,
-    "rv_pctile": 57.9,
-    "iv_delta": 2.19,
-    "mom_10d": -4.6,
+    "iv_atm": 28.69,
+    "iv_prev": 23.02,
+    "rv": 28.7,
+    "vrp": -0.0,
+    "vrp_var": -0.0001,
+    "rv_pctile": 58.0,
+    "iv_delta": 5.67,
+    "mom_10d": -5.3,
     "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
-     "跌时IV升(Δ+2.2pp)：恐慌加速(正常)",
-     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0142"
+     "跌时IV升(Δ+5.7pp)：恐慌加速(正常)",
+     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0001"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 28.69
+     },
      {
       "date": "2026-10-23",
       "iv": 25.99
@@ -10887,10 +10787,6 @@
      {
       "date": "2026-09-29",
       "iv": 23.02
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 23.8
      }
     ],
     "rv_hist": [
@@ -11058,34 +10954,31 @@
    },
    "position_plan": [
     "基准仓位：50-80%（持有/顺势 · 相位 跃迁中）",
-    "波动调节：波动率 57.9% 分位，正常",
-    "小时线时机：量平·企稳，按价位触发",
-    "加仓：回调至 18670（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "波动调节：波动率 58.0% 分位，正常",
+    "小时线时机：量平·走弱，按价位触发",
+    "加仓：回调至 18800（MA10/20日低点）缩量企稳 → 加 1/4 仓",
     "减仓：反弹至 20645（20日高点）放量滞涨 → 减 1/3 仓",
-    "止损：跌破 MA60(18650) → 清仓离场"
+    "止损：跌破 MA60(18696) → 清仓离场"
    ],
    "crowd": {
-    "score": -31,
-    "label": "持仓均衡",
-    "lsr": 0.917,
-    "cr5_long": 0.4762,
-    "cr5_short": 0.4756,
-    "diverge": "空头前5减仓+多头前5增仓→底部松动",
+    "score": 40,
+    "label": "多头偏拥挤",
+    "lsr": 0.851,
+    "cr5_long": 0.4565,
+    "cr5_short": 0.5119,
+    "diverge": "多头前5减仓+空头前5增仓→顶部松动",
     "contract": "ru2701",
     "retail": {
-     "active": true,
-     "net_pos": 3448,
-     "long_oi": 5702,
-     "short_oi": 2254,
-     "seats": [
-      "中信建投",
-      "方正中期"
-     ],
-     "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 3448,
-     "peak": 3448,
-     "scale_pct": 100.0,
+     "active": false,
+     "net_pos": null,
+     "long_oi": null,
+     "short_oi": null,
+     "seats": [],
+     "phase": "家人不集中",
+     "detail": "",
+     "scale": 0,
+     "peak": 0,
+     "scale_pct": 0.0,
      "trend": "—",
      "surrender_pct": 0.0
     }
@@ -11103,29 +10996,29 @@
    "sym": "M0",
    "name": "豆粕",
    "sector": "农产品",
-   "latest": 3276.0,
-   "date": "2026-10-23",
-   "n_days": 5305,
-   "pctile_3y": 45.1,
-   "pctile_5y": 36.9,
-   "pctile_all": 49.5,
-   "ma20": 3346.35,
-   "ma60": 3288.4166666666665,
-   "ma5": 3264.4,
-   "ma10": 3303.6,
+   "latest": 3230.0,
+   "date": "2026-10-26",
+   "n_days": 5306,
+   "pctile_3y": 42.2,
+   "pctile_5y": 34.5,
+   "pctile_all": 47.6,
+   "ma20": 3338.0,
+   "ma60": 3288.5,
+   "ma5": 3253.0,
+   "ma10": 3288.3,
    "recent_high_20": 3426.0,
-   "recent_low_20": 3243.0,
+   "recent_low_20": 3230.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -3.7,
-   "mom_20d": -5.8,
-   "mom_60d": 3.2,
-   "mom_250d": 11.7,
-   "ytd": 19.0,
-   "vol20": 14.7,
-   "vol_ratio": 0.93,
+   "mom_10d": -4.5,
+   "mom_20d": -4.9,
+   "mom_60d": 0.2,
+   "mom_250d": 11.3,
+   "ytd": 17.3,
+   "vol20": 13.3,
+   "vol_ratio": 0.85,
    "vol_state": "正常",
-   "vol_pctile": 23.7,
+   "vol_pctile": 17.1,
    "rv_hist": [
     {
      "date": "2025-12-29",
@@ -11288,10 +11181,10 @@
      "rv": 14.7
     }
    ],
-   "volume_ratio": 0.76,
-   "vol_5_20": 0.9,
-   "hold_chg_5": 2.3,
-   "hold_chg_20": -8.7,
+   "volume_ratio": 1.06,
+   "vol_5_20": 0.96,
+   "hold_chg_5": 3.0,
+   "hold_chg_20": -4.4,
    "flow_quad": "空头进攻",
    "last_rollover": "2024-11-15",
    "rollover_recent": false,
@@ -11300,7 +11193,7 @@
    "ar1_trend": "上升(惯性增强)",
    "ar1_delta": 0.069,
    "slow_phase": "临界逼近",
-   "skew": 0.08,
+   "skew": 0.12,
    "skew_label": "对称",
    "ar1_hist": [
     0.955,
@@ -11324,13 +11217,13 @@
     0.974,
     0.961
    ],
-   "term_spread_pct": 13.19,
+   "term_spread_pct": 12.5,
    "term_structure": "Backwardation",
    "main_contract": "M2701",
    "second_contract": "M2705",
-   "intraday_vol_state": "缩量",
-   "intraday_price_state": "企稳",
-   "iv_atm": 13.39,
+   "intraday_vol_state": "量平",
+   "intraday_price_state": "走弱",
+   "iv_atm": 13.88,
    "iv_prev": null,
    "iv_delta": null,
    "iv_series": [],
@@ -11343,21 +11236,21 @@
    "driver": "厄尔尼诺减产时滞8-18月未兑现",
    "note": "期限结构极端升水12%(M2701vs2705)=近月极紧，最强做多印证",
    "flow_confirm": "⏳短线空压(回调中)",
-   "term_signal": "✅近月升水13.19%",
-   "emerge_score": 44.7,
-   "e_pos": 2.4,
-   "e_flow": 5.2,
+   "term_signal": "✅近月升水12.5%",
+   "emerge_score": 45.7,
+   "e_pos": 3.9,
+   "e_flow": 4.8,
    "e_struct": 25,
    "e_crit": 12.0,
-   "dir_score": -44.0,
+   "dir_score": -44.9,
    "d_trend": -40,
-   "d_fund": -10.4,
-   "d_mom": 6.4,
+   "d_fund": -5.3,
+   "d_mom": 0.4,
    "dir_label": "强空",
    "dir_consistency": "⏳技术回调中",
    "action_advice": "持有观察，企稳可回补",
    "action_detail": [
-    "技术面偏空但资金未撤(持仓20日-8.7%) = 健康回调",
+    "技术面偏空但资金未撤(持仓20日-4.4%) = 健康回调",
     "动作：持有底仓，回调到位(未破关键位)可回补",
     "风险线：跌破MA60 且资金开始撤退，则转为暂离"
    ],
@@ -11368,18 +11261,19 @@
    "drv_stage": "累积中",
    "emergence_phase": "逼近临界",
    "iv_rv": {
-    "iv_atm": 13.39,
+    "iv_atm": 13.88,
     "iv_prev": null,
-    "rv": 14.7,
-    "vrp": -1.3,
-    "vrp_var": -0.0037,
-    "rv_pctile": 23.7,
+    "rv": 13.3,
+    "vrp": 0.6,
+    "vrp_var": 0.0016,
+    "rv_pctile": 17.1,
     "iv_delta": null,
-    "mom_10d": -3.7,
+    "mom_10d": -4.5,
     "iv_source": "新浪反推",
     "label": "IV-RV正常",
     "detail": [
-     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0037"
+     "RV低位(分位%.0f%%)：波动平静期",
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0016"
     ],
     "iv_hist": [],
     "rv_hist": [
@@ -11547,37 +11441,13 @@
    },
    "position_plan": [
     "基准仓位：30-50%（持有观察，企稳可回补 · 相位 逼近临界）",
-    "波动调节：波动率处 23.7% 分位，偏低 → 仓位可正常",
-    "小时线时机：✅ 缩量企稳，加仓时机成熟",
-    "加仓：回调至 3243（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "波动调节：波动率处 17.1% 历史低位 → 可上移一档（低波动=有加仓空间）",
+    "小时线时机：量平·走弱，按价位触发",
+    "加仓：回调至 3230（MA10/20日低点）缩量企稳 → 加 1/4 仓",
     "减仓：反弹至 3426（20日高点）放量滞涨 → 减 1/3 仓",
-    "风控：跌破 3243（20日低点/前低）且无企稳 → 回调加深，暂停加仓减仓观望"
+    "风控：跌破 3230（20日低点/前低）且无企稳 → 回调加深，暂停加仓减仓观望"
    ],
-   "crowd": {
-    "score": 0,
-    "label": "持仓均衡",
-    "lsr": 0.904,
-    "cr5_long": 0.5334,
-    "cr5_short": 0.6149,
-    "diverge": "",
-    "contract": "M2701",
-    "retail": {
-     "active": true,
-     "net_pos": 62611,
-     "long_oi": 62611,
-     "short_oi": 0,
-     "seats": [
-      "中信建投"
-     ],
-     "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 62611,
-     "peak": 62611,
-     "scale_pct": 100.0,
-     "trend": "—",
-     "surrender_pct": 0.0
-    }
-   },
+   "crowd": null,
    "fundamental": {
     "indicator": "豆粕油厂库存",
     "value": 110.36,
@@ -11591,29 +11461,29 @@
    "sym": "Y0",
    "name": "豆油",
    "sector": "农产品",
-   "latest": 9125.0,
-   "date": "2026-10-23",
-   "n_days": 5048,
-   "pctile_3y": 96.9,
-   "pctile_5y": 43.9,
-   "pctile_all": 45.1,
-   "ma20": 8932.6,
-   "ma60": 8812.983333333334,
-   "ma5": 8955.4,
-   "ma10": 8941.8,
+   "latest": 9092.0,
+   "date": "2026-10-26",
+   "n_days": 5049,
+   "pctile_3y": 95.3,
+   "pctile_5y": 43.3,
+   "pctile_all": 44.7,
+   "ma20": 8943.45,
+   "ma60": 8820.85,
+   "ma5": 9000.0,
+   "ma10": 8954.2,
    "recent_high_20": 9125.0,
    "recent_low_20": 8844.0,
    "above_ma20": true,
    "above_ma60": true,
-   "mom_10d": 1.2,
-   "mom_20d": 1.7,
-   "mom_60d": 6.8,
-   "mom_250d": 10.4,
-   "ytd": 16.2,
-   "vol20": 13.7,
-   "vol_ratio": 1.16,
+   "mom_10d": 1.4,
+   "mom_20d": 2.4,
+   "mom_60d": 5.5,
+   "mom_250d": 10.3,
+   "ytd": 15.7,
+   "vol20": 13.2,
+   "vol_ratio": 1.11,
    "vol_state": "正常",
-   "vol_pctile": 27.6,
+   "vol_pctile": 24.9,
    "rv_hist": [
     {
      "date": "2025-12-24",
@@ -11776,19 +11646,19 @@
      "rv": 13.5
     }
    ],
-   "volume_ratio": 1.6,
-   "vol_5_20": 1.03,
-   "hold_chg_5": 5.2,
-   "hold_chg_20": -2.4,
+   "volume_ratio": 1.18,
+   "vol_5_20": 1.11,
+   "hold_chg_5": 6.5,
+   "hold_chg_20": 1.2,
    "flow_quad": "多头进攻",
    "last_rollover": "2024-12-04",
    "rollover_recent": false,
-   "ar1": 0.966,
-   "ar1_pct": 81.0,
+   "ar1": 0.969,
+   "ar1_pct": 84.0,
    "ar1_trend": "上升(惯性增强)",
    "ar1_delta": 0.133,
    "slow_phase": "临界逼近",
-   "skew": -0.21,
+   "skew": -0.15,
    "skew_label": "对称",
    "ar1_hist": [
     0.944,
@@ -11812,12 +11682,12 @@
     0.974,
     0.971
    ],
-   "term_spread_pct": 2.52,
+   "term_spread_pct": 2.48,
    "term_structure": "Backwardation",
    "main_contract": "Y2701",
    "second_contract": "Y2705",
    "intraday_vol_state": "放量",
-   "intraday_price_state": "企稳",
+   "intraday_price_state": "走弱",
    "iv_atm": null,
    "iv_prev": null,
    "iv_delta": null,
@@ -11832,15 +11702,15 @@
    "note": "⚠️高位减仓(20日-22.6%)，等企稳",
    "flow_confirm": "✅量价印证",
    "term_signal": "",
-   "emerge_score": 65.0,
-   "e_pos": 23.5,
-   "e_flow": 8.1,
-   "e_struct": 21.0,
-   "e_crit": 12.4,
-   "dir_score": 50.7,
+   "emerge_score": 59.9,
+   "e_pos": 22.6,
+   "e_flow": 3.9,
+   "e_struct": 20.7,
+   "e_crit": 12.7,
+   "dir_score": 52.4,
    "d_trend": 40,
-   "d_fund": -2.9,
-   "d_mom": 13.6,
+   "d_fund": 1.4,
+   "d_mom": 11.0,
    "dir_label": "强多",
    "dir_consistency": "✅量化印证",
    "action_advice": "持有/顺势",
@@ -11857,37 +11727,13 @@
    "iv_rv": null,
    "position_plan": [
     "基准仓位：50-80%（持有/顺势 · 相位 逼近临界）",
-    "波动调节：波动率处 27.6% 分位，偏低 → 仓位可正常",
-    "小时线时机：⚠️ 放量，注意追高/减仓",
-    "加仓：回调至 8942（MA10/20日低点）缩量企稳 → 加 1/4 仓",
+    "波动调节：波动率处 24.9% 分位，偏低 → 仓位可正常",
+    "小时线时机：⏳ 放量走弱，加仓时机未到（等缩量企稳）",
+    "加仓：回调至 8954（MA10/20日低点）缩量企稳 → 加 1/4 仓",
     "减仓：反弹至 9125（20日高点）放量滞涨 → 减 1/3 仓",
-    "止损：跌破 MA60(8813) → 清仓离场"
+    "止损：跌破 MA60(8821) → 清仓离场"
    ],
-   "crowd": {
-    "score": 0,
-    "label": "持仓均衡",
-    "lsr": 0.926,
-    "cr5_long": 0.5291,
-    "cr5_short": 0.602,
-    "diverge": "",
-    "contract": "Y2701",
-    "retail": {
-     "active": true,
-     "net_pos": 10172,
-     "long_oi": 10172,
-     "short_oi": 0,
-     "seats": [
-      "中信建投"
-     ],
-     "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 10172,
-     "peak": 10172,
-     "scale_pct": 100.0,
-     "trend": "—",
-     "surrender_pct": 0.0
-    }
-   },
+   "crowd": null,
    "fundamental": {
     "indicator": "豆油港口库存",
     "value": 100.3,
@@ -11901,29 +11747,29 @@
    "sym": "P0",
    "name": "棕榈油",
    "sector": "农产品",
-   "latest": 9561.0,
-   "date": "2026-10-23",
-   "n_days": 4616,
-   "pctile_3y": 75.3,
-   "pctile_5y": 50.6,
-   "pctile_all": 63.7,
-   "ma20": 9637.15,
-   "ma60": 9797.766666666666,
-   "ma5": 9566.0,
-   "ma10": 9579.2,
-   "recent_high_20": 9855.0,
+   "latest": 9517.0,
+   "date": "2026-10-26",
+   "n_days": 4617,
+   "pctile_3y": 74.1,
+   "pctile_5y": 49.9,
+   "pctile_all": 63.2,
+   "ma20": 9620.25,
+   "ma60": 9796.883333333333,
+   "ma5": 9574.8,
+   "ma10": 9562.5,
+   "recent_high_20": 9828.0,
    "recent_low_20": 9446.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -0.9,
-   "mom_20d": -4.0,
-   "mom_60d": 0.5,
-   "mom_250d": 2.1,
-   "ytd": 12.6,
-   "vol20": 17.2,
-   "vol_ratio": 0.94,
+   "mom_10d": -1.7,
+   "mom_20d": -3.4,
+   "mom_60d": -0.6,
+   "mom_250d": 2.0,
+   "ytd": 12.1,
+   "vol20": 16.9,
+   "vol_ratio": 0.92,
    "vol_state": "正常",
-   "vol_pctile": 28.3,
+   "vol_pctile": 26.7,
    "rv_hist": [
     {
      "date": "2025-12-26",
@@ -12086,19 +11932,19 @@
      "rv": 17.6
     }
    ],
-   "volume_ratio": 1.28,
-   "vol_5_20": 1.01,
-   "hold_chg_5": -10.4,
-   "hold_chg_20": -6.3,
+   "volume_ratio": 1.13,
+   "vol_5_20": 1.07,
+   "hold_chg_5": -9.0,
+   "hold_chg_20": -4.9,
    "flow_quad": "空头回补",
    "last_rollover": "2024-12-13",
    "rollover_recent": false,
-   "ar1": 0.951,
-   "ar1_pct": 65.1,
+   "ar1": 0.953,
+   "ar1_pct": 66.2,
    "ar1_trend": "上升(惯性增强)",
    "ar1_delta": 0.115,
    "slow_phase": "临界逼近",
-   "skew": -0.16,
+   "skew": -0.11,
    "skew_label": "对称",
    "ar1_hist": [
     0.962,
@@ -12122,12 +11968,12 @@
     0.968,
     0.951
    ],
-   "term_spread_pct": -5.77,
+   "term_spread_pct": -5.82,
    "term_structure": "Contango",
    "main_contract": "P2701",
    "second_contract": "P2705",
-   "intraday_vol_state": "量平",
-   "intraday_price_state": "走强",
+   "intraday_vol_state": "缩量",
+   "intraday_price_state": "走弱",
    "iv_atm": null,
    "iv_prev": null,
    "iv_delta": null,
@@ -12141,16 +11987,16 @@
    "driver": "厄尔尼诺供给冲击8-18月时滞，2027才兑现(超级厄尔尼诺或致2027最热年)，当前是布局窗口",
    "note": "⭐首选·Contango贴水5.6%=时滞印证(近月供给足/远月减产预期)，做多应选远月P2705",
    "flow_confirm": "",
-   "term_signal": "⏳贴水-5.77%(或选远月)",
-   "emerge_score": 56.8,
-   "e_pos": 12.6,
-   "e_flow": 7.8,
+   "term_signal": "⏳贴水-5.82%(或选远月)",
+   "emerge_score": 54.2,
+   "e_pos": 12.0,
+   "e_flow": 5.7,
    "e_struct": 25,
-   "e_crit": 11.3,
-   "dir_score": -46.6,
+   "e_crit": 11.5,
+   "dir_score": -47.1,
    "d_trend": -40,
-   "d_fund": -7.6,
-   "d_mom": 1.0,
+   "d_fund": -5.9,
+   "d_mom": -1.2,
    "dir_label": "强空",
    "dir_consistency": "⏳技术回调中",
    "action_advice": "持有，回调分批加仓",
@@ -12168,38 +12014,13 @@
    "iv_rv": null,
    "position_plan": [
     "基准仓位：40-60%（持有，回调分批加仓 · 相位 逼近临界）",
-    "波动调节：波动率处 28.3% 分位，偏低 → 仓位可正常",
-    "小时线时机：量平·走强，按价位触发",
+    "波动调节：波动率处 26.7% 分位，偏低 → 仓位可正常",
+    "小时线时机：缩量·走弱，按价位触发",
     "加仓：回调至 9446（MA10/20日低点）缩量企稳 → 加 1/4 仓",
-    "减仓：反弹至 9855（20日高点）放量滞涨 → 减 1/3 仓",
+    "减仓：反弹至 9828（20日高点）放量滞涨 → 减 1/3 仓",
     "风控：跌破 9446（20日低点/前低）且无企稳 → 回调加深，暂停加仓减仓观望"
    ],
-   "crowd": {
-    "score": 36,
-    "label": "多头偏拥挤",
-    "lsr": 0.905,
-    "cr5_long": 0.5499,
-    "cr5_short": 0.5549,
-    "diverge": "多头前5减仓+空头前5增仓→顶部松动",
-    "contract": "P2701",
-    "retail": {
-     "active": true,
-     "net_pos": -6191,
-     "long_oi": 11288,
-     "short_oi": 17479,
-     "seats": [
-      "中信建投",
-      "平安"
-     ],
-     "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 6191,
-     "peak": 6191,
-     "scale_pct": 100.0,
-     "trend": "—",
-     "surrender_pct": 0.0
-    }
-   },
+   "crowd": null,
    "fundamental": {
     "indicator": "棕榈油港口库存",
     "value": 120.5,
@@ -12213,29 +12034,29 @@
    "sym": "SR0",
    "name": "白糖",
    "sector": "农产品",
-   "latest": 5357.0,
-   "date": "2026-10-23",
-   "n_days": 5046,
-   "pctile_3y": 15.6,
-   "pctile_5y": 14.4,
-   "pctile_all": 53.8,
-   "ma20": 5398.8,
-   "ma60": 5336.266666666666,
-   "ma5": 5378.2,
-   "ma10": 5417.6,
+   "latest": 5317.0,
+   "date": "2026-10-26",
+   "n_days": 5047,
+   "pctile_3y": 13.5,
+   "pctile_5y": 12.5,
+   "pctile_all": 52.9,
+   "ma20": 5398.55,
+   "ma60": 5338.916666666667,
+   "ma5": 5365.8,
+   "ma10": 5397.5,
    "recent_high_20": 5521.0,
-   "recent_low_20": 5322.0,
+   "recent_low_20": 5317.0,
    "above_ma20": false,
-   "above_ma60": true,
-   "mom_10d": -2.4,
-   "mom_20d": 0.4,
-   "mom_60d": 3.2,
-   "mom_250d": -2.1,
-   "ytd": 1.9,
-   "vol20": 12.3,
-   "vol_ratio": 1.27,
+   "above_ma60": false,
+   "mom_10d": -3.6,
+   "mom_20d": -0.1,
+   "mom_60d": 3.1,
+   "mom_250d": -1.5,
+   "ytd": 1.1,
+   "vol20": 12.6,
+   "vol_ratio": 1.3,
    "vol_state": "正常",
-   "vol_pctile": 34.0,
+   "vol_pctile": 36.0,
    "rv_hist": [
     {
      "date": "2025-12-26",
@@ -12398,19 +12219,19 @@
      "rv": 12.4
     }
    ],
-   "volume_ratio": 1.1,
-   "vol_5_20": 0.86,
-   "hold_chg_5": 2.7,
-   "hold_chg_20": -12.9,
+   "volume_ratio": 1.04,
+   "vol_5_20": 0.9,
+   "hold_chg_5": 5.3,
+   "hold_chg_20": -12.4,
    "flow_quad": "空头进攻",
    "last_rollover": "2024-12-11",
    "rollover_recent": false,
-   "ar1": 0.952,
-   "ar1_pct": 69.7,
+   "ar1": 0.949,
+   "ar1_pct": 68.1,
    "ar1_trend": "持平",
    "ar1_delta": 0.016,
-   "slow_phase": "临界逼近",
-   "skew": 0.94,
+   "slow_phase": "稳定",
+   "skew": 0.93,
    "skew_label": "右偏(偏多动能)",
    "ar1_hist": [
     0.964,
@@ -12434,16 +12255,17 @@
     0.959,
     0.958
    ],
-   "term_spread_pct": -1.41,
+   "term_spread_pct": -1.28,
    "term_structure": "Contango",
    "main_contract": "SR2701",
    "second_contract": "SR2705",
-   "intraday_vol_state": "量平",
+   "intraday_vol_state": "放量",
    "intraday_price_state": "走弱",
-   "iv_atm": 11.52,
-   "iv_prev": 12.11,
-   "iv_delta": -0.59,
+   "iv_atm": 11.62,
+   "iv_prev": 13.78,
+   "iv_delta": -2.16,
    "iv_series": [
+    11.62,
     11.52,
     11.52,
     8.58,
@@ -12457,10 +12279,13 @@
     12.23,
     12.23,
     10.95,
-    13.78,
-    12.11
+    13.78
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 11.62
+    },
     {
      "date": "2026-10-23",
      "iv": 11.52
@@ -12516,10 +12341,6 @@
     {
      "date": "2026-09-29",
      "iv": 13.78
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 12.11
     }
    ],
    "iv_source": "交易所官方",
@@ -12531,16 +12352,16 @@
    "note": "",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 50.6,
-   "e_pos": 17.2,
-   "e_flow": 10.2,
-   "e_struct": 11.8,
-   "e_crit": 11.4,
-   "dir_score": -19.1,
-   "d_trend": -10,
-   "d_fund": -15.5,
-   "d_mom": 6.4,
-   "dir_label": "偏空",
+   "emerge_score": 49.5,
+   "e_pos": 18.2,
+   "e_flow": 9.4,
+   "e_struct": 10.7,
+   "e_crit": 11.2,
+   "dir_score": -48.7,
+   "d_trend": -40,
+   "d_fund": -14.9,
+   "d_mom": 6.2,
+   "dir_label": "强空",
    "dir_consistency": "",
    "action_advice": "观望",
    "action_detail": [
@@ -12551,22 +12372,27 @@
    "drv_strength": "弱",
    "drv_lag": "即时",
    "drv_stage": "累积中",
-   "emergence_phase": "蓄势",
+   "emergence_phase": "驱动累积",
    "iv_rv": {
-    "iv_atm": 11.52,
-    "iv_prev": 12.11,
-    "rv": 12.3,
-    "vrp": -0.8,
-    "vrp_var": -0.0019,
-    "rv_pctile": 34.0,
-    "iv_delta": -0.59,
-    "mom_10d": -2.4,
+    "iv_atm": 11.62,
+    "iv_prev": 13.78,
+    "rv": 12.6,
+    "vrp": -1.0,
+    "vrp_var": -0.0024,
+    "rv_pctile": 36.0,
+    "iv_delta": -2.16,
+    "mom_10d": -3.6,
     "iv_source": "交易所官方",
-    "label": "IV-RV正常",
+    "label": "⚠️ 底背离",
     "detail": [
-     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0019"
+     "跌时IV降(Δ-2.2pp)：恐慌消退，警惕见底反弹",
+     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0024"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 11.62
+     },
      {
       "date": "2026-10-23",
       "iv": 11.52
@@ -12622,10 +12448,6 @@
      {
       "date": "2026-09-29",
       "iv": 13.78
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 12.11
      }
     ],
     "rv_hist": [
@@ -12795,26 +12617,25 @@
     "观望品种，暂无仓位计划"
    ],
    "crowd": {
-    "score": -50,
+    "score": -48,
     "label": "空头偏拥挤",
-    "lsr": 0.808,
-    "cr5_long": 0.4666,
-    "cr5_short": 0.5986,
-    "diverge": "",
+    "lsr": 0.82,
+    "cr5_long": 0.4709,
+    "cr5_short": 0.5939,
+    "diverge": "空头前5减仓+多头前5增仓→底部松动",
     "contract": "SR701",
     "retail": {
      "active": true,
-     "net_pos": 7047,
-     "long_oi": 25267,
-     "short_oi": 18220,
+     "net_pos": 1031,
+     "long_oi": 11201,
+     "short_oi": 10170,
      "seats": [
-      "中信建投",
       "平安"
      ],
      "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 7047,
-     "peak": 7047,
+     "detail": "家人历史仅2天，持续跟踪积累中（暂不判定方向）",
+     "scale": 1031,
+     "peak": 1031,
      "scale_pct": 100.0,
      "trend": "—",
      "surrender_pct": 0.0
@@ -12833,29 +12654,29 @@
    "sym": "CF0",
    "name": "棉花",
    "sector": "农产品",
-   "latest": 15855.0,
-   "date": "2026-10-23",
-   "n_days": 5303,
-   "pctile_3y": 64.2,
-   "pctile_5y": 32.5,
-   "pctile_all": 24.2,
-   "ma20": 15810.25,
-   "ma60": 16261.666666666666,
-   "ma5": 15774.0,
-   "ma10": 15824.5,
+   "latest": 15615.0,
+   "date": "2026-10-26",
+   "n_days": 5304,
+   "pctile_3y": 59.5,
+   "pctile_5y": 30.2,
+   "pctile_all": 23.2,
+   "ma20": 15803.5,
+   "ma60": 16255.166666666666,
+   "ma5": 15739.0,
+   "ma10": 15801.0,
    "recent_high_20": 16000.0,
    "recent_low_20": 15615.0,
-   "above_ma20": true,
+   "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": 0.4,
-   "mom_20d": 0.2,
-   "mom_60d": -0.9,
-   "mom_250d": 19.2,
-   "ytd": 8.2,
-   "vol20": 10.9,
-   "vol_ratio": 0.87,
+   "mom_10d": -1.5,
+   "mom_20d": -0.9,
+   "mom_60d": -2.4,
+   "mom_250d": 17.7,
+   "ytd": 6.6,
+   "vol20": 12.0,
+   "vol_ratio": 0.95,
    "vol_state": "正常",
-   "vol_pctile": 24.5,
+   "vol_pctile": 32.6,
    "rv_hist": [
     {
      "date": "2025-12-24",
@@ -13018,19 +12839,19 @@
      "rv": 11.7
     }
    ],
-   "volume_ratio": 0.9,
+   "volume_ratio": 1.25,
    "vol_5_20": 1.09,
-   "hold_chg_5": 0.1,
-   "hold_chg_20": -0.9,
-   "flow_quad": "多头进攻",
+   "hold_chg_5": 3.6,
+   "hold_chg_20": 3.3,
+   "flow_quad": "空头进攻",
    "last_rollover": "2026-08-12",
    "rollover_recent": false,
-   "ar1": 0.967,
-   "ar1_pct": 80.8,
+   "ar1": 0.966,
+   "ar1_pct": 79.6,
    "ar1_trend": "上升(惯性增强)",
    "ar1_delta": 0.117,
    "slow_phase": "临界逼近",
-   "skew": 1.09,
+   "skew": 0.99,
    "skew_label": "右偏(偏多动能)",
    "ar1_hist": [
     0.982,
@@ -13054,16 +12875,17 @@
     0.957,
     0.967
    ],
-   "term_spread_pct": 2.03,
+   "term_spread_pct": 2.23,
    "term_structure": "Backwardation",
    "main_contract": "CF2701",
    "second_contract": "CF2705",
-   "intraday_vol_state": "缩量",
-   "intraday_price_state": "走强",
-   "iv_atm": 9.59,
-   "iv_prev": 12.01,
-   "iv_delta": -2.42,
+   "intraday_vol_state": "放量",
+   "intraday_price_state": "走弱",
+   "iv_atm": 10.6,
+   "iv_prev": 11.97,
+   "iv_delta": -1.37,
    "iv_series": [
+    10.6,
     9.59,
     8.99,
     10.76,
@@ -13077,10 +12899,13 @@
     11.4,
     11.75,
     12.93,
-    11.97,
-    12.01
+    11.97
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 10.6
+    },
     {
      "date": "2026-10-23",
      "iv": 9.59
@@ -13136,10 +12961,6 @@
     {
      "date": "2026-09-29",
      "iv": 11.97
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 12.01
     }
    ],
    "iv_source": "交易所官方",
@@ -13151,16 +12972,16 @@
    "note": "",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 37.9,
-   "e_pos": 7.1,
-   "e_flow": 1.4,
-   "e_struct": 16.9,
-   "e_crit": 12.5,
-   "dir_score": 7.1,
-   "d_trend": 10,
-   "d_fund": -1.1,
-   "d_mom": -1.8,
-   "dir_label": "中性",
+   "emerge_score": 41.5,
+   "e_pos": 4.8,
+   "e_flow": 5.7,
+   "e_struct": 18.6,
+   "e_crit": 12.4,
+   "dir_score": -40.8,
+   "d_trend": -40,
+   "d_fund": 4.0,
+   "d_mom": -4.8,
+   "dir_label": "强空",
    "dir_consistency": "",
    "action_advice": "观望",
    "action_detail": [
@@ -13173,21 +12994,24 @@
    "drv_stage": "累积中",
    "emergence_phase": "蓄势",
    "iv_rv": {
-    "iv_atm": 9.59,
-    "iv_prev": 12.01,
-    "rv": 10.9,
-    "vrp": -1.3,
-    "vrp_var": -0.0027,
-    "rv_pctile": 24.5,
-    "iv_delta": -2.42,
-    "mom_10d": 0.4,
+    "iv_atm": 10.6,
+    "iv_prev": 11.97,
+    "rv": 12.0,
+    "vrp": -1.4,
+    "vrp_var": -0.0032,
+    "rv_pctile": 32.6,
+    "iv_delta": -1.37,
+    "mom_10d": -1.5,
     "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
-     "价格持平且IV降(Δ-2.4pp)：预期波动收敛",
-     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0027"
+     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0032"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 10.6
+     },
      {
       "date": "2026-10-23",
       "iv": 9.59
@@ -13243,10 +13067,6 @@
      {
       "date": "2026-09-29",
       "iv": 11.97
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 12.01
      }
     ],
     "rv_hist": [
@@ -13418,70 +13238,63 @@
    "crowd": {
     "score": 0,
     "label": "持仓均衡",
-    "lsr": 0.942,
-    "cr5_long": 0.4761,
-    "cr5_short": 0.5337,
+    "lsr": 0.959,
+    "cr5_long": 0.4661,
+    "cr5_short": 0.5373,
     "diverge": "",
     "contract": "CF701",
     "retail": {
-     "active": true,
-     "net_pos": 5879,
-     "long_oi": 19731,
-     "short_oi": 13852,
-     "seats": [
-      "中信建投",
-      "方正中期"
-     ],
-     "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 5879,
-     "peak": 5879,
-     "scale_pct": 100.0,
+     "active": false,
+     "net_pos": null,
+     "long_oi": null,
+     "short_oi": null,
+     "seats": [],
+     "phase": "家人不集中",
+     "detail": "",
+     "scale": 0,
+     "peak": 0,
+     "scale_pct": 0.0,
      "trend": "—",
      "surrender_pct": 0.0
     }
    },
    "fundamental": {
     "indicator": "棉花商业库存",
-    "value": 232.94,
+    "value": 291.01,
     "unit": "吨",
-    "date": "2026-10-16",
-    "chg_pct": 18.8,
-    "pctile": 33.3
+    "date": "2026-10-23",
+    "chg_pct": 24.9,
+    "pctile": 43.3
    }
   },
   {
    "sym": "C0",
    "name": "玉米",
    "sector": "农产品",
-   "latest": 2212.0,
-   "date": "2026-10-23",
-   "n_days": 5299,
-   "pctile_3y": 21.1,
-   "pctile_5y": 13.3,
-   "pctile_all": 56.2,
-   "ma20": 2188.2,
-   "ma60": 2236.5833333333335,
-   "ma5": 2198.0,
-   "ma10": 2199.4,
+   "latest": 2214.0,
+   "date": "2026-10-26",
+   "n_days": 5300,
+   "pctile_3y": 21.4,
+   "pctile_5y": 13.5,
+   "pctile_all": 56.3,
+   "ma20": 2189.65,
+   "ma60": 2235.5333333333333,
+   "ma5": 2204.2,
+   "ma10": 2203.2,
    "recent_high_20": 2218.0,
    "recent_low_20": 2154.0,
    "above_ma20": true,
    "above_ma60": false,
-   "mom_10d": 2.3,
-   "mom_20d": 0.9,
-   "mom_60d": -2.9,
-   "mom_250d": 5.7,
-   "ytd": -0.5,
-   "vol20": 10.9,
-   "vol_ratio": 1.12,
+   "mom_10d": 1.7,
+   "mom_20d": 1.3,
+   "mom_60d": -2.8,
+   "mom_250d": 4.9,
+   "ytd": -0.4,
+   "vol20": 10.8,
+   "vol_ratio": 1.11,
    "vol_state": "正常",
-   "vol_pctile": 48.8,
+   "vol_pctile": 47.8,
    "rv_hist": [
-    {
-     "date": "2025-12-23",
-     "rv": 10.1
-    },
     {
      "date": "2025-12-30",
      "rv": 12.7
@@ -13637,24 +13450,27 @@
     {
      "date": "2026-10-19",
      "rv": 11.5
+    },
+    {
+     "date": "2026-10-26",
+     "rv": 10.8
     }
    ],
-   "volume_ratio": 0.95,
-   "vol_5_20": 1.1,
-   "hold_chg_5": 2.5,
-   "hold_chg_20": 0.9,
-   "flow_quad": "多头进攻",
+   "volume_ratio": 0.89,
+   "vol_5_20": 1.03,
+   "hold_chg_5": -3.2,
+   "hold_chg_20": -4.5,
+   "flow_quad": "空头回补",
    "last_rollover": "2026-10-14",
    "rollover_recent": true,
    "ar1": 0.936,
-   "ar1_pct": 59.9,
+   "ar1_pct": 60.0,
    "ar1_trend": "持平",
-   "ar1_delta": -0.013,
+   "ar1_delta": -0.005,
    "slow_phase": "稳定",
-   "skew": 0.12,
+   "skew": 0.11,
    "skew_label": "对称",
    "ar1_hist": [
-    0.957,
     0.954,
     0.956,
     0.933,
@@ -13673,15 +13489,16 @@
     0.922,
     0.905,
     0.911,
-    0.947
+    0.947,
+    0.936
    ],
-   "term_spread_pct": -1.21,
+   "term_spread_pct": -1.2,
    "term_structure": "Contango",
    "main_contract": "C2701",
    "second_contract": "C2703",
-   "intraday_vol_state": "量平",
-   "intraday_price_state": "走弱",
-   "iv_atm": 9.9,
+   "intraday_vol_state": "放量",
+   "intraday_price_state": "走强",
+   "iv_atm": 9.85,
    "iv_prev": null,
    "iv_delta": null,
    "iv_series": [],
@@ -13695,15 +13512,15 @@
    "note": "",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 36.5,
-   "e_pos": 14.4,
-   "e_flow": 1.8,
-   "e_struct": 10.1,
+   "emerge_score": 38.0,
+   "e_pos": 14.3,
+   "e_flow": 3.4,
+   "e_struct": 10.0,
    "e_crit": 10.2,
-   "dir_score": 5.3,
+   "dir_score": -1.0,
    "d_trend": 10,
-   "d_fund": 1.1,
-   "d_mom": -5.8,
+   "d_fund": -5.4,
+   "d_mom": -5.6,
    "dir_label": "中性",
    "dir_consistency": "",
    "action_advice": "观望",
@@ -13717,25 +13534,21 @@
    "drv_stage": "累积中",
    "emergence_phase": "驱动累积",
    "iv_rv": {
-    "iv_atm": 9.9,
+    "iv_atm": 9.85,
     "iv_prev": null,
-    "rv": 10.9,
+    "rv": 10.8,
     "vrp": -1.0,
-    "vrp_var": -0.0021,
-    "rv_pctile": 48.8,
+    "vrp_var": -0.002,
+    "rv_pctile": 47.8,
     "iv_delta": null,
-    "mom_10d": 2.3,
+    "mom_10d": 1.7,
     "iv_source": "新浪反推",
     "label": "IV-RV正常",
     "detail": [
-     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0021"
+     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0020"
     ],
     "iv_hist": [],
     "rv_hist": [
-     {
-      "date": "2025-12-23",
-      "rv": 10.1
-     },
      {
       "date": "2025-12-30",
       "rv": 12.7
@@ -13891,37 +13704,17 @@
      {
       "date": "2026-10-19",
       "rv": 11.5
+     },
+     {
+      "date": "2026-10-26",
+      "rv": 10.8
      }
     ]
    },
    "position_plan": [
     "观望品种，暂无仓位计划"
    ],
-   "crowd": {
-    "score": 33,
-    "label": "持仓均衡",
-    "lsr": 0.924,
-    "cr5_long": 0.5468,
-    "cr5_short": 0.5261,
-    "diverge": "多头前5减仓+空头前5增仓→顶部松动",
-    "contract": "C2701",
-    "retail": {
-     "active": true,
-     "net_pos": 28275,
-     "long_oi": 42378,
-     "short_oi": 14103,
-     "seats": [
-      "中信建投"
-     ],
-     "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 28275,
-     "peak": 28275,
-     "scale_pct": 100.0,
-     "trend": "—",
-     "surrender_pct": 0.0
-    }
-   },
+   "crowd": null,
    "fundamental": {
     "indicator": "玉米北方港口库存",
     "value": 254.0,
@@ -13935,29 +13728,29 @@
    "sym": "LH0",
    "name": "生猪",
    "sector": "农产品",
-   "latest": 9825.0,
-   "date": "2026-10-23",
-   "n_days": 1401,
-   "pctile_3y": 7.6,
-   "pctile_5y": 5.1,
-   "pctile_all": 3.8,
-   "ma20": 10558.0,
-   "ma60": 11349.583333333334,
-   "ma5": 10008.0,
-   "ma10": 10290.0,
+   "latest": 9560.0,
+   "date": "2026-10-26",
+   "n_days": 1402,
+   "pctile_3y": 5.0,
+   "pctile_5y": 3.4,
+   "pctile_all": 2.5,
+   "ma20": 10483.0,
+   "ma60": 11324.5,
+   "ma5": 9877.0,
+   "ma10": 10157.5,
    "recent_high_20": 11210.0,
-   "recent_low_20": 9825.0,
+   "recent_low_20": 9560.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -12.4,
-   "mom_20d": -12.5,
-   "mom_60d": -13.3,
-   "mom_250d": -19.0,
-   "ytd": -15.7,
-   "vol20": 31.4,
-   "vol_ratio": 0.97,
+   "mom_10d": -12.2,
+   "mom_20d": -13.6,
+   "mom_60d": -13.6,
+   "mom_250d": -22.9,
+   "ytd": -18.0,
+   "vol20": 32.1,
+   "vol_ratio": 0.98,
    "vol_state": "正常",
-   "vol_pctile": 69.7,
+   "vol_pctile": 71.8,
    "rv_hist": [
     {
      "date": "2025-12-26",
@@ -14120,19 +13913,19 @@
      "rv": 31.9
     }
    ],
-   "volume_ratio": 0.99,
-   "vol_5_20": 1.28,
-   "hold_chg_5": -1.8,
-   "hold_chg_20": -5.1,
+   "volume_ratio": 1.23,
+   "vol_5_20": 1.31,
+   "hold_chg_5": -3.2,
+   "hold_chg_20": -7.4,
    "flow_quad": "多头离场",
    "last_rollover": "2024-12-16",
    "rollover_recent": false,
-   "ar1": 0.959,
-   "ar1_pct": 72.6,
+   "ar1": 0.962,
+   "ar1_pct": 75.6,
    "ar1_trend": "上升(惯性增强)",
    "ar1_delta": 0.039,
    "slow_phase": "临界逼近",
-   "skew": 1.78,
+   "skew": 1.75,
    "skew_label": "右偏(偏多动能)",
    "ar1_hist": [
     0.908,
@@ -14156,11 +13949,11 @@
     0.93,
     0.954
    ],
-   "term_spread_pct": 1.18,
+   "term_spread_pct": 1.92,
    "term_structure": "Backwardation",
    "main_contract": "LH2701",
    "second_contract": "LH2703",
-   "intraday_vol_state": "缩量",
+   "intraday_vol_state": "放量",
    "intraday_price_state": "走弱",
    "iv_atm": null,
    "iv_prev": null,
@@ -14176,15 +13969,15 @@
    "note": "",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 47.6,
-   "e_pos": 21.2,
-   "e_flow": 4.6,
-   "e_struct": 9.8,
-   "e_crit": 11.9,
-   "dir_score": -72.7,
+   "emerge_score": 58.7,
+   "e_pos": 22.5,
+   "e_flow": 8.0,
+   "e_struct": 16.0,
+   "e_crit": 12.1,
+   "dir_score": -76.1,
    "d_trend": -40,
-   "d_fund": -6.1,
-   "d_mom": -26.6,
+   "d_fund": -8.9,
+   "d_mom": -27.2,
    "dir_label": "强空",
    "dir_consistency": "",
    "action_advice": "观望",
@@ -14201,35 +13994,7 @@
    "position_plan": [
     "观望品种，暂无仓位计划"
    ],
-   "crowd": {
-    "score": 0,
-    "label": "持仓均衡",
-    "lsr": 0.888,
-    "cr5_long": 0.4468,
-    "cr5_short": 0.5037,
-    "diverge": "",
-    "contract": "LH2701",
-    "retail": {
-     "active": true,
-     "net_pos": 15225,
-     "long_oi": 24320,
-     "short_oi": 9095,
-     "seats": [
-      "东方财富",
-      "中信建投",
-      "平安",
-      "徽商",
-      "方正中期"
-     ],
-     "phase": "加仓扛单",
-     "detail": "家人净多，规模15225处高位(峰值16071的95%)且加仓中，家人逆势扛单，反向趋势延伸，顺势持有",
-     "scale": 15225,
-     "peak": 16071,
-     "scale_pct": 94.7,
-     "trend": "加仓中",
-     "surrender_pct": 5.3
-    }
-   },
+   "crowd": null,
    "fundamental": {
     "indicator": "能繁母猪存栏",
     "value": 3602.0,
@@ -14243,26 +14008,26 @@
    "sym": "LC0",
    "name": "碳酸锂",
    "sector": "新能源",
-   "latest": 97280.0,
-   "date": "2026-10-23",
-   "n_days": 788,
-   "pctile_3y": 26.2,
-   "pctile_5y": 22.5,
-   "pctile_all": 22.5,
-   "ma20": 111667.0,
-   "ma60": 134638.66666666666,
-   "ma5": 97516.0,
-   "ma10": 99542.0,
+   "latest": 95280.0,
+   "date": "2026-10-26",
+   "n_days": 789,
+   "pctile_3y": 24.9,
+   "pctile_5y": 21.3,
+   "pctile_all": 21.3,
+   "ma20": 110073.0,
+   "ma60": 133822.0,
+   "ma5": 96460.0,
+   "ma10": 98596.0,
    "recent_high_20": 134400.0,
    "recent_low_20": 94180.0,
    "above_ma20": false,
    "above_ma60": false,
-   "mom_10d": -16.9,
-   "mom_20d": -25.8,
-   "mom_60d": -32.9,
-   "mom_250d": 34.6,
-   "ytd": -25.2,
-   "vol20": 58.4,
+   "mom_10d": -9.0,
+   "mom_20d": -25.1,
+   "mom_60d": -34.0,
+   "mom_250d": 31.1,
+   "ytd": -26.7,
+   "vol20": 58.1,
    "vol_ratio": 0.97,
    "vol_state": "正常",
    "vol_pctile": 84.4,
@@ -14428,19 +14193,19 @@
      "rv": 57.8
     }
    ],
-   "volume_ratio": 1.55,
-   "vol_5_20": 1.27,
-   "hold_chg_5": 2.5,
-   "hold_chg_20": 5.2,
-   "flow_quad": "多头进攻",
+   "volume_ratio": 0.98,
+   "vol_5_20": 1.19,
+   "hold_chg_5": 3.6,
+   "hold_chg_20": 3.4,
+   "flow_quad": "空头进攻",
    "last_rollover": "2025-11-26",
    "rollover_recent": false,
-   "ar1": 0.978,
-   "ar1_pct": 78.1,
+   "ar1": 0.98,
+   "ar1_pct": 82.2,
    "ar1_trend": "持平",
    "ar1_delta": -0.027,
    "slow_phase": "临界逼近",
-   "skew": -0.41,
+   "skew": -0.38,
    "skew_label": "对称",
    "ar1_hist": [
     0.977,
@@ -14464,16 +14229,17 @@
     0.927,
     0.953
    ],
-   "term_spread_pct": 3.64,
+   "term_spread_pct": 3.54,
    "term_structure": "Backwardation",
    "main_contract": "LC2701",
    "second_contract": "LC2705",
    "intraday_vol_state": "量平",
-   "intraday_price_state": "走强",
-   "iv_atm": 60.45,
-   "iv_prev": 51.86,
-   "iv_delta": 8.59,
+   "intraday_price_state": "走弱",
+   "iv_atm": 64.23,
+   "iv_prev": 49.14,
+   "iv_delta": 15.09,
    "iv_series": [
+    64.23,
     60.45,
     58.0,
     59.53,
@@ -14487,10 +14253,13 @@
     54.15,
     53.62,
     48.0,
-    49.14,
-    51.86
+    49.14
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 64.23
+    },
     {
      "date": "2026-10-23",
      "iv": 60.45
@@ -14546,10 +14315,6 @@
     {
      "date": "2026-09-29",
      "iv": 49.14
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 51.86
     }
    ],
    "iv_source": "交易所官方",
@@ -14559,16 +14324,16 @@
    "dir": "观望偏多(等右侧)",
    "driver": "旺季证伪+矿端增量，逼近9万成本线恐慌杀跌",
    "note": "低位放量(1.42)+AR1=0.968极高=临界恐慌底确认，等止跌/减仓信号",
-   "flow_confirm": "✅资金进场(持仓+5.2%)",
-   "term_signal": "✅近月升水3.64%",
-   "emerge_score": 59.6,
-   "e_pos": 11.9,
-   "e_flow": 9.4,
+   "flow_confirm": "⏳短线空压(回调中)",
+   "term_signal": "✅近月升水3.54%",
+   "emerge_score": 54.6,
+   "e_pos": 12.6,
+   "e_flow": 3.5,
    "e_struct": 25,
-   "e_crit": 13.3,
-   "dir_score": -63.8,
+   "e_crit": 13.5,
+   "dir_score": -65.9,
    "d_trend": -40,
-   "d_fund": 6.2,
+   "d_fund": 4.1,
    "d_mom": -30,
    "dir_label": "强空",
    "dir_consistency": "⏳技术回调中",
@@ -14584,22 +14349,26 @@
    "drv_stage": "已触发",
    "emergence_phase": "跃迁中",
    "iv_rv": {
-    "iv_atm": 60.45,
-    "iv_prev": 51.86,
-    "rv": 58.4,
-    "vrp": 2.1,
-    "vrp_var": 0.0244,
+    "iv_atm": 64.23,
+    "iv_prev": 49.14,
+    "rv": 58.1,
+    "vrp": 6.1,
+    "vrp_var": 0.075,
     "rv_pctile": 84.4,
-    "iv_delta": 8.59,
-    "mom_10d": -16.9,
+    "iv_delta": 15.09,
+    "mom_10d": -9.0,
     "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
-     "RV历史高位(分位84%)且IV同步跟进(VRP+2.1pp)：波动获期权确认，趋势/恐慌进行中，未见背离",
-     "跌时IV升(Δ+8.6pp)：恐慌加速(正常)",
-     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0244"
+     "RV历史高位(分位84%)且IV同步跟进(VRP+6.1pp)：波动获期权确认，趋势/恐慌进行中，未见背离",
+     "跌时IV升(Δ+15.1pp)：恐慌加速(正常)",
+     "方差溢价(学术口径)：σ²IV−σ²RV = +0.0750"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 64.23
+     },
      {
       "date": "2026-10-23",
       "iv": 60.45
@@ -14655,10 +14424,6 @@
      {
       "date": "2026-09-29",
       "iv": 49.14
-     },
-     {
-      "date": "2026-09-28",
-      "iv": 51.86
      }
     ],
     "rv_hist": [
@@ -14827,31 +14592,29 @@
    "position_plan": [
     "基准仓位：0-10%（等信号）（等右侧确认 · 相位 跃迁中）",
     "波动调节：波动率处 84.4% 历史高位 → 仓位下调一档（高波动=高风险）",
-    "小时线时机：量平·走强，按价位触发",
+    "小时线时机：量平·走弱，按价位触发",
     "等待进场信号：站稳 MA20 或放量突破后，再按节奏建仓"
    ],
    "crowd": {
-    "score": -31,
+    "score": -29,
     "label": "持仓均衡",
-    "lsr": 0.93,
-    "cr5_long": 0.6402,
-    "cr5_short": 0.4956,
+    "lsr": 0.943,
+    "cr5_long": 0.6403,
+    "cr5_short": 0.4833,
     "diverge": "空头前5减仓+多头前5增仓→底部松动",
     "contract": "lc2701",
     "retail": {
      "active": true,
-     "net_pos": -6839,
-     "long_oi": 32319,
-     "short_oi": 39158,
+     "net_pos": 4763,
+     "long_oi": 4763,
+     "short_oi": 0,
      "seats": [
-      "中信建投",
-      "徽商",
-      "方正中期"
+      "徽商"
      ],
      "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 6839,
-     "peak": 6839,
+     "detail": "家人历史仅2天，持续跟踪积累中（暂不判定方向）",
+     "scale": 4763,
+     "peak": 4763,
      "scale_pct": 100.0,
      "trend": "—",
      "surrender_pct": 0.0
@@ -14863,26 +14626,26 @@
    "sym": "SI0",
    "name": "工业硅",
    "sector": "新能源",
-   "latest": 8640.0,
-   "date": "2026-10-23",
-   "n_days": 927,
-   "pctile_3y": 19.7,
-   "pctile_5y": 13.5,
-   "pctile_all": 13.5,
-   "ma20": 8597.75,
-   "ma60": 8594.5,
-   "ma5": 8667.0,
-   "ma10": 8681.5,
+   "latest": 8650.0,
+   "date": "2026-10-26",
+   "n_days": 928,
+   "pctile_3y": 19.8,
+   "pctile_5y": 13.6,
+   "pctile_all": 13.6,
+   "ma20": 8609.75,
+   "ma60": 8600.416666666666,
+   "ma5": 8631.0,
+   "ma10": 8677.0,
    "recent_high_20": 8925.0,
-   "recent_low_20": 8410.0,
+   "recent_low_20": 8455.0,
    "above_ma20": true,
    "above_ma60": true,
-   "mom_10d": -0.1,
-   "mom_20d": 2.3,
-   "mom_60d": 4.2,
-   "mom_250d": -1.9,
-   "ytd": -1.0,
-   "vol20": 23.4,
+   "mom_10d": -0.5,
+   "mom_20d": 2.9,
+   "mom_60d": 4.3,
+   "mom_250d": 1.5,
+   "ytd": -0.9,
+   "vol20": 23.3,
    "vol_ratio": 1.12,
    "vol_state": "正常",
    "vol_pctile": 59.3,
@@ -15048,15 +14811,15 @@
      "rv": 23.2
     }
    ],
-   "volume_ratio": 1.07,
-   "vol_5_20": 1.03,
-   "hold_chg_5": 15.2,
-   "hold_chg_20": -4.0,
+   "volume_ratio": 0.86,
+   "vol_5_20": 1.08,
+   "hold_chg_5": 15.4,
+   "hold_chg_20": -8.6,
    "flow_quad": "空头进攻",
    "last_rollover": "2025-08-06",
    "rollover_recent": false,
-   "ar1": 0.87,
-   "ar1_pct": 27.6,
+   "ar1": 0.865,
+   "ar1_pct": 25.3,
    "ar1_trend": "上升(惯性增强)",
    "ar1_delta": 0.033,
    "slow_phase": "稳定",
@@ -15084,16 +14847,17 @@
     0.932,
     0.933
    ],
-   "term_spread_pct": 2.86,
+   "term_spread_pct": 0.99,
    "term_structure": "Backwardation",
    "main_contract": "SI2612",
-   "second_contract": "SI2611",
-   "intraday_vol_state": "量平",
-   "intraday_price_state": "走强",
-   "iv_atm": 18.66,
+   "second_contract": "SI2701",
+   "intraday_vol_state": "缩量",
+   "intraday_price_state": "企稳",
+   "iv_atm": 19.88,
    "iv_prev": 16.05,
-   "iv_delta": 2.61,
+   "iv_delta": 3.83,
    "iv_series": [
+    19.88,
     18.66,
     18.2,
     17.19,
@@ -15107,10 +14871,13 @@
     21.83,
     19.77,
     15.95,
-    16.05,
     16.05
    ],
    "iv_hist": [
+    {
+     "date": "2026-10-26",
+     "iv": 19.88
+    },
     {
      "date": "2026-10-23",
      "iv": 18.66
@@ -15166,10 +14933,6 @@
     {
      "date": "2026-09-29",
      "iv": 16.05
-    },
-    {
-     "date": "2026-09-28",
-     "iv": 16.05
     }
    ],
    "iv_source": "交易所官方",
@@ -15181,16 +14944,16 @@
    "note": "多晶硅2027仍负增长",
    "flow_confirm": "",
    "term_signal": "",
-   "emerge_score": 48.9,
-   "e_pos": 15.2,
-   "e_flow": 4.7,
-   "e_struct": 23.8,
-   "e_crit": 5.2,
-   "dir_score": 43.6,
+   "emerge_score": 33.9,
+   "e_pos": 15.1,
+   "e_flow": 5.7,
+   "e_struct": 8.2,
+   "e_crit": 4.9,
+   "dir_score": 38.3,
    "d_trend": 40,
-   "d_fund": -4.8,
-   "d_mom": 8.4,
-   "dir_label": "强多",
+   "d_fund": -10.3,
+   "d_mom": 8.6,
+   "dir_label": "偏多",
    "dir_consistency": "",
    "action_advice": "区间高抛低吸",
    "action_detail": [
@@ -15203,21 +14966,25 @@
    "drv_stage": "累积中",
    "emergence_phase": "驱动累积",
    "iv_rv": {
-    "iv_atm": 18.66,
+    "iv_atm": 19.88,
     "iv_prev": 16.05,
-    "rv": 23.4,
-    "vrp": -4.7,
-    "vrp_var": -0.0199,
+    "rv": 23.3,
+    "vrp": -3.4,
+    "vrp_var": -0.0148,
     "rv_pctile": 59.3,
-    "iv_delta": 2.61,
-    "mom_10d": -0.1,
+    "iv_delta": 3.83,
+    "mom_10d": -0.5,
     "iv_source": "交易所官方",
     "label": "IV-RV正常",
     "detail": [
-     "价格持平但IV升(Δ+2.6pp)：期权定价即将到来的波动",
-     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0199"
+     "价格持平但IV升(Δ+3.8pp)：期权定价即将到来的波动",
+     "方差溢价(学术口径)：σ²IV−σ²RV = -0.0148"
     ],
     "iv_hist": [
+     {
+      "date": "2026-10-26",
+      "iv": 19.88
+     },
      {
       "date": "2026-10-23",
       "iv": 18.66
@@ -15272,10 +15039,6 @@
      },
      {
       "date": "2026-09-29",
-      "iv": 16.05
-     },
-     {
-      "date": "2026-09-28",
       "iv": 16.05
      }
     ],
@@ -15448,25 +15211,22 @@
    "crowd": {
     "score": 0,
     "label": "持仓均衡",
-    "lsr": 1.082,
-    "cr5_long": 0.5625,
-    "cr5_short": 0.5667,
+    "lsr": 1.091,
+    "cr5_long": 0.5707,
+    "cr5_short": 0.5826,
     "diverge": "",
     "contract": "si2612",
     "retail": {
-     "active": true,
-     "net_pos": 5821,
-     "long_oi": 31439,
-     "short_oi": 25618,
-     "seats": [
-      "中信建投",
-      "方正中期"
-     ],
-     "phase": "观察",
-     "detail": "家人历史仅1天，持续跟踪积累中（暂不判定方向）",
-     "scale": 5821,
-     "peak": 5821,
-     "scale_pct": 100.0,
+     "active": false,
+     "net_pos": null,
+     "long_oi": null,
+     "short_oi": null,
+     "seats": [],
+     "phase": "家人不集中",
+     "detail": "",
+     "scale": 0,
+     "peak": 0,
+     "scale_pct": 0.0,
      "trend": "—",
      "surrender_pct": 0.0
     }
