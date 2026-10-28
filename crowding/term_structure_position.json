@@ -1,6 +1,6 @@
 {
- "date": "20261027",
- "generated": "2026-10-27 17:31:52",
+ "date": "20261028",
+ "generated": "2026-10-28 17:32:02",
  "products": [
   {
    "sym": "AU0",
@@ -9,15 +9,15 @@
    "main_contract": "au2612",
    "second_contract": "au2702",
    "institution": {
-    "main_net": 33928,
-    "second_net": 21182,
+    "main_net": 34482,
+    "second_net": 22118,
     "main_dir": "long",
     "second_dir": "long"
    },
    "foreign": {
-    "main_net": -990,
-    "second_net": -2321,
-    "main_dir": "short",
+    "main_net": null,
+    "second_net": -2634,
+    "main_dir": "flat",
     "second_dir": "short"
    }
   },
@@ -28,15 +28,15 @@
    "main_contract": "ag2612",
    "second_contract": "ag2702",
    "institution": {
-    "main_net": -20313,
-    "second_net": -19929,
+    "main_net": -17019,
+    "second_net": -21001,
     "main_dir": "short",
     "second_dir": "short"
    },
    "foreign": {
-    "main_net": -2636,
-    "second_net": -1541,
-    "main_dir": "short",
+    "main_net": null,
+    "second_net": -3660,
+    "main_dir": "flat",
     "second_dir": "short"
    }
   },
@@ -47,15 +47,15 @@
    "main_contract": "cu2612",
    "second_contract": "cu2611",
    "institution": {
-    "main_net": 13321,
-    "second_net": 4022,
+    "main_net": 12085,
+    "second_net": 5235,
     "main_dir": "long",
     "second_dir": "long"
    },
    "foreign": {
-    "main_net": 4241,
+    "main_net": null,
     "second_net": null,
-    "main_dir": "long",
+    "main_dir": "flat",
     "second_dir": "flat"
    }
   },
@@ -66,14 +66,14 @@
    "main_contract": "al2612",
    "second_contract": "al2701",
    "institution": {
-    "main_net": 5528,
-    "second_net": -4916,
+    "main_net": 8951,
+    "second_net": -7070,
     "main_dir": "long",
     "second_dir": "short"
    },
    "foreign": {
-    "main_net": 6441,
-    "second_net": 6330,
+    "main_net": 5846,
+    "second_net": 9931,
     "main_dir": "long",
     "second_dir": "long"
    }
@@ -85,14 +85,14 @@
    "main_contract": "zn2612",
    "second_contract": "zn2701",
    "institution": {
-    "main_net": 15472,
-    "second_net": 3830,
+    "main_net": 20372,
+    "second_net": 7307,
     "main_dir": "long",
     "second_dir": "long"
    },
    "foreign": {
-    "main_net": 4484,
-    "second_net": 11454,
+    "main_net": 3058,
+    "second_net": 13242,
     "main_dir": "long",
     "second_dir": "long"
    }
@@ -102,18 +102,18 @@
    "name": "镍",
    "sector": "有色金属",
    "main_contract": "ni2612",
-   "second_contract": "ni2611",
+   "second_contract": "ni2701",
    "institution": {
-    "main_net": -6475,
-    "second_net": -724,
+    "main_net": -4664,
+    "second_net": -2012,
     "main_dir": "short",
     "second_dir": "short"
    },
    "foreign": {
-    "main_net": -6914,
-    "second_net": null,
+    "main_net": -3664,
+    "second_net": -13383,
     "main_dir": "short",
-    "second_dir": "flat"
+    "second_dir": "short"
    }
   },
   {
@@ -123,28 +123,9 @@
    "main_contract": "sn2612",
    "second_contract": "sn2611",
    "institution": {
-    "main_net": 2430,
-    "second_net": 769,
+    "main_net": 2558,
+    "second_net": 277,
     "main_dir": "long",
-    "second_dir": "long"
-   },
-   "foreign": {
-    "main_net": 701,
-    "second_net": null,
-    "main_dir": "long",
-    "second_dir": "flat"
-   }
-  },
-  {
-   "sym": "AO0",
-   "name": "氧化铝",
-   "sector": "有色金属",
-   "main_contract": "ao2701",
-   "second_contract": "ao2702",
-   "institution": {
-    "main_net": -38253,
-    "second_net": 6837,
-    "main_dir": "short",
     "second_dir": "long"
    },
    "foreign": {
@@ -155,19 +136,38 @@
    }
   },
   {
+   "sym": "AO0",
+   "name": "氧化铝",
+   "sector": "有色金属",
+   "main_contract": "ao2701",
+   "second_contract": "ao2702",
+   "institution": {
+    "main_net": -35786,
+    "second_net": 6716,
+    "main_dir": "short",
+    "second_dir": "long"
+   },
+   "foreign": {
+    "main_net": -5565,
+    "second_net": -2200,
+    "main_dir": "short",
+    "second_dir": "short"
+   }
+  },
+  {
    "sym": "RB0",
    "name": "螺纹钢",
    "sector": "黑色系",
    "main_contract": "rb2701",
-   "second_contract": "rb2703",
+   "second_contract": "rb2705",
    "institution": {
-    "main_net": 148652,
-    "second_net": 6917,
+    "main_net": 136325,
+    "second_net": 6566,
     "main_dir": "long",
     "second_dir": "long"
    },
    "foreign": {
-    "main_net": -134951,
+    "main_net": -118752,
     "second_net": null,
     "main_dir": "short",
     "second_dir": "flat"
@@ -180,13 +180,13 @@
    "main_contract": "hc2701",
    "second_contract": "hc2703",
    "institution": {
-    "main_net": 9587,
-    "second_net": -2898,
+    "main_net": 24861,
+    "second_net": -2349,
     "main_dir": "long",
     "second_dir": "short"
    },
    "foreign": {
-    "main_net": -102221,
+    "main_net": -103207,
     "second_net": null,
     "main_dir": "short",
     "second_dir": "flat"
@@ -199,14 +199,14 @@
    "main_contract": "ru2701",
    "second_contract": "ru2705",
    "institution": {
-    "main_net": -9272,
-    "second_net": 3047,
+    "main_net": -3942,
+    "second_net": 2711,
     "main_dir": "short",
     "second_dir": "long"
    },
    "foreign": {
     "main_net": null,
-    "second_net": -802,
+    "second_net": -689,
     "main_dir": "flat",
     "second_dir": "short"
    }
@@ -218,13 +218,13 @@
    "main_contract": "TA701",
    "second_contract": "TA612",
    "institution": {
-    "main_net": 69881,
-    "second_net": 87,
+    "main_net": 22060,
+    "second_net": -1720,
     "main_dir": "long",
-    "second_dir": "long"
+    "second_dir": "short"
    },
    "foreign": {
-    "main_net": 138271,
+    "main_net": 143153,
     "second_net": null,
     "main_dir": "long",
     "second_dir": "flat"
@@ -237,13 +237,13 @@
    "main_contract": "MA701",
    "second_contract": "MA612",
    "institution": {
-    "main_net": 94291,
-    "second_net": 3287,
+    "main_net": 105083,
+    "second_net": 5061,
     "main_dir": "long",
     "second_dir": "long"
    },
    "foreign": {
-    "main_net": 37072,
+    "main_net": 29675,
     "second_net": null,
     "main_dir": "long",
     "second_dir": "flat"
@@ -256,13 +256,13 @@
    "main_contract": "FG701",
    "second_contract": "FG703",
    "institution": {
-    "main_net": -66456,
-    "second_net": -11566,
+    "main_net": -80643,
+    "second_net": -11231,
     "main_dir": "short",
     "second_dir": "short"
    },
    "foreign": {
-    "main_net": -184445,
+    "main_net": -158329,
     "second_net": null,
     "main_dir": "short",
     "second_dir": "flat"
@@ -275,13 +275,13 @@
    "main_contract": "SA701",
    "second_contract": "SA703",
    "institution": {
-    "main_net": -160276,
-    "second_net": -14603,
+    "main_net": -161380,
+    "second_net": -13211,
     "main_dir": "short",
     "second_dir": "short"
    },
    "foreign": {
-    "main_net": -53888,
+    "main_net": -38634,
     "second_net": -16555,
     "main_dir": "short",
     "second_dir": "short"
@@ -294,14 +294,14 @@
    "main_contract": "SR701",
    "second_contract": "SR703",
    "institution": {
-    "main_net": -38119,
-    "second_net": 5193,
+    "main_net": -39416,
+    "second_net": 5723,
     "main_dir": "short",
     "second_dir": "long"
    },
    "foreign": {
-    "main_net": -91752,
-    "second_net": -21250,
+    "main_net": -91066,
+    "second_net": -25500,
     "main_dir": "short",
     "second_dir": "short"
    }
@@ -313,16 +313,16 @@
    "main_contract": "CF701",
    "second_contract": "CF705",
    "institution": {
-    "main_net": -43810,
-    "second_net": -28119,
+    "main_net": -30234,
+    "second_net": -29827,
     "main_dir": "short",
     "second_dir": "short"
    },
    "foreign": {
     "main_net": null,
-    "second_net": null,
+    "second_net": -3200,
     "main_dir": "flat",
-    "second_dir": "flat"
+    "second_dir": "short"
    }
   },
   {
@@ -332,14 +332,14 @@
    "main_contract": "lc2701",
    "second_contract": "lc2705",
    "institution": {
-    "main_net": 76357,
-    "second_net": -8559,
+    "main_net": 73285,
+    "second_net": -8790,
     "main_dir": "long",
     "second_dir": "short"
    },
    "foreign": {
     "main_net": null,
-    "second_net": 6835,
+    "second_net": 6913,
     "main_dir": "flat",
     "second_dir": "long"
    }
@@ -351,13 +351,13 @@
    "main_contract": "si2612",
    "second_contract": "si2701",
    "institution": {
-    "main_net": 8968,
-    "second_net": 3041,
+    "main_net": 4735,
+    "second_net": 3604,
     "main_dir": "long",
     "second_dir": "long"
    },
    "foreign": {
-    "main_net": -3857,
+    "main_net": -3938,
     "second_net": -1005,
     "main_dir": "short",
     "second_dir": "short"
@@ -370,14 +370,14 @@
    "main_contract": "M2701",
    "second_contract": "M2705",
    "institution": {
-    "main_net": 196410,
-    "second_net": -37231,
+    "main_net": 195350,
+    "second_net": -45219,
     "main_dir": "long",
     "second_dir": "short"
    },
    "foreign": {
-    "main_net": 103473,
-    "second_net": 59481,
+    "main_net": 91744,
+    "second_net": 62138,
     "main_dir": "long",
     "second_dir": "long"
    }
@@ -389,14 +389,14 @@
    "main_contract": "Y2701",
    "second_contract": "Y2705",
    "institution": {
-    "main_net": 29070,
-    "second_net": 10254,
+    "main_net": 34430,
+    "second_net": 11569,
     "main_dir": "long",
     "second_dir": "long"
    },
    "foreign": {
-    "main_net": 69199,
-    "second_net": 10309,
+    "main_net": 77248,
+    "second_net": 10444,
     "main_dir": "long",
     "second_dir": "long"
    }
@@ -408,14 +408,14 @@
    "main_contract": "P2701",
    "second_contract": "P2705",
    "institution": {
-    "main_net": -9092,
-    "second_net": -17886,
+    "main_net": -7466,
+    "second_net": -15193,
     "main_dir": "short",
     "second_dir": "short"
    },
    "foreign": {
-    "main_net": -74314,
-    "second_net": -9093,
+    "main_net": -75018,
+    "second_net": -10416,
     "main_dir": "short",
     "second_dir": "short"
    }
@@ -427,8 +427,8 @@
    "main_contract": "C2701",
    "second_contract": "C2703",
    "institution": {
-    "main_net": 43220,
-    "second_net": -1309,
+    "main_net": 33874,
+    "second_net": -6137,
     "main_dir": "long",
     "second_dir": "short"
    },
@@ -446,16 +446,16 @@
    "main_contract": "I2701",
    "second_contract": "I2705",
    "institution": {
-    "main_net": -27354,
-    "second_net": -6385,
+    "main_net": -28533,
+    "second_net": -5923,
     "main_dir": "short",
     "second_dir": "short"
    },
    "foreign": {
-    "main_net": -41438,
-    "second_net": 4242,
+    "main_net": -45448,
+    "second_net": -1057,
     "main_dir": "short",
-    "second_dir": "long"
+    "second_dir": "short"
    }
   },
   {
@@ -465,8 +465,8 @@
    "main_contract": "JM2701",
    "second_contract": "JM2705",
    "institution": {
-    "main_net": -17696,
-    "second_net": 2261,
+    "main_net": -19394,
+    "second_net": 873,
     "main_dir": "short",
     "second_dir": "long"
    },
@@ -484,8 +484,8 @@
    "main_contract": "LH2701",
    "second_contract": "LH2703",
    "institution": {
-    "main_net": -6524,
-    "second_net": -6156,
+    "main_net": -5579,
+    "second_net": -6201,
     "main_dir": "short",
     "second_dir": "short"
    },
