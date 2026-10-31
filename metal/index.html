@@ -76,10 +76,16 @@ tr.has-hist .hist-badge { color: #58a6ff; font-size: 0.72rem; margin-left: 0.3re
 
   <!-- ============ 一、当前结论 ============ -->
   <div class="conclusion" id="conclusion">
-    <b>当前结论</b>：康波回升期（2026-2035）→ <span class="up">工业金属（铜/铝/锡）超配</span>，贵金属（金/银）<span class="neu">中性偏多（回调后布局）</span>。<br>
+    <b>当前结论</b>：第五轮康波回升期（2025-2045）→ <span class="up">工业金属（铜/铝/锡）超配</span>，贵金属（金/银）<span class="neu">中性偏多（回调后布局）</span>。<br>
     <span style="font-size:0.85rem"><b>确定性排序</b>（供需证据强度）：<b class="up">铜</b> &gt; <b class="up">铝</b> &gt; <b class="up">锡</b> &gt; 白银 &gt; 黄金；<b>弹性排序</b>（潜在涨幅）：白银 &gt; 锡 &gt; 铜 &gt; 铝 &gt; 黄金。</span><br>
     <span style="font-size:0.85rem">目标价（中性档）：铜 <b class="up">12.5万</b>（+13%）· 锡 <b class="up">45万</b>（+15%）· 铝 <b class="up">2.5万</b>（+6.5%）· 白银 <b class="up">1.7万</b>（+15.5%）· 黄金 <b class="neu">950</b>（+4.6%）。</span>
     <div id="conclDetail" style="margin-top:0.5rem;font-size:0.85rem"></div>
+  </div>
+
+  <!-- ============ 宏观环境联动（订阅统一底座 macro_env） ============ -->
+  <div class="card" id="macroEnvCard" style="border-color:#e0c068">
+    <b>🌐 宏观环境联动</b> <span style="color:#8b949e;font-size:0.78rem">订阅统一宏观底座（单一事实源）</span>
+    <div id="macroEnvBody" style="margin-top:0.5rem;font-size:0.85rem;line-height:1.8">加载中...</div>
   </div>
 
   <!-- ============ 二、康波尺度验证 ============ -->
@@ -89,7 +95,7 @@ tr.has-hist .hist-badge { color: #58a6ff; font-size: 0.72rem; margin-left: 0.3re
   <h3>各康波阶段金属年化收益（%）</h3>
   <div class="card">
     <table id="kvTable"><tbody><tr><td>加载中...</td></tr></tbody></table>
-    <div class="note">数据源：世界银行 Pink Sheet 月度价格（1960-2024）+ 康波阶段划分（周金涛/范杜因标准）。红=正收益、绿=负收益。「超额」=贵金属年化 − 工业金属年化，正值=贵金属跑赢。</div>
+    <div class="note">数据源：世界银行 Pink Sheet 月度价格（1960-2024）+ 康波阶段划分（周金涛《涛动周期论》标准，与宏观底座一致）。红=正收益、绿=负收益。「超额」=贵金属年化 − 工业金属年化，正值=贵金属跑赢。</div>
   </div>
   <h3>铜金比：工业需求 vs 避险需求的晴雨表（1960-2024）</h3>
   <div class="card">
@@ -404,7 +410,8 @@ fetch('data.json?t=' + Date.now())
     if (d.macro && d.macro.us10y != null) {
       f += '<div class="kv"><span class="k">美国10Y国债收益率</span><span class="v">'+d.macro.us10y.toFixed(2)+'%</span></div>';
       f += '<div class="kv"><span class="k">中国10Y国债收益率</span><span class="v">'+d.macro.cn10y.toFixed(2)+'%</span></div>';
-      f += '<div class="kv"><span class="k">实际利率(10Y-CPI'+d.assumptions.cpi_yoy+'%)</span><span class="v">≈'+(d.macro.us10y-d.assumptions.cpi_yoy).toFixed(1)+'%</span></div>';
+      const cpiNow = (d.macro && d.macro.us_cpi != null) ? d.macro.us_cpi : d.assumptions.cpi_yoy;
+      f += '<div class="kv"><span class="k">实际利率(10Y-CPI'+cpiNow+'%)</span><span class="v">≈'+(d.macro.us10y-cpiNow).toFixed(1)+'%</span></div>';
     }
     if (d.macro && d.macro.usdcny != null) {
       f += '<div class="kv"><span class="k">美元兑人民币中间价</span><span class="v">'+d.macro.usdcny.toFixed(4)+'</span></div>';
@@ -421,6 +428,24 @@ fetch('data.json?t=' + Date.now())
     // 结论补充（突破提醒）
     if (d.alerts && d.alerts.length) {
       document.getElementById('conclDetail').innerHTML = '<span style="color:#ff5050">⚠️ ' + d.alerts.join('；') + '</span>';
+    }
+    // 宏观环境联动（订阅统一底座 macro_env）
+    if (d.macro_env && d.macro_env.regime) {
+      const me = d.macro_env;
+      const rg = me.regime || {};
+      const dr = me.drivers || {};
+      const al = me.alerts || {};
+      const ls = me.liquidity_stress || {};
+      const k = (me.scales||{}).kondratieff || {};
+      let html = '<div>美林时钟：<b>'+rg.quadrant+'</b>象限（'+rg.assets+'）</div>';
+      html += '<div>四驱动：增长['+(dr.growth||{}).state+'] · 通胀['+(dr.inflation||{}).state+'] · 流动性['+(dr.liquidity||{}).state+'] · 风险偏好['+(dr.risk_appetite||{}).state+']</div>';
+      html += '<div>康波：'+k.phase+'（'+k.direction+'）</div>';
+      html += '<div>相变预警：'+(al.phase_warning?'<span style="color:#ff5050">⚠️ 触发（'+((al.lead_signals||[]).join('、'))+'）</span>':'✅ 无')+'</div>';
+      const gap = ls.gap_to_cap_bp!=null?Math.abs(ls.gap_to_cap_bp):'—';
+      html += '<div>流动性：SOFR '+ls.sofr+'%（距目标上限 '+gap+'bp）'+(ls.stress?'<span style="color:#ff5050">⚠️ '+ls.signals.join('；')+'</span>':'')+'</div>';
+      document.getElementById('macroEnvBody').innerHTML = html;
+    } else {
+      document.getElementById('macroEnvCard').style.display = 'none';
     }
   })
   .catch(err => { document.getElementById('sigBody').innerHTML = '<tr><td colspan=5>❌ 数据加载失败：'+err.message+'</td></tr>'; });
