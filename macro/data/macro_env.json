@@ -11,7 +11,9 @@
    "state": "错位/中性",
    "score": 0,
    "radar": 50,
-   "trajectory": "美54.5 ↓ 中49.3"
+   "direction": "中性",
+   "trajectory": "美54.5 ↓ 中49.3",
+   "trend": "动能衰减"
   },
   "inflation": {
    "us_cpi": 3.7,
@@ -23,7 +25,9 @@
    "state": "再通胀升温(利多商品)",
    "score": 4,
    "radar": 100,
-   "trajectory": "美CPI3.7 ↑ 中PPI5.0 ↑"
+   "direction": "利多",
+   "trajectory": "美CPI3.7 ↑ 中PPI5.0 ↑",
+   "trend": "升温"
   },
   "liquidity": {
    "cn_m2": 7.2,
@@ -36,7 +40,9 @@
    "state": "中性",
    "score": 0,
    "radar": 50,
+   "direction": "中性",
    "trajectory": "M2 7.2 ↓",
+   "trend": "收紧",
    "cn_us_spread": 3.29,
    "spread_note": "中美利差倒挂→资本流出压力"
   },
@@ -50,7 +56,9 @@
    "state": "risk-off 前兆(边际恶化)",
    "score": -1,
    "radar": 25,
-   "trajectory": "VIX 19.42 ↑ 利差 3.26 →"
+   "direction": "利空",
+   "trajectory": "VIX 19.42 ↑ 利差 3.26 →",
+   "trend": "稳定"
   }
  },
  "alerts": {

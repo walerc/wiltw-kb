@@ -5,15 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>宏观环境仪表盘 · Global Macro Dashboard</title>
 <style>
-:root {
-  --bg:#0d1117; --card:#161b22; --border:#30363d;
-  --txt:#c9d1d9; --muted:#8b949e; --accent:#e0c068;
-  --up:#ff5050; --down:#00c864; --warn:#ff7b72;
-}
+:root { --bg:#0d1117; --card:#161b22; --border:#30363d; --txt:#c9d1d9; --muted:#8b949e; --accent:#e0c068; --up:#ff5050; --down:#00c864; --neu:#e0c068; }
 * { box-sizing:border-box; margin:0; padding:0; }
 body { background:var(--bg); color:var(--txt); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; padding:20px; max-width:1080px; margin:0 auto; line-height:1.6; }
 h1 { font-size:1.3rem; margin-bottom:2px; }
 .sub { color:var(--muted); font-size:.78rem; margin-bottom:14px; }
+section { margin-bottom:22px; }
+section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-left:3px solid var(--accent); padding-left:8px; }
+.pos { color:var(--up); } .neg { color:var(--down); } .neu { color:var(--neu); }
 /* 顶部结论 */
 .verdict { border-radius:10px; padding:16px 18px; margin-bottom:16px; border:1px solid var(--border); background:var(--card); }
 .verdict.warn { border-color:var(--up); background:#1a1215; }
@@ -21,84 +20,78 @@ h1 { font-size:1.3rem; margin-bottom:2px; }
 .verdict .detail { font-size:.85rem; color:#adbac7; }
 .pill { display:inline-block; padding:2px 10px; border-radius:12px; font-size:.72rem; margin-right:6px; background:#21262d; }
 .pill.risk { background:#2a1518; color:var(--up); }
-.pill.ok { background:#12241a; color:var(--down); }
-section { margin-bottom:20px; }
-section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-left:3px solid var(--accent); padding-left:8px; }
 /* 美林时钟 */
-.clock { position:relative; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:2px; background:#30363d; border:1px solid #30363d; border-radius:10px; overflow:hidden; }
-.q { background:var(--card); padding:18px 14px; min-height:120px; }
+.clock { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:2px; background:#30363d; border-radius:10px; overflow:hidden; }
+.q { background:var(--card); padding:16px 14px; min-height:110px; }
 .q.active { outline:2px solid var(--up); outline-offset:-2px; background:#1a1215; }
-.q .qn { font-size:1.1rem; font-weight:700; margin-bottom:6px; }
-.q .qa { font-size:.85rem; color:var(--muted); line-height:1.5; }
-.q .tag { display:inline-block; margin-top:8px; font-size:.7rem; padding:2px 8px; border-radius:8px; background:#2a1518; color:var(--up); }
-.q.grow-up .qn { color:#ff7b72; } .q.grow-down .qn { color:#79c0ff; }
-.axis-label { position:absolute; font-size:.68rem; color:#6e7681; background:#0d1117cc; padding:0 4px; }
-.clock-label { display:flex; gap:20px; margin-top:8px; font-size:.72rem; color:var(--muted); flex-wrap:wrap; }
-/* 驱动卡片 */
+.q .qn { font-size:1.05rem; font-weight:700; margin-bottom:4px; }
+.q .qa { font-size:.82rem; color:var(--muted); }
+.q .tag { display:inline-block; margin-top:6px; font-size:.68rem; padding:1px 8px; border-radius:8px; background:#2a1518; color:var(--up); }
+.clock-label { display:flex; gap:16px; margin-top:8px; font-size:.72rem; color:var(--muted); flex-wrap:wrap; }
+/* 大类资产 */
+.asset-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.asset { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+.asset .an { font-size:.78rem; color:var(--muted); margin-bottom:2px; }
+.asset .av { font-size:1.05rem; font-weight:700; }
+.asset .ach { font-size:.78rem; margin-top:2px; }
+.asset .bar { height:4px; background:#21262d; border-radius:2px; margin-top:6px; overflow:hidden; }
+.asset .bar i { display:block; height:100%; }
+.asset-concl { margin-top:10px; font-size:.82rem; color:#adbac7; }
+/* 四驱动 */
 .drv-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.drv { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; cursor:pointer; }
+.drv { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; cursor:pointer; transition:border-color .15s; }
 .drv:hover { border-color:#58a6ff; }
-.drv .head { display:flex; align-items:baseline; gap:8px; margin-bottom:6px; }
+.drv .head { display:flex; align-items:center; gap:8px; margin-bottom:6px; flex-wrap:wrap; }
 .drv .icon { font-size:1.1rem; }
 .drv .name { font-size:.82rem; color:var(--muted); }
+.drv .dir { font-size:.75rem; font-weight:700; padding:1px 8px; border-radius:8px; }
+.drv .dir.利多 { background:#2a1518; color:var(--up); }
+.drv .dir.利空 { background:#12241a; color:var(--down); }
+.drv .dir.中性 { background:#262015; color:var(--neu); }
+.drv .trend { font-size:.72rem; color:var(--muted); }
 .drv .concl { font-size:1rem; font-weight:700; margin-bottom:8px; }
-.drv.concl-pos { border-left:3px solid var(--up); }   /* 利多红 */
-.drv.concl-neg { border-left:3px solid var(--down); } /* 利空绿 */
-.drv.concl-neu { border-left:3px solid var(--accent); }
-.drv .ev { font-size:.8rem; color:#adbac7; line-height:1.65; }
-.drv .ev b { color:var(--txt); }
-/* 趋势 */
-.trend-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.tcard { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:12px; }
-.tcard .chart { width:100%; height:200px; }
-.tcard .desc { font-size:.76rem; color:var(--muted); margin-top:6px; line-height:1.5; }
-.seg { display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap; }
-.seg button { background:#21262d; color:var(--txt); border:1px solid var(--border); border-radius:6px; padding:4px 12px; font-size:.78rem; cursor:pointer; }
-.seg button.active { background:#30363d; color:#fff; border-color:#58a6ff; }
+.drv .ev { font-size:.8rem; color:#adbac7; margin-top:3px; display:flex; align-items:baseline; gap:6px; }
+.drv .ev .arrow { font-weight:700; }
+.drv .ev b { font-weight:700; }
+.drv .hint { font-size:.7rem; color:#6e7681; margin-top:6px; }
 /* 预警 */
-.alert-list { display:flex; flex-direction:column; gap:8px; }
-.alert-item { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:.82rem; }
+.alert-item { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:.82rem; margin-bottom:8px; }
 .alert-item b { color:var(--warn); }
 /* 弹窗 */
-.modal-mask { display:none; position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:99; }
-.modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--card); border:1px solid var(--border); border-radius:12px; width:min(680px,92vw); max-height:80vh; overflow:auto; padding:18px; z-index:100; }
+.mask { display:none; position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:99; }
+.modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--card); border:1px solid var(--border); border-radius:12px; width:min(700px,92vw); max-height:82vh; overflow:auto; padding:18px; z-index:100; }
 .modal h3 { font-size:.95rem; color:var(--accent); margin-bottom:8px; padding-right:24px; }
 .modal .close { position:absolute; top:10px; right:14px; cursor:pointer; color:var(--muted); font-size:1.3rem; }
 .modal .close:hover { color:#fff; }
+.modal .mmeta { font-size:.8rem; color:#adbac7; margin:6px 0; line-height:1.7; }
 .modal .mchart { width:100%; height:300px; }
-.modal .mmeta { font-size:.8rem; color:#adbac7; margin:8px 0; line-height:1.7; }
-@media (max-width:760px) { .drv-grid,.trend-grid,.clock { grid-template-columns:1fr; } }
+@media (max-width:760px) { .drv-grid,.asset-grid,.clock { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
 <h1>🌐 宏观环境仪表盘</h1>
 <div class="sub" id="subTitle">加载中…</div>
-
 <div class="verdict" id="verdict"></div>
 
-<section>
-  <h2>一、大类资产轮动（美林时钟）</h2>
+<section><h2>一、大类资产轮动（美林时钟）</h2>
   <div class="clock" id="clock"></div>
   <div class="clock-label" id="clockLabel"></div>
 </section>
 
-<section>
-  <h2>二、四驱动详解（点击看详情）</h2>
+<section><h2>二、大类资产当前表现（股·债·商·汇）</h2>
+  <div class="asset-grid" id="assetGrid"></div>
+  <div class="asset-concl" id="assetConcl"></div>
+</section>
+
+<section><h2>三、四驱动详解（点击看方向趋势评估）</h2>
   <div class="drv-grid" id="drvGrid"></div>
 </section>
 
-<section>
-  <h2>三、关键指标趋势</h2>
-  <div class="seg" id="seg"></div>
-  <div class="trend-grid" id="trendGrid"></div>
+<section id="alertSec" style="display:none"><h2>四、相变预警</h2>
+  <div id="alertList"></div>
 </section>
 
-<section id="alertSec" style="display:none">
-  <h2>四、相变预警</h2>
-  <div class="alert-list" id="alertList"></div>
-</section>
-
-<div class="modal-mask" id="mask"></div>
+<div class="mask" id="mask"></div>
 <div class="modal" id="modal">
   <span class="close" onclick="closeModal()">✕</span>
   <h3 id="mTitle"></h3>
@@ -108,37 +101,32 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 
 <script src="echarts.min.js"></script>
 <script>
-let DATA = null;
-const UP='#ff5050', DOWN='#00c864', ACCENT='#e0c068';
-const DRV_ORDER=['growth','inflation','liquidity','risk_appetite'];
+let DATA=null;
+const UP='#ff5050', DOWN='#00c864', NEU='#e0c068';
 const DRV={growth:{icon:'📈',name:'增长'},inflation:{icon:'🔥',name:'通胀'},liquidity:{icon:'💧',name:'流动性'},risk_appetite:{icon:'🎢',name:'风险偏好'}};
-
-// 指标解读（让用户看懂每个数字）
 const READ={
-  us_ism_pmi:{name:'美国ISM制造业PMI',unit:'指数',desc:'荣枯线50。当前54.5扩张，但从7月55.6连续回落，动能衰减。'},
-  cn_pmi:{name:'中国官方制造业PMI',unit:'指数',desc:'荣枯线50。当前49.3跌破荣枯线，中国制造业收缩。'},
-  us_cpi:{name:'美国CPI同比',unit:'%',desc:'当前3.7%上行，再通胀压力，利多抗通胀商品。'},
-  cn_cpi:{name:'中国CPI同比',unit:'%',desc:'当前0.9%温和，需求偏弱。'},
-  cn_ppi:{name:'中国PPI同比',unit:'%',desc:'当前5%，从2025年通缩转正上行，工业品再通胀。'},
-  cn_m2:{name:'中国M2同比',unit:'%',desc:'当前7.2%下行，货币增速放缓，流动性边际收紧。'},
-  us_10y:{name:'美国10Y国债',unit:'%',desc:'当前4.94%高企，压制风险资产估值。'},
-  cn_10y:{name:'中国10Y国债',unit:'%',desc:'当前1.65%低位，中美利差倒挂→资本外流压力。'},
-  vix:{name:'VIX恐慌指数',unit:'指数',desc:'当前19.4上行。>20偏高、>30恐慌。上行=避险情绪升温。'},
-  us_hy_oas:{name:'美国高收益债利差',unit:'%',desc:'当前3.26%走阔。走阔=信用风险升温、风险偏好下降。'},
-  usdcny:{name:'美元兑人民币',unit:'元',desc:'当前6.71，人民币偏强。'},
-  us_yield_curve:{name:'美债10Y-2Y利差',unit:'%',desc:'当前0.38正常斜率。倒挂(<0)=衰退领先信号。'},
+  us_ism_pmi:{name:'美国ISM制造业PMI',unit:'指数',desc:'荣枯线50。54.5扩张，但7月55.6→9月54.5连续回落，动能衰减。',dir:'up'},
+  cn_pmi:{name:'中国官方制造业PMI',unit:'指数',desc:'荣枯线50。49.3跌破荣枯线，中国制造业收缩。',dir:'up'},
+  us_cpi:{name:'美国CPI同比',unit:'%',desc:'3.7%上行，再通胀压力，利多抗通胀商品。',dir:'up'},
+  cn_cpi:{name:'中国CPI同比',unit:'%',desc:'0.9%温和，需求偏弱。',dir:'up'},
+  cn_ppi:{name:'中国PPI同比',unit:'%',desc:'5%从通缩转正上行，工业品再通胀。',dir:'up'},
+  cn_m2:{name:'中国M2同比',unit:'%',desc:'7.2%下行，货币增速放缓。',dir:'up'},
+  us_10y:{name:'美国10Y国债',unit:'%',desc:'4.94%高企，压制风险资产估值。',dir:'down'},
+  cn_10y:{name:'中国10Y国债',unit:'%',desc:'1.65%低位，中美利差倒挂→资本外流。',dir:'down'},
+  vix:{name:'VIX恐慌指数',unit:'指数',desc:'19.4上行，>20偏高。上行=避险升温。',dir:'down'},
+  us_hy_oas:{name:'美国高收益债利差',unit:'%',desc:'3.26%走阔=信用风险升温、风险偏好下降。',dir:'down'},
+  usdcny:{name:'美元兑人民币',unit:'元',desc:'6.71，人民币偏强。',dir:'down'},
+  sh_index:{name:'上证指数',unit:'点',desc:'3599，A股表现。',dir:'up'},
+  copper:{name:'沪铜主力',unit:'元/吨',desc:'108050，铜博士，工业商品周期代表。',dir:'up'},
 };
-const TREND_GROUPS={
-  growth:{label:'增长',items:['us_ism_pmi','cn_pmi']},
-  inflation:{label:'通胀',items:['us_cpi','cn_ppi']},
-  liquidity:{label:'流动性',items:['us_10y','cn_10y']},
-  risk_appetite:{label:'风险偏好',items:['vix','us_hy_oas']},
-};
+const DRV_ITEMS={ growth:['us_ism_pmi','cn_pmi'], inflation:['us_cpi','cn_ppi'], liquidity:['cn_m2','us_10y'], risk_appetite:['us_hy_oas','vix'] };
 
-function normDate(d){ const s=String(d||''); const m=s.match(/(\d{4})年(\d{1,2})月/); if(m) return `${m[1]}-${m[2].padStart(2,'0')}`; return s.slice(0,7); }
-function pick(key){ return (DATA.series[key]||[]).map(x=>[normDate(x[0]),x[1]]); }
-function val(key){ const s=DATA.series[key]; return s&&s.length?s[s.length-1][1]:null; }
-function fmt(v,n=1){ return v==null?'—':Number(v).toFixed(n); }
+function normDate(d){const s=String(d||'');const m=s.match(/(\d{4})年(\d{1,2})月/);if(m)return`${m[1]}-${m[2].padStart(2,'0')}`;return s.slice(0,7);}
+function pick(key){return (DATA.series[key]||[]).map(x=>[normDate(x[0]),x[1]]);}
+function val(key){const s=DATA.series[key];return s&&s.length?s[s.length-1][1]:null;}
+function ytdPct(key){const s=DATA.series[key];if(!s||s.length<2)return null;const jan=s.filter(x=>String(x[0]).slice(0,7)==='2026-01');const base=jan.length?jan[jan.length-1][1]:s[0][1];const last=s[s.length-1][1];return base? (last-base)/base*100 : null;}
+function fmt(v,n=1){return v==null?'—':Number(v).toFixed(n);}
+function sign(v){return v==null?'':(v>0?'+':'')+fmt(v);}
 
 async function load(){
   const [env,latest,series]=await Promise.all([
@@ -147,164 +135,132 @@ async function load(){
     fetch('data/macro_series.json?t='+Date.now()).then(r=>r.json()),
   ]);
   DATA={env,latest,series};
-  document.getElementById('subTitle').textContent=`数据截至 ${env.generated} · 统一底座每日自动更新（17项宏观指标）`;
-  renderVerdict(); renderClock(); renderDrivers(); renderTrend(); renderAlerts();
+  document.getElementById('subTitle').textContent=`数据截至 ${env.generated} · 统一底座每日自动更新（19项宏观+大类资产指标）`;
+  renderVerdict(); renderClock(); renderAssets(); renderDrivers(); renderAlerts();
 }
 
-// 顶部一句话结论
 function renderVerdict(){
-  const env=DATA.env, al=env.alerts, rg=env.regime;
-  const d=env.drivers;
-  const warn=al.phase_warning;
+  const env=DATA.env,al=env.alerts,rg=env.regime,d=env.drivers,warn=al.phase_warning;
   const el=document.getElementById('verdict');
   el.className='verdict'+(warn?' warn':'');
-  const concl = `当前宏观环境处于【${rg.quadrant}】象限 — 增长动能边际衰减 + 再通胀升温。对商品：通胀利多，但需求（中国）偏弱 + 风险偏好转弱，需防流动性冲击。`;
-  el.innerHTML=
-    `<div class="big">${warn?'⚠️ ':'✅ '}${concl}</div>`+
-    `<div class="detail">`+
-    `资产配置顺序：<b>${rg.assets}</b>　·　`+
-    `增长[${d.growth.state}]　通胀[${d.inflation.state}]　流动性[${d.liquidity.state}]　风险偏好[${d.risk_appetite.state}]`+
-    (warn?`　<span class="pill risk">相变预警：${al.lead_signals.join('、')}</span>`:`　<span class="pill ok">无相变前兆</span>`)+
-    `</div>`;
+  el.innerHTML=`<div class="big">${warn?'⚠️ ':'✅ '}当前宏观环境处于【${rg.quadrant}】象限：增长动能衰减 + 再通胀升温。对商品：通胀利多，但需求（中国）偏弱 + 风险偏好转弱，需防流动性冲击。</div>`+
+    `<div class="detail">资产配置：<b>${rg.assets}</b>　·　增长[${d.growth.state}]　通胀[${d.inflation.state}]　流动性[${d.liquidity.state}]　风险偏好[${d.risk_appetite.state}]`+
+    (warn?`　<span class="pill risk">相变预警：${al.lead_signals.join('、')}</span>`:`　<span class="pill">无相变前兆</span>`)+`</div>`;
 }
 
-// 美林时钟（HTML 象限，当前象限高亮）
 function renderClock(){
   const rg=DATA.env.regime;
-  const quads=[
-    {id:'过热', color:'#ff7b72', assets:'商品 > 股票 > 现金 > 债券', desc:'增长强 + 通胀高，商品最受益', cls:'grow-up'},
-    {id:'滞胀', color:'#ffa198', assets:'现金 > 商品 > 债券 > 股票', desc:'增长弱 + 通胀高，现金为王、商品次之', cls:'grow-down'},
-    {id:'衰退', color:'#79c0ff', assets:'债券 > 现金 > 股票 > 商品', desc:'增长弱 + 通胀低，避险为主', cls:'grow-down'},
-    {id:'复苏', color:'#3fb950', assets:'股票 > 债券 > 现金 > 商品', desc:'增长强 + 通胀低，股票最佳', cls:'grow-up'},
-  ];
-  // 布局：左上=滞胀 右上=过热 左下=衰退 右下=复苏
+  const quads={滞胀:{c:'#ffa198',a:'现金 > 商品 > 债券 > 股票',d:'增长弱+通胀高，现金为王、商品次之'},过热:{c:'#ff7b72',a:'商品 > 股票 > 现金 > 债券',d:'增长强+通胀高，商品最受益'},衰退:{c:'#79c0ff',a:'债券 > 现金 > 股票 > 商品',d:'增长弱+通胀低，避险为主'},复苏:{c:'#3fb950',a:'股票 > 债券 > 现金 > 商品',d:'增长强+通胀低，股票最佳'}};
   const layout=['滞胀','过热','衰退','复苏'];
-  const el=document.getElementById('clock');
-  el.innerHTML=layout.map(qid=>{
-    const q=quads.find(x=>x.id===qid);
-    const active=qid===rg.quadrant;
-    return `<div class="q ${q.cls} ${active?'active':''}" style="color:${q.color}">
-      <div class="qn">${q.id}</div>
-      <div class="qa">${q.assets}</div>
-      ${active?'<span class="tag">⬅ 当前位置</span>':''}
-    </div>`;
-  }).join('');
-  document.getElementById('clockLabel').innerHTML=
-    `<span>横轴＝增长（右强左弱）· 纵轴＝通胀（上高下低）</span>`+
-    `<span style="color:${rg.quadrant==='滞胀'?'#ffa198':rg.quadrant==='过热'?'#ff7b72':rg.quadrant==='复苏'?'#3fb950':'#79c0ff'}">当前：<b>${rg.quadrant}</b>（${quads.find(x=>x.id===rg.quadrant).desc}）</span>`;
+  document.getElementById('clock').innerHTML=layout.map(id=>{const q=quads[id];const on=id===rg.quadrant;
+    return`<div class="q ${on?'active':''}" style="color:${q.c}"><div class="qn">${id}</div><div class="qa">${q.a}</div>${on?'<span class="tag">⬅ 当前位置</span>':''}</div>`;}).join('');
+  document.getElementById('clockLabel').innerHTML=`<span>横轴=增长(右强左弱) · 纵轴=通胀(上高下低)</span><span>当前：<b>${rg.quadrant}</b> — ${quads[rg.quadrant].d}</span>`;
 }
 
-// 四驱动：一句话结论 + 数据支撑
+// 大类资产：股（上证）债（10Y）商（铜）汇（USDCNY）
+function renderAssets(){
+  const assets=[
+    {key:'sh_index',name:'股票·上证',note:'A股'},
+    {key:'cn_10y',name:'债券·10Y',note:'收益率↓=债涨',invert:true},
+    {key:'copper',name:'商品·沪铜',note:'铜博士'},
+    {key:'usdcny',name:'汇率·人民币',note:'数值↓=人民币升值'},
+  ];
+  const el=document.getElementById('assetGrid');
+  el.innerHTML=assets.map(a=>{
+    const p=ytdPct(a.key); const v=val(a.key);
+    const pct=a.invert? -p : p;  // 债券：收益率下行=债券涨，取反
+    const cls=pct==null?'neu':(pct>=0?'pos':'neg');
+    const updown=pct==null?'—':(pct>=0?'↑ 强':'↓ 弱');
+    const w=Math.min(Math.abs(pct||0),30);
+    return`<div class="asset"><div class="an">${a.name}</div><div class="av">${fmt(v)}</div>
+      <div class="ach ${cls}">YTD ${sign(pct)}% ${updown}</div>
+      <div class="bar"><i style="width:${w*3}%;background:${pct>=0?UP:DOWN}"></i></div>
+      <div class="ach" style="color:#6e7681">${a.note}</div></div>`;
+  }).join('');
+  document.getElementById('assetConcl').innerHTML=`<b>轮动解读：</b>${assetConclText()}`;
+}
+function assetConclText(){
+  const rg=DATA.env.regime;
+  const sh=ytdPct('sh_index'), bond=-ytdPct('cn_10y'), cu=ytdPct('copper'), fx=ytdPct('usdcny');
+  const strong=[]; if(sh>0)strong.push('股票'); if(bond>0)strong.push('债券'); if(cu>0)strong.push('商品'); if(fx>0)strong.push('汇率');
+  return `当前${rg.quadrant}象限，理论最优是「${rg.assets}」。实际大类资产YTD：股票${sign(sh)}%、债券${sign(bond)}%、商品${sign(cu)}%、汇率${sign(fx)}%。`+(strong.length?`强势的是【${strong.join('、')}】，与滞胀象限的「商品/现金占优」${(cu>0&&strong.includes('商品'))?'一致':'有偏差'}。`:'');
+}
+
+// 四驱动：结论 + 方向 + 趋势 + 论据（颜色联动）
 function renderDrivers(){
   const env=DATA.env;
   const conclMap={
-    growth:{txt:'美热中冷，需求偏弱', cls:'neu',
-      evs:[['美国PMI',fmt(val('us_ism_pmi')),'扩张'],['中国PMI',fmt(val('cn_pmi')),'跌破荣枯线']],
-      note:'商品需求的最大边际买家是中国，中国收缩→商品需求偏弱。'},
-    inflation:{txt:'再通胀升温，利多商品', cls:'pos',
-      evs:[['美国CPI',fmt(val('us_cpi'))+'%','上行'],['中国PPI',fmt(val('cn_ppi'))+'%','转正上行']],
-      note:'通胀上行，商品抗通胀属性受益。'},
-    liquidity:{txt:'中性，资本外流压力', cls:'neu',
-      evs:[['中国M2',fmt(val('cn_m2'))+'%','增速放缓'],['中美利差',fmt((val('us_10y')||0)-(val('cn_10y')||0))+'%','倒挂']],
-      note:'中美利差倒挂，人民币和A股承压，但货币总量尚中性。'},
-    risk_appetite:{txt:'risk-off 前兆，谨慎', cls:'neg',
-      evs:[['信用利差',fmt(val('us_hy_oas'))+'%','走阔'],['VIX',fmt(val('vix')),'上行']],
-      note:'信用利差走阔+VIX上行=风险偏好转弱，是流动性冲击前兆。'},
+    growth:{txt:'美热中冷，需求偏弱',note:'商品最大买家是中国，中国收缩→商品需求偏弱。'},
+    inflation:{txt:'再通胀升温，利多商品',note:'通胀上行，商品抗通胀属性受益。'},
+    liquidity:{txt:'中性偏紧，资本外流压力',note:'中美利差倒挂，人民币和A股承压。'},
+    risk_appetite:{txt:'risk-off 前兆，谨慎',note:'信用利差走阔+VIX上行=风险偏好转弱，流动性冲击前兆。'},
   };
-  const el=document.getElementById('drvGrid');
-  el.innerHTML=DRV_ORDER.map(k=>{
+  document.getElementById('drvGrid').innerHTML=Object.keys(DRV).map(k=>{
     const d=env.drivers[k], c=conclMap[k];
-    const evs=c.evs.map(e=>`<div class="ev">· ${e[0]}：<b>${e[1]}</b>（${e[2]}）</div>`).join('');
-    return `<div class="drv concl-${c.cls}" onclick="showDriver('${k}')">
-      <div class="head"><span class="icon">${DRV[k].icon}</span><span class="name">${DRV[k].name}</span></div>
+    const evs=DRV_ITEMS[k].map(key=>{
+      const r=READ[key]||{name:key,unit:''}; const v=val(key);
+      // 论据方向：指标对"该驱动利多"的方向
+      const good = (key==='us_hy_oas'||key==='vix'||key==='us_10y') ? false : true; // 这些指标越高越不利
+      const arr = good ? (v!=null?'':'') : '';
+      const color = good ? (v!=null? (key==='cn_pmi'&&v<50?'neg':(key==='us_ism_pmi'&&v<50?'neg':'pos')) : 'neu') : 'neg';
+      return`<div class="ev">· ${r.name}：<b style="color:${color}">${fmt(v)}${r.unit||''}</b> <span class="arrow" style="color:${color}">${evArrow(key,v)}</span></div>`;
+    }).join('');
+    return`<div class="drv" onclick="showDriver('${k}')">
+      <div class="head"><span class="icon">${DRV[k].icon}</span><span class="name">${DRV[k].name}</span>
+        <span class="dir ${d.direction}">${d.direction}</span><span class="trend">${d.trend||''}</span></div>
       <div class="concl">${c.txt}</div>
       ${evs}
-      <div class="ev" style="color:var(--muted);margin-top:4px">${c.note}</div>
+      <div class="hint">${c.note}</div>
     </div>`;
   }).join('');
 }
-
-// 趋势图 + 解读
-function renderTrend(){
-  const seg=document.getElementById('seg');
-  const groups=Object.keys(TREND_GROUPS);
-  seg.innerHTML=groups.map((g,i)=>`<button class="${i===0?'active':''}" onclick="switchTrend('${g}',this)">${TREND_GROUPS[g].label}</button>`).join('');
-  drawTrend('growth');
-}
-let tcharts=[null,null];
-function switchTrend(g,btn){
-  document.querySelectorAll('#seg button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active'); drawTrend(g);
-}
-function drawTrend(g){
-  const items=TREND_GROUPS[g].items;
-  const grid=document.getElementById('trendGrid');
-  grid.innerHTML=items.map((key,i)=>{
-    const r=READ[key]||{name:key,unit:'',desc:''};
-    const data=pick(key);
-    return `<div class="tcard"><div class="chart" id="tc${i}"></div>
-      <div class="desc"><b>${r.name}（${r.unit}）</b>：${r.desc}</div></div>`;
-  }).join('');
-  items.forEach((key,i)=>{
-    const r=READ[key]||{name:key};
-    const data=pick(key);
-    const c=echarts.init(document.getElementById('tc'+i),'dark');
-    const color=(key==='us_hy_oas'||key==='vix')?ACCENT:UP;
-    c.setOption({
-      title:{text:r.name,left:'center',textStyle:{color:'#c9d1d9',fontSize:11}},
-      tooltip:{trigger:'axis'},
-      grid:{left:42,right:12,top:32,bottom:24},
-      xAxis:{type:'category',data:data.map(x=>x[0]),axisLabel:{color:'#6e7681',fontSize:8,hideOverlap:true}},
-      yAxis:{type:'value',scale:true,axisLabel:{color:'#6e7681',fontSize:8},splitLine:{lineStyle:{color:'#21262d'}}},
-      series:[{type:'line',data:data.map(x=>x[1]),smooth:true,showSymbol:false,lineStyle:{color,width:2},itemStyle:{color},areaStyle:{color:color+'22'}}],
-    });
-    // 点击图表弹窗看大图
-    c.on('click',()=>showIndicator(key));
-  });
+// 论据方向箭头（让用户看懂每个数据是利多还是利空）
+function evArrow(key,v){
+  if(v==null)return'';
+  if(key==='us_ism_pmi')return v>=50?'利多↑':'利空↓';
+  if(key==='cn_pmi')return v>=50?'利多↑':'利空↓';
+  if(key==='us_cpi'||key==='cn_ppi')return v>=2?'利多商品↑':'';
+  if(key==='cn_m2')return v>=8?'宽松':'偏紧';
+  if(key==='us_10y')return v>=4.5?'压制资产↓':'';
+  if(key==='us_hy_oas')return v>=3?'风险↑':'';
+  if(key==='vix')return v>=20?'恐慌↑':'';
+  return'';
 }
 
-// 相变预警
 function renderAlerts(){
   const al=DATA.env.alerts;
-  if(!al.phase_warning){ document.getElementById('alertSec').style.display='none'; return; }
+  if(!al.phase_warning){document.getElementById('alertSec').style.display='none';return;}
   document.getElementById('alertSec').style.display='block';
-  document.getElementById('alertList').innerHTML=al.alerts.map(a=>
-    `<div class="alert-item"><b>${a.signal}</b> — ${a.level}</div>`).join('')+
+  document.getElementById('alertList').innerHTML=al.alerts.map(a=>`<div class="alert-item"><b>${a.signal}</b> — ${a.level}</div>`).join('')+
     `<div class="alert-item" style="border-color:#ff5050">综合含义：多个领先指标同步拐头，风险偏好正从 risk-on 转向 risk-off，警惕去杠杆螺旋与流动性冲击。</div>`;
 }
 
-// 弹窗：驱动详情
+// 弹窗：方向趋势评估 + 趋势图
 function showDriver(k){
   const d=DATA.env.drivers[k];
-  document.getElementById('mTitle').textContent=`${DRV[k].icon} ${DRV[k].name}：${d.state}`;
+  const title=`${DRV[k].icon} ${DRV[k].name} — ${d.direction}（${d.trend||'稳定'}）`;
+  document.getElementById('mTitle').textContent=title;
+  const items=DRV_ITEMS[k];
   document.getElementById('mMeta').innerHTML=
+    `<b>方向趋势评估：</b>当前<b class="${d.direction==='利多'?'pos':d.direction==='利空'?'neg':'neu'}">${d.direction}</b>，趋势<b>${d.trend||'稳定'}</b>。<br>`+
     `<b>信号：</b>${(d.signals||[]).join('、')}<br>`+
-    `<b>轨迹：</b>${d.trajectory||'—'}<br>`+
-    (d.cn_us_spread?`<b>中美利差：</b>${d.cn_us_spread}%（${d.spread_note}）<br>`:'');
-  document.getElementById('mChart').innerHTML='';  // 驱动弹窗不放图，只放文字解读
-  openModal();
-}
-// 弹窗：指标历史大图
-function showIndicator(key){
-  const r=READ[key]||{name:key,unit:'',desc:''};
-  const data=pick(key);
-  document.getElementById('mTitle').textContent=`${r.name}（历史走势）`;
-  document.getElementById('mMeta').innerHTML=`<b>解读：</b>${r.desc}`;
-  const el=document.getElementById('mChart');
-  el.innerHTML='';
+    `<b>轨迹：</b>${d.trajectory||'—'}`+(d.cn_us_spread?`<br><b>中美利差：</b>${d.cn_us_spread}%（${d.spread_note}）`:'')+
+    `<div class="hint" style="color:#6e7681;margin-top:6px">下图：${items.map(i=>READ[i].name).join(' vs ')}近一年走势，看方向与趋势。</div>`;
+  // 趋势图
+  const el=document.getElementById('mChart'); el.innerHTML='';
   const c=echarts.init(el,'dark');
-  const color=(key==='us_hy_oas'||key==='vix')?ACCENT:UP;
+  const series=items.map(key=>({key,name:READ[key].name,data:pick(key).slice(-60),color:key==='us_hy_oas'||key==='vix'||key==='us_10y'||key==='cn_10y'?NEU:UP}));
   c.setOption({
-    tooltip:{trigger:'axis'},
-    grid:{left:50,right:16,top:20,bottom:40},
-    xAxis:{type:'category',data:data.map(x=>x[0]),axisLabel:{color:'#6e7681',fontSize:9,hideOverlap:true}},
-    yAxis:{type:'value',scale:true,axisLabel:{color:'#6e7681',fontSize:9},splitLine:{lineStyle:{color:'#21262d'}}},
-    series:[{type:'line',data:data.map(x=>x[1]),smooth:true,showSymbol:false,lineStyle:{color,width:2},itemStyle:{color},areaStyle:{color:color+'22'}}],
+    tooltip:{trigger:'axis'}, legend:{top:0,textStyle:{color:'#c9d1d9',fontSize:10}},
+    grid:{left:46,right:16,top:32,bottom:26},
+    xAxis:{type:'category',data:series[0].data.map(x=>x[0]),axisLabel:{color:'#6e7681',fontSize:8,hideOverlap:true}},
+    yAxis:{type:'value',scale:true,axisLabel:{color:'#6e7681',fontSize:8},splitLine:{lineStyle:{color:'#21262d'}}},
+    series:series.map(s=>({name:s.name,type:'line',data:s.data.map(x=>x[1]),smooth:true,showSymbol:false,lineStyle:{color:s.color,width:2},itemStyle:{color:s.color}})),
   });
   openModal();
 }
-function openModal(){ document.getElementById('mask').style.display='block'; document.getElementById('modal').style.display='block'; }
-function closeModal(){ document.getElementById('mask').style.display='none'; document.getElementById('modal').style.display='none'; }
+function openModal(){document.getElementById('mask').style.display='block';document.getElementById('modal').style.display='block';}
+function closeModal(){document.getElementById('mask').style.display='none';document.getElementById('modal').style.display='none';}
 document.getElementById('mask').addEventListener('click',closeModal);
 
 load();
