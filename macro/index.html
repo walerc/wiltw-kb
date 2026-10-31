@@ -37,6 +37,8 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 .asset .bar { height:4px; background:#21262d; border-radius:2px; margin-top:6px; overflow:hidden; }
 .asset .bar i { display:block; height:100%; }
 .asset-concl { margin-top:10px; font-size:.82rem; color:#adbac7; }
+.deviation { margin-top:12px; padding:10px 14px; border-left:3px solid var(--accent); background:#161b22; border-radius:0 6px 6px 0; font-size:.82rem; color:#adbac7; line-height:1.7; }
+.deviation b { color:var(--accent); }
 /* 四驱动 */
 .drv-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .drv { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; cursor:pointer; transition:border-color .15s; }
@@ -176,7 +178,7 @@ const ASSET_CLASSES=[
 function renderAssets(){
   const el=document.getElementById('assetGrid');
   el.innerHTML=ASSET_CLASSES.map(a=> a.type==='gold'?renderGold(a): a.type==='cash'?renderCash(a): renderPctAsset(a)).join('');
-  document.getElementById('assetConcl').innerHTML=`<b>近1月轮动（月度景气尺度，与宏观评估同尺度）：</b>${assetConclText()}`;
+  document.getElementById('assetConcl').innerHTML=`<b>近1月轮动（月度景气尺度，与宏观评估同尺度）：</b>${assetConclText()}<div class="deviation">${assetDeviation()}</div>`;
 }
 function renderPctAsset(a){
   const items=a.items.map(it=>{
@@ -223,6 +225,37 @@ function assetConclText(){
   return `当前${rg.quadrant}象限，理论「${rg.assets}」。近1月：A股${sign(sh)}%、美股${sign(sp)}%、中债${sign(bcn)}%、美债${sign(bus)}%、南华${sign(nh)}%、CRB${sign(cb)}%、黄金${sign(au)}%、现金(美${fmt(us3m,2)}%/中${fmt(cn3m,2)}%年化)。`+
     (strong.length?`强势【${strong.join('、')}】。`:'')+
     `黄金定性：实际利率镜像（实际利率≈${realRate.toFixed(2)}%，${realRate>0?'正利率压制':'负利率利多'}），美元${fmt(val('dxy'))}，央行购金同比${grYoy!=null?sign(grYoy)+'%':'—'}持续增持。`;
+}
+// 模型 vs 现实偏差：美林时钟理论排序 vs 近1月实际表现（动态判断，不硬编码）
+function assetDeviation(){
+  const rg=DATA.env.regime;
+  const sh=monthPct('sh_index'), sp=monthPct('sp500');
+  const bcn=monthPct('cn_10y'), bus=monthPct('us_10y');
+  const nh=monthPct('nanhua'), cb=monthPct('crb');
+  const us3m=val('us_3m'), cn3m=val('cn_3m');
+  const perf={
+    '股票': Math.max(sh||-999, sp||-999),
+    '债券': Math.max(-(bcn||0), -(bus||0)),
+    '商品': Math.max(nh||-999, cb||-999),
+    '现金': Math.max((us3m||0)/12, (cn3m||0)/12),
+  };
+  const theoryOrder={'复苏':['股票','债券','现金','商品'],'过热':['商品','股票','现金','债券'],'滞胀':['现金','商品','债券','股票'],'衰退':['债券','现金','股票','商品']}[rg.quadrant]||[];
+  const actualRank=Object.entries(perf).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
+  const theoryFirst=theoryOrder[0], actualFirst=actualRank[0];
+  const theoryIdx=theoryOrder.indexOf(actualFirst);
+  if(actualFirst===theoryFirst){
+    return `✅ 模型与市场一致：${rg.quadrant}象限理论首选「${theoryFirst}」，近1月实际最强也是「${actualFirst}」，无错位。`;
+  }
+  const pos=theoryIdx>=0?`（理论排序第${theoryIdx+1}位）`:'';
+  let meaning='';
+  if(rg.quadrant==='滞胀' && actualFirst==='债券'){
+    meaning='滞胀理论里债券本应弱（通胀高侵蚀债券实际收益），但近1月债券反而最强，说明市场定价的是「滞」（增长弱→避险→买债）而非「胀」（通胀高→卖债），正在抢跑「滞胀偏滞/衰退」逻辑，比时钟定位更悲观、更避险。';
+  } else if(rg.quadrant==='衰退' && actualFirst==='现金'){
+    meaning='衰退理论里现金本应排第二、债券第一，市场却更偏好现金而非债券，说明避险情绪极端、流动性偏好超过了对利率下行的博弈，恐慌程度高于时钟定位。';
+  } else {
+    meaning='实际最强资产与理论首选错位，市场定价领先于美林时钟的静态分类。';
+  }
+  return `⚠️ 模型 vs 现实偏差：${rg.quadrant}象限理论首选「${theoryFirst}」，但近1月实际最强是「${actualFirst}」${pos}。${meaning}`;
 }
 
 // 四驱动：结论 + 方向 + 趋势 + 论据（颜色联动）
