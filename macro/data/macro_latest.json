@@ -146,8 +146,8 @@
    "lag": "同步"
   },
   "dxy": {
-   "value": 102.35,
-   "date": "无稳定接口，web/手动维护",
+   "value": 101.9669,
+   "date": "2026-10-30",
    "name": "美元指数DXY",
    "region": "Global",
    "driver": "fx",
@@ -195,6 +195,24 @@
    "date": "2026-10-30",
    "name": "伦敦现货黄金",
    "region": "Global",
+   "driver": "asset",
+   "freq": "daily",
+   "lag": "同步"
+  },
+  "gold_reserve": {
+   "value": 36829.2818,
+   "date": "2026-06-30",
+   "name": "全球央行黄金储备",
+   "region": "Global",
+   "driver": "asset",
+   "freq": "quarterly",
+   "lag": "同步"
+  },
+  "cn_3m": {
+   "value": 1.1643,
+   "date": "2026-10-30",
+   "name": "中国3月国债收益率",
+   "region": "CN",
    "driver": "asset",
    "freq": "daily",
    "lag": "同步"
