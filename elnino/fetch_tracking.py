@@ -111,6 +111,98 @@ def query_edb(q, timeout=120, retries=3):
     return None
 
 
+def find_answer(o, d=0):
+    """递归提取 answer(markdown)。处理 edb(data=dict) 与 answer 本身是 JSON 字符串两种结构。"""
+    if d > 6 or not isinstance(o, dict):
+        return None
+    if o.get("answer") is not None:
+        ans = o["answer"]
+        if isinstance(ans, str) and ans.lstrip().startswith("{"):
+            try:
+                sub = json.loads(ans)
+                r = find_answer(sub, d + 1)
+                if r:
+                    return r
+            except Exception:
+                pass
+        return ans
+    if isinstance(o.get("data"), dict):
+        return find_answer(o["data"], d + 1)
+    if isinstance(o.get("data"), str):
+        try:
+            sub = json.loads(o["data"])
+            if isinstance(sub, dict):
+                return find_answer(sub, d + 1)
+        except Exception:
+            pass
+    return None
+
+
+def query_edb_answer(q, timeout=120, retries=3):
+    """iFinD EDB 查询，返回 answer(markdown)。
+
+    ⚠️ ISM 制造业 PMI 等「多列指标」查询只返回 markdown 表格 answer、无结构化 datas
+    （query_edb 的 find_datas 会返回 None 导致误判「iFinD 失效」）。此类指标须走本函数。
+    """
+    body = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "tools/call",
+                       "params": {"name": "get_edb_data", "arguments": {"query": q}}}).encode()
+    req = urllib.request.Request(EDB_URL, data=body, headers={
+        "Content-Type": "application/json",
+        "Accept": "application/json, text/event-stream",
+        "Authorization": f"Bearer {TOKEN}"})
+    last_err = None
+    for attempt in range(retries):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                resp = json.loads(r.read().decode())
+            content = resp.get("result", {}).get("content", [])
+            if not content:
+                last_err = "空 content"
+                continue
+            text = content[0].get("text", "")
+            inner = json.loads(text)
+            ans = find_answer(inner)
+            if ans:
+                return ans
+            last_err = "空 answer"
+        except Exception as e:
+            last_err = str(e)
+        if attempt < retries - 1:
+            time.sleep(2 * (attempt + 1))
+    print(f"    ⚠️ query_edb_answer 重试{retries}次仍失败 [{q[:20]}...]: {last_err}", file=sys.stderr)
+    return None
+
+
+def parse_pmi_answer(md):
+    """从 iFinD ISM PMI 的 markdown answer 解析主体 PMI 序列 [[date, value], ...]（升序）。
+
+    answer 表格列：日期 | 制造业PMI(主体) | 新订单 | 就业 | 物价。取第二列（主体）。
+    """
+    out = []
+    for ln in md.strip().split("\n"):
+        ln = ln.strip()
+        if not ln.startswith("|"):
+            continue
+        cells = [c.strip() for c in ln.strip("|").split("|")]
+        if len(cells) < 2 or "日期" in cells[0]:
+            continue
+        try:
+            v = float(cells[1])
+        except (ValueError, TypeError):
+            continue
+        out.append([cells[0], v])
+    out.sort(key=lambda x: x[0])
+    return out or None
+
+
+def fetch_pmi_ifind(m_start, m_end):
+    """iFinD 拉 ISM 制造业 PMI（answer 表格解析）。失败返回 None。"""
+    ans = query_edb_answer(f"美国ISM制造业PMI {m_start}到{m_end}")
+    if not ans:
+        return None
+    return parse_pmi_answer(ans)
+
+
 def fetch_akshare_daily(code, timeout=90):
     """akshare 新浪连续合约日线 → [[date_str, close], ...]（date 升序）。失败返回 None。"""
     try:
@@ -264,12 +356,21 @@ def fetch_series():
         print(f"  [日度] {k}: {len(series[k]) if series[k] else 'EMPTY'} 点 ({src})")
     for k, name in MONTHLY.items():
         if k == "pmi":
-            # ISM PMI：iFinD「美国:ISM:制造业PMI」已失效，改用 akshare macro_usa_ism_pmi
+            # ISM PMI：iFinD 返回多列 markdown answer（无结构化 datas），须解析 answer；
+            # akshare macro_usa_ism_pmi 数据滞后（实测最新到 2025-09），仅作最后兜底
+            data = fetch_pmi_ifind(m_start, m_end)
+            if data:
+                series[k] = data
+                print(f"  [月度] {k}: {len(series[k])} 点 (iFinD answer)")
+                continue
             data = fetch_akshare_pmi()
             if data:
                 series[k] = data
-                print(f"  [月度] {k}: {len(series[k])} 点 (akshare)")
+                print(f"  [月度] {k}: {len(series[k])} 点 (akshare fallback)")
                 continue
+            series[k] = None
+            print(f"  [月度] {k}: EMPTY 点")
+            continue
         datas = query_edb(f"{name} {m_start}到{m_end}")
         if datas and isinstance(datas, list) and datas[0].get("data", {}).get("data"):
             series[k] = datas[0]["data"]["data"]
@@ -456,13 +557,13 @@ def build_tracking(series, noaa=None, noaa_err=None):
         "event": event,
         "macro": {
             "pmi_latest": pmi_latest,
-            "pmi_trend": "2025下半年收缩(48)→2026转扩张(52-55)，7月55.6近四年高点，8月回落54.6",
-            "pmi_direction": "逆风转顺风（复苏转向）",
+            "pmi_trend": "2025下半年收缩(48-50)→2026转扩张(52-55)，7月55.6近四年高点，8月54.6、9月54.5连续两月小幅回落",
+            "pmi_direction": "逆风转顺风（复苏转向）· 仍在扩张区间但动能边际走弱",
             "oil_latest": oil_latest, "oil_latest_date": oil_latest_date, "oil_peak": oil_peak,
-            "oil_trend": "2025底62→4月峰值120.4(+94%)→7月回落83→9月再涨109",
-            "oil_direction": "9月再度走强(+17%)，中东地缘溢价重燃",
+            "oil_trend": "2025底62→2026年4月冲高→7月回落83→9月再涨116.8(IMF月度)→10月ICE高位震荡",
+            "oil_direction": "9月走强后10月小幅回落，中东地缘溢价驱动的高波动",
             "trajectory": "逆风转顺风",
-            "risk": "油价120→83→109剧烈震荡，地缘驱动不确定性极高；PMI新订单56.7→53.7边际走弱",
+            "risk": "油价120→83→117剧烈震荡(±30-40%)，地缘驱动不确定性极高；PMI新订单56.7(7月)→53.7(8月)→55.3(9月)波动，扩张动能边际走弱",
         },
         "commodities": commodities,
         "strategy": STRATEGY,
