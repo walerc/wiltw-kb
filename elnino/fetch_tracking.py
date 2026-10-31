@@ -488,7 +488,7 @@ def get_month_last(series, ym):
 
 
 def load_macro_env():
-    """读统一宏观底座 macro_env.json（四驱动状态 + 相变预警）。失败返回 None。
+    """读统一宏观底座 macro_env.json（四驱动状态 + 相变预警 + 美林时钟 + 康波 + 流动性）。失败返回 None。
 
     P2 接入：厄尔尼诺 tracking 的宏观从「自己拉 PMI/原油」升级为「订阅统一底座的完整宏观环境状态」。
     """
@@ -498,6 +498,10 @@ def load_macro_env():
             d = json.load(open(p, encoding="utf-8"))
             drivers = d.get("drivers", {})
             alerts = d.get("alerts", {})
+            regime = d.get("regime", {})
+            scales = d.get("scales", {}) or {}
+            liq = d.get("liquidity_stress", {}) or {}
+            kond = scales.get("kondratieff", {}) or {}
             return {
                 "growth": drivers.get("growth", {}).get("state", "?"),
                 "inflation": drivers.get("inflation", {}).get("state", "?"),
@@ -506,6 +510,13 @@ def load_macro_env():
                 "phase_warning": alerts.get("phase_warning", False),
                 "lead_signals": alerts.get("lead_signals", []),
                 "phase_level": alerts.get("phase_level", "无预警"),
+                "regime": regime.get("quadrant", ""),
+                "regime_assets": regime.get("assets", ""),
+                "kondratieff": kond.get("phase", ""),
+                "kondratieff_dir": kond.get("direction", ""),
+                "sofr": liq.get("sofr"),
+                "gap_to_cap_bp": liq.get("gap_to_cap_bp"),
+                "liq_stress": liq.get("stress", False),
                 "summary": d.get("summary", ""),
                 "generated": d.get("generated", ""),
             }

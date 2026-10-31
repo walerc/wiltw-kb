@@ -534,6 +534,8 @@ function renderTracking() {
       `<span>增长：<b>${me.growth}</b></span><span>通胀：<b>${me.inflation}</b></span>` +
       `<span>流动性：<b>${me.liquidity}</b></span><span>风险偏好：<b>${me.risk_appetite}</b></span>` +
       `</div>` +
+      (me.regime ? `<div style="margin-top:6px;font-size:.82rem">美林时钟：<b>${me.regime}</b>象限（${me.regime_assets}）${me.kondratieff ? ' · 康波：<b>'+me.kondratieff+'</b>（'+me.kondratieff_dir+'）' : ''}</div>` : '') +
+      (me.sofr != null ? `<div style="font-size:.78rem;margin-top:2px;color:#8b949e">流动性监测：SOFR ${me.sofr}%（距目标上限 ${me.gap_to_cap_bp!=null?Math.abs(me.gap_to_cap_bp):'—'}bp）${me.liq_stress?'<span style="color:#ff5050">⚠️ 流动性枯竭</span>':''}</div>` : '') +
       `<div style="margin-top:6px;${warn ? 'color:#ff5050;font-weight:bold;' : 'color:#c9d1d9;'}">` +
       `${warn ? '⚠️ 相变预警触发' : '相变预警：' + (me.phase_level || '无预警')}</div>` +
       (me.lead_signals && me.lead_signals.length ? `<div class="na" style="font-size:.75rem">领先信号：${me.lead_signals.join('、')}</div>` : '') +

@@ -29,7 +29,7 @@
 | 金属 metal_tracker | `metal_tracker.py → load_macro_env()` + `fetch_macro()` | 康波(第5轮)、regime、drivers、alerts、DXY/CPI 实时 |
 | 金属 metal_kondratieff | PHASES 对齐周金涛原著 | 康波时间划分统一（繁荣1991-2004/衰退2004-2015/萧条2015-2025/回升2025-2045） |
 | 金属 metal_factor_analysis | ISM 用统一底座拼接 | us_ism_pmi 补 akshare 滞后尾段 |
-| 厄尔尼诺 el-nino | `fetch_tracking.py → load_macro_env()` | 宏观环境（短周期顺风/逆风） |
+| 厄尔尼诺 el-nino | `fetch_tracking.py → load_macro_env()` | 四驱动+相变预警+美林时钟+康波+SOFR流动性 |
 
 **口径统一**（用户红线：尺度一致性）：
 - 康波：第五轮，繁荣1991-2004 / 衰退2004-2015 / 萧条2015-2025 / 回升2025-2045
