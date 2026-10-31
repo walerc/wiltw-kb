@@ -230,6 +230,7 @@ td:first-child, th:first-child { text-align:left; }
   <h2>🏭 宏观环境</h2>
   <div class="track-grid" id="macroGrid"></div>
   <div class="risk-box" id="macroRisk"></div>
+  <div id="macroEnvBox"></div>
   <h2>🎯 品种信号矩阵</h2>
   <div class="note inline" id="trackNote"></div>
   <table id="trackTable"></table>
@@ -522,6 +523,24 @@ function renderTracking() {
     statCard("布伦特原油", "$" + mc.oil_latest + (mc.oil_latest_date ? '<div class="na" style="font-size:.7rem">' + mc.oil_latest_date + '</div>' : ''), mc.oil_direction) +
     statCard("宏观轨迹", mc.trajectory, mc.pmi_trend);
   document.getElementById("macroRisk").innerHTML = `⚠️ <b>宏观风险：</b>${mc.risk}`;
+  // 宏观环境（统一底座，P2 接入）
+  const me = mc.macro_env;
+  if (me) {
+    const warn = me.phase_warning;
+    document.getElementById("macroEnvBox").innerHTML =
+      `<div class="risk-box" style="margin-top:8px;${warn ? 'border-color:#ff5050;' : ''}">` +
+      `<b>🌐 宏观环境（统一底座）</b><span class="na" style="font-size:.7rem"> ${me.generated || ''}</span>` +
+      `<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 10px;margin-top:6px;font-size:.85rem">` +
+      `<span>增长：<b>${me.growth}</b></span><span>通胀：<b>${me.inflation}</b></span>` +
+      `<span>流动性：<b>${me.liquidity}</b></span><span>风险偏好：<b>${me.risk_appetite}</b></span>` +
+      `</div>` +
+      `<div style="margin-top:6px;${warn ? 'color:#ff5050;font-weight:bold;' : 'color:#c9d1d9;'}">` +
+      `${warn ? '⚠️ 相变预警触发' : '相变预警：' + (me.phase_level || '无预警')}</div>` +
+      (me.lead_signals && me.lead_signals.length ? `<div class="na" style="font-size:.75rem">领先信号：${me.lead_signals.join('、')}</div>` : '') +
+      `</div>`;
+  } else {
+    document.getElementById("macroEnvBox").innerHTML = '';
+  }
   // 品种矩阵
   document.getElementById("trackNote").innerHTML = `<b>口径：</b>国内期货连续合约（元/吨，${tk.freq || '周度'}更新，akshare 新浪主力连续），数据截至 ${tk.generated} · 年初至今=2026-01月末 · 启动期=2026-04月末(SOI转负) · 历史0-12月累计来自国际价格(IMF)统计，作目标量级参考`;
   const viewCls = {"首选·布局":"view-pick","次选·先行信号":"view-watch","次选·跟随棕榈油":"view-watch","谨慎·观察糖周期":"view-caution","放弃·不敏感":"view-skip","最弱·放弃":"view-skip","方向不定·放弃":"view-skip"};

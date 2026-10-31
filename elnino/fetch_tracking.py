@@ -487,6 +487,33 @@ def get_month_last(series, ym):
     return vals[-1][1] if vals else None
 
 
+def load_macro_env():
+    """读统一宏观底座 macro_env.json（四驱动状态 + 相变预警）。失败返回 None。
+
+    P2 接入：厄尔尼诺 tracking 的宏观从「自己拉 PMI/原油」升级为「订阅统一底座的完整宏观环境状态」。
+    """
+    p = os.path.expanduser("~/projects/trading-system/macro_framework/data/macro_env.json")
+    try:
+        if os.path.exists(p):
+            d = json.load(open(p, encoding="utf-8"))
+            drivers = d.get("drivers", {})
+            alerts = d.get("alerts", {})
+            return {
+                "growth": drivers.get("growth", {}).get("state", "?"),
+                "inflation": drivers.get("inflation", {}).get("state", "?"),
+                "liquidity": drivers.get("liquidity", {}).get("state", "?"),
+                "risk_appetite": drivers.get("risk_appetite", {}).get("state", "?"),
+                "phase_warning": alerts.get("phase_warning", False),
+                "lead_signals": alerts.get("lead_signals", []),
+                "phase_level": alerts.get("phase_level", "无预警"),
+                "summary": d.get("summary", ""),
+                "generated": d.get("generated", ""),
+            }
+    except Exception:
+        pass
+    return None
+
+
 def build_tracking(series, noaa=None, noaa_err=None):
     s = {k: sorted(v, key=lambda x: x[0]) for k, v in series.items() if v}
 
@@ -524,6 +551,7 @@ def build_tracking(series, noaa=None, noaa_err=None):
     oil_latest = oil[-1][1] if oil else None
     oil_latest_date = oil[-1][0] if oil else None
     oil_peak = max([v for _, v in oil if v is not None]) if oil else None
+    macro_env = load_macro_env()  # 统一底座宏观环境状态（P2 接入）
 
     # 品种涨幅（日度数据，锚点取月末收盘）
     commodities = {}
@@ -564,6 +592,7 @@ def build_tracking(series, noaa=None, noaa_err=None):
             "oil_direction": "9月走强后10月小幅回落，中东地缘溢价驱动的高波动",
             "trajectory": "逆风转顺风",
             "risk": "油价120→83→117剧烈震荡(±30-40%)，地缘驱动不确定性极高；PMI新订单56.7(7月)→53.7(8月)→55.3(9月)波动，扩张动能边际走弱",
+            "macro_env": macro_env,
         },
         "commodities": commodities,
         "strategy": STRATEGY,
