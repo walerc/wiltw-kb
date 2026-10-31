@@ -59,6 +59,20 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 /* 预警 */
 .alert-item { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:.82rem; margin-bottom:8px; }
 .alert-item b { color:var(--warn); }
+/* 观点层 */
+.prop { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:12px; }
+.prop .ptopic { font-size:.95rem; font-weight:700; color:var(--accent); margin-bottom:4px; }
+.prop .pfact { font-size:.78rem; color:#8b949e; margin-bottom:8px; }
+.prop .pbar { display:flex; height:8px; border-radius:4px; overflow:hidden; background:#21262d; margin-bottom:6px; }
+.prop .pbar .bull { background:#ff5050; height:100%; }
+.prop .pbar .bear { background:#00c864; height:100%; }
+.prop .pconsensus { font-size:.82rem; margin-bottom:8px; }
+.prop .pstances { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.stance { background:#0d1117; border-radius:6px; padding:8px 10px; font-size:.75rem; }
+.stance .tier { display:inline-block; font-size:.62rem; padding:1px 6px; border-radius:6px; background:#21262d; color:#8b949e; margin-right:4px; }
+.stance .tag { font-weight:700; margin-left:4px; }
+.stance .date { color:#6e7681; font-size:.68rem; margin-left:4px; }
+.stance .note { color:#adbac7; margin-top:3px; line-height:1.5; }
 /* 弹窗 */
 .mask { display:none; position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:99; }
 .modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--card); border:1px solid var(--border); border-radius:12px; width:min(700px,92vw); max-height:82vh; overflow:auto; padding:18px; z-index:100; }
@@ -67,7 +81,7 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 .modal .close:hover { color:#fff; }
 .modal .mmeta { font-size:.8rem; color:#adbac7; margin:6px 0; line-height:1.7; }
 .modal .mchart { width:100%; height:300px; }
-@media (max-width:760px) { .drv-grid,.asset-grid,.clock { grid-template-columns:1fr; } }
+@media (max-width:760px) { .drv-grid,.asset-grid,.clock,.pstances { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -91,6 +105,10 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 
 <section id="alertSec" style="display:none"><h2>四、相变预警</h2>
   <div id="alertList"></div>
+</section>
+
+<section id="opinionSec"><h2>五、观点层（分层信源 · 共识度 · 事实 vs 观点偏差）</h2>
+  <div id="opinionGrid"></div>
 </section>
 
 <div class="mask" id="mask"></div>
@@ -139,14 +157,15 @@ function fmt(v,n=1){return v==null?'—':Number(v).toFixed(n);}
 function sign(v){return v==null?'':(v>0?'+':'')+fmt(v);}
 
 async function load(){
-  const [env,latest,series]=await Promise.all([
+  const [env,latest,series,opinions]=await Promise.all([
     fetch('data/macro_env.json?t='+Date.now()).then(r=>r.json()),
     fetch('data/macro_latest.json?t='+Date.now()).then(r=>r.json()),
     fetch('data/macro_series.json?t='+Date.now()).then(r=>r.json()),
+    fetch('data/opinions.json?t='+Date.now()).then(r=>r.json()).catch(()=>({propositions:[]})),
   ]);
-  DATA={env,latest,series};
+  DATA={env,latest,series,opinions};
   document.getElementById('subTitle').textContent=`数据截至 ${env.generated} · 统一底座每日自动更新 · 尺度：月度景气（当前值+近1月趋势），全页宏观评估与资产比较同此尺度，不混用其他尺度`;
-  renderVerdict(); renderClock(); renderAssets(); renderDrivers(); renderAlerts();
+  renderVerdict(); renderClock(); renderAssets(); renderDrivers(); renderAlerts(); renderOpinions();
 }
 
 function renderVerdict(){
@@ -305,6 +324,44 @@ function renderAlerts(){
   document.getElementById('alertSec').style.display='block';
   document.getElementById('alertList').innerHTML=al.alerts.map(a=>`<div class="alert-item"><b>${a.signal}</b> — ${a.level}</div>`).join('')+
     `<div class="alert-item" style="border-color:#ff5050">综合含义：多个领先指标同步拐头，风险偏好正从 risk-on 转向 risk-off，警惕去杠杆螺旋与流动性冲击。</div>`;
+}
+
+// 观点层：分层信源立场 + 共识度量化 + 事实vs观点偏差（共识一致=拥挤交易相变前兆）
+const PROP_LABEL={
+  us_inflation:{bull:'通胀持续',bear:'通胀暂时'},
+  us_recession:{bull:'衰退风险',bear:'软着陆'},
+  fed_rate_path:{bull:'利率高位/加息',bear:'降息'},
+};
+function renderOpinions(){
+  const ops=(DATA.opinions&&DATA.opinions.propositions)||[];
+  if(!ops.length){document.getElementById('opinionSec').style.display='none';return;}
+  document.getElementById('opinionSec').style.display='block';
+  document.getElementById('opinionGrid').innerHTML=ops.map(p=>{
+    const L=PROP_LABEL[p.id]||{bull:'偏多',bear:'偏空'};
+    const bull=p.stances.filter(s=>s.score>0);
+    const bear=p.stances.filter(s=>s.score<0);
+    const total=p.stances.length||1;
+    const bullPct=Math.round(bull.length/total*100), bearPct=Math.round(bear.length/total*100);
+    const maxPct=Math.max(bullPct,bearPct);
+    const consensus=maxPct>=80?'<b style="color:#ff5050">共识一致(拥挤预警)</b>':maxPct>=60?'<b style="color:#d2a850">偏一致</b>':'<b style="color:#e0c068">分歧</b>';
+    const viewDir=bull.length>bear.length?1:(bull.length<bear.length?-1:0);
+    let dev;
+    if(viewDir===0) dev='⚠️ 观点分歧、无共识，方向待定';
+    else if(p.fact_dir===viewDir) dev='✅ 事实层与主流观点同向';
+    else dev='⚠️ <b>事实层与主流观点背离</b>：数据/政策偏'+(p.fact_dir>0?'鹰(红)':'鸽(绿)')+'，主流观点偏'+(viewDir>0?'鹰':'鸽');
+    const stancesHtml=p.stances.map(s=>{
+      const c=s.score>0?'#ff5050':s.score<0?'#00c864':'#e0c068';
+      const tag=s.score>0?L.bull:s.score<0?L.bear:'中性';
+      return `<div class="stance"><span class="tier">${s.tier}</span><b>${s.source}</b><span class="tag" style="color:${c}">${tag}</span><span class="date">${s.date}</span><div class="note">${s.note}</div></div>`;
+    }).join('');
+    return `<div class="prop">
+      <div class="ptopic">${p.topic}</div>
+      <div class="pfact">${p.fact}</div>
+      <div class="pbar"><div class="bull" style="width:${bullPct}%"></div><div class="bear" style="width:${bearPct}%"></div></div>
+      <div class="pconsensus">共识度 ${bullPct}% vs ${bearPct}% → ${consensus}　${dev}</div>
+      <div class="pstances">${stancesHtml}</div>
+    </div>`;
+  }).join('');
 }
 
 // 弹窗：方向趋势评估 + 趋势图
