@@ -1,0 +1,158 @@
+{
+ "generated": "2026-10-31",
+ "indicators": {
+  "us_ism_pmi": {
+   "value": 54.5,
+   "date": "2026-09-30",
+   "name": "美国ISM制造业PMI",
+   "region": "US",
+   "driver": "growth",
+   "freq": "monthly",
+   "lag": "同步"
+  },
+  "cn_pmi": {
+   "value": 49.3,
+   "date": "2026年10月份",
+   "name": "中国官方制造业PMI",
+   "region": "CN",
+   "driver": "growth",
+   "freq": "monthly",
+   "lag": "同步"
+  },
+  "us_yield_curve": {
+   "value": 0.38,
+   "date": "2026-10-30",
+   "name": "美国国债10Y-2Y利差",
+   "region": "US",
+   "driver": "growth",
+   "freq": "daily",
+   "lag": "领先"
+  },
+  "us_cpi": {
+   "value": 3.7,
+   "date": "2026-09-30",
+   "name": "美国CPI同比",
+   "region": "US",
+   "driver": "inflation",
+   "freq": "monthly",
+   "lag": "滞后"
+  },
+  "cn_cpi": {
+   "value": 0.8,
+   "date": "2026-08-31",
+   "name": "中国CPI同比",
+   "region": "CN",
+   "driver": "inflation",
+   "freq": "monthly",
+   "lag": "滞后"
+  },
+  "cn_ppi": {
+   "value": 5.0,
+   "date": "2026-09-30",
+   "name": "中国PPI同比",
+   "region": "CN",
+   "driver": "inflation",
+   "freq": "monthly",
+   "lag": "滞后"
+  },
+  "cn_m2": {
+   "value": 7.2,
+   "date": "2026-09-30",
+   "name": "中国M2同比",
+   "region": "CN",
+   "driver": "liquidity",
+   "freq": "monthly",
+   "lag": "领先"
+  },
+  "us_m2": {
+   "value": 23508.0,
+   "date": "2026-10-05",
+   "name": "美国M2存量",
+   "region": "US",
+   "driver": "liquidity",
+   "freq": "weekly",
+   "lag": "领先"
+  },
+  "cn_social_finance": {
+   "value": 7.1,
+   "date": "2026-09-30",
+   "name": "中国社融存量同比",
+   "region": "CN",
+   "driver": "liquidity",
+   "freq": "monthly",
+   "lag": "领先"
+  },
+  "us_10y": {
+   "value": 4.94,
+   "date": "2026-10-30",
+   "name": "美国10Y国债收益率",
+   "region": "US",
+   "driver": "liquidity",
+   "freq": "daily",
+   "lag": "领先"
+  },
+  "cn_10y": {
+   "value": 1.65,
+   "date": "2026-10-30",
+   "name": "中国10Y国债收益率",
+   "region": "CN",
+   "driver": "liquidity",
+   "freq": "daily",
+   "lag": "领先"
+  },
+  "us_3m": {
+   "value": 4.16,
+   "date": "2026-10-30",
+   "name": "美国3个月国债收益率",
+   "region": "US",
+   "driver": "liquidity",
+   "freq": "daily",
+   "lag": "领先"
+  },
+  "vix": {
+   "value": 19.42,
+   "date": "2026-10-30",
+   "name": "VIX恐慌指数",
+   "region": "US",
+   "driver": "risk_appetite",
+   "freq": "daily",
+   "lag": "同步偏领先"
+  },
+  "us_hy_oas": {
+   "value": 3.26,
+   "date": "2026-10-29",
+   "name": "美国高收益债OAS利差",
+   "region": "US",
+   "driver": "risk_appetite",
+   "freq": "daily",
+   "lag": "领先"
+  },
+  "cn_margin": {
+   "value": 23152.76584365,
+   "date": "2026-10-30",
+   "name": "A股融资融券余额",
+   "region": "CN",
+   "driver": "risk_appetite",
+   "freq": "daily",
+   "lag": "同步"
+  },
+  "usdcny": {
+   "value": 6.7138,
+   "date": "2026-10-30",
+   "name": "美元兑人民币中间价",
+   "region": "CN",
+   "driver": "fx",
+   "freq": "daily",
+   "lag": "同步"
+  },
+  "dxy": {
+   "value": 102.35,
+   "date": "无稳定接口，web/手动维护",
+   "name": "美元指数DXY",
+   "region": "Global",
+   "driver": "fx",
+   "freq": "daily",
+   "lag": "同步"
+  }
+ }
+}

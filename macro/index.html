@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>宏观环境仪表盘 · Global Macro Dashboard</title>
+<style>
+:root {
+  --bg: #0d1117; --card: #161b22; --border: #30363d;
+  --txt: #c9d1d9; --muted: #8b949e; --accent: #e0c068;
+  --up: #ff5050; --down: #00c864; --warn: #ff7b72;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--txt); font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; padding: 20px; max-width: 1200px; margin: 0 auto; }
+h1 { font-size: 1.4rem; margin-bottom: 4px; }
+.sub { color: var(--muted); font-size: .8rem; margin-bottom: 16px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+.card h3 { font-size: .85rem; color: var(--accent); margin-bottom: 8px; font-weight: 600; }
+.chart { width: 100%; height: 280px; }
+.banner { border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; border: 1px solid var(--border); background: var(--card); }
+.banner.warn { border-color: var(--up); background: #1a1215; }
+.banner h2 { font-size: 1rem; margin-bottom: 6px; }
+.banner .pill { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: .75rem; margin-right: 8px; }
+.pill.risk { background: #2a1518; color: var(--up); }
+.pill.ok { background: #12241a; color: var(--down); }
+.drv-card { cursor: pointer; transition: transform .15s, box-shadow .15s; position: relative; overflow: hidden; }
+.drv-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.4); }
+.drv-card .name { font-size: .8rem; color: var(--muted); }
+.drv-card .state { font-size: .95rem; font-weight: 600; margin: 4px 0; }
+.drv-card .bar { height: 6px; background: #21262d; border-radius: 3px; margin-top: 6px; overflow: hidden; }
+.drv-card .bar i { display: block; height: 100%; border-radius: 3px; }
+.drv-card .trj { font-size: .72rem; color: var(--muted); margin-top: 6px; }
+.na { color: var(--muted); font-size: .75rem; }
+.pos { color: var(--up); } .neg { color: var(--down); }
+/* 弹窗 */
+.modal-mask { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 99; }
+.modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: var(--card); border: 1px solid var(--border); border-radius: 12px; width: min(720px, 92vw); padding: 18px; z-index: 100; }
+.modal h3 { font-size: .95rem; color: var(--accent); margin-bottom: 4px; }
+.modal .close { position: absolute; top: 10px; right: 14px; cursor: pointer; color: var(--muted); font-size: 1.2rem; }
+.modal .mchart { width: 100%; height: 340px; }
+.modal .mmeta { font-size: .78rem; color: var(--muted); margin: 6px 0; line-height: 1.6; }
+/* 指标切换 */
+.seg { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+.seg button { background: #21262d; color: var(--txt); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; font-size: .75rem; cursor: pointer; }
+.seg button.active { background: #30363d; color: #fff; border-color: #58a6ff; }
+.trend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 800px) { .grid2, .grid4, .trend-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<h1>🌐 宏观环境仪表盘</h1>
+<div class="sub" id="subTitle">加载中…</div>
+
+<div class="banner" id="banner"></div>
+
+<div class="grid2">
+  <div class="card">
+    <h3>四驱动状态雷达</h3>
+    <div class="chart" id="radarChart"></div>
+  </div>
+  <div class="card">
+    <h3>美林时钟（增长 × 通胀）</h3>
+    <div class="chart" id="regimeChart"></div>
+  </div>
+</div>
+
+<div class="grid4" id="driverCards" style="margin-top:14px"></div>
+
+<div class="card" style="margin-top:14px">
+  <h3>关键指标趋势（点击指标看详细历史）</h3>
+  <div class="seg" id="trendSeg"></div>
+  <div class="trend-grid">
+    <div class="chart" id="trendChart1"></div>
+    <div class="chart" id="trendChart2"></div>
+  </div>
+</div>
+
+<div class="modal-mask" id="modalMask"></div>
+<div class="modal" id="modal">
+  <span class="close" onclick="closeModal()">✕</span>
+  <h3 id="modalTitle"></h3>
+  <div class="mmeta" id="modalMeta"></div>
+  <div class="mchart" id="modalChart"></div>
+</div>
+
+<script src="echarts.min.js"></script>
+<script>
+let DATA = null;
+const DRV_ORDER = ['growth', 'inflation', 'liquidity', 'risk_appetite'];
+const DRV_NAME = { growth:'增长', inflation:'通胀', liquidity:'流动性', risk_appetite:'风险偏好' };
+const DRV_ICON = { growth:'📈', inflation:'🔥', liquidity:'💧', risk_appetite:'🎢' };
+// 雷达分数颜色：利多红(中国习惯涨=红)，利空绿
+const UP = '#ff5050', DOWN = '#00c864', ACCENT = '#e0c068';
+
+// 关键指标分组（趋势图用）
+const TREND_GROUPS = {
+  growth: { label:'增长', items:[['us_ism_pmi','美国ISM PMI'],['cn_pmi','中国PMI']] },
+  inflation: { label:'通胀', items:[['us_cpi','美国CPI'],['cn_ppi','中国PPI']] },
+  liquidity: { label:'流动性', items:[['us_10y','美10Y'],['cn_10y','中10Y']] },
+  risk_appetite: { label:'风险偏好', items:[['vix','VIX'],['us_hy_oas','信用利差']] },
+};
+
+function normDate(d) {
+  const s = String(d || '');
+  // "2026年10月份" -> "2026-10"
+  const m = s.match(/(\d{4})年(\d{1,2})月/);
+  if (m) return `${m[1]}-${String(m[2]).padStart(2,'0')}`;
+  return s.slice(0, 7);
+}
+function pick(series, key) { return (series[key] || []).map(x => [normDate(x[0]), x[1]]); }
+function lastVal(ind, key) { const s = DATA.series[key]; return s && s.length ? s[s.length-1][1] : null; }
+
+async function load() {
+  const [env, latest, series] = await Promise.all([
+    fetch('data/macro_env.json?t='+Date.now()).then(r=>r.json()),
+    fetch('data/macro_latest.json?t='+Date.now()).then(r=>r.json()),
+    fetch('data/macro_series.json?t='+Date.now()).then(r=>r.json()),
+  ]);
+  DATA = { env, latest, series };
+  document.getElementById('subTitle').textContent =
+    `数据截至 ${env.generated} · 相变预警${env.alerts.phase_warning ? '⚠️触发' : '无'} · 统一底座每日自动更新`;
+  renderBanner(); renderRadar(); renderRegime(); renderDriverCards(); renderTrend();
+}
+
+function renderBanner() {
+  const env = DATA.env, al = env.alerts;
+  const warn = al.phase_warning;
+  const el = document.getElementById('banner');
+  el.className = 'banner' + (warn ? ' warn' : '');
+  const drivers = DRV_ORDER.map(k => {
+    const d = env.drivers[k];
+    return `<span style="margin-right:14px">${DRV_ICON[k]} ${DRV_NAME[k]}：<b>${d.state}</b></span>`;
+  }).join('');
+  el.innerHTML =
+    `<h2>${warn ? '⚠️ 相变预警触发' : '✅ 宏观环境平稳'}</h2>` +
+    `<div style="margin-bottom:6px">${drivers}</div>` +
+    `<div style="font-size:.8rem">` +
+    (warn ? `<span class="pill risk">领先信号：${al.lead_signals.join('、')}</span>` : `<span class="pill ok">无相变前兆</span>`) +
+    `<span class="pill" style="background:#21262d;color:var(--txt)">美林时钟：${env.regime.quadrant}（${env.regime.assets}）</span>` +
+    `</div>`;
+}
+
+function renderRadar() {
+  const env = DATA.env;
+  const ind = DRV_ORDER.map(k => ({ name: DRV_NAME[k], max: 100 }));
+  const vals = DRV_ORDER.map(k => env.drivers[k].radar ?? 50);
+  const chart = echarts.init(document.getElementById('radarChart'), 'dark');
+  chart.setOption({
+    radar: { indicator: ind, radius: '68%', splitNumber: 4,
+      axisName: { color: '#8b949e', fontSize: 11 },
+      splitLine: { lineStyle: { color: '#30363d' } },
+      splitArea: { areaStyle: { color: ['#161b22','#1a2028'] } },
+      axisLine: { lineStyle: { color: '#30363d' } } },
+    series: [{ type: 'radar', data: [{ value: vals, name: '宏观环境',
+      areaStyle: { color: 'rgba(224,192,104,.25)' },
+      lineStyle: { color: ACCENT, width: 2 },
+      itemStyle: { color: ACCENT } }] }],
+  });
+}
+
+function renderRegime() {
+  const env = DATA.env;
+  const g = env.drivers.growth.score ?? 0;
+  const i = env.drivers.inflation.score ?? 0;
+  // X=增长(-4~4 归一化到 -100~100), Y=通胀
+  const gx = g * 25, iy = i * 25;
+  const chart = echarts.init(document.getElementById('regimeChart'), 'dark');
+  const mkArea = (x0,y0,x1,y1,color) => [
+    { coord:[x0,y0], itemStyle:{ color } },
+    { coord:[x1,y1] } ];
+  chart.setOption({
+    grid: { left: 50, right: 30, top: 30, bottom: 40 },
+    xAxis: { name: '增长 →', min: -100, max: 100, axisLine: { lineStyle:{ color:'#30363d' } },
+      splitLine: { show:false }, axisLabel: { color:'#8b949e' } },
+    yAxis: { name: '通胀 ↑', min: -100, max: 100, axisLine: { lineStyle:{ color:'#30363d' } },
+      splitLine: { show:false }, axisLabel: { color:'#8b949e' } },
+    series: [{
+      type: 'scatter', symbolSize: 18, data: [[gx, iy, '当前']],
+      markArea: { silent: true, data: [
+        mkArea(0,0,100,100,'rgba(255,80,80,.15)'),   // 过热
+        mkArea(0,0,-100,100,'rgba(255,123,114,.12)'),// 滞胀
+        mkArea(0,0,-100,-100,'rgba(0,200,100,.12)'), // 衰退
+        mkArea(0,0,100,-100,'rgba(88,166,255,.12)'), // 复苏
+      ]},
+      label: { show: true, formatter: '当前', position: 'top', color: '#fff', fontSize: 11 },
+      itemStyle: { color: ACCENT },
+      markLine: { silent: true, symbol: 'none', lineStyle: { color:'#30363d', type:'dashed' },
+        data: [{ xAxis: 0 }, { yAxis: 0 }] },
+    }],
+    // 象限文字
+    graphic: [
+      { type:'text', left:'72%', top:'8%', style:{ text:'过热', fill:'#ff7b72', fontSize:12 } },
+      { type:'text', left:'18%', top:'8%', style:{ text:'滞胀', fill:'#ffa198', fontSize:12 } },
+      { type:'text', left:'18%', top:'80%', style:{ text:'衰退', fill:'#3fb950', fontSize:12 } },
+      { type:'text', left:'72%', top:'80%', style:{ text:'复苏', fill:'#79c0ff', fontSize:12 } },
+    ],
+  });
+}
+
+function renderDriverCards() {
+  const env = DATA.env;
+  const el = document.getElementById('driverCards');
+  el.innerHTML = DRV_ORDER.map(k => {
+    const d = env.drivers[k];
+    const radar = d.radar ?? 50;
+    const color = radar >= 60 ? UP : (radar <= 40 ? DOWN : ACCENT);
+    return `<div class="card drv-card" onclick="showDriver('${k}')">
+      <div class="name">${DRV_ICON[k]} ${DRV_NAME[k]}</div>
+      <div class="state" style="color:${color}">${d.state}</div>
+      <div class="bar"><i style="width:${radar}%;background:${color}"></i></div>
+      <div class="trj">${d.trajectory || ''}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderTrend() {
+  const seg = document.getElementById('trendSeg');
+  const groups = Object.keys(TREND_GROUPS);
+  seg.innerHTML = groups.map((g,i) =>
+    `<button class="${i===0?'active':''}" onclick="switchTrend('${g}',this)">${TREND_GROUPS[g].label}</button>`).join('');
+  drawTrend('growth');
+}
+let trendCharts = [null, null];
+function switchTrend(g, btn) {
+  document.querySelectorAll('#trendSeg button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  drawTrend(g);
+}
+function drawTrend(g) {
+  const items = TREND_GROUPS[g].items;
+  const series = DATA.series;
+  [0,1].forEach(i => {
+    const key = items[i][0], label = items[i][1];
+    const data = pick(series, key);
+    if (!trendCharts[i]) trendCharts[i] = echarts.init(document.getElementById('trendChart'+ (i+1)), 'dark');
+    const c = trendCharts[i];
+    const color = (key==='vix'||key==='us_hy_oas'||key==='us_10y'||key==='cn_10y') ? ACCENT : UP;
+    c.setOption({
+      title: { text: label, left: 'center', textStyle: { color:'#c9d1d9', fontSize: 12 } },
+      tooltip: { trigger: 'axis' },
+      grid: { left: 45, right: 15, top: 35, bottom: 30 },
+      xAxis: { type: 'category', data: data.map(x=>x[0]), axisLabel: { color:'#8b949e', fontSize: 9, hideOverlap:true } },
+      yAxis: { type: 'value', scale: true, axisLabel: { color:'#8b949e', fontSize: 9 },
+        splitLine: { lineStyle:{ color:'#21262d' } } },
+      series: [{ type: 'line', data: data.map(x=>x[1]), smooth: true, showSymbol: false,
+        lineStyle: { color, width: 2 }, itemStyle: { color },
+        areaStyle: { color: color + '22' } }],
+    }, true);
+  });
+}
+
+// 弹窗：驱动详情 / 指标详情
+function showDriver(k) {
+  const d = DATA.env.drivers[k];
+  document.getElementById('modalTitle').textContent = `${DRV_ICON[k]} ${DRV_NAME[k]} — ${d.state}`;
+  document.getElementById('modalMeta').innerHTML =
+    `<b>信号：</b>${(d.signals||[]).join('、')}<br><b>轨迹：</b>${d.trajectory||'—'}<br>` +
+    `<b>雷达分：</b>${d.radar}/100`;
+  const mc = echarts.init(document.getElementById('modalChart'), 'dark');
+  mc.setOption({
+    radar: { indicator: [{name:DRV_NAME[k], max:100}], radius:'65%',
+      axisName:{ color:'#8b949e' }, splitLine:{ lineStyle:{color:'#30363d'} } },
+    series: [{ type:'radar', data:[{ value:[d.radar??50], name:DRV_NAME[k],
+      areaStyle:{color:'rgba(224,192,104,.3)'}, lineStyle:{color:ACCENT,width:2}, itemStyle:{color:ACCENT} }] }],
+  });
+  document.getElementById('modalMask').style.display = 'block';
+  document.getElementById('modal').style.display = 'block';
+}
+function closeModal() {
+  document.getElementById('modalMask').style.display = 'none';
+  document.getElementById('modal').style.display = 'none';
+}
+document.getElementById('modalMask').addEventListener('click', closeModal);
+
+load();
+</script>
+</body>
+</html>

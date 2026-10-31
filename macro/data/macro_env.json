@@ -1,0 +1,82 @@
+{
+ "generated": "2026-10-31",
+ "drivers": {
+  "growth": {
+   "us_ism": 54.5,
+   "cn_pmi": 49.3,
+   "signals": [
+    "美国(1)",
+    "中国(-1)"
+   ],
+   "state": "错位/中性",
+   "score": 0,
+   "radar": 50,
+   "trajectory": "美54.5 ↓ 中49.3"
+  },
+  "inflation": {
+   "us_cpi": 3.7,
+   "cn_ppi": 5.0,
+   "signals": [
+    "美国CPI(2)",
+    "中国PPI(2)"
+   ],
+   "state": "再通胀升温(利多商品)",
+   "score": 4,
+   "radar": 100,
+   "trajectory": "美CPI3.7 ↑ 中PPI5.0 ↑"
+  },
+  "liquidity": {
+   "cn_m2": 7.2,
+   "us_10y": 4.94,
+   "cn_10y": 1.65,
+   "signals": [
+    "中国M2(0)",
+    "美10Y(0)"
+   ],
+   "state": "中性",
+   "score": 0,
+   "radar": 50,
+   "trajectory": "M2 7.2 ↓",
+   "cn_us_spread": 3.29,
+   "spread_note": "中美利差倒挂→资本流出压力"
+  },
+  "risk_appetite": {
+   "vix": 19.42,
+   "us_hy_oas": 3.26,
+   "signals": [
+    "VIX(-1)",
+    "信用利差(0)"
+   ],
+   "state": "risk-off 前兆(边际恶化)",
+   "score": -1,
+   "radar": 25,
+   "trajectory": "VIX 19.42 ↑ 利差 3.26 →"
+  }
+ },
+ "alerts": {
+  "alerts": [
+   {
+    "type": "risk",
+    "signal": "高收益债利差3月走阔 0.56pp",
+    "level": "风险偏好恶化"
+   },
+   {
+    "type": "risk",
+    "signal": "VIX 3月上行 4.0 点",
+    "level": "恐慌升温前兆"
+   }
+  ],
+  "lead_signals": [
+   "信用利差走阔",
+   "VIX上行"
+  ],
+  "n_lead": 2,
+  "phase_warning": true,
+  "phase_level": "相变预警"
+ },
+ "regime": {
+  "quadrant": "滞胀",
+  "assets": "现金 > 商品 > 债券 > 股票"
+ },
+ "summary": "growth[错位/中性]；inflation[再通胀升温(利多商品)]；liquidity[中性]；risk_appetite[risk-off 前兆(边际恶化)]；⚠️ 相变预警触发"
+}
