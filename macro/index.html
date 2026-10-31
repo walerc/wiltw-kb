@@ -78,7 +78,7 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
   <div class="clock-label" id="clockLabel"></div>
 </section>
 
-<section><h2>二、大类资产当前表现（股·债·商·汇）</h2>
+<section><h2>二、大类资产当前表现（股·债·商 · 分中美 · 近1月）</h2>
   <div class="asset-grid" id="assetGrid"></div>
   <div class="asset-concl" id="assetConcl"></div>
 </section>
@@ -117,7 +117,9 @@ const READ={
   us_hy_oas:{name:'美国高收益债利差',unit:'%',desc:'3.26%走阔=信用风险升温、风险偏好下降。',dir:'down'},
   usdcny:{name:'美元兑人民币',unit:'元',desc:'6.71，人民币偏强。',dir:'down'},
   sh_index:{name:'上证指数',unit:'点',desc:'3599，A股表现。',dir:'up'},
-  copper:{name:'沪铜主力',unit:'元/吨',desc:'108050，铜博士，工业商品周期代表。',dir:'up'},
+  sp500:{name:'标普500',unit:'点',desc:'美股综合指数。',dir:'up'},
+  nanhua:{name:'南华商品指数',unit:'点',desc:'中国商品综合指数。',dir:'up'},
+  crb:{name:'CRB商品指数',unit:'点',desc:'全球商品综合指数。',dir:'up'},
 };
 const DRV_ITEMS={ growth:['us_ism_pmi','cn_pmi'], inflation:['us_cpi','cn_ppi'], liquidity:['cn_m2','us_10y'], risk_appetite:['us_hy_oas','vix'] };
 
@@ -125,6 +127,7 @@ function normDate(d){const s=String(d||'');const m=s.match(/(\d{4})年(\d{1,2})�
 function pick(key){return (DATA.series[key]||[]).map(x=>[normDate(x[0]),x[1]]);}
 function val(key){const s=DATA.series[key];return s&&s.length?s[s.length-1][1]:null;}
 function ytdPct(key){const s=DATA.series[key];if(!s||s.length<2)return null;const jan=s.filter(x=>String(x[0]).slice(0,7)==='2026-01');const base=jan.length?jan[jan.length-1][1]:s[0][1];const last=s[s.length-1][1];return base? (last-base)/base*100 : null;}
+function monthPct(key){const s=DATA.series[key];if(!s||s.length<22)return null;const last=s[s.length-1][1],base=s[s.length-21][1];return base?(last-base)/base*100:null;}
 function fmt(v,n=1){return v==null?'—':Number(v).toFixed(n);}
 function sign(v){return v==null?'':(v>0?'+':'')+fmt(v);}
 
@@ -157,33 +160,31 @@ function renderClock(){
   document.getElementById('clockLabel').innerHTML=`<span>横轴=增长(右强左弱) · 纵轴=通胀(上高下低)</span><span>当前：<b>${rg.quadrant}</b> — ${quads[rg.quadrant].d}</span>`;
 }
 
-// 大类资产：股（上证）债（10Y）商（铜）汇（USDCNY）
+// 大类资产：股债商三大类 × 中美两地区，近1月涨跌幅（与宏观月度尺度统一）
 function renderAssets(){
-  const assets=[
-    {key:'sh_index',name:'股票·上证',note:'A股'},
-    {key:'cn_10y',name:'债券·10Y',note:'收益率↓=债涨',invert:true},
-    {key:'copper',name:'商品·沪铜',note:'铜博士'},
-    {key:'usdcny',name:'汇率·人民币',note:'数值↓=人民币升值'},
+  const rows=[
+    {label:'股票',cn:{key:'sh_index',name:'上证'},us:{key:'sp500',name:'标普500'}},
+    {label:'债券',cn:{key:'cn_10y',name:'中债10Y',inv:true},us:{key:'us_10y',name:'美债10Y',inv:true}},
+    {label:'商品',cn:{key:'nanhua',name:'南华'},us:{key:'crb',name:'CRB'}},
   ];
   const el=document.getElementById('assetGrid');
-  el.innerHTML=assets.map(a=>{
-    const p=ytdPct(a.key); const v=val(a.key);
-    const pct=a.invert? -p : p;  // 债券：收益率下行=债券涨，取反
-    const cls=pct==null?'neu':(pct>=0?'pos':'neg');
-    const updown=pct==null?'—':(pct>=0?'↑ 强':'↓ 弱');
-    const w=Math.min(Math.abs(pct||0),30);
-    return`<div class="asset"><div class="an">${a.name}</div><div class="av">${fmt(v)}</div>
-      <div class="ach ${cls}">YTD ${sign(pct)}% ${updown}</div>
-      <div class="bar"><i style="width:${w*3}%;background:${pct>=0?UP:DOWN}"></i></div>
-      <div class="ach" style="color:#6e7681">${a.note}</div></div>`;
+  el.innerHTML=rows.map(r=>{
+    const c=r.cn,u=r.us;
+    const cp=(c.inv?-1:1)*(monthPct(c.key)||0), up=(u.inv?-1:1)*(monthPct(u.key)||0);
+    const cc=cp>=0?'var(--up)':'var(--down)', uc=up>=0?'var(--up)':'var(--down)';
+    return `<div class="asset"><div class="an">${r.label}</div>
+      <div class="ev" style="margin-top:4px">中国·<b style="color:${cc}">${c.name}</b> <b style="color:${cc}">${sign(cp)}%</b></div>
+      <div class="ev">美国·<b style="color:${uc}">${u.name}</b> <b style="color:${uc}">${sign(up)}%</b></div>
+      ${c.inv?'<div class="hint">债价=收益率变化取反</div>':''}</div>`;
   }).join('');
-  document.getElementById('assetConcl').innerHTML=`<b>轮动解读：</b>${assetConclText()}`;
+  document.getElementById('assetConcl').innerHTML=`<b>近1月轮动（与宏观月度尺度统一）：</b>${assetConclText()}`;
 }
 function assetConclText(){
   const rg=DATA.env.regime;
-  const sh=ytdPct('sh_index'), bond=-ytdPct('cn_10y'), cu=ytdPct('copper'), fx=ytdPct('usdcny');
-  const strong=[]; if(sh>0)strong.push('股票'); if(bond>0)strong.push('债券'); if(cu>0)strong.push('商品'); if(fx>0)strong.push('汇率');
-  return `当前${rg.quadrant}象限，理论最优是「${rg.assets}」。实际大类资产YTD：股票${sign(sh)}%、债券${sign(bond)}%、商品${sign(cu)}%、汇率${sign(fx)}%。`+(strong.length?`强势的是【${strong.join('、')}】，与滞胀象限的「商品/现金占优」${(cu>0&&strong.includes('商品'))?'一致':'有偏差'}。`:'');
+  const sh=monthPct('sh_index'), sp=monthPct('sp500'), bcn=-monthPct('cn_10y'), bus=-monthPct('us_10y'), nh=monthPct('nanhua'), cb=monthPct('crb');
+  const strong=[];
+  if(sh>0)strong.push('A股'); if(sp>0)strong.push('美股'); if(bcn>0)strong.push('中债'); if(bus>0)strong.push('美债'); if(nh>0)strong.push('南华商品'); if(cb>0)strong.push('CRB商品');
+  return `当前${rg.quadrant}象限，理论「${rg.assets}」。近1月实际：A股${sign(sh)}%、美股${sign(sp)}%、中债${sign(bcn)}%、美债${sign(bus)}%、南华${sign(nh)}%、CRB${sign(cb)}%。`+(strong.length?`强势【${strong.join('、')}】`:'');
 }
 
 // 四驱动：结论 + 方向 + 趋势 + 论据（颜色联动）

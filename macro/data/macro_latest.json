@@ -163,11 +163,29 @@
    "freq": "daily",
    "lag": "同步"
   },
-  "copper": {
-   "value": 108050.0,
+  "sp500": {
+   "value": 7580.0698,
    "date": "2026-10-30",
-   "name": "沪铜主力",
+   "name": "标普500",
+   "region": "US",
+   "driver": "asset",
+   "freq": "daily",
+   "lag": "同步"
+  },
+  "nanhua": {
+   "value": 2907.26,
+   "date": "2026-10-30",
+   "name": "南华商品指数",
    "region": "CN",
+   "driver": "asset",
+   "freq": "daily",
+   "lag": "同步"
+  },
+  "crb": {
+   "value": 411.1,
+   "date": "2026-10-30",
+   "name": "CRB商品指数",
+   "region": "Global",
    "driver": "asset",
    "freq": "daily",
    "lag": "同步"
