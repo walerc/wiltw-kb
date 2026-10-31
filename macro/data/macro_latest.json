@@ -216,6 +216,33 @@
    "driver": "asset",
    "freq": "daily",
    "lag": "同步"
+  },
+  "cn_inventory": {
+   "value": 11.6,
+   "date": "2026-09-30",
+   "name": "中国工业企业产成品库存同比",
+   "region": "CN",
+   "driver": "cycle",
+   "freq": "monthly",
+   "lag": "滞后"
+  },
+  "us_sofr": {
+   "value": 3.94,
+   "date": "2026-10-29",
+   "name": "美国SOFR利率",
+   "region": "US",
+   "driver": "liquidity_stress",
+   "freq": "daily",
+   "lag": "领先"
+  },
+  "us_effr": {
+   "value": 3.88,
+   "date": "2026-10-31",
+   "name": "美国有效联邦基金利率(EFFR)",
+   "region": "US",
+   "driver": "liquidity_stress",
+   "freq": "monthly",
+   "lag": "领先"
   }
  }
 }

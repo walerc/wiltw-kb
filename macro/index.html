@@ -75,6 +75,18 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 .stance .tag { font-weight:700; margin-left:4px; }
 .stance .date { color:#6e7681; font-size:.68rem; margin-left:4px; }
 .stance .note { color:#adbac7; margin-top:3px; line-height:1.5; }
+/* 三尺度 */
+.scale-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.scale { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+.scale .shead { font-size:.8rem; color:var(--accent); font-weight:700; margin-bottom:4px; }
+.scale .stag { font-size:.65rem; color:#6e7681; font-weight:400; margin-left:4px; }
+.scale .sphase { font-size:1.05rem; font-weight:700; margin-bottom:3px; }
+.scale .sdir { font-size:.8rem; margin-bottom:3px; }
+.scale .sev { font-size:.72rem; color:#8b949e; line-height:1.5; }
+.scale .shint { font-size:.68rem; color:#6e7681; margin-top:4px; }
+/* 流动性枯竭 */
+.liq-ok { background:#12241a; border:1px solid #00c864; border-radius:8px; padding:10px 14px; font-size:.82rem; color:#adbac7; }
+.liq-alert { background:#2a1518; border:1px solid #ff5050; border-radius:8px; padding:10px 14px; font-size:.85rem; color:#ff5050; font-weight:700; margin-bottom:8px; }
 /* 弹窗 */
 .mask { display:none; position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:99; }
 .modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--card); border:1px solid var(--border); border-radius:12px; width:min(700px,92vw); max-height:82vh; overflow:auto; padding:18px; z-index:100; }
@@ -83,13 +95,17 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 .modal .close:hover { color:#fff; }
 .modal .mmeta { font-size:.8rem; color:#adbac7; margin:6px 0; line-height:1.7; }
 .modal .mchart { width:100%; height:300px; }
-@media (max-width:760px) { .drv-grid,.asset-grid,.clock,.pstances { grid-template-columns:1fr; } }
+@media (max-width:760px) { .drv-grid,.asset-grid,.clock,.pstances,.scale-grid { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
 <h1>🌐 宏观环境仪表盘</h1>
 <div class="sub" id="subTitle">加载中…</div>
 <div class="verdict" id="verdict"></div>
+
+<section id="scaleSec"><h2>三尺度总览（康波60y · 中周期库存 · 月度景气）</h2>
+  <div class="scale-grid" id="scaleGrid"></div>
+</section>
 
 <section><h2>一、大类资产轮动（美林时钟）</h2>
   <div class="clock" id="clock"></div>
@@ -111,6 +127,10 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 
 <section id="opinionSec"><h2>五、观点层（分层信源 · 共识度 · 事实 vs 观点偏差）</h2>
   <div id="opinionGrid"></div>
+</section>
+
+<section id="liqSec"><h2>六、流动性枯竭监测（独立预警 · 平时静默）</h2>
+  <div id="liqList"></div>
 </section>
 
 <div class="mask" id="mask"></div>
@@ -166,8 +186,8 @@ async function load(){
     fetch('data/opinions.json?t='+Date.now()).then(r=>r.json()).catch(()=>({propositions:[]})),
   ]);
   DATA={env,latest,series,opinions};
-  document.getElementById('subTitle').textContent=`数据截至 ${env.generated} · 统一底座每日自动更新 · 尺度：月度景气（当前值+近1月趋势），全页宏观评估与资产比较同此尺度，不混用其他尺度`;
-  renderVerdict(); renderClock(); renderAssets(); renderDrivers(); renderAlerts(); renderOpinions();
+  document.getElementById('subTitle').textContent=`数据截至 ${env.generated} · 统一底座每日自动更新 · 三尺度分离：康波60y(定方向) / 中周期库存(定节奏) / 月度景气(定短期)，各尺度独立判断不混用`;
+  renderVerdict(); renderScales(); renderClock(); renderAssets(); renderDrivers(); renderAlerts(); renderOpinions(); renderLiquidity();
 }
 
 function renderVerdict(){
@@ -379,6 +399,49 @@ function opinionSummary(ops){
     return `<div class="op-sum">核心信号：事实层（数据+政策）偏鸽——指向宽松，而市场/预测偏鹰，警惕超调。</div>`;
   }
   return '';
+}
+
+// 三尺度总览：康波60y(定方向) / 库存周期3-4y(定节奏) / 月度景气(定短期)
+function renderScales(){
+  const sc=DATA.env.scales;
+  if(!sc){document.getElementById('scaleSec').style.display='none';return;}
+  document.getElementById('scaleSec').style.display='block';
+  const k=sc.kondratieff||{}, inv=sc.inventory||{}, rg=DATA.env.regime||{}, dr=DATA.env.drivers||{};
+  const dirCls=v=>v&&v.includes('利多')?'pos':(v&&v.includes('利空')?'neg':'neu');
+  document.getElementById('scaleGrid').innerHTML=
+    `<div class="scale">
+      <div class="shead">🌊 康波周期<span class="stag">60年 · 定方向</span></div>
+      <div class="sphase">${k.phase||'—'}</div>
+      <div class="sdir ${dirCls(k.direction)}">${k.direction||''} · ${k.asset||''}</div>
+      <div class="sev">${k.evidence||''}</div>
+      <div class="shint">${k.lag_note||''}</div>
+    </div>
+    <div class="scale">
+      <div class="shead">📦 库存周期<span class="stag">3-4年 · 定节奏</span></div>
+      <div class="sphase">${inv.phase||'—'}</div>
+      <div class="sdir ${dirCls(inv.direction)}">${inv.direction||''} · ${inv.asset||''}</div>
+      <div class="sev">${inv.trajectory||''}${inv.trend?' · '+inv.trend:''}</div>
+    </div>
+    <div class="scale">
+      <div class="shead">📊 月度景气<span class="stag">1月 · 定短期</span></div>
+      <div class="sphase">${rg.quadrant||'—'}象限</div>
+      <div class="sdir">${rg.assets||''}</div>
+      <div class="sev">增长[${(dr.growth||{}).state||'?'}] 通胀[${(dr.inflation||{}).state||'?'}] 流动性[${(dr.liquidity||{}).state||'?'}] 风险偏好[${(dr.risk_appetite||{}).state||'?'}]</div>
+    </div>`;
+}
+
+// 流动性枯竭监测：独立预警通道，平时静默、触发才报警
+function renderLiquidity(){
+  const ls=DATA.env.liquidity_stress;
+  if(!ls){document.getElementById('liqSec').style.display='none';return;}
+  document.getElementById('liqSec').style.display='block';
+  const el=document.getElementById('liqList');
+  const hy=val('us_hy_oas'), vix=val('vix');
+  if(ls.stress){
+    el.innerHTML=`<div class="liq-alert">⚠️ 流动性枯竭预警触发</div>`+ls.signals.map(s=>`<div class="alert-item"><b>${s}</b></div>`).join('');
+  } else {
+    el.innerHTML=`<div class="liq-ok">✅ 流动性正常（静默监测中）：SOFR-EFFR利差 <b>${ls.sofr_effr_spread_bp}bp</b>（预警阈值15bp）　·　高收益债利差 <b>${fmt(hy,2)}%</b>（阈值4%）　·　VIX <b>${fmt(vix,1)}</b>（阈值30）。美元融资压力未现，信用/恐慌指标正常。</div>`;
+  }
 }
 
 // 弹窗：方向趋势评估 + 趋势图

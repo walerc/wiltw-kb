@@ -86,5 +86,35 @@
   "quadrant": "滞胀",
   "assets": "现金 > 商品 > 债券 > 股票"
  },
+ "scales": {
+  "kondratieff": {
+   "phase": "萧条末→回升初",
+   "framework": "周金涛康波：第5轮(1991起，信息技术革命)，繁荣20y→衰退10y→萧条10y(2015-2025)→回升20y",
+   "evidence": "商品再通胀(原油95美元/中PPI转正5%/CRB走强)+库存回补(产成品库存11.6%回升)=大宗商品长周期触底回升",
+   "direction": "利多商品",
+   "asset": "商品(实物资产)长周期占优",
+   "lag_note": "康波是慢变量，定方向不定节奏，不作为短期择时"
+  },
+  "inventory": {
+   "inv": 11.6,
+   "ppi": 5.0,
+   "phase": "主动补库存",
+   "asset": "需求+补库双驱动",
+   "direction": "利多商品",
+   "trajectory": "库存 11.6 ↑ PPI 5.0",
+   "trend": "补库加速"
+  },
+  "monthly": {
+   "note": "月度景气=四驱动状态机，见 drivers/regime"
+  }
+ },
+ "liquidity_stress": {
+  "stress": false,
+  "signals": [],
+  "sofr_effr_spread_bp": 6.0,
+  "sofr": 3.94,
+  "effr": 3.88,
+  "note": "美元融资压力用SOFR-EFFR利差代理。平时静默，触发才报警。"
+ },
  "summary": "growth[错位/中性]；inflation[再通胀升温(利多商品)]；liquidity[中性]；risk_appetite[risk-off 前兆(边际恶化)]；⚠️ 相变预警触发"
 }
