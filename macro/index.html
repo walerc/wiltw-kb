@@ -6,273 +6,306 @@
 <title>宏观环境仪表盘 · Global Macro Dashboard</title>
 <style>
 :root {
-  --bg: #0d1117; --card: #161b22; --border: #30363d;
-  --txt: #c9d1d9; --muted: #8b949e; --accent: #e0c068;
-  --up: #ff5050; --down: #00c864; --warn: #ff7b72;
+  --bg:#0d1117; --card:#161b22; --border:#30363d;
+  --txt:#c9d1d9; --muted:#8b949e; --accent:#e0c068;
+  --up:#ff5050; --down:#00c864; --warn:#ff7b72;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--txt); font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; padding: 20px; max-width: 1200px; margin: 0 auto; }
-h1 { font-size: 1.4rem; margin-bottom: 4px; }
-.sub { color: var(--muted); font-size: .8rem; margin-bottom: 16px; }
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
-.card h3 { font-size: .85rem; color: var(--accent); margin-bottom: 8px; font-weight: 600; }
-.chart { width: 100%; height: 280px; }
-.banner { border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; border: 1px solid var(--border); background: var(--card); }
-.banner.warn { border-color: var(--up); background: #1a1215; }
-.banner h2 { font-size: 1rem; margin-bottom: 6px; }
-.banner .pill { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: .75rem; margin-right: 8px; }
-.pill.risk { background: #2a1518; color: var(--up); }
-.pill.ok { background: #12241a; color: var(--down); }
-.drv-card { cursor: pointer; transition: transform .15s, box-shadow .15s; position: relative; overflow: hidden; }
-.drv-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.4); }
-.drv-card .name { font-size: .8rem; color: var(--muted); }
-.drv-card .state { font-size: .95rem; font-weight: 600; margin: 4px 0; }
-.drv-card .bar { height: 6px; background: #21262d; border-radius: 3px; margin-top: 6px; overflow: hidden; }
-.drv-card .bar i { display: block; height: 100%; border-radius: 3px; }
-.drv-card .trj { font-size: .72rem; color: var(--muted); margin-top: 6px; }
-.na { color: var(--muted); font-size: .75rem; }
-.pos { color: var(--up); } .neg { color: var(--down); }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:var(--bg); color:var(--txt); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; padding:20px; max-width:1080px; margin:0 auto; line-height:1.6; }
+h1 { font-size:1.3rem; margin-bottom:2px; }
+.sub { color:var(--muted); font-size:.78rem; margin-bottom:14px; }
+/* 顶部结论 */
+.verdict { border-radius:10px; padding:16px 18px; margin-bottom:16px; border:1px solid var(--border); background:var(--card); }
+.verdict.warn { border-color:var(--up); background:#1a1215; }
+.verdict .big { font-size:1.05rem; font-weight:600; margin-bottom:6px; }
+.verdict .detail { font-size:.85rem; color:#adbac7; }
+.pill { display:inline-block; padding:2px 10px; border-radius:12px; font-size:.72rem; margin-right:6px; background:#21262d; }
+.pill.risk { background:#2a1518; color:var(--up); }
+.pill.ok { background:#12241a; color:var(--down); }
+section { margin-bottom:20px; }
+section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-left:3px solid var(--accent); padding-left:8px; }
+/* 美林时钟 */
+.clock { position:relative; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:2px; background:#30363d; border:1px solid #30363d; border-radius:10px; overflow:hidden; }
+.q { background:var(--card); padding:18px 14px; min-height:120px; }
+.q.active { outline:2px solid var(--up); outline-offset:-2px; background:#1a1215; }
+.q .qn { font-size:1.1rem; font-weight:700; margin-bottom:6px; }
+.q .qa { font-size:.85rem; color:var(--muted); line-height:1.5; }
+.q .tag { display:inline-block; margin-top:8px; font-size:.7rem; padding:2px 8px; border-radius:8px; background:#2a1518; color:var(--up); }
+.q.grow-up .qn { color:#ff7b72; } .q.grow-down .qn { color:#79c0ff; }
+.axis-label { position:absolute; font-size:.68rem; color:#6e7681; background:#0d1117cc; padding:0 4px; }
+.clock-label { display:flex; gap:20px; margin-top:8px; font-size:.72rem; color:var(--muted); flex-wrap:wrap; }
+/* 驱动卡片 */
+.drv-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.drv { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; cursor:pointer; }
+.drv:hover { border-color:#58a6ff; }
+.drv .head { display:flex; align-items:baseline; gap:8px; margin-bottom:6px; }
+.drv .icon { font-size:1.1rem; }
+.drv .name { font-size:.82rem; color:var(--muted); }
+.drv .concl { font-size:1rem; font-weight:700; margin-bottom:8px; }
+.drv.concl-pos { border-left:3px solid var(--up); }   /* 利多红 */
+.drv.concl-neg { border-left:3px solid var(--down); } /* 利空绿 */
+.drv.concl-neu { border-left:3px solid var(--accent); }
+.drv .ev { font-size:.8rem; color:#adbac7; line-height:1.65; }
+.drv .ev b { color:var(--txt); }
+/* 趋势 */
+.trend-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.tcard { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:12px; }
+.tcard .chart { width:100%; height:200px; }
+.tcard .desc { font-size:.76rem; color:var(--muted); margin-top:6px; line-height:1.5; }
+.seg { display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap; }
+.seg button { background:#21262d; color:var(--txt); border:1px solid var(--border); border-radius:6px; padding:4px 12px; font-size:.78rem; cursor:pointer; }
+.seg button.active { background:#30363d; color:#fff; border-color:#58a6ff; }
+/* 预警 */
+.alert-list { display:flex; flex-direction:column; gap:8px; }
+.alert-item { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:10px 14px; font-size:.82rem; }
+.alert-item b { color:var(--warn); }
 /* 弹窗 */
-.modal-mask { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.6); z-index: 99; }
-.modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: var(--card); border: 1px solid var(--border); border-radius: 12px; width: min(720px, 92vw); padding: 18px; z-index: 100; }
-.modal h3 { font-size: .95rem; color: var(--accent); margin-bottom: 4px; }
-.modal .close { position: absolute; top: 10px; right: 14px; cursor: pointer; color: var(--muted); font-size: 1.2rem; }
-.modal .mchart { width: 100%; height: 340px; }
-.modal .mmeta { font-size: .78rem; color: var(--muted); margin: 6px 0; line-height: 1.6; }
-/* 指标切换 */
-.seg { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
-.seg button { background: #21262d; color: var(--txt); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; font-size: .75rem; cursor: pointer; }
-.seg button.active { background: #30363d; color: #fff; border-color: #58a6ff; }
-.trend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-@media (max-width: 800px) { .grid2, .grid4, .trend-grid { grid-template-columns: 1fr; } }
+.modal-mask { display:none; position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:99; }
+.modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--card); border:1px solid var(--border); border-radius:12px; width:min(680px,92vw); max-height:80vh; overflow:auto; padding:18px; z-index:100; }
+.modal h3 { font-size:.95rem; color:var(--accent); margin-bottom:8px; padding-right:24px; }
+.modal .close { position:absolute; top:10px; right:14px; cursor:pointer; color:var(--muted); font-size:1.3rem; }
+.modal .close:hover { color:#fff; }
+.modal .mchart { width:100%; height:300px; }
+.modal .mmeta { font-size:.8rem; color:#adbac7; margin:8px 0; line-height:1.7; }
+@media (max-width:760px) { .drv-grid,.trend-grid,.clock { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
 <h1>🌐 宏观环境仪表盘</h1>
 <div class="sub" id="subTitle">加载中…</div>
 
-<div class="banner" id="banner"></div>
+<div class="verdict" id="verdict"></div>
 
-<div class="grid2">
-  <div class="card">
-    <h3>四驱动状态雷达</h3>
-    <div class="chart" id="radarChart"></div>
-  </div>
-  <div class="card">
-    <h3>美林时钟（增长 × 通胀）</h3>
-    <div class="chart" id="regimeChart"></div>
-  </div>
-</div>
+<section>
+  <h2>一、大类资产轮动（美林时钟）</h2>
+  <div class="clock" id="clock"></div>
+  <div class="clock-label" id="clockLabel"></div>
+</section>
 
-<div class="grid4" id="driverCards" style="margin-top:14px"></div>
+<section>
+  <h2>二、四驱动详解（点击看详情）</h2>
+  <div class="drv-grid" id="drvGrid"></div>
+</section>
 
-<div class="card" style="margin-top:14px">
-  <h3>关键指标趋势（点击指标看详细历史）</h3>
-  <div class="seg" id="trendSeg"></div>
-  <div class="trend-grid">
-    <div class="chart" id="trendChart1"></div>
-    <div class="chart" id="trendChart2"></div>
-  </div>
-</div>
+<section>
+  <h2>三、关键指标趋势</h2>
+  <div class="seg" id="seg"></div>
+  <div class="trend-grid" id="trendGrid"></div>
+</section>
 
-<div class="modal-mask" id="modalMask"></div>
+<section id="alertSec" style="display:none">
+  <h2>四、相变预警</h2>
+  <div class="alert-list" id="alertList"></div>
+</section>
+
+<div class="modal-mask" id="mask"></div>
 <div class="modal" id="modal">
   <span class="close" onclick="closeModal()">✕</span>
-  <h3 id="modalTitle"></h3>
-  <div class="mmeta" id="modalMeta"></div>
-  <div class="mchart" id="modalChart"></div>
+  <h3 id="mTitle"></h3>
+  <div class="mmeta" id="mMeta"></div>
+  <div class="mchart" id="mChart"></div>
 </div>
 
 <script src="echarts.min.js"></script>
 <script>
 let DATA = null;
-const DRV_ORDER = ['growth', 'inflation', 'liquidity', 'risk_appetite'];
-const DRV_NAME = { growth:'增长', inflation:'通胀', liquidity:'流动性', risk_appetite:'风险偏好' };
-const DRV_ICON = { growth:'📈', inflation:'🔥', liquidity:'💧', risk_appetite:'🎢' };
-// 雷达分数颜色：利多红(中国习惯涨=红)，利空绿
-const UP = '#ff5050', DOWN = '#00c864', ACCENT = '#e0c068';
+const UP='#ff5050', DOWN='#00c864', ACCENT='#e0c068';
+const DRV_ORDER=['growth','inflation','liquidity','risk_appetite'];
+const DRV={growth:{icon:'📈',name:'增长'},inflation:{icon:'🔥',name:'通胀'},liquidity:{icon:'💧',name:'流动性'},risk_appetite:{icon:'🎢',name:'风险偏好'}};
 
-// 关键指标分组（趋势图用）
-const TREND_GROUPS = {
-  growth: { label:'增长', items:[['us_ism_pmi','美国ISM PMI'],['cn_pmi','中国PMI']] },
-  inflation: { label:'通胀', items:[['us_cpi','美国CPI'],['cn_ppi','中国PPI']] },
-  liquidity: { label:'流动性', items:[['us_10y','美10Y'],['cn_10y','中10Y']] },
-  risk_appetite: { label:'风险偏好', items:[['vix','VIX'],['us_hy_oas','信用利差']] },
+// 指标解读（让用户看懂每个数字）
+const READ={
+  us_ism_pmi:{name:'美国ISM制造业PMI',unit:'指数',desc:'荣枯线50。当前54.5扩张，但从7月55.6连续回落，动能衰减。'},
+  cn_pmi:{name:'中国官方制造业PMI',unit:'指数',desc:'荣枯线50。当前49.3跌破荣枯线，中国制造业收缩。'},
+  us_cpi:{name:'美国CPI同比',unit:'%',desc:'当前3.7%上行，再通胀压力，利多抗通胀商品。'},
+  cn_cpi:{name:'中国CPI同比',unit:'%',desc:'当前0.9%温和，需求偏弱。'},
+  cn_ppi:{name:'中国PPI同比',unit:'%',desc:'当前5%，从2025年通缩转正上行，工业品再通胀。'},
+  cn_m2:{name:'中国M2同比',unit:'%',desc:'当前7.2%下行，货币增速放缓，流动性边际收紧。'},
+  us_10y:{name:'美国10Y国债',unit:'%',desc:'当前4.94%高企，压制风险资产估值。'},
+  cn_10y:{name:'中国10Y国债',unit:'%',desc:'当前1.65%低位，中美利差倒挂→资本外流压力。'},
+  vix:{name:'VIX恐慌指数',unit:'指数',desc:'当前19.4上行。>20偏高、>30恐慌。上行=避险情绪升温。'},
+  us_hy_oas:{name:'美国高收益债利差',unit:'%',desc:'当前3.26%走阔。走阔=信用风险升温、风险偏好下降。'},
+  usdcny:{name:'美元兑人民币',unit:'元',desc:'当前6.71，人民币偏强。'},
+  us_yield_curve:{name:'美债10Y-2Y利差',unit:'%',desc:'当前0.38正常斜率。倒挂(<0)=衰退领先信号。'},
+};
+const TREND_GROUPS={
+  growth:{label:'增长',items:['us_ism_pmi','cn_pmi']},
+  inflation:{label:'通胀',items:['us_cpi','cn_ppi']},
+  liquidity:{label:'流动性',items:['us_10y','cn_10y']},
+  risk_appetite:{label:'风险偏好',items:['vix','us_hy_oas']},
 };
 
-function normDate(d) {
-  const s = String(d || '');
-  // "2026年10月份" -> "2026-10"
-  const m = s.match(/(\d{4})年(\d{1,2})月/);
-  if (m) return `${m[1]}-${String(m[2]).padStart(2,'0')}`;
-  return s.slice(0, 7);
-}
-function pick(series, key) { return (series[key] || []).map(x => [normDate(x[0]), x[1]]); }
-function lastVal(ind, key) { const s = DATA.series[key]; return s && s.length ? s[s.length-1][1] : null; }
+function normDate(d){ const s=String(d||''); const m=s.match(/(\d{4})年(\d{1,2})月/); if(m) return `${m[1]}-${m[2].padStart(2,'0')}`; return s.slice(0,7); }
+function pick(key){ return (DATA.series[key]||[]).map(x=>[normDate(x[0]),x[1]]); }
+function val(key){ const s=DATA.series[key]; return s&&s.length?s[s.length-1][1]:null; }
+function fmt(v,n=1){ return v==null?'—':Number(v).toFixed(n); }
 
-async function load() {
-  const [env, latest, series] = await Promise.all([
+async function load(){
+  const [env,latest,series]=await Promise.all([
     fetch('data/macro_env.json?t='+Date.now()).then(r=>r.json()),
     fetch('data/macro_latest.json?t='+Date.now()).then(r=>r.json()),
     fetch('data/macro_series.json?t='+Date.now()).then(r=>r.json()),
   ]);
-  DATA = { env, latest, series };
-  document.getElementById('subTitle').textContent =
-    `数据截至 ${env.generated} · 相变预警${env.alerts.phase_warning ? '⚠️触发' : '无'} · 统一底座每日自动更新`;
-  renderBanner(); renderRadar(); renderRegime(); renderDriverCards(); renderTrend();
+  DATA={env,latest,series};
+  document.getElementById('subTitle').textContent=`数据截至 ${env.generated} · 统一底座每日自动更新（17项宏观指标）`;
+  renderVerdict(); renderClock(); renderDrivers(); renderTrend(); renderAlerts();
 }
 
-function renderBanner() {
-  const env = DATA.env, al = env.alerts;
-  const warn = al.phase_warning;
-  const el = document.getElementById('banner');
-  el.className = 'banner' + (warn ? ' warn' : '');
-  const drivers = DRV_ORDER.map(k => {
-    const d = env.drivers[k];
-    return `<span style="margin-right:14px">${DRV_ICON[k]} ${DRV_NAME[k]}：<b>${d.state}</b></span>`;
-  }).join('');
-  el.innerHTML =
-    `<h2>${warn ? '⚠️ 相变预警触发' : '✅ 宏观环境平稳'}</h2>` +
-    `<div style="margin-bottom:6px">${drivers}</div>` +
-    `<div style="font-size:.8rem">` +
-    (warn ? `<span class="pill risk">领先信号：${al.lead_signals.join('、')}</span>` : `<span class="pill ok">无相变前兆</span>`) +
-    `<span class="pill" style="background:#21262d;color:var(--txt)">美林时钟：${env.regime.quadrant}（${env.regime.assets}）</span>` +
+// 顶部一句话结论
+function renderVerdict(){
+  const env=DATA.env, al=env.alerts, rg=env.regime;
+  const d=env.drivers;
+  const warn=al.phase_warning;
+  const el=document.getElementById('verdict');
+  el.className='verdict'+(warn?' warn':'');
+  const concl = `当前宏观环境处于【${rg.quadrant}】象限 — 增长动能边际衰减 + 再通胀升温。对商品：通胀利多，但需求（中国）偏弱 + 风险偏好转弱，需防流动性冲击。`;
+  el.innerHTML=
+    `<div class="big">${warn?'⚠️ ':'✅ '}${concl}</div>`+
+    `<div class="detail">`+
+    `资产配置顺序：<b>${rg.assets}</b>　·　`+
+    `增长[${d.growth.state}]　通胀[${d.inflation.state}]　流动性[${d.liquidity.state}]　风险偏好[${d.risk_appetite.state}]`+
+    (warn?`　<span class="pill risk">相变预警：${al.lead_signals.join('、')}</span>`:`　<span class="pill ok">无相变前兆</span>`)+
     `</div>`;
 }
 
-function renderRadar() {
-  const env = DATA.env;
-  const ind = DRV_ORDER.map(k => ({ name: DRV_NAME[k], max: 100 }));
-  const vals = DRV_ORDER.map(k => env.drivers[k].radar ?? 50);
-  const chart = echarts.init(document.getElementById('radarChart'), 'dark');
-  chart.setOption({
-    radar: { indicator: ind, radius: '68%', splitNumber: 4,
-      axisName: { color: '#8b949e', fontSize: 11 },
-      splitLine: { lineStyle: { color: '#30363d' } },
-      splitArea: { areaStyle: { color: ['#161b22','#1a2028'] } },
-      axisLine: { lineStyle: { color: '#30363d' } } },
-    series: [{ type: 'radar', data: [{ value: vals, name: '宏观环境',
-      areaStyle: { color: 'rgba(224,192,104,.25)' },
-      lineStyle: { color: ACCENT, width: 2 },
-      itemStyle: { color: ACCENT } }] }],
-  });
+// 美林时钟（HTML 象限，当前象限高亮）
+function renderClock(){
+  const rg=DATA.env.regime;
+  const quads=[
+    {id:'过热', color:'#ff7b72', assets:'商品 > 股票 > 现金 > 债券', desc:'增长强 + 通胀高，商品最受益', cls:'grow-up'},
+    {id:'滞胀', color:'#ffa198', assets:'现金 > 商品 > 债券 > 股票', desc:'增长弱 + 通胀高，现金为王、商品次之', cls:'grow-down'},
+    {id:'衰退', color:'#79c0ff', assets:'债券 > 现金 > 股票 > 商品', desc:'增长弱 + 通胀低，避险为主', cls:'grow-down'},
+    {id:'复苏', color:'#3fb950', assets:'股票 > 债券 > 现金 > 商品', desc:'增长强 + 通胀低，股票最佳', cls:'grow-up'},
+  ];
+  // 布局：左上=滞胀 右上=过热 左下=衰退 右下=复苏
+  const layout=['滞胀','过热','衰退','复苏'];
+  const el=document.getElementById('clock');
+  el.innerHTML=layout.map(qid=>{
+    const q=quads.find(x=>x.id===qid);
+    const active=qid===rg.quadrant;
+    return `<div class="q ${q.cls} ${active?'active':''}" style="color:${q.color}">
+      <div class="qn">${q.id}</div>
+      <div class="qa">${q.assets}</div>
+      ${active?'<span class="tag">⬅ 当前位置</span>':''}
+    </div>`;
+  }).join('');
+  document.getElementById('clockLabel').innerHTML=
+    `<span>横轴＝增长（右强左弱）· 纵轴＝通胀（上高下低）</span>`+
+    `<span style="color:${rg.quadrant==='滞胀'?'#ffa198':rg.quadrant==='过热'?'#ff7b72':rg.quadrant==='复苏'?'#3fb950':'#79c0ff'}">当前：<b>${rg.quadrant}</b>（${quads.find(x=>x.id===rg.quadrant).desc}）</span>`;
 }
 
-function renderRegime() {
-  const env = DATA.env;
-  const g = env.drivers.growth.score ?? 0;
-  const i = env.drivers.inflation.score ?? 0;
-  // X=增长(-4~4 归一化到 -100~100), Y=通胀
-  const gx = g * 25, iy = i * 25;
-  const chart = echarts.init(document.getElementById('regimeChart'), 'dark');
-  const mkArea = (x0,y0,x1,y1,color) => [
-    { coord:[x0,y0], itemStyle:{ color } },
-    { coord:[x1,y1] } ];
-  chart.setOption({
-    grid: { left: 50, right: 30, top: 30, bottom: 40 },
-    xAxis: { name: '增长 →', min: -100, max: 100, axisLine: { lineStyle:{ color:'#30363d' } },
-      splitLine: { show:false }, axisLabel: { color:'#8b949e' } },
-    yAxis: { name: '通胀 ↑', min: -100, max: 100, axisLine: { lineStyle:{ color:'#30363d' } },
-      splitLine: { show:false }, axisLabel: { color:'#8b949e' } },
-    series: [{
-      type: 'scatter', symbolSize: 18, data: [[gx, iy, '当前']],
-      markArea: { silent: true, data: [
-        mkArea(0,0,100,100,'rgba(255,80,80,.15)'),   // 过热
-        mkArea(0,0,-100,100,'rgba(255,123,114,.12)'),// 滞胀
-        mkArea(0,0,-100,-100,'rgba(0,200,100,.12)'), // 衰退
-        mkArea(0,0,100,-100,'rgba(88,166,255,.12)'), // 复苏
-      ]},
-      label: { show: true, formatter: '当前', position: 'top', color: '#fff', fontSize: 11 },
-      itemStyle: { color: ACCENT },
-      markLine: { silent: true, symbol: 'none', lineStyle: { color:'#30363d', type:'dashed' },
-        data: [{ xAxis: 0 }, { yAxis: 0 }] },
-    }],
-    // 象限文字
-    graphic: [
-      { type:'text', left:'72%', top:'8%', style:{ text:'过热', fill:'#ff7b72', fontSize:12 } },
-      { type:'text', left:'18%', top:'8%', style:{ text:'滞胀', fill:'#ffa198', fontSize:12 } },
-      { type:'text', left:'18%', top:'80%', style:{ text:'衰退', fill:'#3fb950', fontSize:12 } },
-      { type:'text', left:'72%', top:'80%', style:{ text:'复苏', fill:'#79c0ff', fontSize:12 } },
-    ],
-  });
-}
-
-function renderDriverCards() {
-  const env = DATA.env;
-  const el = document.getElementById('driverCards');
-  el.innerHTML = DRV_ORDER.map(k => {
-    const d = env.drivers[k];
-    const radar = d.radar ?? 50;
-    const color = radar >= 60 ? UP : (radar <= 40 ? DOWN : ACCENT);
-    return `<div class="card drv-card" onclick="showDriver('${k}')">
-      <div class="name">${DRV_ICON[k]} ${DRV_NAME[k]}</div>
-      <div class="state" style="color:${color}">${d.state}</div>
-      <div class="bar"><i style="width:${radar}%;background:${color}"></i></div>
-      <div class="trj">${d.trajectory || ''}</div>
+// 四驱动：一句话结论 + 数据支撑
+function renderDrivers(){
+  const env=DATA.env;
+  const conclMap={
+    growth:{txt:'美热中冷，需求偏弱', cls:'neu',
+      evs:[['美国PMI',fmt(val('us_ism_pmi')),'扩张'],['中国PMI',fmt(val('cn_pmi')),'跌破荣枯线']],
+      note:'商品需求的最大边际买家是中国，中国收缩→商品需求偏弱。'},
+    inflation:{txt:'再通胀升温，利多商品', cls:'pos',
+      evs:[['美国CPI',fmt(val('us_cpi'))+'%','上行'],['中国PPI',fmt(val('cn_ppi'))+'%','转正上行']],
+      note:'通胀上行，商品抗通胀属性受益。'},
+    liquidity:{txt:'中性，资本外流压力', cls:'neu',
+      evs:[['中国M2',fmt(val('cn_m2'))+'%','增速放缓'],['中美利差',fmt((val('us_10y')||0)-(val('cn_10y')||0))+'%','倒挂']],
+      note:'中美利差倒挂，人民币和A股承压，但货币总量尚中性。'},
+    risk_appetite:{txt:'risk-off 前兆，谨慎', cls:'neg',
+      evs:[['信用利差',fmt(val('us_hy_oas'))+'%','走阔'],['VIX',fmt(val('vix')),'上行']],
+      note:'信用利差走阔+VIX上行=风险偏好转弱，是流动性冲击前兆。'},
+  };
+  const el=document.getElementById('drvGrid');
+  el.innerHTML=DRV_ORDER.map(k=>{
+    const d=env.drivers[k], c=conclMap[k];
+    const evs=c.evs.map(e=>`<div class="ev">· ${e[0]}：<b>${e[1]}</b>（${e[2]}）</div>`).join('');
+    return `<div class="drv concl-${c.cls}" onclick="showDriver('${k}')">
+      <div class="head"><span class="icon">${DRV[k].icon}</span><span class="name">${DRV[k].name}</span></div>
+      <div class="concl">${c.txt}</div>
+      ${evs}
+      <div class="ev" style="color:var(--muted);margin-top:4px">${c.note}</div>
     </div>`;
   }).join('');
 }
 
-function renderTrend() {
-  const seg = document.getElementById('trendSeg');
-  const groups = Object.keys(TREND_GROUPS);
-  seg.innerHTML = groups.map((g,i) =>
-    `<button class="${i===0?'active':''}" onclick="switchTrend('${g}',this)">${TREND_GROUPS[g].label}</button>`).join('');
+// 趋势图 + 解读
+function renderTrend(){
+  const seg=document.getElementById('seg');
+  const groups=Object.keys(TREND_GROUPS);
+  seg.innerHTML=groups.map((g,i)=>`<button class="${i===0?'active':''}" onclick="switchTrend('${g}',this)">${TREND_GROUPS[g].label}</button>`).join('');
   drawTrend('growth');
 }
-let trendCharts = [null, null];
-function switchTrend(g, btn) {
-  document.querySelectorAll('#trendSeg button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  drawTrend(g);
+let tcharts=[null,null];
+function switchTrend(g,btn){
+  document.querySelectorAll('#seg button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); drawTrend(g);
 }
-function drawTrend(g) {
-  const items = TREND_GROUPS[g].items;
-  const series = DATA.series;
-  [0,1].forEach(i => {
-    const key = items[i][0], label = items[i][1];
-    const data = pick(series, key);
-    if (!trendCharts[i]) trendCharts[i] = echarts.init(document.getElementById('trendChart'+ (i+1)), 'dark');
-    const c = trendCharts[i];
-    const color = (key==='vix'||key==='us_hy_oas'||key==='us_10y'||key==='cn_10y') ? ACCENT : UP;
+function drawTrend(g){
+  const items=TREND_GROUPS[g].items;
+  const grid=document.getElementById('trendGrid');
+  grid.innerHTML=items.map((key,i)=>{
+    const r=READ[key]||{name:key,unit:'',desc:''};
+    const data=pick(key);
+    return `<div class="tcard"><div class="chart" id="tc${i}"></div>
+      <div class="desc"><b>${r.name}（${r.unit}）</b>：${r.desc}</div></div>`;
+  }).join('');
+  items.forEach((key,i)=>{
+    const r=READ[key]||{name:key};
+    const data=pick(key);
+    const c=echarts.init(document.getElementById('tc'+i),'dark');
+    const color=(key==='us_hy_oas'||key==='vix')?ACCENT:UP;
     c.setOption({
-      title: { text: label, left: 'center', textStyle: { color:'#c9d1d9', fontSize: 12 } },
-      tooltip: { trigger: 'axis' },
-      grid: { left: 45, right: 15, top: 35, bottom: 30 },
-      xAxis: { type: 'category', data: data.map(x=>x[0]), axisLabel: { color:'#8b949e', fontSize: 9, hideOverlap:true } },
-      yAxis: { type: 'value', scale: true, axisLabel: { color:'#8b949e', fontSize: 9 },
-        splitLine: { lineStyle:{ color:'#21262d' } } },
-      series: [{ type: 'line', data: data.map(x=>x[1]), smooth: true, showSymbol: false,
-        lineStyle: { color, width: 2 }, itemStyle: { color },
-        areaStyle: { color: color + '22' } }],
-    }, true);
+      title:{text:r.name,left:'center',textStyle:{color:'#c9d1d9',fontSize:11}},
+      tooltip:{trigger:'axis'},
+      grid:{left:42,right:12,top:32,bottom:24},
+      xAxis:{type:'category',data:data.map(x=>x[0]),axisLabel:{color:'#6e7681',fontSize:8,hideOverlap:true}},
+      yAxis:{type:'value',scale:true,axisLabel:{color:'#6e7681',fontSize:8},splitLine:{lineStyle:{color:'#21262d'}}},
+      series:[{type:'line',data:data.map(x=>x[1]),smooth:true,showSymbol:false,lineStyle:{color,width:2},itemStyle:{color},areaStyle:{color:color+'22'}}],
+    });
+    // 点击图表弹窗看大图
+    c.on('click',()=>showIndicator(key));
   });
 }
 
-// 弹窗：驱动详情 / 指标详情
-function showDriver(k) {
-  const d = DATA.env.drivers[k];
-  document.getElementById('modalTitle').textContent = `${DRV_ICON[k]} ${DRV_NAME[k]} — ${d.state}`;
-  document.getElementById('modalMeta').innerHTML =
-    `<b>信号：</b>${(d.signals||[]).join('、')}<br><b>轨迹：</b>${d.trajectory||'—'}<br>` +
-    `<b>雷达分：</b>${d.radar}/100`;
-  const mc = echarts.init(document.getElementById('modalChart'), 'dark');
-  mc.setOption({
-    radar: { indicator: [{name:DRV_NAME[k], max:100}], radius:'65%',
-      axisName:{ color:'#8b949e' }, splitLine:{ lineStyle:{color:'#30363d'} } },
-    series: [{ type:'radar', data:[{ value:[d.radar??50], name:DRV_NAME[k],
-      areaStyle:{color:'rgba(224,192,104,.3)'}, lineStyle:{color:ACCENT,width:2}, itemStyle:{color:ACCENT} }] }],
+// 相变预警
+function renderAlerts(){
+  const al=DATA.env.alerts;
+  if(!al.phase_warning){ document.getElementById('alertSec').style.display='none'; return; }
+  document.getElementById('alertSec').style.display='block';
+  document.getElementById('alertList').innerHTML=al.alerts.map(a=>
+    `<div class="alert-item"><b>${a.signal}</b> — ${a.level}</div>`).join('')+
+    `<div class="alert-item" style="border-color:#ff5050">综合含义：多个领先指标同步拐头，风险偏好正从 risk-on 转向 risk-off，警惕去杠杆螺旋与流动性冲击。</div>`;
+}
+
+// 弹窗：驱动详情
+function showDriver(k){
+  const d=DATA.env.drivers[k];
+  document.getElementById('mTitle').textContent=`${DRV[k].icon} ${DRV[k].name}：${d.state}`;
+  document.getElementById('mMeta').innerHTML=
+    `<b>信号：</b>${(d.signals||[]).join('、')}<br>`+
+    `<b>轨迹：</b>${d.trajectory||'—'}<br>`+
+    (d.cn_us_spread?`<b>中美利差：</b>${d.cn_us_spread}%（${d.spread_note}）<br>`:'');
+  document.getElementById('mChart').innerHTML='';  // 驱动弹窗不放图，只放文字解读
+  openModal();
+}
+// 弹窗：指标历史大图
+function showIndicator(key){
+  const r=READ[key]||{name:key,unit:'',desc:''};
+  const data=pick(key);
+  document.getElementById('mTitle').textContent=`${r.name}（历史走势）`;
+  document.getElementById('mMeta').innerHTML=`<b>解读：</b>${r.desc}`;
+  const el=document.getElementById('mChart');
+  el.innerHTML='';
+  const c=echarts.init(el,'dark');
+  const color=(key==='us_hy_oas'||key==='vix')?ACCENT:UP;
+  c.setOption({
+    tooltip:{trigger:'axis'},
+    grid:{left:50,right:16,top:20,bottom:40},
+    xAxis:{type:'category',data:data.map(x=>x[0]),axisLabel:{color:'#6e7681',fontSize:9,hideOverlap:true}},
+    yAxis:{type:'value',scale:true,axisLabel:{color:'#6e7681',fontSize:9},splitLine:{lineStyle:{color:'#21262d'}}},
+    series:[{type:'line',data:data.map(x=>x[1]),smooth:true,showSymbol:false,lineStyle:{color,width:2},itemStyle:{color},areaStyle:{color:color+'22'}}],
   });
-  document.getElementById('modalMask').style.display = 'block';
-  document.getElementById('modal').style.display = 'block';
+  openModal();
 }
-function closeModal() {
-  document.getElementById('modalMask').style.display = 'none';
-  document.getElementById('modal').style.display = 'none';
-}
-document.getElementById('modalMask').addEventListener('click', closeModal);
+function openModal(){ document.getElementById('mask').style.display='block'; document.getElementById('modal').style.display='block'; }
+function closeModal(){ document.getElementById('mask').style.display='none'; document.getElementById('modal').style.display='none'; }
+document.getElementById('mask').addEventListener('click',closeModal);
 
 load();
 </script>
