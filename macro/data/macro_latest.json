@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-31",
+ "generated": "2026-11-01",
  "indicators": {
   "us_ism_pmi": {
    "value": 54.5,
@@ -242,6 +242,69 @@
    "region": "US",
    "driver": "liquidity_stress",
    "freq": "monthly",
+   "lag": "领先"
+  },
+  "eu_pmi": {
+   "value": 50.6,
+   "date": "2026-02-28",
+   "name": "欧洲制造业PMI",
+   "region": "EU",
+   "driver": "growth",
+   "freq": "monthly",
+   "lag": "同步"
+  },
+  "eu_hicp": {
+   "value": 3.8,
+   "date": "2026-09-30",
+   "name": "欧元区HICP同比",
+   "region": "EU",
+   "driver": "inflation",
+   "freq": "monthly",
+   "lag": "滞后"
+  },
+  "eur_usd": {
+   "value": 0.8959,
+   "date": "2026-10-30",
+   "name": "美元兑欧元",
+   "region": "EU",
+   "driver": "fx",
+   "freq": "daily",
+   "lag": "同步"
+  },
+  "de_10y": {
+   "value": 3.4,
+   "date": "2026-10-30",
+   "name": "德国10Y国债收益率",
+   "region": "EU",
+   "driver": "liquidity",
+   "freq": "daily",
+   "lag": "领先"
+  },
+  "jp_rate": {
+   "value": 1.25,
+   "date": "2026-10-27",
+   "name": "日本央行政策利率",
+   "region": "JP",
+   "driver": "liquidity",
+   "freq": "daily",
+   "lag": "领先"
+  },
+  "usd_jpy": {
+   "value": 157.4815,
+   "date": "2026-10-30",
+   "name": "美元兑日元",
+   "region": "JP",
+   "driver": "fx",
+   "freq": "daily",
+   "lag": "同步"
+  },
+  "jp_10y": {
+   "value": 2.76,
+   "date": "2026-10-30",
+   "name": "日本10Y国债收益率",
+   "region": "JP",
+   "driver": "liquidity",
+   "freq": "daily",
    "lag": "领先"
   }
  }

@@ -84,6 +84,16 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 .scale .sdir { font-size:.8rem; margin-bottom:3px; }
 .scale .sev { font-size:.72rem; color:#8b949e; line-height:1.5; }
 .scale .shint { font-size:.68rem; color:#6e7681; margin-top:4px; }
+/* 地区格局 */
+.region-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.region { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+.region .rhead { font-size:.8rem; color:var(--accent); font-weight:700; margin-bottom:4px; }
+.region .rtag { font-size:.65rem; color:#6e7681; font-weight:400; margin-left:4px; }
+.region .rphase { font-size:1.0rem; font-weight:700; margin-bottom:4px; }
+.region .rsig { font-size:.75rem; color:#adbac7; margin-bottom:4px; line-height:1.6; }
+.region .rdata { font-size:.7rem; color:#8b949e; margin-top:4px; }
+.region .rnote { font-size:.72rem; color:#8b949e; line-height:1.6; }
+.region.global { border-color:#e0c068; }
 /* 流动性枯竭 */
 .liq-ok { background:#12241a; border:1px solid #00c864; border-radius:8px; padding:10px 14px; font-size:.82rem; color:#adbac7; }
 .liq-alert { background:#2a1518; border:1px solid #ff5050; border-radius:8px; padding:10px 14px; font-size:.85rem; color:#ff5050; font-weight:700; margin-bottom:8px; }
@@ -95,7 +105,7 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 .modal .close:hover { color:#fff; }
 .modal .mmeta { font-size:.8rem; color:#adbac7; margin:6px 0; line-height:1.7; }
 .modal .mchart { width:100%; height:300px; }
-@media (max-width:760px) { .drv-grid,.asset-grid,.clock,.pstances,.scale-grid { grid-template-columns:1fr; } }
+@media (max-width:760px) { .drv-grid,.asset-grid,.clock,.pstances,.scale-grid,.region-grid { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -105,6 +115,10 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 
 <section id="scaleSec"><h2>三尺度总览（康波60y · 中周期库存 · 月度景气）</h2>
   <div class="scale-grid" id="scaleGrid"></div>
+</section>
+
+<section id="regionSec"><h2>地区格局（欧洲能源传导 · 日本套息交易 · 全球分化）</h2>
+  <div class="region-grid" id="regionGrid"></div>
 </section>
 
 <section><h2>一、大类资产轮动（美林时钟）</h2>
@@ -187,7 +201,7 @@ async function load(){
   ]);
   DATA={env,latest,series,opinions};
   document.getElementById('subTitle').textContent=`数据截至 ${env.generated} · 统一底座每日自动更新 · 三尺度分离：康波60y(定方向) / 中周期库存(定节奏) / 月度景气(定短期)，各尺度独立判断不混用`;
-  renderVerdict(); renderScales(); renderClock(); renderAssets(); renderDrivers(); renderAlerts(); renderOpinions(); renderLiquidity();
+  renderVerdict(); renderScales(); renderRegions(); renderClock(); renderAssets(); renderDrivers(); renderAlerts(); renderOpinions(); renderLiquidity();
 }
 
 function renderVerdict(){
@@ -432,6 +446,32 @@ function renderScales(){
       <div class="sphase">${rg.quadrant||'—'}象限</div>
       <div class="sdir">${rg.assets||''}</div>
       <div class="sev">增长[${(dr.growth||{}).state||'?'}] 通胀[${(dr.inflation||{}).state||'?'}] 流动性[${(dr.liquidity||{}).state||'?'}] 风险偏好[${(dr.risk_appetite||{}).state||'?'}]</div>
+    </div>`;
+}
+
+// 地区格局：欧洲(能源传导) + 日本(套息交易) + 全球分化
+function renderRegions(){
+  const rg=DATA.env.regions;
+  if(!rg){document.getElementById('regionSec').style.display='none';return;}
+  document.getElementById('regionSec').style.display='block';
+  const eu=rg.europe||{}, jp=rg.japan||{}, g=rg.global||{};
+  document.getElementById('regionGrid').innerHTML=
+    `<div class="region">
+      <div class="rhead">🇪🇺 欧洲<span class="rtag">能源成本传导</span></div>
+      <div class="rphase">${eu.phase||'—'}</div>
+      <div class="rsig">${(eu.signals||[]).map(s=>`<div>· ${s}</div>`).join('')||'—'}</div>
+      <div class="rdata">HICP ${fmt(eu.hicp,1)}% · 美元兑欧元 ${fmt(eu.eur_usd)} · 德10Y ${fmt(eu.de_10y,1)}%</div>
+    </div>
+    <div class="region">
+      <div class="rhead">🇯🇵 日本<span class="rtag">套息交易</span></div>
+      <div class="rphase">${jp.phase||'—'}</div>
+      <div class="rsig">${(jp.signals||[]).map(s=>`<div>· ${s}</div>`).join('')||'—'}</div>
+      <div class="rdata">政策利率 ${fmt(jp.rate,2)}% · 美日利差 ${fmt(jp.us_jp_spread,2)}% · 日元 ${fmt(jp.usd_jpy,1)} · 日10Y ${fmt(jp.jp_10y,1)}%</div>
+    </div>
+    <div class="region global">
+      <div class="rhead">🌐 全球分化</div>
+      <div class="rphase">${g.pattern||'—'}</div>
+      <div class="rnote">${g.note||''}</div>
     </div>`;
 }
 
