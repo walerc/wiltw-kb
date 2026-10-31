@@ -308,6 +308,7 @@ function renderAlerts(){
 }
 
 // 弹窗：方向趋势评估 + 趋势图
+let _chart=null;
 function showDriver(k){
   const d=DATA.env.drivers[k];
   const title=`${DRV[k].icon} ${DRV[k].name} — ${d.direction}（${d.trend||'稳定'}）`;
@@ -318,18 +319,31 @@ function showDriver(k){
     `<b>信号：</b>${(d.signals||[]).join('、')}<br>`+
     `<b>轨迹：</b>${d.trajectory||'—'}`+(d.cn_us_spread?`<br><b>中美利差：</b>${d.cn_us_spread}%（${d.spread_note}）`:'')+
     `<div class="hint" style="color:#6e7681;margin-top:6px">下图：${items.map(i=>READ[i].name).join(' vs ')}近一年走势，看方向与趋势。</div>`;
-  // 趋势图
-  const el=document.getElementById('mChart'); el.innerHTML='';
-  const c=echarts.init(el,'dark');
-  const series=items.map(key=>({key,name:READ[key].name,data:pick(key).slice(-60),color:key==='us_hy_oas'||key==='vix'||key==='us_10y'||key==='cn_10y'?NEU:UP}));
-  c.setOption({
+  openModal();                 // 先显示容器，再渲染图表——否则 echarts 在 display:none 里拿到 0 尺寸
+  drawDriverChart(items);
+}
+function drawDriverChart(items){
+  const el=document.getElementById('mChart');
+  if(_chart){ try{_chart.dispose();}catch(e){} _chart=null; }
+  el.innerHTML='';
+  void el.offsetWidth;         // 强制 reflow，确保容器尺寸生效
+  _chart=echarts.init(el,'dark');
+  const series=items.map(key=>({key,name:READ[key].name,data:pick(key).slice(-60),color:(key==='us_hy_oas'||key==='vix'||key==='us_10y'||key==='cn_10y')?NEU:UP}));
+  // 两指标量级差 >3 倍时启用双 Y 轴（如 VIX 19 vs 信用利差 3.26）
+  const absMax=s=>s.data.reduce((m,x)=>Math.max(m,Math.abs(x[1]||0)),0);
+  const maxs=series.map(absMax);
+  const mx=Math.max(...maxs), mn=Math.min(...maxs.filter(v=>v>0));
+  const dual=mx/(mn||1)>3;
+  _chart.setOption({
     tooltip:{trigger:'axis'}, legend:{top:0,textStyle:{color:'#c9d1d9',fontSize:10}},
-    grid:{left:46,right:16,top:32,bottom:26},
+    grid:{left:46,right:dual?50:16,top:32,bottom:26},
     xAxis:{type:'category',data:series[0].data.map(x=>x[0]),axisLabel:{color:'#6e7681',fontSize:8,hideOverlap:true}},
-    yAxis:{type:'value',scale:true,axisLabel:{color:'#6e7681',fontSize:8},splitLine:{lineStyle:{color:'#21262d'}}},
-    series:series.map(s=>({name:s.name,type:'line',data:s.data.map(x=>x[1]),smooth:true,showSymbol:false,lineStyle:{color:s.color,width:2},itemStyle:{color:s.color}})),
+    yAxis:dual?[
+      {type:'value',scale:true,axisLabel:{color:'#6e7681',fontSize:8},splitLine:{lineStyle:{color:'#21262d'}}},
+      {type:'value',scale:true,axisLabel:{color:'#6e7681',fontSize:8},splitLine:{show:false}},
+    ]:{type:'value',scale:true,axisLabel:{color:'#6e7681',fontSize:8},splitLine:{lineStyle:{color:'#21262d'}}},
+    series:series.map((s,i)=>({name:s.name,type:'line',data:s.data.map(x=>x[1]),smooth:true,showSymbol:false,yAxisIndex:(dual&&i>0)?1:0,lineStyle:{color:s.color,width:2},itemStyle:{color:s.color}})),
   });
-  openModal();
 }
 function openModal(){document.getElementById('mask').style.display='block';document.getElementById('modal').style.display='block';}
 function closeModal(){document.getElementById('mask').style.display='none';document.getElementById('modal').style.display='none';}
