@@ -329,7 +329,8 @@ function drawDriverChart(items){
   void el.offsetWidth;         // 强制 reflow，确保容器尺寸生效
   _chart=echarts.init(el,'dark');
   _chart.resize();             // init 时可能仍读不到容器宽度(display:none 残留)，显式 resize 强制按当前尺寸渲染
-  const series=items.map(key=>({key,name:READ[key].name,data:pick(key).slice(-60),color:(key==='us_hy_oas'||key==='vix'||key==='us_10y'||key==='cn_10y')?NEU:UP}));
+  const LINE_COLOR={us_ism_pmi:'#ff5050',cn_pmi:'#58a6ff',us_cpi:'#ffa657',cn_ppi:'#39c5cf',cn_m2:'#00c864',us_10y:'#e0c068',us_hy_oas:'#d2a8ff',vix:'#ff7b72'};
+  const series=items.map(key=>({key,name:READ[key].name,data:pick(key).slice(-60),color:LINE_COLOR[key]||UP}));
   // 两指标量级差 >3 倍时启用双 Y 轴（如 VIX 19 vs 信用利差 3.26）
   const absMax=s=>s.data.reduce((m,x)=>Math.max(m,Math.abs(x[1]||0)),0);
   const maxs=series.map(absMax);
