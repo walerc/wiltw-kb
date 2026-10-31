@@ -432,7 +432,10 @@ function renderScales(){
       <div class="shead">🌊 康波周期<span class="stag">60年 · 定方向</span></div>
       <div class="sphase">${k.phase||'—'}</div>
       <div class="sdir ${dirCls(k.direction)}">${k.direction||''} · ${k.asset||''}</div>
-      <div class="sev">${k.evidence||''}</div>
+      <div class="sev">${k.framework||''}</div>
+      <div class="sev">${k.rotation||''}</div>
+      <div class="sev">佐证：${k.evidence||''}</div>
+      ${(k.quotes||[]).map(q=>`<div class="shint">「${q}」</div>`).join('')}
       <div class="shint">${k.lag_note||''}</div>
     </div>
     <div class="scale">
@@ -475,7 +478,7 @@ function renderRegions(){
     </div>`;
 }
 
-// 流动性枯竭监测：独立预警通道，平时静默、触发才报警
+// 流动性枯竭监测：独立预警通道，平时静默、触发才报警（日度三件套）
 function renderLiquidity(){
   const ls=DATA.env.liquidity_stress;
   if(!ls){document.getElementById('liqSec').style.display='none';return;}
@@ -485,7 +488,10 @@ function renderLiquidity(){
   if(ls.stress){
     el.innerHTML=`<div class="liq-alert">⚠️ 流动性枯竭预警触发</div>`+ls.signals.map(s=>`<div class="alert-item"><b>${s}</b></div>`).join('');
   } else {
-    el.innerHTML=`<div class="liq-ok">✅ 流动性正常（静默监测中）：SOFR-EFFR利差 <b>${ls.sofr_effr_spread_bp}bp</b>（预警阈值15bp）　·　高收益债利差 <b>${fmt(hy,2)}%</b>（阈值4%）　·　VIX <b>${fmt(vix,1)}</b>（阈值30）。美元融资压力未现，信用/恐慌指标正常。</div>`;
+    const gap=ls.gap_to_cap_bp!=null?`距目标上限 <b>${Math.abs(ls.gap_to_cap_bp)}bp</b>`:'';
+    const efr=ls.sofr_effr_bp!=null?`<b>${ls.sofr_effr_bp}bp</b>`:'—';
+    const onr=ls.sofr_onrrp_bp!=null?`<b>${ls.sofr_onrrp_bp}bp</b>`:'—';
+    el.innerHTML=`<div class="liq-ok">✅ 流动性正常（静默监测中）：SOFR <b>${fmt(ls.sofr,2)}%</b>（${gap}，贴/破上限=融资紧张）　·　SOFR-EFFR ${efr}（阈值15bp）　·　SOFR-ON RRP ${onr}（阈值30bp）　·　高收益债利差 <b>${fmt(hy,2)}%</b>（阈值4%）　·　VIX <b>${fmt(vix,1)}</b>（阈值30）。美元融资压力未现，信用/恐慌指标正常。</div>`;
   }
 }
 

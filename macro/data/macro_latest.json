@@ -237,11 +237,11 @@
   },
   "us_effr": {
    "value": 3.88,
-   "date": "2026-10-31",
+   "date": "2026-10-29",
    "name": "美国有效联邦基金利率(EFFR)",
    "region": "US",
    "driver": "liquidity_stress",
-   "freq": "monthly",
+   "freq": "daily",
    "lag": "领先"
   },
   "eu_pmi": {
@@ -304,6 +304,24 @@
    "name": "日本10Y国债收益率",
    "region": "JP",
    "driver": "liquidity",
+   "freq": "daily",
+   "lag": "领先"
+  },
+  "us_on_rrp": {
+   "value": 3.75,
+   "date": "2026-10-30",
+   "name": "美国隔夜逆回购利率(ON RRP)",
+   "region": "US",
+   "driver": "liquidity_stress",
+   "freq": "daily",
+   "lag": "领先"
+  },
+  "us_ffr_cap": {
+   "value": 4.0,
+   "date": "2026-10-29",
+   "name": "美国联邦基金目标利率上限",
+   "region": "US",
+   "driver": "liquidity_stress",
    "freq": "daily",
    "lag": "领先"
   }
