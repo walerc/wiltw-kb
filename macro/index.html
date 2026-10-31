@@ -61,6 +61,8 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 .alert-item b { color:var(--warn); }
 /* 观点层 */
 .prop { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:12px; }
+.op-sum { background:#1a1215; border:1px solid #ff5050; border-radius:10px; padding:12px 16px; margin-bottom:14px; font-size:.85rem; line-height:1.7; color:#adbac7; }
+.op-sum b { color:var(--up); }
 .prop .ptopic { font-size:.95rem; font-weight:700; color:var(--accent); margin-bottom:4px; }
 .prop .pfact { font-size:.78rem; color:#8b949e; margin-bottom:8px; }
 .prop .pbar { display:flex; height:8px; border-radius:4px; overflow:hidden; background:#21262d; margin-bottom:6px; }
@@ -336,7 +338,7 @@ function renderOpinions(){
   const ops=(DATA.opinions&&DATA.opinions.propositions)||[];
   if(!ops.length){document.getElementById('opinionSec').style.display='none';return;}
   document.getElementById('opinionSec').style.display='block';
-  document.getElementById('opinionGrid').innerHTML=ops.map(p=>{
+  document.getElementById('opinionGrid').innerHTML=opinionSummary(ops)+ops.map(p=>{
     const L=PROP_LABEL[p.id]||{bull:'偏多',bear:'偏空'};
     const bull=p.stances.filter(s=>s.score>0);
     const bear=p.stances.filter(s=>s.score<0);
@@ -346,7 +348,11 @@ function renderOpinions(){
     const consensus=maxPct>=80?'<b style="color:#ff5050">共识一致(拥挤预警)</b>':maxPct>=60?'<b style="color:#d2a850">偏一致</b>':'<b style="color:#e0c068">分歧</b>';
     const viewDir=bull.length>bear.length?1:(bull.length<bear.length?-1:0);
     let dev;
-    if(viewDir===0) dev='⚠️ 观点分歧、无共识，方向待定';
+    if(viewDir===0){
+      dev=p.fact_dir!==0
+        ?`⚠️ 观点分歧(无共识)，但<b>事实层偏${p.fact_dir>0?'鹰':'鸽'}</b>：数据/政策方向明确，预测报告在打架`
+        :'⚠️ 观点分歧、无共识，方向待定';
+    }
     else if(p.fact_dir===viewDir) dev='✅ 事实层与主流观点同向';
     else dev='⚠️ <b>事实层与主流观点背离</b>：数据/政策偏'+(p.fact_dir>0?'鹰(红)':'鸽(绿)')+'，主流观点偏'+(viewDir>0?'鹰':'鸽');
     const stancesHtml=p.stances.map(s=>{
@@ -362,6 +368,17 @@ function renderOpinions(){
       <div class="pstances">${stancesHtml}</div>
     </div>`;
   }).join('');
+}
+function opinionSummary(ops){
+  const hawkFact=ops.filter(p=>p.fact_dir===1).length;
+  const doveFact=ops.filter(p=>p.fact_dir===-1).length;
+  if(hawkFact>=ops.length*0.66){
+    return `<div class="op-sum">核心信号：事实层（数据+政策）偏鹰——美联储9月加息25bp、点阵图暗示年内再加息；而IMF/高盛预测报告偏乐观（通胀暂时/软着陆）、市场FedWatch仍押注12月降息。<b>「政策行动 vs 预测预期」系统性背离：政策比预测更鹰，市场定价滞后于政策现实，警惕利率/通胀重定价。</b></div>`;
+  }
+  if(doveFact>=ops.length*0.66){
+    return `<div class="op-sum">核心信号：事实层（数据+政策）偏鸽——指向宽松，而市场/预测偏鹰，警惕超调。</div>`;
+  }
+  return '';
 }
 
 // 弹窗：方向趋势评估 + 趋势图
