@@ -78,7 +78,7 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
   <div class="clock-label" id="clockLabel"></div>
 </section>
 
-<section><h2>二、大类资产当前表现（股·债·商 · 分中美 · 近1月）</h2>
+<section><h2>二、大类资产轮动（股·债·商·金 · 资产属性+驱动 · 近1月）</h2>
   <div class="asset-grid" id="assetGrid"></div>
   <div class="asset-concl" id="assetConcl"></div>
 </section>
@@ -120,6 +120,7 @@ const READ={
   sp500:{name:'标普500',unit:'点',desc:'美股综合指数。',dir:'up'},
   nanhua:{name:'南华商品指数',unit:'点',desc:'中国商品综合指数。',dir:'up'},
   crb:{name:'CRB商品指数',unit:'点',desc:'全球商品综合指数。',dir:'up'},
+  gold:{name:'伦敦现货黄金',unit:'美元/盎司',desc:'实际利率镜像，正实际利率压制金价。',dir:'down'},
 };
 const DRV_ITEMS={ growth:['us_ism_pmi','cn_pmi'], inflation:['us_cpi','cn_ppi'], liquidity:['cn_m2','us_10y'], risk_appetite:['us_hy_oas','vix'] };
 
@@ -138,7 +139,7 @@ async function load(){
     fetch('data/macro_series.json?t='+Date.now()).then(r=>r.json()),
   ]);
   DATA={env,latest,series};
-  document.getElementById('subTitle').textContent=`数据截至 ${env.generated} · 统一底座每日自动更新（19项宏观+大类资产指标）`;
+  document.getElementById('subTitle').textContent=`数据截至 ${env.generated} · 统一底座每日自动更新 · 尺度：月度景气（当前值+近1月趋势），全页宏观评估与资产比较同此尺度，不混用其他尺度`;
   renderVerdict(); renderClock(); renderAssets(); renderDrivers(); renderAlerts();
 }
 
@@ -160,31 +161,35 @@ function renderClock(){
   document.getElementById('clockLabel').innerHTML=`<span>横轴=增长(右强左弱) · 纵轴=通胀(上高下低)</span><span>当前：<b>${rg.quadrant}</b> — ${quads[rg.quadrant].d}</span>`;
 }
 
-// 大类资产：股债商三大类 × 中美两地区，近1月涨跌幅（与宏观月度尺度统一）
+// 大类资产：明确资产属性 + 驱动，月度景气尺度（近1月），与宏观评估同尺度
+const ASSET_CLASSES=[
+  {label:'股票',attr:'风险资产',drv:'驱动=增长/盈利',items:[{key:'sh_index',name:'上证',r:'中国'},{key:'sp500',name:'标普',r:'美国'}]},
+  {label:'债券',attr:'利率资产',drv:'驱动=利率/避险',items:[{key:'cn_10y',name:'中债',r:'中国',inv:1},{key:'us_10y',name:'美债',r:'美国',inv:1}]},
+  {label:'商品',attr:'实物资产',drv:'驱动=供需/通胀',items:[{key:'nanhua',name:'南华',r:'中国'},{key:'crb',name:'CRB',r:'全球'}]},
+  {label:'黄金',attr:'实际利率镜像',drv:'驱动=实际利率/美元/避险',items:[{key:'gold',name:'伦敦金',r:'全球'}]},
+];
 function renderAssets(){
-  const rows=[
-    {label:'股票',cn:{key:'sh_index',name:'上证'},us:{key:'sp500',name:'标普500'}},
-    {label:'债券',cn:{key:'cn_10y',name:'中债10Y',inv:true},us:{key:'us_10y',name:'美债10Y',inv:true}},
-    {label:'商品',cn:{key:'nanhua',name:'南华'},us:{key:'crb',name:'CRB'}},
-  ];
   const el=document.getElementById('assetGrid');
-  el.innerHTML=rows.map(r=>{
-    const c=r.cn,u=r.us;
-    const cp=(c.inv?-1:1)*(monthPct(c.key)||0), up=(u.inv?-1:1)*(monthPct(u.key)||0);
-    const cc=cp>=0?'var(--up)':'var(--down)', uc=up>=0?'var(--up)':'var(--down)';
-    return `<div class="asset"><div class="an">${r.label}</div>
-      <div class="ev" style="margin-top:4px">中国·<b style="color:${cc}">${c.name}</b> <b style="color:${cc}">${sign(cp)}%</b></div>
-      <div class="ev">美国·<b style="color:${uc}">${u.name}</b> <b style="color:${uc}">${sign(up)}%</b></div>
-      ${c.inv?'<div class="hint">债价=收益率变化取反</div>':''}</div>`;
+  el.innerHTML=ASSET_CLASSES.map(a=>{
+    const items=a.items.map(it=>{
+      const p=(it.inv?-1:1)*(monthPct(it.key)||0);
+      const c=p>=0?'var(--up)':'var(--down)';
+      return `<div class="ev" style="margin-top:3px">${it.r}·<b style="color:${c}">${it.name}</b> <b style="color:${c}">${sign(p)}%</b></div>`;
+    }).join('');
+    return `<div class="asset"><div class="an">${a.label} <span style="color:#6e7681;font-size:.72rem">${a.attr}</span></div>
+      <div class="hint" style="font-size:.68rem;margin-top:2px">${a.drv}</div>${items}</div>`;
   }).join('');
-  document.getElementById('assetConcl').innerHTML=`<b>近1月轮动（与宏观月度尺度统一）：</b>${assetConclText()}`;
+  document.getElementById('assetConcl').innerHTML=`<b>近1月轮动（月度景气尺度，与宏观评估同尺度）：</b>${assetConclText()}`;
 }
 function assetConclText(){
   const rg=DATA.env.regime;
-  const sh=monthPct('sh_index'), sp=monthPct('sp500'), bcn=-monthPct('cn_10y'), bus=-monthPct('us_10y'), nh=monthPct('nanhua'), cb=monthPct('crb');
+  const sh=monthPct('sh_index'), sp=monthPct('sp500'), bcn=-monthPct('cn_10y'), bus=-monthPct('us_10y'), nh=monthPct('nanhua'), cb=monthPct('crb'), au=monthPct('gold');
+  const realRate=(val('us_10y')||0)-(val('us_cpi')||0);
   const strong=[];
-  if(sh>0)strong.push('A股'); if(sp>0)strong.push('美股'); if(bcn>0)strong.push('中债'); if(bus>0)strong.push('美债'); if(nh>0)strong.push('南华商品'); if(cb>0)strong.push('CRB商品');
-  return `当前${rg.quadrant}象限，理论「${rg.assets}」。近1月实际：A股${sign(sh)}%、美股${sign(sp)}%、中债${sign(bcn)}%、美债${sign(bus)}%、南华${sign(nh)}%、CRB${sign(cb)}%。`+(strong.length?`强势【${strong.join('、')}】`:'');
+  if(sh>0)strong.push('A股'); if(sp>0)strong.push('美股'); if(bcn>0)strong.push('中债'); if(bus>0)strong.push('美债'); if(nh>0)strong.push('南华'); if(cb>0)strong.push('CRB'); if(au>0)strong.push('黄金');
+  return `当前${rg.quadrant}象限，理论「${rg.assets}」。近1月：A股${sign(sh)}%、美股${sign(sp)}%、中债${sign(bcn)}%、美债${sign(bus)}%、南华${sign(nh)}%、CRB${sign(cb)}%、黄金${sign(au)}%。`+
+    (strong.length?`强势【${strong.join('、')}】。`:'')+
+    `黄金定性：实际利率镜像（当前实际利率≈${realRate.toFixed(2)}%，${realRate>0?'正利率压制金价':'负利率利多金价'}）。`;
 }
 
 // 四驱动：结论 + 方向 + 趋势 + 论据（颜色联动）
