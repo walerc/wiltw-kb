@@ -160,7 +160,7 @@ async function load(){
   const [env,latest,series,opinions]=await Promise.all([
     fetch('data/macro_env.json?t='+Date.now()).then(r=>r.json()),
     fetch('data/macro_latest.json?t='+Date.now()).then(r=>r.json()),
-    fetch('data/macro_series.json?t='+Date.now()).then(r=>r.json()),
+    fetch('data/macro_series_recent.json?t='+Date.now()).then(r=>r.json()),
     fetch('data/opinions.json?t='+Date.now()).then(r=>r.json()).catch(()=>({propositions:[]})),
   ]);
   DATA={env,latest,series,opinions};
