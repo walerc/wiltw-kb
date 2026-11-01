@@ -94,6 +94,14 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 .region .rdata { font-size:.7rem; color:#8b949e; margin-top:4px; }
 .region .rnote { font-size:.72rem; color:#8b949e; line-height:1.6; }
 .region.global { border-color:#e0c068; }
+/* 汇率/资本流动 */
+.fx-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.fx { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:12px 14px; }
+.fx .fhead { font-size:.8rem; color:var(--accent); font-weight:700; margin-bottom:4px; }
+.fx .fval { font-size:1.15rem; font-weight:700; margin-bottom:3px; }
+.fx .fdir { font-size:.78rem; margin-bottom:3px; font-weight:600; }
+.fx .fnote { font-size:.7rem; color:#8b949e; line-height:1.5; margin-top:4px; }
+.fx-divergence { grid-column:1/-1; background:#2a1518; border:1px solid #ff5050; border-radius:8px; padding:10px 14px; font-size:.82rem; color:#ff7b72; font-weight:600; line-height:1.6; }
 /* 流动性枯竭 */
 .liq-ok { background:#12241a; border:1px solid #00c864; border-radius:8px; padding:10px 14px; font-size:.82rem; color:#adbac7; }
 .liq-alert { background:#2a1518; border:1px solid #ff5050; border-radius:8px; padding:10px 14px; font-size:.85rem; color:#ff5050; font-weight:700; margin-bottom:8px; }
@@ -123,6 +131,10 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 
 <section id="regionSec"><h2>地区格局（欧洲能源传导 · 日本套息交易 · 全球分化）</h2>
   <div class="region-grid" id="regionGrid"></div>
+</section>
+
+<section id="fxSec"><h2>汇率 / 资本流动（利差→汇率背离检测）</h2>
+  <div class="fx-grid" id="fxGrid"></div>
 </section>
 
 <section><h2>一、大类资产轮动（美林时钟）</h2>
@@ -205,7 +217,7 @@ async function load(){
   ]);
   DATA={env,latest,series,opinions};
   document.getElementById('subTitle').textContent=`数据截至 ${env.generated} · 统一底座每日自动更新 · 三尺度分离：康波60y(定方向) / 中周期库存(定节奏) / 月度景气(定短期)，各尺度独立判断不混用`;
-  renderVerdict(); renderReports(); renderScales(); renderRegions(); renderClock(); renderAssets(); renderDrivers(); renderAlerts(); renderOpinions(); renderLiquidity();
+  renderVerdict(); renderReports(); renderScales(); renderRegions(); renderFx(); renderClock(); renderAssets(); renderDrivers(); renderAlerts(); renderOpinions(); renderLiquidity();
 }
 
 function renderVerdict(){
@@ -537,6 +549,35 @@ function renderRegions(){
       <div class="rphase">${g.pattern||'—'}</div>
       <div class="rnote">${g.note||''}</div>
     </div>`;
+}
+
+// 汇率/资本流动：人民币 + 美元指数 + 中美利差，核心是利差→汇率背离检测
+function renderFx(){
+  const fx=DATA.env.fx;
+  if(!fx){document.getElementById('fxSec').style.display='none';return;}
+  document.getElementById('fxSec').style.display='block';
+  const cnyColor=fx.cny_direction==='升值'?'#ff5050':(fx.cny_direction==='贬值'?'#00c864':'#adbac7');
+  const dxyColor=fx.dxy_direction==='走强'?'#ff5050':(fx.dxy_direction==='走弱'?'#00c864':'#adbac7');
+  const divBlock=fx.divergence?`<div class="fx-divergence">⚠️ ${fx.divergence}</div>`:'';
+  document.getElementById('fxGrid').innerHTML=
+    `<div class="fx">
+      <div class="fhead">🇨🇳 人民币<span class="rtag">USDCNY</span></div>
+      <div class="fval">${fmt(fx.usdcny,4)}</div>
+      <div class="fdir" style="color:${cnyColor}">${fx.cny_direction||'—'}（数值↓=升值）</div>
+      <div class="fnote">${fx.cny_trend||''}</div>
+    </div>
+    <div class="fx">
+      <div class="fhead">🇺🇸 美元指数<span class="rtag">DXY</span></div>
+      <div class="fval">${fmt(fx.dxy,2)}</div>
+      <div class="fdir" style="color:${dxyColor}">${fx.dxy_direction||'—'}</div>
+      <div class="fnote">美元走强=全球流动性收紧</div>
+    </div>
+    <div class="fx">
+      <div class="fhead">🌐 中美利差<span class="rtag">10Y</span></div>
+      <div class="fval">${fmt(fx.cn_us_spread,2)}%</div>
+      <div class="fnote">美10Y − 中10Y，倒挂=套息/资本流出压力</div>
+    </div>
+    ${divBlock}`;
 }
 
 // 流动性枯竭监测：独立预警通道，平时静默、触发才报警（日度三件套）
