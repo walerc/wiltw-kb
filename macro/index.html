@@ -113,6 +113,10 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 <div class="sub" id="subTitle">加载中…</div>
 <div class="verdict" id="verdict"></div>
 
+<section id="reportSec"><h2>📋 周报 / 月报</h2>
+  <div id="reportList" style="font-size:.85rem;color:#adbac7">加载中…</div>
+</section>
+
 <section id="scaleSec"><h2>三尺度总览（康波60y · 中周期库存 · 月度景气）</h2>
   <div class="scale-grid" id="scaleGrid"></div>
 </section>
@@ -201,7 +205,7 @@ async function load(){
   ]);
   DATA={env,latest,series,opinions};
   document.getElementById('subTitle').textContent=`数据截至 ${env.generated} · 统一底座每日自动更新 · 三尺度分离：康波60y(定方向) / 中周期库存(定节奏) / 月度景气(定短期)，各尺度独立判断不混用`;
-  renderVerdict(); renderScales(); renderRegions(); renderClock(); renderAssets(); renderDrivers(); renderAlerts(); renderOpinions(); renderLiquidity();
+  renderVerdict(); renderReports(); renderScales(); renderRegions(); renderClock(); renderAssets(); renderDrivers(); renderAlerts(); renderOpinions(); renderLiquidity();
 }
 
 function renderVerdict(){
@@ -211,6 +215,60 @@ function renderVerdict(){
   el.innerHTML=`<div class="big">${warn?'⚠️ ':'✅ '}当前宏观环境处于【${rg.quadrant}】象限：增长动能衰减 + 再通胀升温。对商品：通胀利多，但需求（中国）偏弱 + 风险偏好转弱，需防流动性冲击。</div>`+
     `<div class="detail">资产配置：<b>${rg.assets}</b>　·　增长[${d.growth.state}]　通胀[${d.inflation.state}]　流动性[${d.liquidity.state}]　风险偏好[${d.risk_appetite.state}]`+
     (warn?`　<span class="pill risk">相变预警：${al.lead_signals.join('、')}</span>`:`　<span class="pill">无相变前兆</span>`)+`</div>`;
+}
+
+// ============ 周报/月报 ============
+function renderReports(){
+  fetch('reports/index.json?t='+Date.now()).then(r=>r.json()).then(idx=>{
+    const list=(idx.reports||[]).slice().reverse();
+    const sec=document.getElementById('reportSec');
+    if(!list.length){ sec.style.display='none'; return; }
+    sec.style.display='block';
+    document.getElementById('reportList').innerHTML=list.map(rp=>{
+      const icon=rp.type==='monthly'?'📅':'📋';
+      return `<div style="padding:9px 12px;margin:6px 0;background:#161b22;border:1px solid #30363d;border-radius:8px;cursor:pointer" onclick="openReport('${rp.file}','${rp.title}')"><span>${icon}</span> <b style="color:#c9d1d9">${rp.title}</b> <span style="color:#6e7681;font-size:.72rem;margin-left:6px">${rp.date}</span></div>`;
+    }).join('');
+  }).catch(()=>{ document.getElementById('reportSec').style.display='none'; });
+}
+function openReport(file,title){
+  fetch('reports/'+file+'?t='+Date.now()).then(r=>r.text()).then(md=>{
+    document.getElementById('mTitle').textContent=title;
+    document.getElementById('mMeta').innerHTML='';
+    document.getElementById('mChart').innerHTML='<div style="color:#c9d1d9;font-size:.82rem;line-height:1.7;max-height:68vh;overflow:auto;padding-right:6px">'+md2html(md)+'</div>';
+    openModal();
+  });
+}
+function md2html(md){
+  const lines=md.split('\n'); let html=''; let i=0;
+  while(i<lines.length){
+    const ln=lines[i];
+    if(ln.trim().startsWith('|')){
+      const rows=[];
+      while(i<lines.length && lines[i].trim().startsWith('|')){
+        rows.push(lines[i].trim().replace(/^\||\|$/g,'').split('|').map(c=>c.trim())); i++;
+      }
+      html+='<table style="width:100%;border-collapse:collapse;font-size:.78rem;margin:8px 0">';
+      for(let r=0;r<rows.length;r++){
+        const cells=rows[r];
+        if(cells.every(c=>/^:?-{3,}:?$/.test(c))) continue;
+        const tag=(r===0)?'th':'td';
+        html+='<tr>'+cells.map(c=>`<${tag} style="border:1px solid #30363d;padding:4px 8px;${tag==='th'?'color:#e0c068;background:#1f242c':''}">${inline(c)}</${tag}>`).join('')+'</tr>';
+      }
+      html+='</table>'; continue;
+    }
+    if(ln.startsWith('# ')) html+=`<h2 style="color:#e0c068;margin:14px 0 6px;font-size:1.05rem">${inline(ln.slice(2))}</h2>`;
+    else if(ln.startsWith('## ')) html+=`<h3 style="color:#e0c068;margin:12px 0 6px;font-size:.98rem">${inline(ln.slice(3))}</h3>`;
+    else if(ln.startsWith('### ')) html+=`<h4 style="color:#c9d1d9;margin:10px 0 4px;font-size:.9rem">${inline(ln.slice(4))}</h4>`;
+    else if(ln.startsWith('> ')) html+=`<div style="color:#8b949e;border-left:3px solid #30363d;padding:4px 10px;margin:6px 0;font-size:.78rem">${inline(ln.slice(2))}</div>`;
+    else if(ln.startsWith('- ')) html+=`<div style="padding-left:12px;margin:3px 0">• ${inline(ln.slice(2))}</div>`;
+    else if(ln.trim()==='') html+='';
+    else html+=`<div style="margin:3px 0">${inline(ln)}</div>`;
+    i++;
+  }
+  return html;
+}
+function inline(s){
+  return s.replace(/\*\*(.+?)\*\*/g,'<b style="color:#e0c068">$1</b>').replace(/`(.+?)`/g,'<code style="background:#21262d;padding:1px 5px;border-radius:4px">$1</code>');
 }
 
 function renderClock(){
