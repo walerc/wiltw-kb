@@ -99,7 +99,7 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
 .liq-alert { background:#2a1518; border:1px solid #ff5050; border-radius:8px; padding:10px 14px; font-size:.85rem; color:#ff5050; font-weight:700; margin-bottom:8px; }
 /* 弹窗 */
 .mask { display:none; position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:99; }
-.modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--card); border:1px solid var(--border); border-radius:12px; width:min(700px,92vw); max-height:82vh; overflow:auto; padding:18px; z-index:100; }
+.modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:var(--card); border:1px solid var(--border); border-radius:12px; width:min(700px,92vw); max-height:82vh; flex-direction:column; padding:18px; z-index:100; overflow:hidden; }
 .modal h3 { font-size:.95rem; color:var(--accent); margin-bottom:8px; padding-right:24px; }
 .modal .close { position:absolute; top:10px; right:14px; cursor:pointer; color:var(--muted); font-size:1.3rem; }
 .modal .close:hover { color:#fff; }
@@ -234,7 +234,8 @@ function openReport(file,title){
   fetch('reports/'+file+'?t='+Date.now()).then(r=>r.text()).then(md=>{
     document.getElementById('mTitle').textContent=title;
     document.getElementById('mMeta').innerHTML='';
-    document.getElementById('mChart').innerHTML='<div style="color:#c9d1d9;font-size:.82rem;line-height:1.7;max-height:68vh;overflow:auto;padding-right:6px">'+md2html(md)+'</div>';
+    document.getElementById('mChart').style.cssText='flex:1;overflow:auto;min-height:0;height:auto;';
+    document.getElementById('mChart').innerHTML='<div style="color:#c9d1d9;font-size:.82rem;line-height:1.7;padding-right:6px">'+md2html(md)+'</div>';
     openModal();
   });
 }
@@ -570,6 +571,7 @@ function showDriver(k){
 }
 function drawDriverChart(items){
   const el=document.getElementById('mChart');
+  el.style.cssText='width:100%;height:300px;overflow:hidden;flex:none;';
   if(_chart){ try{_chart.dispose();}catch(e){} _chart=null; }
   el.innerHTML='';
   void el.offsetWidth;         // 强制 reflow，确保容器尺寸生效
@@ -593,7 +595,7 @@ function drawDriverChart(items){
     series:series.map((s,i)=>({name:s.name,type:'line',data:s.data.map(x=>x[1]),smooth:true,showSymbol:false,yAxisIndex:(dual&&i>0)?1:0,lineStyle:{color:s.color,width:2},itemStyle:{color:s.color}})),
   });
 }
-function openModal(){document.getElementById('mask').style.display='block';document.getElementById('modal').style.display='block';}
+function openModal(){document.getElementById('mask').style.display='block';document.getElementById('modal').style.display='flex';}
 function closeModal(){document.getElementById('mask').style.display='none';document.getElementById('modal').style.display='none';}
 document.getElementById('mask').addEventListener('click',closeModal);
 
