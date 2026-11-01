@@ -19,6 +19,15 @@
    "freq": "monthly",
    "lag": "同步"
   },
+  "cn_trade_balance": {
+   "value": 1335.3209,
+   "date": "2026-09-30",
+   "name": "中国贸易差额",
+   "region": "CN",
+   "driver": "growth",
+   "freq": "monthly",
+   "lag": "同步"
+  },
   "us_yield_curve": {
    "value": 0.38,
    "date": "2026-10-30",
@@ -263,8 +272,8 @@
    "lag": "滞后"
   },
   "eur_usd": {
-   "value": 0.8959,
-   "date": "2026-10-30",
+   "value": 0.8932,
+   "date": "2026-10-31",
    "name": "美元兑欧元",
    "region": "EU",
    "driver": "fx",
@@ -290,8 +299,8 @@
    "lag": "领先"
   },
   "usd_jpy": {
-   "value": 157.4815,
-   "date": "2026-10-30",
+   "value": 157.5611,
+   "date": "2026-10-31",
    "name": "美元兑日元",
    "region": "JP",
    "driver": "fx",
@@ -299,7 +308,7 @@
    "lag": "同步"
   },
   "jp_10y": {
-   "value": 2.76,
+   "value": 2.776,
    "date": "2026-10-30",
    "name": "日本10Y国债收益率",
    "region": "JP",
@@ -323,7 +332,8 @@
    "region": "US",
    "driver": "liquidity_stress",
    "freq": "daily",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   }
  }
 }

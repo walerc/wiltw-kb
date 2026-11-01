@@ -137,6 +137,10 @@ section > h2 { font-size:1rem; color:var(--accent); margin-bottom:10px; border-l
   <div class="fx-grid" id="fxGrid"></div>
 </section>
 
+<section id="tradeSec"><h2>贸易结构（顺差→PMI背离 · 衰退式顺差识别）</h2>
+  <div class="fx-grid" id="tradeGrid"></div>
+</section>
+
 <section><h2>一、大类资产轮动（美林时钟）</h2>
   <div class="clock" id="clock"></div>
   <div class="clock-label" id="clockLabel"></div>
@@ -217,7 +221,7 @@ async function load(){
   ]);
   DATA={env,latest,series,opinions};
   document.getElementById('subTitle').textContent=`数据截至 ${env.generated} · 统一底座每日自动更新 · 三尺度分离：康波60y(定方向) / 中周期库存(定节奏) / 月度景气(定短期)，各尺度独立判断不混用`;
-  renderVerdict(); renderReports(); renderScales(); renderRegions(); renderFx(); renderClock(); renderAssets(); renderDrivers(); renderAlerts(); renderOpinions(); renderLiquidity();
+  renderVerdict(); renderReports(); renderScales(); renderRegions(); renderFx(); renderTrade(); renderClock(); renderAssets(); renderDrivers(); renderAlerts(); renderOpinions(); renderLiquidity();
 }
 
 function renderVerdict(){
@@ -543,6 +547,7 @@ function renderRegions(){
       <div class="rphase">${jp.phase||'—'}</div>
       <div class="rsig">${(jp.signals||[]).map(s=>`<div>· ${s}</div>`).join('')||'—'}</div>
       <div class="rdata">政策利率 ${fmt(jp.rate,2)}% · 美日利差 ${fmt(jp.us_jp_spread,2)}% · 日元 ${fmt(jp.usd_jpy,1)} · 日10Y ${fmt(jp.jp_10y,1)}%</div>
+      ${jp.carry_risk?`<div class="rnote" style="color:#d2a850;margin-top:5px">⚠️ ${jp.carry_risk}</div>`:''}
     </div>
     <div class="region global">
       <div class="rhead">🌐 全球分化</div>
@@ -576,6 +581,34 @@ function renderFx(){
       <div class="fhead">🌐 中美利差<span class="rtag">10Y</span></div>
       <div class="fval">${fmt(fx.cn_us_spread,2)}%</div>
       <div class="fnote">美10Y − 中10Y，倒挂=套息/资本流出压力</div>
+    </div>
+    ${divBlock}`;
+}
+
+// 贸易结构：顺差 vs PMI 背离 = 衰退式顺差识别（外需强内需弱 → 商品内部分化）
+function renderTrade(){
+  const tr=DATA.env.trade;
+  if(!tr){document.getElementById('tradeSec').style.display='none';return;}
+  document.getElementById('tradeSec').style.display='block';
+  const pmiWeak=tr.cn_pmi!=null && tr.cn_pmi<50;
+  const pmiColor=pmiWeak?'#d2a850':'#c9d1d9';
+  const divBlock=tr.divergence?`<div class="fx-divergence">⚠️ ${tr.divergence}</div>`:'';
+  document.getElementById('tradeGrid').innerHTML=
+    `<div class="fx">
+      <div class="fhead">🇨🇳 贸易顺差<span class="rtag">亿美元/月</span></div>
+      <div class="fval">${fmt(tr.trade_balance,0)}</div>
+      <div class="fnote">巨额顺差，但须看是否带动内需</div>
+    </div>
+    <div class="fx">
+      <div class="fhead">🏭 制造业 PMI<span class="rtag">荣枯线50</span></div>
+      <div class="fval" style="color:${pmiColor}">${fmt(tr.cn_pmi,1)}</div>
+      <div class="fdir" style="color:${pmiColor}">${pmiWeak?'收缩':'扩张'}</div>
+      <div class="fnote">顺差大但PMI弱=衰退式顺差</div>
+    </div>
+    <div class="fx">
+      <div class="fhead">📊 内外需结构</div>
+      <div class="fval">${tr.structure||'—'}</div>
+      <div class="fnote">外需链商品正向 · 内需链商品负向</div>
     </div>
     ${divBlock}`;
 }
