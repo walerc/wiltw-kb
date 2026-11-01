@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01",
+ "generated": "2026-11-02",
  "drivers": {
   "growth": {
    "us_ism": 54.5,
@@ -11,23 +11,19 @@
    "state": "错位/中性",
    "score": 0,
    "radar": 50,
-   "direction": "中性",
-   "trajectory": "美54.5 ↓ 中49.3",
-   "trend": "动能衰减"
+   "direction": "中性"
   },
   "inflation": {
    "us_cpi": 3.7,
    "cn_ppi": 5.0,
    "signals": [
-    "美国CPI(2)",
-    "中国PPI(2)"
+    "美国CPI(1)",
+    "中国PPI(1)"
    ],
-   "state": "再通胀升温(利多商品)",
-   "score": 4,
+   "state": "再通胀(利多商品)",
+   "score": 2,
    "radar": 100,
-   "direction": "利多",
-   "trajectory": "美CPI3.7 ↑ 中PPI5.0 ↑",
-   "trend": "升温"
+   "direction": "利多"
   },
   "liquidity": {
    "cn_m2": 7.2,
@@ -41,8 +37,6 @@
    "score": 0,
    "radar": 50,
    "direction": "中性",
-   "trajectory": "M2 7.2 ↓",
-   "trend": "收紧",
    "cn_us_spread": 3.29,
    "spread_note": "利差倒挂3.29%(资本流出压力) vs 人民币实际升值 = 经常账户顺差/结汇主导，资本流出压力被对冲"
   },
@@ -50,15 +44,14 @@
    "vix": 19.42,
    "us_hy_oas": 3.26,
    "signals": [
-    "VIX(-1)",
+    "VIX(0)",
     "信用利差(0)"
    ],
-   "state": "risk-off 前兆(边际恶化)",
-   "score": -1,
-   "radar": 25,
-   "direction": "利空",
-   "trajectory": "VIX 19.42 ↑ 利差 3.26 →",
-   "trend": "稳定"
+   "state": "中性(边际观察)",
+   "score": 0,
+   "radar": 50,
+   "direction": "中性",
+   "trajectory": ""
   }
  },
  "fx": {
@@ -67,11 +60,9 @@
   "cn_us_spread": 3.29,
   "cny_direction": "升值",
   "cny_trend": "USDCNY 6.7138 ↓",
-  "dxy_direction": "走强",
   "divergence": "利差倒挂3.29%(资本流出压力) vs 人民币实际升值 = 经常账户顺差/结汇主导，资本流出压力被对冲",
   "signals": [
    "人民币升值(USDCNY 6.7138)",
-   "美元走强(DXY 101.9669)",
    "⚠️背离：利差倒挂但人民币升值"
   ]
  },
@@ -85,25 +76,11 @@
   ]
  },
  "alerts": {
-  "alerts": [
-   {
-    "type": "risk",
-    "signal": "高收益债利差3月走阔 0.56pp",
-    "level": "风险偏好恶化"
-   },
-   {
-    "type": "risk",
-    "signal": "VIX 3月上行 4.0 点",
-    "level": "恐慌升温前兆"
-   }
-  ],
-  "lead_signals": [
-   "信用利差走阔",
-   "VIX上行"
-  ],
-  "n_lead": 2,
-  "phase_warning": true,
-  "phase_level": "相变预警"
+  "alerts": [],
+  "lead_signals": [],
+  "n_lead": 0,
+  "phase_warning": false,
+  "phase_level": "无预警"
  },
  "regime": {
   "quadrant": "滞胀",
@@ -130,9 +107,7 @@
    "ppi": 5.0,
    "phase": "主动补库存",
    "asset": "需求+补库双驱动",
-   "direction": "利多商品",
-   "trajectory": "库存 11.6 ↑ PPI 5.0",
-   "trend": "补库加速"
+   "direction": "利多商品"
   },
   "monthly": {
    "note": "月度景气=四驱动状态机，见 drivers/regime"
@@ -179,5 +154,5 @@
    "note": "利差倒挂3.29%(资本流出压力) vs 人民币实际升值 = 经常账户顺差/结汇主导，资本流出压力被对冲。美元强(美加息)+欧日通胀回升→全球流动性边际收紧；中国独自宽松，中美利差倒挂。核心风险：日元套息逆转(日本继续加息+美降息预期收窄利差)。"
   }
  },
- "summary": "growth[错位/中性]；inflation[再通胀升温(利多商品)]；liquidity[中性]；risk_appetite[risk-off 前兆(边际恶化)]；⚠️ 相变预警触发"
+ "summary": "growth[错位/中性]；inflation[再通胀(利多商品)]；liquidity[中性]；risk_appetite[中性(边际观察)]"
 }

@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01",
+ "generated": "2026-11-02",
  "indicators": {
   "us_ism_pmi": {
    "value": 54.5,
@@ -8,7 +8,8 @@
    "region": "US",
    "driver": "growth",
    "freq": "monthly",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_pmi": {
    "value": 49.3,
@@ -26,7 +27,8 @@
    "region": "CN",
    "driver": "growth",
    "freq": "monthly",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_yield_curve": {
    "value": 0.38,
@@ -35,7 +37,8 @@
    "region": "US",
    "driver": "growth",
    "freq": "daily",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_cpi": {
    "value": 3.7,
@@ -44,7 +47,8 @@
    "region": "US",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后"
+   "lag": "滞后",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_cpi": {
    "value": 0.8,
@@ -53,7 +57,8 @@
    "region": "CN",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后"
+   "lag": "滞后",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_ppi": {
    "value": 5.0,
@@ -62,7 +67,8 @@
    "region": "CN",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后"
+   "lag": "滞后",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_m2": {
    "value": 7.2,
@@ -71,7 +77,8 @@
    "region": "CN",
    "driver": "liquidity",
    "freq": "monthly",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_m2": {
    "value": 23508.0,
@@ -80,7 +87,8 @@
    "region": "US",
    "driver": "liquidity",
    "freq": "weekly",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_social_finance": {
    "value": 7.1,
@@ -89,7 +97,8 @@
    "region": "CN",
    "driver": "liquidity",
    "freq": "monthly",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_10y": {
    "value": 4.94,
@@ -116,7 +125,8 @@
    "region": "US",
    "driver": "liquidity",
    "freq": "daily",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "vix": {
    "value": 19.42,
@@ -125,7 +135,8 @@
    "region": "US",
    "driver": "risk_appetite",
    "freq": "daily",
-   "lag": "同步偏领先"
+   "lag": "同步偏领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_hy_oas": {
    "value": 3.26,
@@ -134,7 +145,8 @@
    "region": "US",
    "driver": "risk_appetite",
    "freq": "daily",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_margin": {
    "value": 23152.76584365,
@@ -161,7 +173,8 @@
    "region": "Global",
    "driver": "fx",
    "freq": "daily",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "sh_index": {
    "value": 3599.017,
@@ -188,7 +201,8 @@
    "region": "CN",
    "driver": "asset",
    "freq": "daily",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "crb": {
    "value": 411.1,
@@ -197,7 +211,8 @@
    "region": "Global",
    "driver": "asset",
    "freq": "daily",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "gold": {
    "value": 3981.1,
@@ -206,7 +221,8 @@
    "region": "Global",
    "driver": "asset",
    "freq": "daily",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "gold_reserve": {
    "value": 36829.2818,
@@ -215,7 +231,8 @@
    "region": "Global",
    "driver": "asset",
    "freq": "quarterly",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_3m": {
    "value": 1.1643,
@@ -224,7 +241,8 @@
    "region": "CN",
    "driver": "asset",
    "freq": "daily",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_inventory": {
    "value": 11.6,
@@ -233,7 +251,8 @@
    "region": "CN",
    "driver": "cycle",
    "freq": "monthly",
-   "lag": "滞后"
+   "lag": "滞后",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_sofr": {
    "value": 3.94,
@@ -242,7 +261,8 @@
    "region": "US",
    "driver": "liquidity_stress",
    "freq": "daily",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_effr": {
    "value": 3.88,
@@ -251,7 +271,8 @@
    "region": "US",
    "driver": "liquidity_stress",
    "freq": "daily",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "eu_pmi": {
    "value": 50.6,
@@ -260,7 +281,8 @@
    "region": "EU",
    "driver": "growth",
    "freq": "monthly",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "eu_hicp": {
    "value": 3.8,
@@ -269,7 +291,8 @@
    "region": "EU",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后"
+   "lag": "滞后",
+   "error": "本次拉取失败，沿用上次值"
   },
   "eur_usd": {
    "value": 0.8932,
@@ -278,7 +301,8 @@
    "region": "EU",
    "driver": "fx",
    "freq": "daily",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "de_10y": {
    "value": 3.4,
@@ -287,7 +311,8 @@
    "region": "EU",
    "driver": "liquidity",
    "freq": "daily",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "jp_rate": {
    "value": 1.25,
@@ -296,7 +321,8 @@
    "region": "JP",
    "driver": "liquidity",
    "freq": "daily",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "usd_jpy": {
    "value": 157.5611,
@@ -305,7 +331,8 @@
    "region": "JP",
    "driver": "fx",
    "freq": "daily",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "jp_10y": {
    "value": 2.776,
@@ -314,7 +341,8 @@
    "region": "JP",
    "driver": "liquidity",
    "freq": "daily",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_on_rrp": {
    "value": 3.75,
@@ -323,7 +351,8 @@
    "region": "US",
    "driver": "liquidity_stress",
    "freq": "daily",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_ffr_cap": {
    "value": 4.0,
