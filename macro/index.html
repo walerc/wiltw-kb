@@ -220,14 +220,16 @@ function renderVerdict(){
 // ============ 周报/月报 ============
 function renderReports(){
   fetch('reports/index.json?t='+Date.now()).then(r=>r.json()).then(idx=>{
-    const list=(idx.reports||[]).slice().reverse();
+    const list=(idx.reports||[]).slice();
     const sec=document.getElementById('reportSec');
     if(!list.length){ sec.style.display='none'; return; }
     sec.style.display='block';
-    document.getElementById('reportList').innerHTML=list.map(rp=>{
-      const icon=rp.type==='monthly'?'📅':'📋';
-      return `<div style="padding:9px 12px;margin:6px 0;background:#161b22;border:1px solid #30363d;border-radius:8px;cursor:pointer" onclick="openReport('${rp.file}','${rp.title}')"><span>${icon}</span> <b style="color:#c9d1d9">${rp.title}</b> <span style="color:#6e7681;font-size:.72rem;margin-left:6px">${rp.date}</span></div>`;
-    }).join('');
+    const byDate=(a,b)=>b.date.localeCompare(a.date);   // 日期倒序（最新在前）
+    const monthly=list.filter(r=>r.type==='monthly').sort(byDate);
+    const weekly=list.filter(r=>r.type==='weekly').sort(byDate);
+    const item=rp=>`<div style="padding:9px 12px;margin:5px 0;background:#161b22;border:1px solid #30363d;border-radius:8px;cursor:pointer" onclick="openReport('${rp.file}','${rp.title}')"><b style="color:#c9d1d9">${rp.title}</b> <span style="color:#6e7681;font-size:.72rem;margin-left:6px">${rp.date}</span></div>`;
+    const group=(title,icon,items)=>items.length?`<div style="margin:2px 0 12px"><div style="color:#8b949e;font-size:.78rem;margin:8px 0 4px">${icon} ${title}（${items.length}）</div>${items.map(item).join('')}</div>`:'';
+    document.getElementById('reportList').innerHTML=group('月报','📅',monthly)+group('周报','📋',weekly);
   }).catch(()=>{ document.getElementById('reportSec').style.display='none'; });
 }
 function openReport(file,title){
