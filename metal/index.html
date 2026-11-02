@@ -325,6 +325,16 @@ function dirLabel(d) {
 }
 // 浮标窗：hover 信号显示证据链图表（ECharts）
 let __chart = null;
+// 图表实例注册表：容器尺寸变化时统一 resize（修复 init 时宽度未就绪导致内容压缩在左侧的问题）
+const __charts = {};
+function initChart(id) {
+  const el = document.getElementById(id);
+  const c = echarts.getInstanceByDom(el) || echarts.init(el);
+  __charts[id] = c;
+  // init 后延迟到下一帧 resize，确保容器宽度已稳定（修复内容压缩在左侧）
+  setTimeout(function() { c.resize(); }, 0);
+  return c;
+}
 function showChartFloat(i, e) {
   const s = window.__signals && window.__signals[i];
   if (!s || !s.history) return;
@@ -476,7 +486,7 @@ function renderHeatmap(fa) {
       data.push([j, i, v == null ? null : v]);
     }
   }
-  var chart = echarts.init(document.getElementById('corrHeat'));
+  var chart = initChart('corrHeat');
   chart.setOption({
     backgroundColor: 'transparent',
     tooltip: {
@@ -514,7 +524,7 @@ function showOverlay(i) {
   if (!o) return;
   document.querySelectorAll('#overlayTabs .ov-tab').forEach(function(el, idx) { el.classList.toggle('active', idx === i); });
   document.getElementById('overlayNote').innerHTML = '💡 ' + o.note + '<br>月变化相关系数：<b style="color:' + (o.corr != null && o.corr < 0 ? '#00c864' : '#ff5050') + '">' + (o.corr == null ? '—' : o.corr.toFixed(2)) + '</b>（负=反向联动，正=同向联动）';
-  var chart = echarts.getInstanceByDom(document.getElementById('overlayChart')) || echarts.init(document.getElementById('overlayChart'));
+  var chart = initChart('overlayChart');
   chart.setOption({
     backgroundColor: 'transparent',
     tooltip: { trigger: 'axis', backgroundColor: '#1f242c', borderColor: '#30363d', textStyle: { color: '#c9d1d9', fontSize: 11 } },
@@ -585,7 +595,7 @@ function renderKondratieff(kv) {
   document.getElementById('kvTable').innerHTML = html;
   // 铜金比图
   var cg = kv.copper_gold_ratio;
-  var chart = echarts.init(document.getElementById('kvRatioChart'));
+  var chart = initChart('kvRatioChart');
   chart.setOption({
     backgroundColor: 'transparent',
     tooltip: { trigger: 'axis', backgroundColor: '#1f242c', borderColor: '#30363d', textStyle: { color: '#c9d1d9', fontSize: 11 } },
@@ -645,6 +655,25 @@ function renderFundamentals(mf) {
     + '<div class="kv"><span class="k">弹性排序（潜在涨幅）</span><span class="v">' + rk['弹性排序'] + '</span></div>'
     + '<div style="margin-top:0.6rem;padding:0.7rem;background:#3a2f0e;border:1px solid #c9a840;border-radius:8px;font-size:0.85rem"><b style="color:#e0c068">综合建议：</b>' + rk['综合建议'] + '</div>';
 }
+
+// ============ 图表自适应：容器尺寸变化时统一 resize ============
+// 修复 init 时容器宽度未就绪导致图表内容压缩在左侧的问题
+if (window.ResizeObserver) {
+  var __ro = new ResizeObserver(function(entries) {
+    entries.forEach(function(e) {
+      var id = e.target.id;
+      var c = __charts[id] || echarts.getInstanceByDom(e.target);
+      if (c) c.resize();
+    });
+  });
+  ['kvRatioChart', 'corrHeat', 'overlayChart'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) __ro.observe(el);
+  });
+}
+window.addEventListener('resize', function() {
+  Object.keys(__charts).forEach(function(id) { __charts[id].resize(); });
+});
 </script>
 </body>
 </html>
