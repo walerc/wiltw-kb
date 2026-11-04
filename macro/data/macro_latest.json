@@ -2,14 +2,13 @@
  "generated": "2026-11-04",
  "indicators": {
   "us_ism_pmi": {
-   "value": 54.5,
-   "date": "2026-09-30",
+   "value": 48.7,
+   "date": "2025-09-02",
    "name": "美国ISM制造业PMI",
    "region": "US",
    "driver": "growth",
    "freq": "monthly",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步"
   },
   "cn_pmi": {
    "value": 49.3,
@@ -21,74 +20,67 @@
    "lag": "同步"
   },
   "cn_trade_balance": {
-   "value": 1335.3209,
-   "date": "2026-09-30",
+   "value": 982.4,
+   "date": "2025-08-07",
    "name": "中国贸易差额",
    "region": "CN",
    "driver": "growth",
    "freq": "monthly",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步"
   },
   "us_yield_curve": {
-   "value": 0.38,
-   "date": "2026-10-30",
+   "value": 0.34,
+   "date": "2026-11-03",
    "name": "美国国债10Y-2Y利差",
    "region": "US",
    "driver": "growth",
    "freq": "daily",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "us_cpi": {
-   "value": 3.7,
-   "date": "2026-09-30",
+   "value": 4.02,
+   "date": "2026-09-01",
    "name": "美国CPI同比",
    "region": "US",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "滞后"
   },
   "cn_cpi": {
-   "value": 0.8,
-   "date": "2026-08-31",
+   "value": 0.9,
+   "date": "2026年09月份",
    "name": "中国CPI同比",
    "region": "CN",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "滞后"
   },
   "cn_ppi": {
    "value": 5.0,
-   "date": "2026-09-30",
+   "date": "2026年09月份",
    "name": "中国PPI同比",
    "region": "CN",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "滞后"
   },
   "cn_m2": {
    "value": 7.2,
-   "date": "2026-09-30",
+   "date": "2026年09月份",
    "name": "中国M2同比",
    "region": "CN",
    "driver": "liquidity",
    "freq": "monthly",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "us_m2": {
-   "value": 23508.0,
-   "date": "2026-10-05",
+   "value": 23413.9,
+   "date": "2026-09-01",
    "name": "美国M2存量",
    "region": "US",
    "driver": "liquidity",
    "freq": "weekly",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "cn_social_finance": {
    "value": 7.1,
@@ -119,38 +111,35 @@
    "lag": "领先"
   },
   "us_3m": {
-   "value": 4.16,
-   "date": "2026-10-30",
+   "value": 4.21,
+   "date": "2026-11-02",
    "name": "美国3个月国债收益率",
    "region": "US",
    "driver": "liquidity",
    "freq": "daily",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "vix": {
-   "value": 19.42,
-   "date": "2026-10-30",
+   "value": 21.15,
+   "date": "2026-11-02",
    "name": "VIX恐慌指数",
    "region": "US",
    "driver": "risk_appetite",
    "freq": "daily",
-   "lag": "同步偏领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步偏领先"
   },
   "us_hy_oas": {
-   "value": 3.26,
-   "date": "2026-10-29",
+   "value": 3.43,
+   "date": "2026-11-02",
    "name": "美国高收益债OAS利差",
    "region": "US",
    "driver": "risk_appetite",
    "freq": "daily",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "cn_margin": {
-   "value": 23026.47410051,
-   "date": "2026-11-02",
+   "value": 22704.93286242,
+   "date": "2026-11-03",
    "name": "A股融资融券余额",
    "region": "CN",
    "driver": "risk_appetite",
@@ -158,8 +147,8 @@
    "lag": "同步"
   },
   "usdcny": {
-   "value": 6.715,
-   "date": "2026-11-03",
+   "value": 6.718,
+   "date": "2026-11-04",
    "name": "美元兑人民币中间价",
    "region": "CN",
    "driver": "fx",
@@ -167,14 +156,13 @@
    "lag": "同步"
   },
   "dxy": {
-   "value": 101.9669,
+   "value": 121.6656,
    "date": "2026-10-30",
    "name": "美元指数DXY",
    "region": "Global",
    "driver": "fx",
    "freq": "daily",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步"
   },
   "sh_index": {
    "value": 3608.098,
@@ -186,8 +174,8 @@
    "lag": "同步"
   },
   "sp500": {
-   "value": 7541.3999,
-   "date": "2026-11-02",
+   "value": 7568.9199,
+   "date": "2026-11-03",
    "name": "标普500",
    "region": "US",
    "driver": "asset",
@@ -195,14 +183,13 @@
    "lag": "同步"
   },
   "nanhua": {
-   "value": 2907.26,
-   "date": "2026-10-30",
+   "value": 2164.89,
+   "date": "2026-11-03",
    "name": "南华商品指数",
    "region": "CN",
    "driver": "asset",
    "freq": "daily",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步"
   },
   "crb": {
    "value": 411.1,
@@ -215,14 +202,13 @@
    "error": "本次拉取失败，沿用上次值"
   },
   "gold": {
-   "value": 3981.1,
-   "date": "2026-10-30",
+   "value": 3951.63,
+   "date": "2026-11-04",
    "name": "伦敦现货黄金",
    "region": "Global",
    "driver": "asset",
    "freq": "daily",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步"
   },
   "gold_reserve": {
    "value": 36829.2818,
@@ -235,14 +221,13 @@
    "error": "本次拉取失败，沿用上次值"
   },
   "cn_3m": {
-   "value": 1.1643,
-   "date": "2026-10-30",
+   "value": 2.0316,
+   "date": "2021-01-22",
    "name": "中国3月国债收益率",
    "region": "CN",
    "driver": "asset",
    "freq": "daily",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步"
   },
   "cn_inventory": {
    "value": 11.6,
@@ -255,24 +240,22 @@
    "error": "本次拉取失败，沿用上次值"
   },
   "us_sofr": {
-   "value": 3.94,
-   "date": "2026-10-29",
+   "value": 3.95,
+   "date": "2026-11-02",
    "name": "美国SOFR利率",
    "region": "US",
    "driver": "liquidity_stress",
    "freq": "daily",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "us_effr": {
    "value": 3.88,
-   "date": "2026-10-29",
+   "date": "2026-11-02",
    "name": "美国有效联邦基金利率(EFFR)",
    "region": "US",
    "driver": "liquidity_stress",
    "freq": "daily",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "eu_pmi": {
    "value": 50.6,
@@ -285,84 +268,76 @@
    "error": "本次拉取失败，沿用上次值"
   },
   "eu_hicp": {
-   "value": 3.8,
-   "date": "2026-09-30",
+   "value": 3.75,
+   "date": "2026-09-01",
    "name": "欧元区HICP同比",
    "region": "EU",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "滞后"
   },
   "eur_usd": {
-   "value": 0.8932,
-   "date": "2026-10-31",
+   "value": 1.1163,
+   "date": "2026-10-30",
    "name": "美元兑欧元",
    "region": "EU",
    "driver": "fx",
    "freq": "daily",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步"
   },
   "de_10y": {
-   "value": 3.4,
-   "date": "2026-10-30",
+   "value": 3.46952380952381,
+   "date": "2026-09-01",
    "name": "德国10Y国债收益率",
    "region": "EU",
    "driver": "liquidity",
    "freq": "daily",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "jp_rate": {
    "value": 1.25,
-   "date": "2026-10-27",
+   "date": "2026-09-23 日本央行加息至1.25%",
    "name": "日本央行政策利率",
    "region": "JP",
    "driver": "liquidity",
    "freq": "daily",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "usd_jpy": {
-   "value": 157.5611,
-   "date": "2026-10-31",
+   "value": 157.47,
+   "date": "2026-10-30",
    "name": "美元兑日元",
    "region": "JP",
    "driver": "fx",
    "freq": "daily",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步"
   },
   "jp_10y": {
-   "value": 2.776,
-   "date": "2026-10-30",
+   "value": 3.05,
+   "date": "2026-09-01",
    "name": "日本10Y国债收益率",
    "region": "JP",
    "driver": "liquidity",
    "freq": "daily",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "us_on_rrp": {
-   "value": 3.75,
-   "date": "2026-10-30",
+   "value": 0.427,
+   "date": "2026-11-03",
    "name": "美国隔夜逆回购利率(ON RRP)",
    "region": "US",
    "driver": "liquidity_stress",
    "freq": "daily",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "us_ffr_cap": {
    "value": 4.0,
-   "date": "2026-10-29",
+   "date": "2026-11-03",
    "name": "美国联邦基金目标利率上限",
    "region": "US",
    "driver": "liquidity_stress",
    "freq": "daily",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   }
  }
 }
