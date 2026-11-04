@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>WILTW 知识库 — 13D Research</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -193,10 +194,12 @@ function switchTab(tab){
     document.getElementById('elninoFrame').src='elnino/index.html';
   if(tab==='metal'&&!document.getElementById('metalFrame').src)
     document.getElementById('metalFrame').src='metal/index.html';
-  if(tab==='emergence'&&!document.getElementById('emergenceFrame').src)
-    document.getElementById('emergenceFrame').src='emergence/index.html';
-  if(tab==='macro'&&!document.getElementById('macroFrame').src)
-    document.getElementById('macroFrame').src='macro/index.html';
+  if(tab==='emergence'){
+    document.getElementById('emergenceFrame').src='emergence/index.html?v='+Date.now();
+  }
+  if(tab==='macro'){
+    document.getElementById('macroFrame').src='macro/index.html?v='+Date.now();
+  }
 }
 function init(){
   document.getElementById('headerStats').textContent=data.total_completed+'/'+data.reports.length+' 完整翻译';
