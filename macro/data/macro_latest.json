@@ -158,11 +158,12 @@
   "dxy": {
    "value": 121.6656,
    "date": "2026-10-30",
-   "name": "美元指数DXY",
+   "name": "美元指数(广义,口径切换)",
    "region": "Global",
    "driver": "fx",
    "freq": "daily",
-   "lag": "同步"
+   "lag": "同步",
+   "note": "原ICE DXY停更，改用FRED DTWEXBGS美联储广义贸易加权美元指数(2006=100)，趋势一致但数值基线不同(原DXY~102)"
   },
   "sh_index": {
    "value": 3608.098,
@@ -202,7 +203,7 @@
    "error": "本次拉取失败，沿用上次值"
   },
   "gold": {
-   "value": 3951.63,
+   "value": 3939.05,
    "date": "2026-11-04",
    "name": "伦敦现货黄金",
    "region": "Global",
@@ -227,7 +228,8 @@
    "region": "CN",
    "driver": "asset",
    "freq": "daily",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_inventory": {
    "value": 11.6,
@@ -301,7 +303,8 @@
    "region": "JP",
    "driver": "liquidity",
    "freq": "daily",
-   "lag": "领先"
+   "lag": "领先",
+   "note": "2026-09-23 日本央行加息至1.25%"
   },
   "usd_jpy": {
    "value": 157.47,

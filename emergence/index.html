@@ -114,7 +114,7 @@ tr:hover td { background: #1a2028; }
           <tr><td>操作建议</td><td>把方向+量仓+一致性翻译成动作，围绕"趋势中继回调管理"自动生成：<b>暂离避险</b>(资金撤退+破位) / <b>减仓观察</b>(资金离场) / <b>持有观察企稳可回补</b>(健康回调) / <b>持有回调加仓</b>(资金进场+回调) / <b>持有顺势</b>(技术印证) / 左侧试探/等右侧/等回调/区间高抛低吸</td><td>方向列内 📌 彩色标签（红=减仓避险/金=加仓/绿=持有），<span class="amber">点击弹出操作详解</span>（依据+动作+风险线）</td></tr>
           <tr><td>仓位管理</td><td>四层：<b>基准仓位</b>(以操作建议定) + <b>波动调节</b>(VIX类比：波动率历史分位≥80%降仓/≤20%升仓) + <b>IV-RV背离</b>(隐含波动率vs已实现波动率，见下行) + <b>小时线时机</b>(60分钟线量价：缩量企稳=加仓成熟/放量走弱=时机未到) + <b>加减仓节奏</b>(MA10/20与20日高低点：回调至支撑缩量企稳→加1/4仓 / 反弹至高点放量滞涨→减1/3仓 / 跌破MA60→清仓)</td><td>点击 📌 操作建议弹窗内"仓位管理"section（基准仓位+波动调节+IV-RV背离+小时线时机+加仓点+减仓点+止损位）</td></tr>
           <tr><td>拥挤度</td><td class="formula">会员持仓排名(前20席位)：多空比(偏离1的程度)×50 + 主导方集中度(前5席位÷前20)×50，方向决定正负号</td><td><span class="red">+100</span>=多头高度拥挤(看跌反转) · <span class="green">−100</span>=空头高度拥挤(看涨反转) · 0=均衡。席位增减背离(多头减仓+空头增仓=顶部松动)为领先信号。<span class="amber">点击单元格查看详解</span></td></tr>
-          <tr><td>基本面</td><td>iFinD EDB 周度硬数据：各品种库存/产量/存栏（铁矿港口库存、PTA周产量、纯碱企业库存、能繁母猪存栏等），<span class="formula">历史分位 = 当前值在近2年序列中的百分位</span></td><td><span class="green">分位≤20%</span>=库存历史低位(供给紧) · <span class="red">分位≥80%</span>=库存历史高位(供给松) · 周环比&gt;+3%累库 / &lt;−3%去库。<span class="amber">点击单元格查看详解</span>。⚠️碳酸锂/工业硅无EDB数据</td></tr>
+          <tr><td>基本面</td><td>交易所注册仓单（akshare，iFinD配额耗尽后替代源）：各品种库存硬数据，<span class="formula">历史分位 = 当前值在可用序列中的百分位</span>（⚠️口径已从产业库存切换到交易所仓单，量级不同）</td><td><span class="green">分位≤20%</span>=库存历史低位(供给紧) · <span class="red">分位≥80%</span>=库存历史高位(供给松) · 环比&gt;+3%累库 / &lt;−3%去库。<span class="amber">点击单元格查看详解</span></td></tr>
           <tr><td>IV-RV背离</td><td class="formula">IV(平值期权隐含波动率) vs RV(20日年化已实现波动率)。核心：IV=预测+风险溢价(非纯预测)，故IV&gt;RV是常态，须看 <b>RV历史分位 × VRP(IV−RV)</b> 四象限；方差溢价=(IV/100)²−(RV/100)²</td><td><span class="red">RV历史高位(≥80分位)+IV未跟随(VRP≤2pp)</span>=波动均值回归/跳跃驱动→行情极值区，顶/底由价格位置+动量方向定 · <span class="amber">涨时IV降</span>=顶背离(动能衰竭) · <span class="amber">跌时IV降</span>=底背离(恐慌消退) · <span class="amber">RV低位+IV溢价</span>=蓄势待变盘 · <span class="green">IV大幅低于RV</span>=波动低估。⚠️大商所(豆粕/棕榈油/焦煤/焦炭/铁矿石/玉米/生猪/豆油)无期权IV数据</td></tr>
         </tbody>
       </table>
@@ -621,7 +621,8 @@ function showFundModal(name) {
   else if (f.pctile != null && f.pctile <= 20) interp = '库存处于历史低位（分位≤20%）：供给偏紧，现货易涨难跌，若需求启动则上行弹性大。';
   else if (f.pctile != null) interp = '库存处于历史中位（分位' + f.pctile + '%）：供需相对均衡，库存对价格的边际影响中性。';
   html += '<div class="interp">' + interp + '</div>';
-  html += '<div class="dim" style="margin-top:0.8rem">基本面硬数据来自 iFinD EDB（周度库存/产量/存栏），每日自动更新。历史分位=当前值在近2年序列中的百分位，越低=库存越低=供给越紧。非投资指令。</div>';
+  if (f.source_note) html += '<div style="margin-top:0.6rem;padding:0.5rem 0.7rem;background:rgba(210,153,34,0.12);border-left:3px solid #d29922;font-size:0.78rem;color:#e0c068">⚠️ 口径变化：' + f.source_note + '</div>';
+  html += '<div class="dim" style="margin-top:0.8rem">基本面硬数据现为交易所注册仓单（akshare，iFinD配额耗尽后替代源），每日自动更新。历史分位=当前值在可用序列中的百分位，越低=库存越低=供给越紧。非投资指令。</div>';
   document.getElementById('slowModalBody').innerHTML = html;
   document.getElementById('slowModal').style.display = 'flex';
 }

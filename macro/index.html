@@ -197,7 +197,7 @@ const READ={
   nanhua:{name:'南华商品指数',unit:'点',desc:'中国商品综合指数。',dir:'up'},
   crb:{name:'CRB商品指数',unit:'点',desc:'全球商品综合指数。',dir:'up'},
   gold:{name:'伦敦现货黄金',unit:'美元/盎司',desc:'实际利率镜像，正实际利率压制金价。',dir:'down'},
-  dxy:{name:'美元指数DXY',unit:'指数',desc:'美元强弱，美元走强压制金价。',dir:'down'},
+  dxy:{name:'美元指数(广义)',unit:'指数',desc:'美联储广义美元指数DTWEXBGS(原ICE DXY口径切换，2006=100基线)，美元走强压制金价。',dir:'down'},
   gold_reserve:{name:'全球央行黄金储备',unit:'吨',desc:'央行持续购金=长期利多黄金。',dir:'up'},
   us_3m:{name:'美国3月国债',unit:'%',desc:'现金收益率(年化)。',dir:'up'},
   cn_3m:{name:'中国3月国债',unit:'%',desc:'现金收益率(年化)。',dir:'up'},
@@ -324,12 +324,12 @@ function renderPctAsset(a){
 function renderGold(a){
   const p=monthPct('gold')||0, c=p>=0?'var(--up)':'var(--down)';
   const realRate=(val('us_10y')||0)-(val('us_cpi')||0);
-  const dxy=val('dxy'), grYoy=goldReserveYoy();
+  const dxy=val('dxy'), dm=monthPct('dxy'), grYoy=goldReserveYoy();
   return `<div class="asset"><div class="an">${a.label} <span style="color:#6e7681;font-size:.72rem">${a.attr}</span></div>
     <div class="hint" style="font-size:.68rem;margin-top:2px">${a.drv}</div>
     <div class="ev" style="margin-top:3px">伦敦金 <b style="color:${c}">${sign(p)}%</b></div>
     <div class="ev" style="margin-top:2px;font-size:.72rem">实际利率 <b style="color:${realRate>0?'var(--down)':'var(--up)'}">${realRate.toFixed(2)}%</b>${realRate>0?'(正利率·压制)':'(负利率·利多)'}</div>
-    <div class="ev" style="margin-top:2px;font-size:.72rem">美元指数 <b>${fmt(dxy)}</b>${dxy!=null?(dxy>100?'(偏强·压制)':'(偏弱·利多)'):''}</div>
+    <div class="ev" style="margin-top:2px;font-size:.72rem">美元指数 <b>${fmt(dxy)}</b>${dm!=null?(dm>0?'(走强·压制)':'(走弱·利多)'):''}</div>
     <div class="ev" style="margin-top:2px;font-size:.72rem">央行购金 <b style="color:${grYoy!=null&&grYoy>0?'var(--up)':'var(--down)'}">${grYoy!=null?sign(grYoy)+'%':'—'}</b> 同比</div>
   </div>`;
 }
@@ -572,10 +572,10 @@ function renderFx(){
       <div class="fnote">${fx.cny_trend||''}</div>
     </div>
     <div class="fx">
-      <div class="fhead">🇺🇸 美元指数<span class="rtag">DXY</span></div>
+      <div class="fhead">🇺🇸 美元指数<span class="rtag">广义DTWEXBGS</span></div>
       <div class="fval">${fmt(fx.dxy,2)}</div>
       <div class="fdir" style="color:${dxyColor}">${fx.dxy_direction||'—'}</div>
-      <div class="fnote">美元走强=全球流动性收紧</div>
+      <div class="fnote">美联储广义美元指数(原DXY口径切换) · 走强=全球流动性收紧</div>
     </div>
     <div class="fx">
       <div class="fhead">🌐 中美利差<span class="rtag">10Y</span></div>
