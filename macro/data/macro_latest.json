@@ -48,7 +48,7 @@
   },
   "cn_cpi": {
    "value": 0.9,
-   "date": "2026年09月份",
+   "date": "2026-09-01",
    "name": "中国CPI同比",
    "region": "CN",
    "driver": "inflation",
@@ -57,7 +57,7 @@
   },
   "cn_ppi": {
    "value": 5.0,
-   "date": "2026年09月份",
+   "date": "2026-09-01",
    "name": "中国PPI同比",
    "region": "CN",
    "driver": "inflation",
@@ -84,17 +84,16 @@
   },
   "cn_social_finance": {
    "value": 7.1,
-   "date": "2026-09-30",
+   "date": "2026-09-01",
    "name": "中国社融存量同比",
    "region": "CN",
    "driver": "liquidity",
    "freq": "monthly",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "us_10y": {
-   "value": 4.9,
-   "date": "2026-11-04",
+   "value": 4.84,
+   "date": "2026-11-05",
    "name": "美国10Y国债收益率",
    "region": "US",
    "driver": "liquidity",
@@ -102,8 +101,8 @@
    "lag": "领先"
   },
   "cn_10y": {
-   "value": 1.6038,
-   "date": "2026-11-05",
+   "value": 1.5868,
+   "date": "2026-11-06",
    "name": "中国10Y国债收益率",
    "region": "CN",
    "driver": "liquidity",
@@ -138,8 +137,8 @@
    "lag": "领先"
   },
   "cn_margin": {
-   "value": 22718.11214633,
-   "date": "2026-11-04",
+   "value": 22785.1390914,
+   "date": "2026-11-05",
    "name": "A股融资融券余额",
    "region": "CN",
    "driver": "risk_appetite",
@@ -147,8 +146,8 @@
    "lag": "同步"
   },
   "usdcny": {
-   "value": 6.715599999999999,
-   "date": "2026-11-05",
+   "value": 6.7168,
+   "date": "2026-11-06",
    "name": "美元兑人民币中间价",
    "region": "CN",
    "driver": "fx",
@@ -166,8 +165,8 @@
    "note": "原ICE DXY停更，改用FRED DTWEXBGS美联储广义贸易加权美元指数(2006=100)，趋势一致但数值基线不同(原DXY~102)"
   },
   "sh_index": {
-   "value": 3689.911,
-   "date": "2026-11-05",
+   "value": 3649.177,
+   "date": "2026-11-06",
    "name": "上证指数",
    "region": "CN",
    "driver": "asset",
@@ -175,8 +174,8 @@
    "lag": "同步"
   },
   "sp500": {
-   "value": 7688.6201,
-   "date": "2026-11-04",
+   "value": 7353.73,
+   "date": "2026-11-05",
    "name": "标普500",
    "region": "US",
    "driver": "asset",
@@ -184,8 +183,8 @@
    "lag": "同步"
   },
   "nanhua": {
-   "value": 2171.41,
-   "date": "2026-11-05",
+   "value": 2157.12,
+   "date": "2026-11-06",
    "name": "南华商品指数",
    "region": "CN",
    "driver": "asset",
@@ -203,8 +202,8 @@
    "error": "本次拉取失败，沿用上次值"
   },
   "gold": {
-   "value": 4088.8,
-   "date": "2026-11-05",
+   "value": 4070.28,
+   "date": "2026-11-06",
    "name": "伦敦现货黄金",
    "region": "Global",
    "driver": "asset",
