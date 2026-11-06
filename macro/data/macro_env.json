@@ -120,7 +120,7 @@
     "萧条期=商品价格底部区域，回升期开启商品长牛",
     "财富机会时点：2008(第一次)→2019(第二次)→2030附近(第三次)"
    ],
-   "evidence": "中PPI转正5.0%+CRB走强411.1+产成品库存回补11.6%+黄金4066高位(避险+去美元化)",
+   "evidence": "中PPI转正5.0%+CRB走强222.428549+产成品库存回补11.6%+黄金4059高位(避险+去美元化)",
    "direction": "利多商品",
    "asset": "商品(实物资产)长周期占优",
    "lag_note": "康波是慢变量(60y)，定方向不定节奏，不作为短期择时"
@@ -130,7 +130,9 @@
    "ppi": 5.0,
    "phase": "主动补库存",
    "asset": "需求+补库双驱动",
-   "direction": "利多商品"
+   "direction": "利多商品",
+   "trajectory": "库存 11.6 ↑ PPI 5.0",
+   "trend": "补库加速"
   },
   "monthly": {
    "note": "月度景气=四驱动状态机，见 drivers/regime"
@@ -139,15 +141,15 @@
  "liquidity_stress": {
   "stress": true,
   "signals": [
-   "回购融资溢价：SOFR-ON RRP 382bp"
+   "回购融资溢价：SOFR-ON RRP 380bp"
   ],
-  "sofr": 3.94,
+  "sofr": 3.92,
   "effr": 3.88,
   "on_rrp": 0.125,
   "ffr_cap": 4.0,
-  "sofr_effr_bp": 6.0,
-  "sofr_onrrp_bp": 381.5,
-  "gap_to_cap_bp": -6.0,
+  "sofr_effr_bp": 4.0,
+  "sofr_onrrp_bp": 379.5,
+  "gap_to_cap_bp": -8.0,
   "note": "美元融资压力三件套(日度实时)：SOFR相对目标上限+SOFR-EFFR+SOFR-ON RRP。OIS滞后3年已弃用。"
  },
  "regions": {
