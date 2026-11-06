@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-06",
+ "generated": "2026-11-07",
  "indicators": {
   "us_ism_pmi": {
    "value": 55.5,
@@ -29,8 +29,8 @@
    "lag": "同步"
   },
   "us_yield_curve": {
-   "value": 0.38,
-   "date": "2026-11-05",
+   "value": 0.35,
+   "date": "2026-11-06",
    "name": "美国国债10Y-2Y利差",
    "region": "US",
    "driver": "growth",
@@ -107,11 +107,12 @@
    "region": "CN",
    "driver": "liquidity",
    "freq": "daily",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_3m": {
-   "value": 4.21,
-   "date": "2026-11-04",
+   "value": 4.17,
+   "date": "2026-11-05",
    "name": "美国3个月国债收益率",
    "region": "US",
    "driver": "liquidity",
@@ -119,8 +120,8 @@
    "lag": "领先"
   },
   "vix": {
-   "value": 16.61,
-   "date": "2026-11-04",
+   "value": 28.18,
+   "date": "2026-11-05",
    "name": "VIX恐慌指数",
    "region": "US",
    "driver": "risk_appetite",
@@ -128,8 +129,8 @@
    "lag": "同步偏领先"
   },
   "us_hy_oas": {
-   "value": 3.32,
-   "date": "2026-11-04",
+   "value": 3.48,
+   "date": "2026-11-05",
    "name": "美国高收益债OAS利差",
    "region": "US",
    "driver": "risk_appetite",
@@ -152,7 +153,8 @@
    "region": "CN",
    "driver": "fx",
    "freq": "daily",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "dxy": {
    "value": 121.6656,
@@ -199,10 +201,11 @@
    "driver": "asset",
    "freq": "monthly",
    "lag": "同步",
-   "note": "原RJ/CRB(Thomson Reuters)停更，改用世界银行所有商品价格指数(2016=100)，趋势一致数值基线不同"
+   "note": "原RJ/CRB(Thomson Reuters)停更，改用世界银行所有商品价格指数(2016=100)，趋势一致数值基线不同",
+   "error": "本次拉取失败，沿用上次值"
   },
   "gold": {
-   "value": 4060.46,
+   "value": 4070.75,
    "date": "2026-11-06",
    "name": "伦敦现货黄金",
    "region": "Global",
@@ -227,7 +230,8 @@
    "region": "CN",
    "driver": "asset",
    "freq": "daily",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_inventory": {
    "value": 11.6,
@@ -236,7 +240,8 @@
    "region": "CN",
    "driver": "cycle",
    "freq": "monthly",
-   "lag": "滞后"
+   "lag": "滞后",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_sofr": {
    "value": 3.92,
@@ -249,7 +254,7 @@
   },
   "us_effr": {
    "value": 3.88,
-   "date": "2026-11-04",
+   "date": "2026-11-05",
    "name": "美国有效联邦基金利率(EFFR)",
    "region": "US",
    "driver": "liquidity_stress",
@@ -322,8 +327,8 @@
    "lag": "领先"
   },
   "us_on_rrp": {
-   "value": 0.125,
-   "date": "2026-11-05",
+   "value": 0.15,
+   "date": "2026-11-06",
    "name": "美国隔夜逆回购利率(ON RRP)",
    "region": "US",
    "driver": "liquidity_stress",
