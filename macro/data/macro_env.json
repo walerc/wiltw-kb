@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-07",
+ "generated": "2026-11-08",
  "drivers": {
   "growth": {
    "us_ism": 55.5,
@@ -11,27 +11,25 @@
    "state": "错位/中性",
    "score": 0,
    "radar": 50,
-   "direction": "中性",
-   "trajectory": "美55.5 ↑ 中49.3",
-   "trend": "改善"
+   "direction": "中性"
   },
   "inflation": {
    "us_cpi": 4.02,
    "cn_ppi": 5.0,
    "signals": [
     "美国CPI(2)",
-    "中国PPI(2)"
+    "中国PPI(1)"
    ],
    "state": "再通胀升温(利多商品)",
-   "score": 4,
+   "score": 3,
    "radar": 100,
    "direction": "利多",
-   "trajectory": "美CPI4.02 ↑ 中PPI5.0 ↑",
+   "trajectory": "美CPI4.02 ↑ 中PPI5.0 →",
    "trend": "升温"
   },
   "liquidity": {
    "cn_m2": 7.2,
-   "us_10y": 4.84,
+   "us_10y": 4.86,
    "cn_10y": 1.5868,
    "signals": [
     "中国M2(0)",
@@ -43,8 +41,8 @@
    "direction": "中性",
    "trajectory": "M2 7.2 ↓",
    "trend": "收紧",
-   "cn_us_spread": 3.25,
-   "spread_note": "中美利差倒挂3.25%"
+   "cn_us_spread": 3.27,
+   "spread_note": "中美利差倒挂3.27%"
   },
   "risk_appetite": {
    "vix": 28.18,
@@ -64,7 +62,7 @@
  "fx": {
   "usdcny": 6.7168,
   "dxy": 121.6656,
-  "cn_us_spread": 3.25,
+  "cn_us_spread": 3.27,
   "dxy_direction": "走弱",
   "divergence": null,
   "signals": [
@@ -162,12 +160,12 @@
    "phase": "套息交易持续(美日利差大)",
    "signals": [
     "央行加息至 1.25%",
-    "美日利差 3.59% 套息持续",
+    "美日利差 3.61% 套息持续",
     "日元弱(USDJPY 157.47)"
    ],
    "rate": 1.25,
    "usd_jpy": 157.47,
-   "us_jp_spread": 3.59,
+   "us_jp_spread": 3.61,
    "jp_10y": 3.05,
    "carry_risk": "套息持续(利差大+日元极弱)，但日本已加息→逆转风险累积"
   },

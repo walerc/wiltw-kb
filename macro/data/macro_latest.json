@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-07",
+ "generated": "2026-11-08",
  "indicators": {
   "us_ism_pmi": {
    "value": 55.5,
@@ -8,7 +8,8 @@
    "region": "US",
    "driver": "growth",
    "freq": "monthly",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_pmi": {
    "value": 49.3,
@@ -26,7 +27,8 @@
    "region": "CN",
    "driver": "growth",
    "freq": "monthly",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_yield_curve": {
    "value": 0.35,
@@ -53,7 +55,8 @@
    "region": "CN",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后"
+   "lag": "滞后",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_ppi": {
    "value": 5.0,
@@ -62,7 +65,8 @@
    "region": "CN",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后"
+   "lag": "滞后",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_m2": {
    "value": 7.2,
@@ -89,11 +93,12 @@
    "region": "CN",
    "driver": "liquidity",
    "freq": "monthly",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_10y": {
-   "value": 4.84,
-   "date": "2026-11-05",
+   "value": 4.86,
+   "date": "2026-11-06",
    "name": "美国10Y国债收益率",
    "region": "US",
    "driver": "liquidity",
@@ -176,8 +181,8 @@
    "lag": "同步"
   },
   "sp500": {
-   "value": 7353.73,
-   "date": "2026-11-05",
+   "value": 7376.8599,
+   "date": "2026-11-06",
    "name": "标普500",
    "region": "US",
    "driver": "asset",
@@ -337,7 +342,7 @@
   },
   "us_ffr_cap": {
    "value": 4.0,
-   "date": "2026-11-06",
+   "date": "2026-11-07",
    "name": "美国联邦基金目标利率上限",
    "region": "US",
    "driver": "liquidity_stress",
