@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-08",
+ "generated": "2026-11-09",
  "indicators": {
   "us_ism_pmi": {
    "value": 55.5,
@@ -8,8 +8,7 @@
    "region": "US",
    "driver": "growth",
    "freq": "monthly",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步"
   },
   "cn_pmi": {
    "value": 49.3,
@@ -27,8 +26,7 @@
    "region": "CN",
    "driver": "growth",
    "freq": "monthly",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步"
   },
   "us_yield_curve": {
    "value": 0.35,
@@ -55,8 +53,7 @@
    "region": "CN",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "滞后"
   },
   "cn_ppi": {
    "value": 5.0,
@@ -65,8 +62,7 @@
    "region": "CN",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "滞后"
   },
   "cn_m2": {
    "value": 7.2,
@@ -93,8 +89,7 @@
    "region": "CN",
    "driver": "liquidity",
    "freq": "monthly",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "us_10y": {
    "value": 4.86,
@@ -112,8 +107,7 @@
    "region": "CN",
    "driver": "liquidity",
    "freq": "daily",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "us_3m": {
    "value": 4.17,
@@ -158,8 +152,7 @@
    "region": "CN",
    "driver": "fx",
    "freq": "daily",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步"
   },
   "dxy": {
    "value": 121.6656,
@@ -206,8 +199,7 @@
    "driver": "asset",
    "freq": "monthly",
    "lag": "同步",
-   "note": "原RJ/CRB(Thomson Reuters)停更，改用世界银行所有商品价格指数(2016=100)，趋势一致数值基线不同",
-   "error": "本次拉取失败，沿用上次值"
+   "note": "原RJ/CRB(Thomson Reuters)停更，改用世界银行所有商品价格指数(2016=100)，趋势一致数值基线不同"
   },
   "gold": {
    "value": 4070.75,
@@ -235,8 +227,7 @@
    "region": "CN",
    "driver": "asset",
    "freq": "daily",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步"
   },
   "cn_inventory": {
    "value": 11.6,
@@ -245,8 +236,7 @@
    "region": "CN",
    "driver": "cycle",
    "freq": "monthly",
-   "lag": "滞后",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "滞后"
   },
   "us_sofr": {
    "value": 3.92,
@@ -342,7 +332,7 @@
   },
   "us_ffr_cap": {
    "value": 4.0,
-   "date": "2026-11-07",
+   "date": "2026-11-08",
    "name": "美国联邦基金目标利率上限",
    "region": "US",
    "driver": "liquidity_stress",
