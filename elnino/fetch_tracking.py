@@ -13,8 +13,17 @@ fetch_tracking.py — 拉取当前厄尔尼诺 + 宏观 + 5品种最新数据，
 运行：cd ~/WILTW_KB/elnino && /usr/bin/python3 fetch_tracking.py
 更新频率：建议每周1次（cron 每周一早上，拉上周五收盘）
 """
-import json, os, re, sys, time, urllib.request, datetime, warnings
+import json, os, re, sys, time, urllib.request, datetime, warnings, signal
 warnings.filterwarnings("ignore")
+
+# iFinD 配额耗尽(2026-11-04)后，EDB 走 SSE keepalive 会让 urlopen 的 read-timeout 永不触发，
+# 单个查询挂起会拖垮 cron。用 signal.alarm 做整体超时兜底（仅主线程安全，本脚本主线程跑）。
+class EDBTimeout(Exception):
+    pass
+
+
+def _alarm_handler(signum, frame):
+    raise EDBTimeout("EDB query timeout")
 
 # ---- iFinD token / url ----
 DEFAULT_TOKEN = "eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIn0.XfFURXlgV6AMNQUchdjI7iVMxQF8nnHuKZnkRRmPh0Oc_siFrsK6TxFJzkEcGrxyzn9IZ4-d1Iz82N6gK0iWWe2eMU9EEj2Rrfkzd5plj0tPICC9aqBIAMKkn7CG266g1nkJ9ZpmITyEVOhTo9Pf12HAaLqbzBk5M27WWtPz-Ox5aFwXeoJnUmiDhCWDTqDbVtktHB0rsSrWqM9vPZim2VCMyS7TnIxNbAFYBzZH9rVUcGGg6UGbZtTJ4nJLKqXOS8SX9EP7A0Kz6eGeo64BdLZ6OV_gJutjIihgr5t9q6D7gOLClVtsthjBP_RX_vJ6BYrlrXpZpDRD70FwRod-Nw.5j2BOOrFWzbbxvyv.AivRYcb6hoONYxLKeCY0uAq5Rs4stywEemEBLbXIqjkG-P0UeEm7NWRyEIlp6Cyhe678ElTlBPpjvRGW9S8GoLsWFdU2IcCY-ZcA9UjXzmiw5fulnuEnX83bf5w0rDLTM0gCimaDulVg_Oz1e_53R3tht58zN3BUBOd4Bz-9ggbk4qt9AbpPMYvoX076v1CSFETgvVZqUStPUYlxVRQE32XVkxg5suRRbsWkPng8G0_ncZKkB0GSB6ag2AR7EFKIlXAe-ASvS8iDNw1IJ4NAr_0ina5h94ohybLneWwWunJGzETNCoPKdpAwt7dg7WW-VqDPbe2sahxcsPOgH49BHE_XcwG3nGJKbI3KXLYDyuV9C-LC8nCb_BUXVAY-8hwvG9e8e1Kp0LKqaSe6QvKq_QuuOK64xQ.F9pEIDvWlIZ5l1cvKiRZcQ"
@@ -72,8 +81,15 @@ def query_edb(q, timeout=120, retries=3):
     last_err = None
     for attempt in range(retries):
         try:
-            with urllib.request.urlopen(req, timeout=timeout) as r:
-                resp = json.loads(r.read().decode())
+            old = signal.getsignal(signal.SIGALRM)
+            signal.signal(signal.SIGALRM, _alarm_handler)
+            signal.alarm(45)
+            try:
+                with urllib.request.urlopen(req, timeout=timeout) as r:
+                    resp = json.loads(r.read().decode())
+            finally:
+                signal.alarm(0)
+                signal.signal(signal.SIGALRM, old)
             content = resp.get("result", {}).get("content", [])
             if not content:
                 last_err = "空 content"
@@ -153,8 +169,15 @@ def query_edb_answer(q, timeout=120, retries=3):
     last_err = None
     for attempt in range(retries):
         try:
-            with urllib.request.urlopen(req, timeout=timeout) as r:
-                resp = json.loads(r.read().decode())
+            old = signal.getsignal(signal.SIGALRM)
+            signal.signal(signal.SIGALRM, _alarm_handler)
+            signal.alarm(45)
+            try:
+                with urllib.request.urlopen(req, timeout=timeout) as r:
+                    resp = json.loads(r.read().decode())
+            finally:
+                signal.alarm(0)
+                signal.signal(signal.SIGALRM, old)
             content = resp.get("result", {}).get("content", [])
             if not content:
                 last_err = "空 content"
