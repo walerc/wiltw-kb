@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-09",
+ "generated": "2026-11-10",
  "drivers": {
   "growth": {
    "us_ism": 55.5,
@@ -17,7 +17,7 @@
   },
   "inflation": {
    "us_cpi": 4.02,
-   "cn_ppi": 5.0,
+   "cn_ppi": 5.7,
    "signals": [
     "美国CPI(2)",
     "中国PPI(2)"
@@ -26,13 +26,13 @@
    "score": 4,
    "radar": 100,
    "direction": "利多",
-   "trajectory": "美CPI4.02 ↑ 中PPI5.0 ↑",
+   "trajectory": "美CPI4.02 ↑ 中PPI5.7 ↑",
    "trend": "升温"
   },
   "liquidity": {
    "cn_m2": 7.2,
-   "us_10y": 4.86,
-   "cn_10y": 1.5868,
+   "us_10y": 4.88,
+   "cn_10y": 1.5874,
    "signals": [
     "中国M2(0)",
     "美10Y(0)"
@@ -43,12 +43,12 @@
    "direction": "中性",
    "trajectory": "M2 7.2 ↓",
    "trend": "收紧",
-   "cn_us_spread": 3.27,
-   "spread_note": "利差倒挂3.27%(资本流出压力) vs 人民币实际升值 = 经常账户顺差/结汇主导，资本流出压力被对冲"
+   "cn_us_spread": 3.29,
+   "spread_note": "利差倒挂3.29%(资本流出压力) vs 人民币实际升值 = 经常账户顺差/结汇主导，资本流出压力被对冲"
   },
   "risk_appetite": {
-   "vix": 28.18,
-   "us_hy_oas": 3.48,
+   "vix": 25.64,
+   "us_hy_oas": 3.42,
    "signals": [
     "VIX(-2)",
     "信用利差(-1)"
@@ -57,21 +57,21 @@
    "score": -3,
    "radar": 0,
    "direction": "利空",
-   "trajectory": "VIX 28.18 ↑ 利差 3.48 ↑",
+   "trajectory": "VIX 25.64 ↑ 利差 3.42 ↑",
    "trend": "恶化"
   }
  },
  "fx": {
-  "usdcny": 6.7168,
-  "dxy": 121.6656,
-  "cn_us_spread": 3.27,
+  "usdcny": 6.7188,
+  "dxy": 121.8803,
+  "cn_us_spread": 3.29,
   "cny_direction": "升值",
-  "cny_trend": "USDCNY 6.7168 ↓",
-  "dxy_direction": "走弱",
-  "divergence": "利差倒挂3.27%(资本流出压力) vs 人民币实际升值 = 经常账户顺差/结汇主导，资本流出压力被对冲",
+  "cny_trend": "USDCNY 6.7188 ↓",
+  "dxy_direction": "走强",
+  "divergence": "利差倒挂3.29%(资本流出压力) vs 人民币实际升值 = 经常账户顺差/结汇主导，资本流出压力被对冲",
   "signals": [
-   "人民币升值(USDCNY 6.7168)",
-   "美元走弱(DXY 121.6656)",
+   "人民币升值(USDCNY 6.7188)",
+   "美元走强(DXY 121.8803)",
    "⚠️背离：利差倒挂但人民币升值"
   ]
  },
@@ -88,12 +88,12 @@
   "alerts": [
    {
     "type": "risk",
-    "signal": "高收益债利差3月走阔 0.77pp",
+    "signal": "高收益债利差3月走阔 0.75pp",
     "level": "风险偏好恶化"
    },
    {
     "type": "risk",
-    "signal": "VIX 3月上行 13.6 点",
+    "signal": "VIX 3月上行 11.4 点",
     "level": "恐慌升温前兆"
    }
   ],
@@ -120,18 +120,18 @@
     "萧条期=商品价格底部区域，回升期开启商品长牛",
     "财富机会时点：2008(第一次)→2019(第二次)→2030附近(第三次)"
    ],
-   "evidence": "中PPI转正5.0%+CRB走强222.428549+产成品库存回补11.6%+黄金4070高位(避险+去美元化)",
+   "evidence": "中PPI转正5.7%+CRB走强222.428549+产成品库存回补11.6%+黄金4140高位(避险+去美元化)",
    "direction": "利多商品",
    "asset": "商品(实物资产)长周期占优",
    "lag_note": "康波是慢变量(60y)，定方向不定节奏，不作为短期择时"
   },
   "inventory": {
    "inv": 11.6,
-   "ppi": 5.0,
+   "ppi": 5.7,
    "phase": "主动补库存",
    "asset": "需求+补库双驱动",
    "direction": "利多商品",
-   "trajectory": "库存 11.6 ↑ PPI 5.0",
+   "trajectory": "库存 11.6 ↑ PPI 5.7",
    "trend": "补库加速"
   },
   "monthly": {
@@ -141,16 +141,16 @@
  "liquidity_stress": {
   "stress": true,
   "signals": [
-   "回购融资溢价：SOFR-ON RRP 377bp",
-   "VIX单月跳升 13 点"
+   "回购融资溢价：SOFR-ON RRP 364bp",
+   "VIX单月跳升 11 点"
   ],
-  "sofr": 3.92,
+  "sofr": 3.89,
   "effr": 3.88,
-  "on_rrp": 0.15,
+  "on_rrp": 0.252,
   "ffr_cap": 4.0,
-  "sofr_effr_bp": 4.0,
-  "sofr_onrrp_bp": 377.0,
-  "gap_to_cap_bp": -8.0,
+  "sofr_effr_bp": 1.0,
+  "sofr_onrrp_bp": 363.8,
+  "gap_to_cap_bp": -11.0,
   "note": "美元融资压力三件套(日度实时)：SOFR相对目标上限+SOFR-EFFR+SOFR-ON RRP。OIS滞后3年已弃用。"
  },
  "regions": {
@@ -161,25 +161,25 @@
    ],
    "hicp": 3.75,
    "pmi": 50.6,
-   "eur_usd": 1.1163,
+   "eur_usd": 1.1154,
    "de_10y": 3.46952380952381
   },
   "japan": {
    "phase": "套息交易持续(美日利差大)",
    "signals": [
     "央行加息至 1.25%",
-    "美日利差 3.61% 套息持续",
-    "日元弱(USDJPY 157.47)"
+    "美日利差 3.63% 套息持续",
+    "日元弱(USDJPY 158.23)"
    ],
    "rate": 1.25,
-   "usd_jpy": 157.47,
-   "us_jp_spread": 3.61,
+   "usd_jpy": 158.23,
+   "us_jp_spread": 3.63,
    "jp_10y": 3.05,
    "carry_risk": "套息持续(利差大+日元极弱)，但日本已加息→逆转风险累积"
   },
   "global": {
    "pattern": "美日欧收紧、中国宽松",
-   "note": "利差倒挂3.27%(资本流出压力) vs 人民币实际升值 = 经常账户顺差/结汇主导，资本流出压力被对冲。美元强(美加息)+欧日通胀回升→全球流动性边际收紧；中国独自宽松，中美利差倒挂。核心风险：日元套息逆转(日本继续加息+美降息预期收窄利差)。"
+   "note": "利差倒挂3.29%(资本流出压力) vs 人民币实际升值 = 经常账户顺差/结汇主导，资本流出压力被对冲。美元强(美加息)+欧日通胀回升→全球流动性边际收紧；中国独自宽松，中美利差倒挂。核心风险：日元套息逆转(日本继续加息+美降息预期收窄利差)。"
   }
  },
  "summary": "growth[错位/中性]；inflation[再通胀升温(利多商品)]；liquidity[中性]；risk_appetite[risk-off(风险偏好崩塌)]；⚠️ 相变预警触发"
