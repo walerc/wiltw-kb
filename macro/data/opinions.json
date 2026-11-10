@@ -1,12 +1,12 @@
 {
- "generated": "2026-11-10",
+ "generated": "2026-11-11",
  "note": "观点层：分层信源立场 + 共识度量化。与事实层(macro_env.json状态机)分离。score: +1=命题bull方向, -1=命题bear方向。共识度>80%=拥挤交易相变前兆。fact_dir=事实层状态机对该命题的方向(+1/-1/0)。region=US/CN。",
  "propositions": [
   {
    "id": "us_inflation",
    "region": "US",
    "topic": "美国通胀：暂时 vs 持续",
-   "fact": "事实层：通胀驱动=再通胀升温(利多商品)，美CPI 4.02%、中PPI 5.7%",
+   "fact": "事实层：通胀驱动=再通胀升温(利多商品)，美CPI 4.08%、中PPI 5.7%",
    "fact_dir": 1,
    "stances": [
     {
@@ -80,7 +80,7 @@
    "id": "fed_rate_path",
    "region": "US",
    "topic": "美联储利率路径：加息 vs 降息",
-   "fact": "事实层：流动性中性(score 0)，美10Y 4.88%、中美利差倒挂3.29%，美CPI 4.02%高于联邦基金利率上限4.0%",
+   "fact": "事实层：流动性中性(score 0)，美10Y 4.98%、中美利差倒挂3.38%，美CPI 4.08%高于联邦基金利率上限4.0%",
    "fact_dir": 1,
    "stances": [
     {
@@ -147,7 +147,7 @@
    "id": "cn_policy",
    "region": "CN",
    "topic": "中国货币政策：宽松延续 vs 收紧",
-   "fact": "事实层：M2 7.2%放缓、流动性中性(score 0)但趋势收紧，中10Y 1.59%",
+   "fact": "事实层：M2 7.2%放缓、流动性中性(score 0)但趋势收紧，中10Y 1.60%",
    "fact_dir": -1,
    "stances": [
     {
@@ -177,7 +177,7 @@
    "id": "cn_growth",
    "region": "CN",
    "topic": "中国增长：平稳复苏 vs 弱复苏收缩",
-   "fact": "事实层：中国PMI 49.3跌破荣枯线收缩、贸易顺差9060亿元衰退式(内需疲弱)、增长驱动错位/中性score 0",
+   "fact": "事实层：中国PMI 49.3跌破荣枯线收缩、贸易顺差7128亿元衰退式(内需疲弱)、增长驱动错位/中性score 0",
    "fact_dir": -1,
    "stances": [
     {
