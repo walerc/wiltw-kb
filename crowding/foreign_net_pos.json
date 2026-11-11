@@ -26829,6 +26829,30 @@
       }
      ],
      "high_rank_count": 2
+    },
+    {
+     "date": "20261111",
+     "net": -13707,
+     "seats": [
+      "高盛",
+      "摩根大通"
+     ],
+     "contract": "M2701+M2705",
+     "seats_detail": [
+      {
+       "seat": "高盛",
+       "net": 81233,
+       "dir": "long",
+       "net_rank": 2
+      },
+      {
+       "seat": "摩根大通",
+       "net": -94940,
+       "dir": "short",
+       "net_rank": 3
+      }
+     ],
+     "high_rank_count": 2
     }
    ]
   },
@@ -28786,6 +28810,37 @@
       }
      ],
      "high_rank_count": 2
+    },
+    {
+     "date": "20261111",
+     "net": 60559,
+     "seats": [
+      "高盛",
+      "摩根大通",
+      "瑞银"
+     ],
+     "contract": "Y2701+Y2705",
+     "seats_detail": [
+      {
+       "seat": "高盛",
+       "net": 39805,
+       "dir": "long",
+       "net_rank": 1
+      },
+      {
+       "seat": "摩根大通",
+       "net": 11695,
+       "dir": "long",
+       "net_rank": 7
+      },
+      {
+       "seat": "瑞银",
+       "net": 9059,
+       "dir": "long",
+       "net_rank": 9
+      }
+     ],
+     "high_rank_count": 1
     }
    ]
   },
@@ -30369,6 +30424,30 @@
       }
      ],
      "high_rank_count": 2
+    },
+    {
+     "date": "20261111",
+     "net": -102156,
+     "seats": [
+      "高盛",
+      "摩根大通"
+     ],
+     "contract": "P2701+P2705",
+     "seats_detail": [
+      {
+       "seat": "高盛",
+       "net": -63632,
+       "dir": "short",
+       "net_rank": 1
+      },
+      {
+       "seat": "摩根大通",
+       "net": -38524,
+       "dir": "short",
+       "net_rank": 2
+      }
+     ],
+     "high_rank_count": 2
     }
    ]
   },
@@ -31924,6 +32003,30 @@
       }
      ],
      "high_rank_count": 1
+    },
+    {
+     "date": "20261111",
+     "net": -22599,
+     "seats": [
+      "高盛",
+      "摩根大通"
+     ],
+     "contract": "I2701+I2705",
+     "seats_detail": [
+      {
+       "seat": "高盛",
+       "net": -7013,
+       "dir": "short",
+       "net_rank": 8
+      },
+      {
+       "seat": "摩根大通",
+       "net": -15586,
+       "dir": "short",
+       "net_rank": 5
+      }
+     ],
+     "high_rank_count": 1
     }
    ]
   },
@@ -32122,7 +32225,7 @@
   }
  },
  "date": "20261111",
- "generated": "2026-11-11 17:30:43",
+ "generated": "2026-11-11 20:39:31",
  "summary": [
   {
    "sym": "AU0",
@@ -32674,60 +32777,135 @@
    "name": "豆粕",
    "sector": "农产品",
    "contract": "M2701+M2705",
-   "net": null,
-   "seats": [],
-   "active": false,
-   "surrender_progress": null,
-   "trend_state": "外资离场",
-   "direction": null,
-   "seats_detail": [],
-   "high_rank_count": 0,
-   "attention": "常规"
+   "contract_switch": null,
+   "net": -13707,
+   "seats": [
+    "高盛",
+    "摩根大通"
+   ],
+   "active": true,
+   "surrender_progress": 100.0,
+   "trend_state": "已投降",
+   "direction": "long",
+   "seats_detail": [
+    {
+     "seat": "高盛",
+     "net": 81233,
+     "dir": "long",
+     "net_rank": 2
+    },
+    {
+     "seat": "摩根大通",
+     "net": -94940,
+     "dir": "short",
+     "net_rank": 3
+    }
+   ],
+   "high_rank_count": 2,
+   "attention": "高重视"
   },
   {
    "sym": "Y0",
    "name": "豆油",
    "sector": "农产品",
    "contract": "Y2701+Y2705",
-   "net": null,
-   "seats": [],
-   "active": false,
-   "surrender_progress": null,
-   "trend_state": "外资离场",
-   "direction": null,
-   "seats_detail": [],
-   "high_rank_count": 0,
-   "attention": "常规"
+   "contract_switch": null,
+   "net": 60559,
+   "seats": [
+    "高盛",
+    "摩根大通",
+    "瑞银"
+   ],
+   "active": true,
+   "surrender_progress": 42.3,
+   "trend_state": "减仓撤退",
+   "direction": "long",
+   "seats_detail": [
+    {
+     "seat": "高盛",
+     "net": 39805,
+     "dir": "long",
+     "net_rank": 1
+    },
+    {
+     "seat": "摩根大通",
+     "net": 11695,
+     "dir": "long",
+     "net_rank": 7
+    },
+    {
+     "seat": "瑞银",
+     "net": 9059,
+     "dir": "long",
+     "net_rank": 9
+    }
+   ],
+   "high_rank_count": 1,
+   "attention": "提高重视"
   },
   {
    "sym": "P0",
    "name": "棕榈油",
    "sector": "农产品",
    "contract": "P2701+P2705",
-   "net": null,
-   "seats": [],
-   "active": false,
-   "surrender_progress": null,
-   "trend_state": "外资离场",
-   "direction": null,
-   "seats_detail": [],
-   "high_rank_count": 0,
-   "attention": "常规"
+   "contract_switch": null,
+   "net": -102156,
+   "seats": [
+    "高盛",
+    "摩根大通"
+   ],
+   "active": true,
+   "surrender_progress": 2.7,
+   "trend_state": "高位持仓",
+   "direction": "short",
+   "seats_detail": [
+    {
+     "seat": "高盛",
+     "net": -63632,
+     "dir": "short",
+     "net_rank": 1
+    },
+    {
+     "seat": "摩根大通",
+     "net": -38524,
+     "dir": "short",
+     "net_rank": 2
+    }
+   ],
+   "high_rank_count": 2,
+   "attention": "高重视"
   },
   {
    "sym": "I0",
    "name": "铁矿石",
    "sector": "黑色系",
    "contract": "I2701+I2705",
-   "net": null,
-   "seats": [],
-   "active": false,
-   "surrender_progress": null,
-   "trend_state": "外资离场",
-   "direction": null,
-   "seats_detail": [],
-   "high_rank_count": 0,
-   "attention": "常规"
+   "contract_switch": null,
+   "net": -22599,
+   "seats": [
+    "高盛",
+    "摩根大通"
+   ],
+   "active": true,
+   "surrender_progress": 51.4,
+   "trend_state": "减仓撤退",
+   "direction": "short",
+   "seats_detail": [
+    {
+     "seat": "高盛",
+     "net": -7013,
+     "dir": "short",
+     "net_rank": 8
+    },
+    {
+     "seat": "摩根大通",
+     "net": -15586,
+     "dir": "short",
+     "net_rank": 5
+    }
+   ],
+   "high_rank_count": 1,
+   "attention": "提高重视"
   },
   {
    "sym": "CF0",

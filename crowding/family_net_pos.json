@@ -19126,6 +19126,37 @@
       }
      ],
      "high_rank_count": 3
+    },
+    {
+     "date": "20261111",
+     "net": 15746,
+     "seats": [
+      "东方财富",
+      "徽商",
+      "平安"
+     ],
+     "contract": "LH2703+LH2701",
+     "seats_detail": [
+      {
+       "seat": "东方财富",
+       "net": 6605,
+       "dir": "long",
+       "net_rank": 1
+      },
+      {
+       "seat": "徽商",
+       "net": 3558,
+       "dir": "long",
+       "net_rank": 5
+      },
+      {
+       "seat": "平安",
+       "net": 5583,
+       "dir": "long",
+       "net_rank": 2
+      }
+     ],
+     "high_rank_count": 3
     }
    ]
   },
@@ -22176,6 +22207,23 @@
        "net": 873,
        "dir": "long",
        "net_rank": 16
+      }
+     ],
+     "high_rank_count": 0
+    },
+    {
+     "date": "20261111",
+     "net": 1286,
+     "seats": [
+      "徽商"
+     ],
+     "contract": "JM2701+JM2705",
+     "seats_detail": [
+      {
+       "seat": "徽商",
+       "net": 1286,
+       "dir": "long",
+       "net_rank": 15
       }
      ],
      "high_rank_count": 0
@@ -25813,6 +25861,23 @@
       }
      ],
      "high_rank_count": 0
+    },
+    {
+     "date": "20261111",
+     "net": -605,
+     "seats": [
+      "徽商"
+     ],
+     "contract": "J2701+J2705",
+     "seats_detail": [
+      {
+       "seat": "徽商",
+       "net": -605,
+       "dir": "short",
+       "net_rank": 9
+      }
+     ],
+     "high_rank_count": 0
     }
    ]
   },
@@ -27615,6 +27680,23 @@
       }
      ],
      "high_rank_count": 0
+    },
+    {
+     "date": "20261111",
+     "net": 16349,
+     "seats": [
+      "平安"
+     ],
+     "contract": "C2701+C2703",
+     "seats_detail": [
+      {
+       "seat": "平安",
+       "net": 16349,
+       "dir": "long",
+       "net_rank": 13
+      }
+     ],
+     "high_rank_count": 0
     }
    ]
   },
@@ -28452,6 +28534,30 @@
       }
      ],
      "high_rank_count": 0
+    },
+    {
+     "date": "20261111",
+     "net": -10534,
+     "seats": [
+      "徽商",
+      "平安"
+     ],
+     "contract": "P2701+P2705",
+     "seats_detail": [
+      {
+       "seat": "徽商",
+       "net": -4868,
+       "dir": "short",
+       "net_rank": 13
+      },
+      {
+       "seat": "平安",
+       "net": -5666,
+       "dir": "short",
+       "net_rank": 12
+      }
+     ],
+     "high_rank_count": 0
     }
    ]
   },
@@ -28509,12 +28615,29 @@
       }
      ],
      "high_rank_count": 0
+    },
+    {
+     "date": "20261111",
+     "net": -19234,
+     "seats": [
+      "平安"
+     ],
+     "contract": "M2701+M2705",
+     "seats_detail": [
+      {
+       "seat": "平安",
+       "net": -19234,
+       "dir": "short",
+       "net_rank": 11
+      }
+     ],
+     "high_rank_count": 0
     }
    ]
   }
  },
  "date": "20261111",
- "generated": "2026-11-11 17:30:28",
+ "generated": "2026-11-11 20:39:16",
  "summary": [
   {
    "sym": "AU0",
@@ -28847,15 +28970,39 @@
    "name": "生猪",
    "sector": "农产品",
    "contract": "LH2703+LH2701",
-   "net": null,
-   "seats": [],
-   "active": false,
+   "contract_switch": null,
+   "net": 15746,
+   "seats": [
+    "东方财富",
+    "徽商",
+    "平安"
+   ],
+   "active": true,
    "surrender_progress": null,
-   "trend_state": "家人离场",
+   "trend_state": "合约切换·样本不足",
    "direction": null,
-   "seats_detail": [],
-   "high_rank_count": 0,
-   "attention": "常规"
+   "seats_detail": [
+    {
+     "seat": "东方财富",
+     "net": 6605,
+     "dir": "long",
+     "net_rank": 1
+    },
+    {
+     "seat": "徽商",
+     "net": 3558,
+     "dir": "long",
+     "net_rank": 5
+    },
+    {
+     "seat": "平安",
+     "net": 5583,
+     "dir": "long",
+     "net_rank": 2
+    }
+   ],
+   "high_rank_count": 3,
+   "attention": "最高重视"
   },
   {
    "sym": "MA0",
@@ -28894,13 +29041,23 @@
    "name": "焦煤",
    "sector": "黑色系",
    "contract": "JM2701+JM2705",
-   "net": null,
-   "seats": [],
-   "active": false,
-   "surrender_progress": null,
-   "trend_state": "家人离场",
-   "direction": null,
-   "seats_detail": [],
+   "contract_switch": null,
+   "net": 1286,
+   "seats": [
+    "徽商"
+   ],
+   "active": true,
+   "surrender_progress": 100.0,
+   "trend_state": "已投降",
+   "direction": "short",
+   "seats_detail": [
+    {
+     "seat": "徽商",
+     "net": 1286,
+     "dir": "long",
+     "net_rank": 15
+    }
+   ],
    "high_rank_count": 0,
    "attention": "常规"
   },
@@ -28988,14 +29145,24 @@
    "sym": "J0",
    "name": "焦炭",
    "sector": "黑色系",
-   "contract": "J2701+J2611",
-   "net": null,
-   "seats": [],
-   "active": false,
+   "contract": "J2701+J2705",
+   "contract_switch": "J2701+J2611→J2701+J2705",
+   "net": -605,
+   "seats": [
+    "徽商"
+   ],
+   "active": true,
    "surrender_progress": null,
-   "trend_state": "家人离场",
+   "trend_state": "合约切换·样本不足",
    "direction": null,
-   "seats_detail": [],
+   "seats_detail": [
+    {
+     "seat": "徽商",
+     "net": -605,
+     "dir": "short",
+     "net_rank": 9
+    }
+   ],
    "high_rank_count": 0,
    "attention": "常规"
   },
@@ -29019,13 +29186,23 @@
    "name": "玉米",
    "sector": "农产品",
    "contract": "C2701+C2703",
-   "net": null,
-   "seats": [],
-   "active": false,
-   "surrender_progress": null,
-   "trend_state": "家人离场",
-   "direction": null,
-   "seats_detail": [],
+   "contract_switch": null,
+   "net": 16349,
+   "seats": [
+    "平安"
+   ],
+   "active": true,
+   "surrender_progress": 10.6,
+   "trend_state": "高位持仓",
+   "direction": "long",
+   "seats_detail": [
+    {
+     "seat": "平安",
+     "net": 16349,
+     "dir": "long",
+     "net_rank": 13
+    }
+   ],
    "high_rank_count": 0,
    "attention": "常规"
   },
@@ -29034,13 +29211,30 @@
    "name": "棕榈油",
    "sector": "农产品",
    "contract": "P2701+P2705",
-   "net": null,
-   "seats": [],
-   "active": false,
-   "surrender_progress": null,
-   "trend_state": "家人离场",
-   "direction": null,
-   "seats_detail": [],
+   "contract_switch": null,
+   "net": -10534,
+   "seats": [
+    "徽商",
+    "平安"
+   ],
+   "active": true,
+   "surrender_progress": 6.6,
+   "trend_state": "高位持仓",
+   "direction": "short",
+   "seats_detail": [
+    {
+     "seat": "徽商",
+     "net": -4868,
+     "dir": "short",
+     "net_rank": 13
+    },
+    {
+     "seat": "平安",
+     "net": -5666,
+     "dir": "short",
+     "net_rank": 12
+    }
+   ],
    "high_rank_count": 0,
    "attention": "常规"
   },
@@ -29049,13 +29243,23 @@
    "name": "豆粕",
    "sector": "农产品",
    "contract": "M2701+M2705",
-   "net": null,
-   "seats": [],
-   "active": false,
-   "surrender_progress": null,
-   "trend_state": "家人离场",
-   "direction": null,
-   "seats_detail": [],
+   "contract_switch": null,
+   "net": -19234,
+   "seats": [
+    "平安"
+   ],
+   "active": true,
+   "surrender_progress": 6.6,
+   "trend_state": "高位持仓",
+   "direction": "short",
+   "seats_detail": [
+    {
+     "seat": "平安",
+     "net": -19234,
+     "dir": "short",
+     "net_rank": 11
+    }
+   ],
    "high_rank_count": 0,
    "attention": "常规"
   }

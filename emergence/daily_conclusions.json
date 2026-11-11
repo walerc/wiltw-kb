@@ -1,10 +1,10 @@
 {
- "updated": "2026-11-11 17:35:42",
+ "updated": "2026-11-11 20:45:01",
  "days": [
   {
    "date": "2026-11-11",
    "weekday": "周三",
-   "count": 9,
+   "count": 12,
    "events": [
     {
      "kind": "dir",
@@ -55,6 +55,22 @@
      "detail": "emergence_phase: 逼近临界 → 跃迁中"
     },
     {
+     "kind": "phase",
+     "icon": "⬇️",
+     "name": "镍",
+     "title": "进入「临近变盘」",
+     "text": "涌现相位从「趋势启动」进入「临近变盘」（快到转折点了，结合方向列判断）",
+     "detail": "emergence_phase: 跃迁中 → 逼近临界"
+    },
+    {
+     "kind": "phase",
+     "icon": "⬆️",
+     "name": "铁矿石",
+     "title": "进入「趋势启动」",
+     "text": "涌现相位从「临近变盘」进入「趋势启动」（单边行情已走出来，顺势持有）",
+     "detail": "emergence_phase: 逼近临界 → 跃迁中"
+    },
+    {
      "kind": "vol",
      "icon": "⚠️",
      "name": "镍",
@@ -78,6 +94,14 @@
      "title": "库存分位低位",
      "text": "企业库存:纯碱:全国 历史分位 19.4%，跌破20%低位",
      "detail": "fund_pctile: 35.2% → 19.4%"
+    },
+    {
+     "kind": "extreme",
+     "icon": "🟡",
+     "name": "棉花",
+     "title": "库存分位低位",
+     "text": "商业库存:棉花:合计 历史分位 1.4%，跌破20%低位",
+     "detail": "fund_pctile: 48.4% → 1.4%"
     }
    ]
   },
