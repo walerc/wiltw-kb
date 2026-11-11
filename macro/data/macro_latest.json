@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-11",
+ "generated": "2026-11-12",
  "indicators": {
   "us_ism_pmi": {
    "value": 55.5,
@@ -8,7 +8,8 @@
    "region": "US",
    "driver": "growth",
    "freq": "monthly",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_pmi": {
    "value": 49.3,
@@ -26,7 +27,8 @@
    "region": "CN",
    "driver": "growth",
    "freq": "monthly",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_yield_curve": {
    "value": 0.25,
@@ -53,7 +55,8 @@
    "region": "CN",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后"
+   "lag": "滞后",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_ppi": {
    "value": 5.7,
@@ -62,7 +65,8 @@
    "region": "CN",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后"
+   "lag": "滞后",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_m2": {
    "value": 7.2,
@@ -89,7 +93,8 @@
    "region": "CN",
    "driver": "liquidity",
    "freq": "monthly",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_10y": {
    "value": 4.98,
@@ -107,7 +112,8 @@
    "region": "CN",
    "driver": "liquidity",
    "freq": "daily",
-   "lag": "领先"
+   "lag": "领先",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_3m": {
    "value": 4.24,
@@ -119,8 +125,8 @@
    "lag": "领先"
   },
   "vix": {
-   "value": 19.92,
-   "date": "2026-11-09",
+   "value": 19.46,
+   "date": "2026-11-10",
    "name": "VIX恐慌指数",
    "region": "US",
    "driver": "risk_appetite",
@@ -137,8 +143,8 @@
    "lag": "领先"
   },
   "cn_margin": {
-   "value": 22604.3833957,
-   "date": "2026-11-09",
+   "value": 22656.53920908,
+   "date": "2026-11-10",
    "name": "A股融资融券余额",
    "region": "CN",
    "driver": "risk_appetite",
@@ -152,7 +158,8 @@
    "region": "CN",
    "driver": "fx",
    "freq": "daily",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "dxy": {
    "value": 121.8803,
@@ -165,8 +172,8 @@
    "note": "原ICE DXY停更，改用FRED DTWEXBGS美联储广义贸易加权美元指数(2006=100)，趋势一致但数值基线不同(原DXY~102)"
   },
   "sh_index": {
-   "value": 3663.724,
-   "date": "2026-11-10",
+   "value": 3680.643,
+   "date": "2026-11-11",
    "name": "上证指数",
    "region": "CN",
    "driver": "asset",
@@ -174,8 +181,8 @@
    "lag": "同步"
   },
   "sp500": {
-   "value": 7549.9399,
-   "date": "2026-11-09",
+   "value": 7520.9302,
+   "date": "2026-11-10",
    "name": "标普500",
    "region": "US",
    "driver": "asset",
@@ -183,8 +190,8 @@
    "lag": "同步"
   },
   "nanhua": {
-   "value": 2142.63,
-   "date": "2026-11-10",
+   "value": 2152.29,
+   "date": "2026-11-11",
    "name": "南华商品指数",
    "region": "CN",
    "driver": "asset",
@@ -199,11 +206,12 @@
    "driver": "asset",
    "freq": "monthly",
    "lag": "同步",
-   "note": "原RJ/CRB(Thomson Reuters)停更，改用世界银行所有商品价格指数(2016=100)，趋势一致数值基线不同"
+   "note": "原RJ/CRB(Thomson Reuters)停更，改用世界银行所有商品价格指数(2016=100)，趋势一致数值基线不同",
+   "error": "本次拉取失败，沿用上次值"
   },
   "gold": {
-   "value": 4032.73,
-   "date": "2026-11-10",
+   "value": 3987.69,
+   "date": "2026-11-11",
    "name": "伦敦现货黄金",
    "region": "Global",
    "driver": "asset",
@@ -227,7 +235,8 @@
    "region": "CN",
    "driver": "asset",
    "freq": "daily",
-   "lag": "同步"
+   "lag": "同步",
+   "error": "本次拉取失败，沿用上次值"
   },
   "cn_inventory": {
    "value": 11.6,
@@ -236,7 +245,8 @@
    "region": "CN",
    "driver": "cycle",
    "freq": "monthly",
-   "lag": "滞后"
+   "lag": "滞后",
+   "error": "本次拉取失败，沿用上次值"
   },
   "us_sofr": {
    "value": 3.88,
@@ -332,7 +342,7 @@
   },
   "us_ffr_cap": {
    "value": 4.0,
-   "date": "2026-11-10",
+   "date": "2026-11-11",
    "name": "美国联邦基金目标利率上限",
    "region": "US",
    "driver": "liquidity_stress",
