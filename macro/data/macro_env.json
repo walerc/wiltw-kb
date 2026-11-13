@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-13",
+ "generated": "2026-11-14",
  "drivers": {
   "growth": {
    "us_ism": 55.5,
@@ -28,41 +28,41 @@
    "trend": "稳定"
   },
   "liquidity": {
-   "cn_m2": 7.2,
-   "us_10y": 4.98,
+   "cn_m2": 7.1,
+   "us_10y": 5.1,
    "cn_10y": 1.5965,
    "signals": [
     "中国M2(0)",
-    "美10Y(0)"
+    "美10Y(-1)"
    ],
-   "state": "中性",
-   "score": 0,
-   "radar": 50,
-   "direction": "中性",
-   "trajectory": "M2 7.2 ↓",
-   "trend": "收紧",
-   "cn_us_spread": 3.38,
-   "spread_note": "中美利差倒挂3.38%"
+   "state": "偏紧",
+   "score": -1,
+   "radar": 25,
+   "direction": "利空",
+   "trajectory": "M2 7.1 →",
+   "trend": "稳定",
+   "cn_us_spread": 3.5,
+   "spread_note": "中美利差倒挂3.5%"
   },
   "risk_appetite": {
-   "vix": 17.49,
-   "us_hy_oas": 3.3,
+   "vix": 18.7,
+   "us_hy_oas": 3.2,
    "signals": [
-    "VIX(0)",
+    "VIX(-1)",
     "信用利差(0)"
    ],
-   "state": "中性(边际观察)",
-   "score": 0,
-   "radar": 50,
-   "direction": "中性",
-   "trajectory": "VIX 17.49 → 利差 3.3 ↑",
-   "trend": "恶化"
+   "state": "risk-off 前兆(边际恶化)",
+   "score": -1,
+   "radar": 25,
+   "direction": "利空",
+   "trajectory": "VIX 18.7 ↑ 利差 3.2 →",
+   "trend": "稳定"
   }
  },
  "fx": {
   "usdcny": 6.7167,
   "dxy": 121.8803,
-  "cn_us_spread": 3.38,
+  "cn_us_spread": 3.5,
   "dxy_direction": "走强",
   "divergence": null,
   "signals": [
@@ -82,12 +82,12 @@
   "alerts": [
    {
     "type": "risk",
-    "signal": "高收益债利差3月走阔 0.55pp",
+    "signal": "高收益债利差3月走阔 0.47pp",
     "level": "风险偏好恶化"
    },
    {
     "type": "risk",
-    "signal": "VIX 3月上行 2.6 点",
+    "signal": "VIX 3月上行 2.7 点",
     "level": "恐慌升温前兆"
    }
   ],
@@ -114,7 +114,7 @@
     "萧条期=商品价格底部区域，回升期开启商品长牛",
     "财富机会时点：2008(第一次)→2019(第二次)→2030附近(第三次)"
    ],
-   "evidence": "中PPI转正5.7%+CRB走强222.428549+产成品库存回补11.6%+黄金3877高位(避险+去美元化)",
+   "evidence": "中PPI转正5.7%+CRB走强222.428549+产成品库存回补11.6%+黄金3879高位(避险+去美元化)",
    "direction": "利多商品",
    "asset": "商品(实物资产)长周期占优",
    "lag_note": "康波是慢变量(60y)，定方向不定节奏，不作为短期择时"
@@ -133,15 +133,15 @@
  "liquidity_stress": {
   "stress": true,
   "signals": [
-   "回购融资溢价：SOFR-ON RRP 364bp"
+   "回购融资溢价：SOFR-ON RRP 358bp"
   ],
-  "sofr": 3.89,
+  "sofr": 3.9,
   "effr": 3.88,
-  "on_rrp": 0.25,
+  "on_rrp": 0.325,
   "ffr_cap": 4.0,
-  "sofr_effr_bp": 1.0,
-  "sofr_onrrp_bp": 364.0,
-  "gap_to_cap_bp": -11.0,
+  "sofr_effr_bp": 2.0,
+  "sofr_onrrp_bp": 357.5,
+  "gap_to_cap_bp": -10.0,
   "note": "美元融资压力三件套(日度实时)：SOFR相对目标上限+SOFR-EFFR+SOFR-ON RRP。OIS滞后3年已弃用。"
  },
  "regions": {
@@ -159,12 +159,12 @@
    "phase": "套息交易持续(美日利差大)",
    "signals": [
     "央行加息至 1.25%",
-    "美日利差 3.73% 套息持续",
+    "美日利差 3.85% 套息持续",
     "日元弱(USDJPY 158.23)"
    ],
    "rate": 1.25,
    "usd_jpy": 158.23,
-   "us_jp_spread": 3.73,
+   "us_jp_spread": 3.85,
    "jp_10y": 3.05,
    "carry_risk": "套息持续(利差大+日元极弱)，但日本已加息→逆转风险累积"
   },
@@ -173,5 +173,5 @@
    "note": "美元强(美加息)+欧日通胀回升→全球流动性边际收紧；中国独自宽松，中美利差倒挂。核心风险：日元套息逆转(日本继续加息+美降息预期收窄利差)。"
   }
  },
- "summary": "growth[错位/中性]；inflation[再通胀(利多商品)]；liquidity[中性]；risk_appetite[中性(边际观察)]；⚠️ 相变预警触发"
+ "summary": "growth[错位/中性]；inflation[再通胀(利多商品)]；liquidity[偏紧]；risk_appetite[risk-off 前兆(边际恶化)]；⚠️ 相变预警触发"
 }
