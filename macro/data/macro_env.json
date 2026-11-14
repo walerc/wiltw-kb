@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-14",
+ "generated": "2026-11-15",
  "drivers": {
   "growth": {
    "us_ism": 55.5,
@@ -29,7 +29,7 @@
   },
   "liquidity": {
    "cn_m2": 7.1,
-   "us_10y": 5.1,
+   "us_10y": 5.15,
    "cn_10y": 1.5965,
    "signals": [
     "中国M2(0)",
@@ -41,8 +41,8 @@
    "direction": "利空",
    "trajectory": "M2 7.1 →",
    "trend": "稳定",
-   "cn_us_spread": 3.5,
-   "spread_note": "中美利差倒挂3.5%"
+   "cn_us_spread": 3.55,
+   "spread_note": "中美利差倒挂3.55%"
   },
   "risk_appetite": {
    "vix": 18.7,
@@ -62,7 +62,7 @@
  "fx": {
   "usdcny": 6.7167,
   "dxy": 121.8803,
-  "cn_us_spread": 3.5,
+  "cn_us_spread": 3.55,
   "dxy_direction": "走强",
   "divergence": null,
   "signals": [
@@ -159,12 +159,12 @@
    "phase": "套息交易持续(美日利差大)",
    "signals": [
     "央行加息至 1.25%",
-    "美日利差 3.85% 套息持续",
+    "美日利差 3.9% 套息持续",
     "日元弱(USDJPY 158.23)"
    ],
    "rate": 1.25,
    "usd_jpy": 158.23,
-   "us_jp_spread": 3.85,
+   "us_jp_spread": 3.9,
    "jp_10y": 3.05,
    "carry_risk": "套息持续(利差大+日元极弱)，但日本已加息→逆转风险累积"
   },
