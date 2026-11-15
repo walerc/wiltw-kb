@@ -8,8 +8,8 @@
    "region": "US",
    "driver": "growth",
    "freq": "monthly",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "滞后",
+   "note": "akshare数据滞后约1年(最新2025-09)，iFinD配额恢复后切回iFinD"
   },
   "cn_pmi": {
    "value": 49.3,
@@ -50,23 +50,21 @@
   },
   "cn_cpi": {
    "value": 0.7,
-   "date": "2026-10-01",
+   "date": "2026年10月份",
    "name": "中国CPI同比",
    "region": "CN",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "滞后"
   },
   "cn_ppi": {
    "value": 5.7,
-   "date": "2026-10-01",
+   "date": "2026年10月份",
    "name": "中国PPI同比",
    "region": "CN",
    "driver": "inflation",
    "freq": "monthly",
-   "lag": "滞后",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "滞后"
   },
   "cn_m2": {
    "value": 7.1,
@@ -342,7 +340,7 @@
   },
   "us_ffr_cap": {
    "value": 4.0,
-   "date": "2026-11-14",
+   "date": "2026-11-15",
    "name": "美国联邦基金目标利率上限",
    "region": "US",
    "driver": "liquidity_stress",
