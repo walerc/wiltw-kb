@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-15",
+ "generated": "2026-11-16",
  "indicators": {
   "us_ism_pmi": {
    "value": 55.5,
@@ -27,8 +27,7 @@
    "region": "CN",
    "driver": "growth",
    "freq": "monthly",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步"
   },
   "us_yield_curve": {
    "value": 0.27,
@@ -85,14 +84,13 @@
    "lag": "领先"
   },
   "cn_social_finance": {
-   "value": 7.1,
-   "date": "2026-09-01",
+   "value": 7.2,
+   "date": "2026-10-01",
    "name": "中国社融存量同比",
    "region": "CN",
    "driver": "liquidity",
    "freq": "monthly",
-   "lag": "领先",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "领先"
   },
   "us_10y": {
    "value": 5.15,
@@ -202,8 +200,7 @@
    "driver": "asset",
    "freq": "monthly",
    "lag": "同步",
-   "note": "原RJ/CRB(Thomson Reuters)停更，改用世界银行所有商品价格指数(2016=100)，趋势一致数值基线不同",
-   "error": "本次拉取失败，沿用上次值"
+   "note": "原RJ/CRB(Thomson Reuters)停更，改用世界银行所有商品价格指数(2016=100)，趋势一致数值基线不同"
   },
   "gold": {
    "value": 3879.92,
@@ -225,14 +222,13 @@
    "error": "本次拉取失败，沿用上次值"
   },
   "cn_3m": {
-   "value": 1.1599,
-   "date": "2026-11-10",
+   "value": 1.165,
+   "date": "2026-11-13",
    "name": "中国3月国债收益率",
    "region": "CN",
    "driver": "asset",
    "freq": "daily",
-   "lag": "同步",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "同步"
   },
   "cn_inventory": {
    "value": 11.6,
@@ -241,8 +237,7 @@
    "region": "CN",
    "driver": "cycle",
    "freq": "monthly",
-   "lag": "滞后",
-   "error": "本次拉取失败，沿用上次值"
+   "lag": "滞后"
   },
   "us_sofr": {
    "value": 3.9,
