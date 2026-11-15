@@ -334,6 +334,48 @@ def fetch_noaa():
     return {"latest": parsed[-1], "series": parsed[-12:]}, None
 
 
+def fetch_noaa_soi(n_months=24):
+    """抓取 NOAA CPC 标准化 SOI 月度数据，返回 ([[月末date, value], ...], None) 或 (None, err)。
+
+    数据源：https://www.cpc.ncep.noaa.gov/data/indices/soi
+    文件含两块：① SEA LEVEL PRESS ANOMALY（气压距平，hPa）② STANDARDIZED DATA（标准化 SOI）。
+    用「STANDARDIZED」标记定位第二块。每行 YYYY + 12 个月各 F6.1 固定列宽（-999.9=缺失）。
+    ⚠️ 标准化 SOI（1951-1980 基准，量级 ±3）与 iFinD「南方涛动指数」(Troup SOI ×10，量级 ±30)
+    口径不同但方向一致（负=厄尔尼诺）。改用 NOAA 是为摆脱 iFinD 配额依赖（2026-11-04 耗尽后停更）。
+    """
+    url = "https://www.cpc.ncep.noaa.gov/data/indices/soi"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=30) as r:
+            text = r.read().decode("ascii", "ignore")
+    except Exception as e:
+        return None, f"抓取失败: {e}"
+    out = []
+    in_block = False
+    lastday = (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+    for line in text.split("\n"):
+        if "STANDARDIZED" in line:
+            in_block = True
+            continue
+        if not in_block or line.startswith("YEAR") or len(line) < 4:
+            continue
+        try:
+            year = int(line[0:4])
+        except ValueError:
+            continue
+        for m in range(12):
+            field = line[4 + m * 6:4 + (m + 1) * 6]
+            try:
+                v = float(field)
+            except ValueError:
+                v = None
+            if v is not None and v > -99:  # 过滤 -999.9 缺失
+                out.append([f"{year:04d}-{m + 1:02d}-{lastday[m]:02d}", v])
+    if not out:
+        return None, "解析失败"
+    return out[-n_months:], None
+
+
 def month_str(y, m):
     # ⚠️ 必须用数字格式 "2026-09"，中文"2026年9月"会导致 iFinD 只返回到当月15日的数据
     return f"{y:04d}-{m:02d}"
@@ -393,6 +435,15 @@ def fetch_series():
                 continue
             series[k] = None
             print(f"  [月度] {k}: EMPTY 点")
+            continue
+        if k == "soi":
+            # SOI：改用 NOAA 标准化 SOI（iFinD「南方涛动指数」为 Troup 口径，2026-11-04 配额耗尽后停更）
+            data, soi_err = fetch_noaa_soi(24)
+            if data:
+                series[k] = data
+                print(f"  [月度] soi: {len(data)} 点 (NOAA 标准化 SOI)")
+            else:
+                print(f"  [月度] soi: NOAA 抓取失败 ({soi_err})，将沿用上次缓存")
             continue
         datas = query_edb(f"{name} {m_start}到{m_end}")
         if datas and isinstance(datas, list) and datas[0].get("data", {}).get("data"):
@@ -559,7 +610,8 @@ def build_tracking(series, noaa=None, noaa_err=None):
 
     # 事件 dict（含 Nino 周度值，NOAA 成功则覆盖，失败 fallback 静态）
     event = dict(EVENT, soi_latest=soi_latest, soi_peak_neg=soi_peak_neg,
-                 soi_series=[[d[:7], v] for d, v in soi])
+                 soi_series=[[d[:7], v] for d, v in soi],
+                 soi_source="NOAA CPC 标准化 SOI", soi_baseline="1951-1980 基准")
     if noaa and noaa.get("latest"):
         lat = noaa["latest"]
         event.update({

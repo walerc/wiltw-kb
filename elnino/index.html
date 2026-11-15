@@ -225,7 +225,7 @@ td:first-child, th:first-child { text-align:left; }
   <h2>🌊 厄尔尼诺状态（SOI 代理）</h2>
   <div class="card">
     <div class="soi-chart" id="soiChart"></div>
-    <div class="crop-meta">绿柱=SOI正值(拉尼娜/中性) · 红柱=SOI负值(厄尔尼诺) · 2026年4月SOI首次转负=厄尔尼诺启动</div>
+    <div class="crop-meta">绿柱=标准化SOI正值(拉尼娜/中性) · 红柱=负值(厄尔尼诺) · NOAA 1951-1980基准 · 2026年4月SOI首次转负=厄尔尼诺启动</div>
   </div>
   <h2>🏭 宏观环境</h2>
   <div class="track-grid" id="macroGrid"></div>
@@ -504,7 +504,7 @@ function renderTracking() {
     `<span class="track-status">${ev.status}</span><span class="track-phase">${ev.phase}</span>` +
     `<div style="margin-top:8px;font-size:.85rem;color:#c9d1d9;line-height:1.7">` +
     `Niño3.4 <b>${ev.nino34}</b> · Niño3 <b>${ev.nino3}</b> · Niño1+2 <b>${ev.nino12}</b> · SOI <b class="${ev.soi_latest>=0?'soi-pos':'soi-neg'}">${ev.soi_latest}</b><br>` +
-    `<span class="na" style="font-size:.72rem">Nino 周度 ${ev.nino_week || '—'} · ${ev.nino_baseline || ''} · 来源:${ev.nino_source || ''} · SOI峰值负值 ${ev.soi_peak_neg}</span><br>` +
+    `<span class="na" style="font-size:.72rem">Nino 周度 ${ev.nino_week || '—'} · ${ev.nino_baseline || ''} · 来源:${ev.nino_source || ''} · SOI峰值负值 ${ev.soi_peak_neg}${ev.soi_source ? ' (' + ev.soi_source + ')' : ''}</span><br>` +
     `<span style="color:#ffa198">📈 ${ev.peak_forecast}</span><br>` +
     `<span style="color:#e0c068">🔍 历史类比：${ev.analog}</span></div>`;
   // SOI bar 图
