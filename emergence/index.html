@@ -143,6 +143,23 @@ function dirBadge(d) {
   if (d.indexOf('警惕') >= 0) return '<span class="badge crit-high">' + d + '</span>';
   return '<span class="badge dir-wait">' + d + '</span>';
 }
+function biasBadge(c) {
+  var b = c.bias || '';
+  var t = c.timing || '';
+  if (b === '做多' || b === '偏多') {
+    var html = '<span class="badge dir-long" style="font-size:0.8rem">' + b + '</span>';
+    if (t) html += '<br><span class="neu" style="font-size:0.64rem">' + t + '</span>';
+    return html;
+  }
+  if (b === '做空' || b === '偏空') {
+    var html = '<span class="badge dir-short" style="font-size:0.8rem">' + b + '</span>';
+    if (t) html += '<br><span class="neu" style="font-size:0.64rem">' + t + '</span>';
+    return html;
+  }
+  var html = '<span class="badge dir-wait" style="font-size:0.8rem">中性</span>';
+  if (t) html += '<br><span class="neu" style="font-size:0.64rem">' + t + '</span>';
+  return html;
+}
 function critBadge(c) {
   return '<span class="badge crit-' + (c === '高' ? 'high' : (c === '中' ? 'mid' : 'low')) + '">' + c + '</span>';
 }
@@ -825,7 +842,7 @@ function renderSectors(list) {
         + '<td class="stage">' + (c.scale || '') + '</td>'
         + '<td class="stage">' + (c.stage || '') + '</td>'
         + '<td>' + phaseCell(c) + '</td>'
-        + '<td>' + dirBadge(c.dir) + (c.dir_score != null ? '<br><span class="' + (c.dir_score >= 15 ? 'up' : (c.dir_score <= -15 ? 'down' : 'neu')) + '" style="font-size:0.68rem">技术' + (c.dir_score > 0 ? '+' : '') + c.dir_score + ' ' + (c.dir_label || '') + '</span>' : '') + actionBadge(c) + '</td>'
+        + '<td>' + biasBadge(c) + (c.dir_score != null ? '<br><span class="' + (c.dir_score >= 15 ? 'up' : (c.dir_score <= -15 ? 'down' : 'neu')) + '" style="font-size:0.68rem">技术' + (c.dir_score > 0 ? '+' : '') + c.dir_score + ' ' + (c.dir_label || '') + '</span>' : '') + actionBadge(c) + '</td>'
         + '<td class="driver">' + (c.driver || '') + (c.note ? '<br><span style="color:#d29922">' + c.note + '</span>' : '') + (c.flow_confirm ? '<br><span style="color:' + (c.flow_confirm.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.flow_confirm.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.flow_confirm + '</span>' : '') + (c.term_signal ? '<br><span style="color:' + (c.term_signal.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.term_signal.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.term_signal + '</span>' : '') + (c.dir_consistency ? '<br><span style="color:' + (c.dir_consistency.indexOf('⚠️') >= 0 ? '#ff7b72' : (c.dir_consistency.indexOf('⏳') >= 0 ? '#d29922' : '#3fb950')) + '">' + c.dir_consistency + '</span>' : '') + '</td>'
         + '</tr>';
     });
@@ -970,12 +987,15 @@ function showSlowModal(name) {
 }
 
 function actionBadge(c) {
-  if (!c.action_advice || c.action_advice === '观望') return '';
+  if (!c.action_advice) return '';
   var a = c.action_advice;
   var color;
-  if (a.indexOf('暂离') >= 0 || a.indexOf('减仓') >= 0) color = '#ff7b72';
-  else if (a.indexOf('加仓') >= 0 || a.indexOf('回补') >= 0) color = '#d29922';
-  else if (a.indexOf('持有') >= 0 || a.indexOf('顺势') >= 0) color = '#3fb950';
+  if (a.indexOf('避险') >= 0) color = '#ff7b72';
+  else if (a.indexOf('减多') >= 0 || a.indexOf('减空') >= 0) color = '#ffa657';
+  else if (a.indexOf('等回调') >= 0 || a.indexOf('等右侧') >= 0 || a.indexOf('左侧') >= 0) color = '#d29922';
+  else if (a.indexOf('持多') >= 0) color = '#ff5050';
+  else if (a.indexOf('持空') >= 0) color = '#00c864';
+  else if (a.indexOf('潜伏') >= 0) color = '#d29922';
   else color = '#8b949e';
   return '<br><span class="slow-click" style="color:' + color + ';font-weight:600" title="点击查看操作建议详解" onclick="showActionModal(\'' + c.name + '\')">📌 ' + a + '</span>';
 }
@@ -989,6 +1009,19 @@ function showActionModal(name) {
   if (!c) return;
   var detail = c.action_detail || [];
   var html = '<h3>' + c.name + ' · 操作建议详解</h3>';
+  // 方向判断总览（醒目大字：基本面方向 + 技术印证 + 背离警示）
+  var b = c.bias || '';
+  var bColor = (b === '做多' || b === '偏多') ? '#ff5050' : ((b === '做空' || b === '偏空') ? '#00c864' : '#8b949e');
+  var s = c.dir_score;
+  var techColor = (s != null && s >= 15) ? '#ff5050' : ((s != null && s <= -15) ? '#00c864' : '#8b949e');
+  var diverge = ((b === '做多' || b === '偏多') && s <= -40) || ((b === '做空' || b === '偏空') && s >= 40);
+  html += '<div style="background:#161b22;border:1px solid #30363d;border-radius:8px;padding:0.6rem 0.8rem;margin:0.5rem 0">'
+    + '<div style="font-size:1.1rem"><b>方向判断：</b><b style="color:' + bColor + ';font-size:1.3rem">' + (b || '—') + '</b>'
+    + ' <span style="color:#8b949e;font-size:0.82rem">基本面</span></div>'
+    + '<div style="margin-top:0.25rem">技术印证：<b style="color:' + techColor + '">' + (s != null ? (s > 0 ? '+' : '') + s : '—') + '</b>'
+    + ' <span style="color:#8b949e">' + (c.dir_label || '') + '</span>'
+    + (diverge ? ' <b style="color:#ff7b72">⚠️方向背离</b>' : '')
+    + '</div></div>';
   html += '<p style="font-size:0.95rem"><b style="color:#e0c068">建议：' + c.action_advice + '</b></p>';
   // 涌现内核：相位 + 驱动层（因）+ 时滞
   if (c.emergence_phase) {
@@ -998,7 +1031,7 @@ function showActionModal(name) {
       + '<span class="kv"><b>时滞:</b> ' + (c.drv_lag || '—') + '</span>'
       + '<span class="kv"><b>阶段:</b> ' + (c.drv_stage || '—') + '</span></p>';
   }
-  html += '<p><span class="kv"><b>方向:</b> ' + (c.dir || '—') + '</span>'
+  html += '<p><span class="kv"><b>时机:</b> ' + (c.timing || '—') + '</span>'
     + '<span class="kv"><b>量仓:</b> ' + (c.flow_confirm || c.flow_quad || '—') + '</span></p>';
   html += '<p><span class="kv"><b>一致性:</b> ' + (c.dir_consistency || '—') + '</span>'
     + '<span class="kv"><b>持仓20日:</b> ' + (c.hold_chg_20 != null ? (c.hold_chg_20 > 0 ? '+' : '') + c.hold_chg_20 + '%' : '—') + '</span></p>';
