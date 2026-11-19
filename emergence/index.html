@@ -1069,6 +1069,9 @@ function showActionModal(name) {
   var ch = c.channel;
   if (ch) {
     html += '<h4>通道位置（Raff 通道 · 与通道投影联动）</h4>';
+    if (ch.cross) {
+      html += '<p style="font-size:0.85rem;margin:0.3rem 0">交叉评估：<b style="color:#e0c068">' + ch.cross + '</b></p>';
+    }
     var perMap = { short: '短(20日)', medium: '中(60日)', long: '长(150日)' };
     var lines = [];
     ['short', 'medium', 'long'].forEach(function(p) {
