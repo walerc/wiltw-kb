@@ -177,9 +177,28 @@ function emergeCell(c) {
 }
 function phaseCell(c) {
   var phase = c.emergence_phase || '—';
-  var label = { '驱动累积': '积累中', '蓄势': '蓄势待变', '逼近临界': '临近变盘', '跃迁中': '趋势启动', '跃迁中(反向)': '反向趋势', '新稳态': '新平衡' }[phase] || phase;
-  var tip = { '积累中': '基本面在变，价格还没动，可埋伏等启动', '蓄势待变': '方向未定、波动异常，等方向明确', '临近变盘': '快到转折点了，结合方向列判断', '趋势启动': '单边行情已走出来，顺势持有', '反向趋势': '反向单边行情，顺势持有', '新平衡': '行情走完，价格在新水平稳定' }[label] || '';
-  var color = { '跃迁中': '#ff5050', '跃迁中(反向)': '#00c864', '逼近临界': '#d29922', '驱动累积': '#58a6ff', '新稳态': '#8b949e', '蓄势': '#d29922' }[phase] || '#8b949e';
+  var drvDir = c.drv_dir || '';
+  var isUp = drvDir.indexOf('利多') >= 0;
+  var isDown = drvDir.indexOf('利空') >= 0;
+  var label, tip, color;
+  if (phase === '跃迁中') {
+    // 趋势启动：方向由驱动方向定（利多=向上，利空=向下）
+    if (isDown && !isUp) { label = '向下趋势启动'; color = '#00c864'; tip = '空头单边行情已走出，顺势持空'; }
+    else if (isUp && !isDown) { label = '向上趋势启动'; color = '#ff5050'; tip = '多头单边行情已走出，顺势持多'; }
+    else { label = '趋势启动'; color = '#d29922'; tip = '单边行情已走出，方向见驱动列'; }
+  } else if (phase === '跃迁中(反向)') {
+    // 反向趋势：方向 = 驱动方向的相反（利多→向下反转，利空→向上反转）
+    if (isDown && !isUp) { label = '向上反转'; color = '#ff5050'; tip = '利空反转向下，顺势持多'; }
+    else if (isUp && !isDown) { label = '向下反转'; color = '#00c864'; tip = '利多反转向下，顺势持空'; }
+    else { label = '反向趋势'; color = '#8b949e'; tip = '反向单边行情，方向见驱动列'; }
+  } else {
+    var m = { '驱动累积': '积累中', '蓄势': '蓄势待变', '逼近临界': '临近变盘', '新稳态': '新平衡' };
+    label = m[phase] || phase;
+    var tips = { '积累中': '基本面在变，价格还没动，可埋伏等启动', '蓄势待变': '方向未定、波动异常，等方向明确', '临近变盘': '快到转折点了，结合方向列判断', '新平衡': '行情走完，价格在新水平稳定' };
+    tip = tips[label] || '';
+    var colors = { '逼近临界': '#d29922', '驱动累积': '#58a6ff', '新稳态': '#8b949e', '蓄势': '#d29922' };
+    color = colors[phase] || '#8b949e';
+  }
   var html = '<span style="color:' + color + ';font-weight:700" title="' + tip + '">' + label + '</span>';
   if (c.drv_type) html += '<br><span class="neu" style="font-size:0.66rem">' + c.drv_type + '·' + (c.drv_strength || '') + '</span>';
   if (c.drv_lag && c.drv_lag !== '即时') html += '<br><span class="amber" style="font-size:0.66rem">时滞' + c.drv_lag + '</span>';
