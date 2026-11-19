@@ -1065,6 +1065,27 @@ function showActionModal(name) {
     html += '<p style="font-size:0.85rem">IV(平值期权 ' + ivrv.iv_atm + '%) vs RV(20日已实现 ' + ivrv.rv + '%)，溢价 <b style="color:' + ivColor + '">' + sign + ivrv.vrp + 'pp</b> → <b style="color:' + ivColor + '">' + ivrv.label + '</b></p>';
     html += '<div class="interp">' + ivrv.detail.map(function(s) { return '· ' + s; }).join('<br>') + '</div>';
   }
+  // 通道位置（Raff 通道三周期，与通道投影板块联动，补充"超买超卖"维度）
+  var ch = c.channel;
+  if (ch) {
+    html += '<h4>通道位置（Raff 通道 · 与通道投影联动）</h4>';
+    var perMap = { short: '短(20日)', medium: '中(60日)', long: '长(150日)' };
+    var lines = [];
+    ['short', 'medium', 'long'].forEach(function(p) {
+      var pos = ch[p + '_pos'];
+      if (pos == null) return;
+      var zone = (ch[p + '_zone'] || '').split(' (')[0];
+      var r2 = ch[p + '_r2'];
+      var color = pos > 100 ? '#ff6b6b' : (pos < 0 ? '#4ae07a' : (pos >= 67 ? '#f0886e' : (pos <= 33 ? '#6ebf8a' : '#e2b84c')));
+      var line = perMap[p] + '：<b style="color:' + color + '">' + (pos > 0 ? '+' : '') + pos + '%</b>';
+      if (zone) line += ' <span style="color:#8b949e;font-size:0.82rem">' + zone + '</span>';
+      if (r2 != null) line += ' R²=' + (r2 >= 0.5 ? '<b style="color:#56d364">' : (r2 >= 0.2 ? '<b style="color:#d2a850">' : '<b style="color:#6e7681">')) + r2.toFixed(2) + '</b>';
+      lines.push(line);
+    });
+    if (lines.length) {
+      html += '<div class="interp" style="border-left-color:#58a6ff">' + lines.map(function(s) { return '· ' + s; }).join('<br>') + '</div>';
+    }
+  }
   // 仓位管理（更小尺度加减仓）
   var plan = c.position_plan || [];
   if (plan.length) {
