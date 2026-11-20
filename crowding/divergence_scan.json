@@ -1,114 +1,91 @@
 {
- "date": "20261119",
- "generated": "2026-11-19 17:32:02",
+ "date": "20261120",
+ "generated": "2026-11-20 17:31:34",
  "divergence": [
   {
    "sym": "SA0",
    "name": "纯碱",
    "family": {
-    "net": 47644,
-    "date": "20261119",
+    "net": 44793,
+    "date": "20261120",
     "contract": "SA701+SA703"
    },
    "institution": {
-    "net": -177375,
-    "date": "20261119",
+    "net": -130106,
+    "date": "20261120",
     "contract": "SA701+SA703"
    },
    "foreign": {
-    "net": -66352,
-    "date": "20261119",
+    "net": -66640,
+    "date": "20261120",
     "contract": "SA701+SA703"
    },
    "div_institution": {
     "opposite": true,
-    "family_adding": true,
+    "family_adding": false,
     "institution_adding": false,
     "converging": false
    },
    "div_foreign": {
     "opposite": true,
-    "family_adding": true,
+    "family_adding": false,
     "foreign_adding": true,
-    "converging": true
-   },
-   "level": "中等收割"
-  },
-  {
-   "sym": "JM0",
-   "name": "焦煤",
-   "family": {
-    "net": 2232,
-    "date": "20261119",
-    "contract": "JM2701+JM2705"
-   },
-   "institution": {
-    "net": -15410,
-    "date": "20261119",
-    "contract": "JM2701+JM2705"
-   },
-   "foreign": null,
-   "div_institution": {
-    "opposite": true,
-    "family_adding": true,
-    "institution_adding": true,
-    "converging": true
-   },
-   "div_foreign": null,
-   "level": "中等收割"
-  },
-  {
-   "sym": "SN0",
-   "name": "锡",
-   "family": {
-    "net": 1063,
-    "date": "20261119",
-    "contract": "sn2612+sn2701"
-   },
-   "institution": {
-    "net": -2644,
-    "date": "20261119",
-    "contract": "sn2612+sn2701"
-   },
-   "foreign": {
-    "net": 2801,
-    "date": "20261119",
-    "contract": "sn2612+sn2701"
-   },
-   "div_institution": {
-    "opposite": true,
-    "family_adding": true,
-    "institution_adding": true,
-    "converging": true
-   },
-   "div_foreign": {
-    "opposite": false,
-    "family_adding": true,
-    "foreign_adding": false,
     "converging": false
    },
-   "level": "中等收割"
+   "level": "方向背离"
   },
   {
    "sym": "FG0",
    "name": "玻璃",
    "family": {
-    "net": 21341,
-    "date": "20261119",
+    "net": 21844,
+    "date": "20261120",
     "contract": "FG701+FG703"
    },
    "institution": {
-    "net": -121275,
-    "date": "20261119",
+    "net": -151519,
+    "date": "20261120",
     "contract": "FG701+FG703"
    },
    "foreign": {
-    "net": -67051,
-    "date": "20261119",
+    "net": -83605,
+    "date": "20261120",
     "contract": "FG701+FG703"
    },
    "div_institution": {
     "opposite": true,
+    "family_adding": false,
+    "institution_adding": true,
+    "converging": false
+   },
+   "div_foreign": {
+    "opposite": true,
+    "family_adding": false,
+    "foreign_adding": false,
+    "converging": false
+   },
+   "level": "方向背离"
+  },
+  {
+   "sym": "RB0",
+   "name": "螺纹钢",
+   "family": {
+    "net": 19095,
+    "date": "20261120",
+    "contract": "rb2701+rb2705"
+   },
+   "institution": {
+    "net": 205620,
+    "date": "20261120",
+    "contract": "rb2701+rb2705"
+   },
+   "foreign": {
+    "net": -114273,
+    "date": "20261120",
+    "contract": "rb2701+rb2705"
+   },
+   "div_institution": {
+    "opposite": false,
     "family_adding": false,
     "institution_adding": false,
     "converging": false
@@ -122,22 +99,22 @@
    "level": "方向背离"
   },
   {
-   "sym": "M0",
-   "name": "豆粕",
+   "sym": "CF0",
+   "name": "棉花",
    "family": {
-    "net": -18337,
-    "date": "20261119",
-    "contract": "M2701+M2705"
+    "net": 12629,
+    "date": "20261120",
+    "contract": "CF701+CF705"
    },
    "institution": {
-    "net": 45020,
-    "date": "20261119",
-    "contract": "M2701+M2705"
+    "net": -36245,
+    "date": "20261120",
+    "contract": "CF701+CF705"
    },
    "foreign": {
-    "net": -76160,
-    "date": "20261119",
-    "contract": "M2701+M2705"
+    "net": 12975,
+    "date": "20261120",
+    "contract": "CF701+CF705"
    },
    "div_institution": {
     "opposite": true,
@@ -148,7 +125,7 @@
    "div_foreign": {
     "opposite": false,
     "family_adding": false,
-    "foreign_adding": true,
+    "foreign_adding": false,
     "converging": false
    },
    "level": "方向背离"
@@ -157,18 +134,18 @@
    "sym": "AG0",
    "name": "白银",
    "family": {
-    "net": 17217,
-    "date": "20261119",
+    "net": 12480,
+    "date": "20261120",
     "contract": "ag2702+ag2612"
    },
    "institution": {
-    "net": -10240,
-    "date": "20261119",
+    "net": -7993,
+    "date": "20261120",
     "contract": "ag2702+ag2612"
    },
    "foreign": {
-    "net": -3471,
-    "date": "20261119",
+    "net": -3653,
+    "date": "20261120",
     "contract": "ag2702+ag2612"
    },
    "div_institution": {
@@ -180,93 +157,6 @@
    "div_foreign": {
     "opposite": true,
     "family_adding": false,
-    "foreign_adding": false,
-    "converging": false
-   },
-   "level": "方向背离"
-  },
-  {
-   "sym": "LH0",
-   "name": "生猪",
-   "family": {
-    "net": 15011,
-    "date": "20261119",
-    "contract": "LH2703+LH2701"
-   },
-   "institution": {
-    "net": -15934,
-    "date": "20261119",
-    "contract": "LH2703+LH2701"
-   },
-   "foreign": null,
-   "div_institution": {
-    "opposite": true,
-    "family_adding": false,
-    "institution_adding": false,
-    "converging": false
-   },
-   "div_foreign": null,
-   "level": "方向背离"
-  },
-  {
-   "sym": "CF0",
-   "name": "棉花",
-   "family": {
-    "net": 12673,
-    "date": "20261119",
-    "contract": "CF701+CF705"
-   },
-   "institution": {
-    "net": -28585,
-    "date": "20261119",
-    "contract": "CF701+CF705"
-   },
-   "foreign": {
-    "net": 13439,
-    "date": "20261119",
-    "contract": "CF701+CF705"
-   },
-   "div_institution": {
-    "opposite": true,
-    "family_adding": false,
-    "institution_adding": false,
-    "converging": false
-   },
-   "div_foreign": {
-    "opposite": false,
-    "family_adding": false,
-    "foreign_adding": false,
-    "converging": false
-   },
-   "level": "方向背离"
-  },
-  {
-   "sym": "Y0",
-   "name": "豆油",
-   "family": {
-    "net": -7830,
-    "date": "20261119",
-    "contract": "Y2701+Y2705"
-   },
-   "institution": {
-    "net": -16980,
-    "date": "20261119",
-    "contract": "Y2701+Y2705"
-   },
-   "foreign": {
-    "net": 28420,
-    "date": "20261119",
-    "contract": "Y2701+Y2705"
-   },
-   "div_institution": {
-    "opposite": false,
-    "family_adding": true,
-    "institution_adding": true,
-    "converging": false
-   },
-   "div_foreign": {
-    "opposite": true,
-    "family_adding": true,
     "foreign_adding": false,
     "converging": false
    },
@@ -276,19 +166,51 @@
    "sym": "HC0",
    "name": "热卷",
    "family": {
-    "net": -7488,
-    "date": "20261119",
+    "net": -9230,
+    "date": "20261120",
     "contract": "hc2701+hc2705"
    },
    "institution": {
-    "net": 16628,
-    "date": "20261119",
+    "net": 12806,
+    "date": "20261120",
     "contract": "hc2701+hc2705"
    },
    "foreign": {
-    "net": -113207,
-    "date": "20261119",
+    "net": -124066,
+    "date": "20261120",
     "contract": "hc2701+hc2705"
+   },
+   "div_institution": {
+    "opposite": true,
+    "family_adding": true,
+    "institution_adding": false,
+    "converging": false
+   },
+   "div_foreign": {
+    "opposite": false,
+    "family_adding": true,
+    "foreign_adding": false,
+    "converging": false
+   },
+   "level": "方向背离"
+  },
+  {
+   "sym": "SR0",
+   "name": "白糖",
+   "family": {
+    "net": 4584,
+    "date": "20261120",
+    "contract": "SR701+SR703"
+   },
+   "institution": {
+    "net": -68737,
+    "date": "20261120",
+    "contract": "SR701+SR703"
+   },
+   "foreign": {
+    "net": -113081,
+    "date": "20261120",
+    "contract": "SR701+SR703"
    },
    "div_institution": {
     "opposite": true,
@@ -297,7 +219,7 @@
     "converging": false
    },
    "div_foreign": {
-    "opposite": false,
+    "opposite": true,
     "family_adding": false,
     "foreign_adding": false,
     "converging": false
@@ -308,18 +230,18 @@
    "sym": "AU0",
    "name": "黄金",
    "family": {
-    "net": 5688,
-    "date": "20261119",
+    "net": 4265,
+    "date": "20261120",
     "contract": "au2612+au2702"
    },
    "institution": {
-    "net": 33098,
-    "date": "20261119",
+    "net": 29459,
+    "date": "20261120",
     "contract": "au2612+au2702"
    },
    "foreign": {
-    "net": -4052,
-    "date": "20261119",
+    "net": -4079,
+    "date": "20261120",
     "contract": "au2612+au2702"
    },
    "div_institution": {
@@ -332,70 +254,6 @@
     "opposite": true,
     "family_adding": false,
     "foreign_adding": true,
-    "converging": false
-   },
-   "level": "方向背离"
-  },
-  {
-   "sym": "SR0",
-   "name": "白糖",
-   "family": {
-    "net": 4907,
-    "date": "20261119",
-    "contract": "SR701+SR703"
-   },
-   "institution": {
-    "net": -64221,
-    "date": "20261119",
-    "contract": "SR701+SR703"
-   },
-   "foreign": {
-    "net": -125710,
-    "date": "20261119",
-    "contract": "SR701+SR703"
-   },
-   "div_institution": {
-    "opposite": true,
-    "family_adding": false,
-    "institution_adding": false,
-    "converging": false
-   },
-   "div_foreign": {
-    "opposite": true,
-    "family_adding": false,
-    "foreign_adding": false,
-    "converging": false
-   },
-   "level": "方向背离"
-  },
-  {
-   "sym": "AO0",
-   "name": "氧化铝",
-   "family": {
-    "net": 3453,
-    "date": "20261119",
-    "contract": "ao2701+ao2702"
-   },
-   "institution": {
-    "net": -26469,
-    "date": "20261119",
-    "contract": "ao2701+ao2702"
-   },
-   "foreign": {
-    "net": -9021,
-    "date": "20261119",
-    "contract": "ao2701+ao2702"
-   },
-   "div_institution": {
-    "opposite": true,
-    "family_adding": false,
-    "institution_adding": false,
-    "converging": false
-   },
-   "div_foreign": {
-    "opposite": true,
-    "family_adding": false,
-    "foreign_adding": false,
     "converging": false
    },
    "level": "方向背离"
@@ -404,13 +262,13 @@
    "sym": "RU0",
    "name": "橡胶",
    "family": {
-    "net": -780,
-    "date": "20261119",
+    "net": -1028,
+    "date": "20261120",
     "contract": "ru2701+ru2705"
    },
    "institution": {
-    "net": 10938,
-    "date": "20261119",
+    "net": 8906,
+    "date": "20261120",
     "contract": "ru2701+ru2705"
    },
    "foreign": null,
@@ -424,45 +282,86 @@
    "level": "方向背离"
   },
   {
-   "sym": "C0",
-   "name": "玉米",
+   "sym": "SN0",
+   "name": "锡",
    "family": {
-    "net": -15673,
-    "date": "20261119",
-    "contract": "C2701+C2703"
+    "net": 947,
+    "date": "20261120",
+    "contract": "sn2612+sn2701"
    },
    "institution": {
-    "net": -54373,
-    "date": "20261119",
-    "contract": "C2701+C2703"
+    "net": -1627,
+    "date": "20261120",
+    "contract": "sn2612+sn2701"
    },
-   "foreign": null,
+   "foreign": {
+    "net": 2284,
+    "date": "20261120",
+    "contract": "sn2612+sn2701"
+   },
    "div_institution": {
+    "opposite": true,
+    "family_adding": true,
+    "institution_adding": false,
+    "converging": false
+   },
+   "div_foreign": {
     "opposite": false,
+    "family_adding": true,
+    "foreign_adding": false,
+    "converging": false
+   },
+   "level": "方向背离"
+  },
+  {
+   "sym": "MA0",
+   "name": "甲醇",
+   "family": {
+    "net": -814,
+    "date": "20261120",
+    "contract": "MA701+MA703"
+   },
+   "institution": {
+    "net": 104088,
+    "date": "20261120",
+    "contract": "MA701+MA703"
+   },
+   "foreign": {
+    "net": 68060,
+    "date": "20261120",
+    "contract": "MA701+MA703"
+   },
+   "div_institution": {
+    "opposite": true,
     "family_adding": false,
     "institution_adding": false,
     "converging": false
    },
-   "div_foreign": null,
-   "level": "none"
+   "div_foreign": {
+    "opposite": true,
+    "family_adding": false,
+    "foreign_adding": true,
+    "converging": false
+   },
+   "level": "方向背离"
   },
   {
-   "sym": "P0",
-   "name": "棕榈油",
+   "sym": "LC0",
+   "name": "碳酸锂",
    "family": {
-    "net": -5139,
-    "date": "20261119",
-    "contract": "P2701+P2705"
+    "net": 3919,
+    "date": "20261120",
+    "contract": "lc2701+lc2705"
    },
    "institution": {
-    "net": -21035,
-    "date": "20261119",
-    "contract": "P2701+P2705"
+    "net": 66499,
+    "date": "20261120",
+    "contract": "lc2701+lc2705"
    },
    "foreign": {
-    "net": -92557,
-    "date": "20261119",
-    "contract": "P2701+P2705"
+    "net": 4519,
+    "date": "20261120",
+    "contract": "lc2701+lc2705"
    },
    "div_institution": {
     "opposite": false,
@@ -479,54 +378,22 @@
    "level": "none"
   },
   {
-   "sym": "LC0",
-   "name": "碳酸锂",
+   "sym": "AO0",
+   "name": "氧化铝",
    "family": {
-    "net": 3742,
-    "date": "20261119",
-    "contract": "lc2701+lc2705"
+    "net": -2236,
+    "date": "20261120",
+    "contract": "ao2701+ao2702"
    },
    "institution": {
-    "net": 61108,
-    "date": "20261119",
-    "contract": "lc2701+lc2705"
+    "net": -29078,
+    "date": "20261120",
+    "contract": "ao2701+ao2702"
    },
    "foreign": {
-    "net": 7614,
-    "date": "20261119",
-    "contract": "lc2701+lc2705"
-   },
-   "div_institution": {
-    "opposite": false,
-    "family_adding": false,
-    "institution_adding": true,
-    "converging": false
-   },
-   "div_foreign": {
-    "opposite": false,
-    "family_adding": false,
-    "foreign_adding": true,
-    "converging": false
-   },
-   "level": "none"
-  },
-  {
-   "sym": "MA0",
-   "name": "甲醇",
-   "family": {
-    "net": 360,
-    "date": "20261119",
-    "contract": "MA701+MA703"
-   },
-   "institution": {
-    "net": 107779,
-    "date": "20261119",
-    "contract": "MA701+MA703"
-   },
-   "foreign": {
-    "net": 52023,
-    "date": "20261119",
-    "contract": "MA701+MA703"
+    "net": -8636,
+    "date": "20261120",
+    "contract": "ao2701+ao2702"
    },
    "div_institution": {
     "opposite": false,
