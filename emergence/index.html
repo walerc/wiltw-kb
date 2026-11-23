@@ -296,7 +296,14 @@ function crowdCell(c) {
 }
 
 function familyCell(c) {
-  if (!c.family || !c.family.active) return '<span class="neu" title="三家散户席位(东方财富/徽商/平安)均未进前20席位，散户不集中">不集中</span>';
+  if (!c.family || !c.family.active) {
+    var st = (c.family && c.family.trend_state) || '';
+    if (st === '数据延迟') {
+      var sd = (c.family && c.family.stale_days != null) ? c.family.stale_days : '';
+      return '<span style="color:#d29922;font-weight:600" title="三家散户席位数据停更' + (sd !== '' ? ' ' + sd + ' 天' : '') + '，多为数据源临时缺失（如新浪接口未更新），非真实离场，待数据恢复">⏳数据延迟</span>';
+    }
+    return '<span class="neu" title="三家散户席位(东方财富/徽商/平安)均未进前20席位，散户不集中">不集中</span>';
+  }
   var f = c.family;
   var p = f.surrender_progress;
   var color = p == null ? '#8b949e' : (p >= 70 ? '#ff5050' : (p >= 30 ? '#d29922' : '#3fb950'));
