@@ -321,6 +321,9 @@ function familyCell(c) {
     var attColor = hrc >= 3 ? '#ff5050' : (hrc >= 2 ? '#ff7b72' : '#d29922');
     html += '<br><span style="color:' + attColor + ';font-weight:700;font-size:0.66rem">🔥' + hrc + '家前5</span>';
   }
+  if (f.stale_days != null && f.stale_days > 0) {
+    html += '<br><span style="color:#d29922;font-size:0.66rem" title="数据源缺失，回退到 ' + f.stale_days + ' 天前最近有数据的交易日">⏳延迟' + f.stale_days + '天</span>';
+  }
   html += '</span>';
   return html;
 }
