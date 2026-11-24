@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-24",
+ "generated": "2026-11-25",
  "drivers": {
   "growth": {
    "us_ism": 55.5,
@@ -32,7 +32,7 @@
   "liquidity": {
    "cn_m2": 7.1,
    "us_10y": 4.92,
-   "cn_10y": 1.5861,
+   "cn_10y": 1.5853,
    "signals": [
     "中国M2(0)",
     "美10Y(0)"
@@ -47,8 +47,8 @@
    "spread_note": "利差倒挂3.33%(资本流出压力) vs 人民币实际升值 = 经常账户顺差/结汇主导，资本流出压力被对冲"
   },
   "risk_appetite": {
-   "vix": 35.89,
-   "us_hy_oas": 3.76,
+   "vix": 26.62,
+   "us_hy_oas": 3.63,
    "signals": [
     "VIX(-2)",
     "信用利差(-2)"
@@ -57,20 +57,20 @@
    "score": -4,
    "radar": 0,
    "direction": "利空",
-   "trajectory": "VIX 35.89 ↑ 利差 3.76 ↑",
+   "trajectory": "VIX 26.62 ↑ 利差 3.63 ↑",
    "trend": "恶化"
   }
  },
  "fx": {
-  "usdcny": 6.712000000000001,
+  "usdcny": 6.7111,
   "dxy": 123.5978,
   "cn_us_spread": 3.33,
   "cny_direction": "升值",
-  "cny_trend": "USDCNY 6.712000000000001 ↓",
+  "cny_trend": "USDCNY 6.7111 ↓",
   "dxy_direction": "走强",
   "divergence": "利差倒挂3.33%(资本流出压力) vs 人民币实际升值 = 经常账户顺差/结汇主导，资本流出压力被对冲",
   "signals": [
-   "人民币升值(USDCNY 6.712000000000001)",
+   "人民币升值(USDCNY 6.7111)",
    "美元走强(DXY 123.5978)",
    "⚠️背离：利差倒挂但人民币升值"
   ]
@@ -88,12 +88,12 @@
   "alerts": [
    {
     "type": "risk",
-    "signal": "高收益债利差3月走阔 1.16pp",
+    "signal": "高收益债利差3月走阔 1.00pp",
     "level": "风险偏好恶化"
    },
    {
     "type": "risk",
-    "signal": "VIX 3月上行 21.5 点",
+    "signal": "VIX 3月上行 11.7 点",
     "level": "恐慌升温前兆"
    }
   ],
@@ -120,7 +120,7 @@
     "萧条期=商品价格底部区域，回升期开启商品长牛",
     "财富机会时点：2008(第一次)→2019(第二次)→2030附近(第三次)"
    ],
-   "evidence": "中PPI转正5.7%+CRB走强224.909948+产成品库存回补11.6%+黄金3635高位(避险+去美元化)",
+   "evidence": "中PPI转正5.7%+CRB走强224.909948+产成品库存回补11.6%+黄金3555高位(避险+去美元化)",
    "direction": "利多商品",
    "asset": "商品(实物资产)长周期占优",
    "lag_note": "康波是慢变量(60y)，定方向不定节奏，不作为短期择时"
@@ -141,15 +141,15 @@
  "liquidity_stress": {
   "stress": true,
   "signals": [
-   "回购融资溢价：SOFR-ON RRP 357bp",
-   "去杠杆螺旋：VIX 35.89 突破30"
+   "回购融资溢价：SOFR-ON RRP 362bp",
+   "VIX单月跳升 8 点"
   ],
   "sofr": 3.92,
   "effr": 3.88,
-  "on_rrp": 0.35,
+  "on_rrp": 0.301,
   "ffr_cap": 4.0,
   "sofr_effr_bp": 4.0,
-  "sofr_onrrp_bp": 357.0,
+  "sofr_onrrp_bp": 361.9,
   "gap_to_cap_bp": -8.0,
   "note": "美元融资压力三件套(日度实时)：SOFR相对目标上限+SOFR-EFFR+SOFR-ON RRP。OIS滞后3年已弃用。"
  },
