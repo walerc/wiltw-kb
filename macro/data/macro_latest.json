@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-25",
+ "generated": "2026-11-26",
  "indicators": {
   "us_ism_pmi": {
    "value": 55.5,
@@ -30,8 +30,8 @@
    "lag": "同步"
   },
   "us_yield_curve": {
-   "value": 0.28,
-   "date": "2026-11-24",
+   "value": 0.24,
+   "date": "2026-11-25",
    "name": "美国国债10Y-2Y利差",
    "region": "US",
    "driver": "growth",
@@ -93,8 +93,8 @@
    "lag": "领先"
   },
   "us_10y": {
-   "value": 4.92,
-   "date": "2026-11-23",
+   "value": 4.91,
+   "date": "2026-11-24",
    "name": "美国10Y国债收益率",
    "region": "US",
    "driver": "liquidity",
@@ -102,8 +102,8 @@
    "lag": "领先"
   },
   "cn_10y": {
-   "value": 1.5853,
-   "date": "2026-11-24",
+   "value": 1.5914,
+   "date": "2026-11-25",
    "name": "中国10Y国债收益率",
    "region": "CN",
    "driver": "liquidity",
@@ -111,8 +111,8 @@
    "lag": "领先"
   },
   "us_3m": {
-   "value": 4.37,
-   "date": "2026-11-23",
+   "value": 4.36,
+   "date": "2026-11-24",
    "name": "美国3个月国债收益率",
    "region": "US",
    "driver": "liquidity",
@@ -120,8 +120,8 @@
    "lag": "领先"
   },
   "vix": {
-   "value": 26.62,
-   "date": "2026-11-23",
+   "value": 26.36,
+   "date": "2026-11-24",
    "name": "VIX恐慌指数",
    "region": "US",
    "driver": "risk_appetite",
@@ -129,8 +129,8 @@
    "lag": "同步偏领先"
   },
   "us_hy_oas": {
-   "value": 3.63,
-   "date": "2026-11-23",
+   "value": 3.72,
+   "date": "2026-11-24",
    "name": "美国高收益债OAS利差",
    "region": "US",
    "driver": "risk_appetite",
@@ -138,8 +138,8 @@
    "lag": "领先"
   },
   "cn_margin": {
-   "value": 21419.22842742,
-   "date": "2026-11-23",
+   "value": 21421.83837442,
+   "date": "2026-11-24",
    "name": "A股融资融券余额",
    "region": "CN",
    "driver": "risk_appetite",
@@ -166,8 +166,8 @@
    "note": "原ICE DXY停更，改用FRED DTWEXBGS美联储广义贸易加权美元指数(2006=100)，趋势一致但数值基线不同(原DXY~102)"
   },
   "sh_index": {
-   "value": 3548.369,
-   "date": "2026-11-24",
+   "value": 3476.47,
+   "date": "2026-11-25",
    "name": "上证指数",
    "region": "CN",
    "driver": "asset",
@@ -175,8 +175,8 @@
    "lag": "同步"
   },
   "sp500": {
-   "value": 7237.1699,
-   "date": "2026-11-23",
+   "value": 7201.0898,
+   "date": "2026-11-24",
    "name": "标普500",
    "region": "US",
    "driver": "asset",
@@ -184,8 +184,8 @@
    "lag": "同步"
   },
   "nanhua": {
-   "value": 2000.8,
-   "date": "2026-11-24",
+   "value": 1969.37,
+   "date": "2026-11-25",
    "name": "南华商品指数",
    "region": "CN",
    "driver": "asset",
@@ -203,8 +203,8 @@
    "note": "原RJ/CRB(Thomson Reuters)停更，改用世界银行所有商品价格指数(2016=100)，趋势一致数值基线不同"
   },
   "gold": {
-   "value": 3555.83,
-   "date": "2026-11-24",
+   "value": 3588.55,
+   "date": "2026-11-25",
    "name": "伦敦现货黄金",
    "region": "Global",
    "driver": "asset",
@@ -222,8 +222,8 @@
    "error": "本次拉取失败，沿用上次值"
   },
   "cn_3m": {
-   "value": 1.2053,
-   "date": "2026-11-24",
+   "value": 1.2051,
+   "date": "2026-11-25",
    "name": "中国3月国债收益率",
    "region": "CN",
    "driver": "asset",
@@ -240,8 +240,8 @@
    "lag": "滞后"
   },
   "us_sofr": {
-   "value": 3.92,
-   "date": "2026-11-23",
+   "value": 3.94,
+   "date": "2026-11-24",
    "name": "美国SOFR利率",
    "region": "US",
    "driver": "liquidity_stress",
@@ -250,7 +250,7 @@
   },
   "us_effr": {
    "value": 3.88,
-   "date": "2026-11-23",
+   "date": "2026-11-24",
    "name": "美国有效联邦基金利率(EFFR)",
    "region": "US",
    "driver": "liquidity_stress",
@@ -323,8 +323,8 @@
    "lag": "领先"
   },
   "us_on_rrp": {
-   "value": 0.301,
-   "date": "2026-11-24",
+   "value": 0.3,
+   "date": "2026-11-25",
    "name": "美国隔夜逆回购利率(ON RRP)",
    "region": "US",
    "driver": "liquidity_stress",
@@ -333,7 +333,7 @@
   },
   "us_ffr_cap": {
    "value": 4.0,
-   "date": "2026-11-24",
+   "date": "2026-11-25",
    "name": "美国联邦基金目标利率上限",
    "region": "US",
    "driver": "liquidity_stress",
