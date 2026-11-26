@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-26",
+ "generated": "2026-11-27",
  "indicators": {
   "us_ism_pmi": {
    "value": 55.5,
@@ -93,8 +93,8 @@
    "lag": "领先"
   },
   "us_10y": {
-   "value": 4.91,
-   "date": "2026-11-24",
+   "value": 4.85,
+   "date": "2026-11-25",
    "name": "美国10Y国债收益率",
    "region": "US",
    "driver": "liquidity",
@@ -102,8 +102,8 @@
    "lag": "领先"
   },
   "cn_10y": {
-   "value": 1.5914,
-   "date": "2026-11-25",
+   "value": 1.5912,
+   "date": "2026-11-26",
    "name": "中国10Y国债收益率",
    "region": "CN",
    "driver": "liquidity",
@@ -138,8 +138,8 @@
    "lag": "领先"
   },
   "cn_margin": {
-   "value": 21421.83837442,
-   "date": "2026-11-24",
+   "value": 21213.69739264,
+   "date": "2026-11-25",
    "name": "A股融资融券余额",
    "region": "CN",
    "driver": "risk_appetite",
@@ -147,8 +147,8 @@
    "lag": "同步"
   },
   "usdcny": {
-   "value": 6.7111,
-   "date": "2026-11-24",
+   "value": 6.7096,
+   "date": "2026-11-26",
    "name": "美元兑人民币中间价",
    "region": "CN",
    "driver": "fx",
@@ -166,8 +166,8 @@
    "note": "原ICE DXY停更，改用FRED DTWEXBGS美联储广义贸易加权美元指数(2006=100)，趋势一致但数值基线不同(原DXY~102)"
   },
   "sh_index": {
-   "value": 3476.47,
-   "date": "2026-11-25",
+   "value": 3476.882,
+   "date": "2026-11-26",
    "name": "上证指数",
    "region": "CN",
    "driver": "asset",
@@ -175,8 +175,8 @@
    "lag": "同步"
   },
   "sp500": {
-   "value": 7201.0898,
-   "date": "2026-11-24",
+   "value": 7182.7798,
+   "date": "2026-11-25",
    "name": "标普500",
    "region": "US",
    "driver": "asset",
@@ -184,8 +184,8 @@
    "lag": "同步"
   },
   "nanhua": {
-   "value": 1969.37,
-   "date": "2026-11-25",
+   "value": 2000.67,
+   "date": "2026-11-26",
    "name": "南华商品指数",
    "region": "CN",
    "driver": "asset",
@@ -203,8 +203,8 @@
    "note": "原RJ/CRB(Thomson Reuters)停更，改用世界银行所有商品价格指数(2016=100)，趋势一致数值基线不同"
   },
   "gold": {
-   "value": 3588.55,
-   "date": "2026-11-25",
+   "value": 3566.26,
+   "date": "2026-11-26",
    "name": "伦敦现货黄金",
    "region": "Global",
    "driver": "asset",
@@ -222,8 +222,8 @@
    "error": "本次拉取失败，沿用上次值"
   },
   "cn_3m": {
-   "value": 1.2051,
-   "date": "2026-11-25",
+   "value": 1.2062,
+   "date": "2026-11-26",
    "name": "中国3月国债收益率",
    "region": "CN",
    "driver": "asset",
@@ -333,7 +333,7 @@
   },
   "us_ffr_cap": {
    "value": 4.0,
-   "date": "2026-11-25",
+   "date": "2026-11-26",
    "name": "美国联邦基金目标利率上限",
    "region": "US",
    "driver": "liquidity_stress",
