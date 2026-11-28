@@ -788,6 +788,11 @@ function renderSummary(s) {
   html += '</div><div class="sum-card"><h3 style="color:#d29922">⚠️ 变盘警惕 (' + (s.alerts ? s.alerts.length : 0) + ')</h3>';
   html += '<div class="chips">';
   (s.alerts || []).forEach(x => html += '<span class="chip">' + x + '</span>');
+  html += '</div></div><div class="sum-card"><h3 style="color:#ff5050">⚡通道突破</h3>';
+  html += '<div style="font-size:0.72rem;color:#ff7b72;margin-top:0.2rem">▲突破上轨(' + (s.break_up ? s.break_up.length : 0) + ')</div><div class="chips">';
+  (s.break_up || []).forEach(x => html += '<span class="chip" style="border-color:#ff5050;color:#ff7b72">' + x + '</span>');
+  html += '</div><div style="font-size:0.72rem;color:#6ebf8a;margin-top:0.4rem">▼跌破下轨(' + (s.break_dn ? s.break_dn.length : 0) + ')</div><div class="chips">';
+  (s.break_dn || []).forEach(x => html += '<span class="chip" style="border-color:#00c864;color:#6ebf8a">' + x + '</span>');
   html += '</div></div></div>';
   html += '<div style="margin-top:0.6rem;font-size:0.82rem;color:#c9d1d9"><b style="color:#e0c068">综合：</b>' + (s.conclusion || '') + '</div></div>';
   document.getElementById('summaryBox').innerHTML = html;
